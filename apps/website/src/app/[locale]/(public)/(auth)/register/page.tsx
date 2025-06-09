@@ -4,14 +4,14 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const t = useTranslations('Auth');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    // TODO: Implement authentication logic
+    // TODO: Implement registration logic
     setTimeout(() => setLoading(false), 1000);
   };
 
@@ -23,7 +23,7 @@ export default function LoginPage() {
         <label
           htmlFor="email"
           className="block text-sm font-medium mb-1">
-          {t('login.emailLabel')}
+          {t('register.emailLabel')}
         </label>
         <Input
           id="email"
@@ -31,36 +31,36 @@ export default function LoginPage() {
           type="email"
           autoComplete="email"
           required
-          placeholder={t('login.emailPlaceholder')}
+          placeholder={t('register.emailPlaceholder')}
         />
       </div>
       <div>
         <label
           htmlFor="password"
           className="block text-sm font-medium mb-1">
-          {t('login.passwordLabel')}
+          {t('register.passwordLabel')}
         </label>
         <Input
           id="password"
           name="password"
           type="password"
-          autoComplete="current-password"
+          autoComplete="new-password"
           required
-          placeholder={t('login.passwordPlaceholder')}
+          placeholder={t('register.passwordPlaceholder')}
         />
       </div>
       <Button
         type="submit"
         className="w-full"
         disabled={loading}>
-        {t('login.submit')}
+        {t('register.submit')}
       </Button>
       <div className="text-center text-sm mt-4">
-        {t('login.noAccount')}{' '}
+        {t('register.haveAccount')}{' '}
         <Link
-          href="/register"
+          href="/login"
           className="text-primary underline">
-          {t('login.registerLink')}
+          {t('register.loginLink')}
         </Link>
       </div>
     </form>

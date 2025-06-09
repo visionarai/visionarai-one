@@ -13,5 +13,25 @@
       "terms": "Terms of Service",
       "support": "Support"
     }
+  },
+  "Auth": {
+    "login": {
+      "emailLabel": "Email address",
+      "emailPlaceholder": "Enter your email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Log In",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register"
+    },
+    "register": {
+      "emailLabel": "Email address",
+      "emailPlaceholder": "Enter your email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "submit": "Register",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log In"
+    }
   }
 }

@@ -13,5 +13,25 @@
       "terms": "Nutzungsbedingungen",
       "support": "Support"
     }
+  },
+  "Auth": {
+    "login": {
+      "emailLabel": "E-Mail-Adresse",
+      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+      "passwordLabel": "Passwort",
+      "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
+      "submit": "Anmelden",
+      "noAccount": "Noch kein Konto?",
+      "registerLink": "Registrieren"
+    },
+    "register": {
+      "emailLabel": "E-Mail-Adresse",
+      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+      "passwordLabel": "Passwort",
+      "passwordPlaceholder": "Erstellen Sie ein Passwort",
+      "submit": "Registrieren",
+      "haveAccount": "Bereits ein Konto?",
+      "loginLink": "Anmelden"
+    }
   }
 }
