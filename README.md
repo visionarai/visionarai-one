@@ -10,5 +10,4 @@ Vision-one is the monorepo for all application in the [visionar.ai](https://visi
 | Package Manager | We use `pnpm` as the package manager for the entire project. All commands should be run using `pnpm` instead of `npm` or `yarn`. |
 | Directory Structure | The project is organized into `apps/` for front-end applications and `libs/` for shared libraries and utilities. |
 | Frontend Applications | All front-end applications use Tailwind CSS version 4.\* for styling and the shadcn/ui library for UI components. |
-
 | Key Configuration Files | Important files include `nx.json`, `package.json`, `tsconfig.base.json`, `tsconfig.json`, `eslint.config.mjs`, and `.prettierrc.js` for configuration and code style. |
