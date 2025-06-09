@@ -22,7 +22,7 @@ Visionarai follows a true monorepo architecture with a single `package.json` at 
 - **tailwindcss v.4.\*:** All front-end applications use Tailwind CSS version 4.\* for styling.
 - **shadcn/ui:** All front-end applications use the shadcn/ui library for UI components.
   - The [**ui**](../libs/ui) library is a shared library that contains the shadcn/ui components used across all front-end applications.
-  - Use `yarn shadcn@latest add <component-name>` to add new components to the `ui` library.
+  - Use `yarn dlx shadcn@latest add <component-name>` to add new components to the `ui` library.
   - New components land in the [`libs/ui/src/components/ui`](../libs/ui/src/components/ui) directory.
   - Use [@visionarai-one/ui index.ts file](../libs/ui/src/index.ts) to export components from the `ui` library, e.g. `export * from './components/ui/button';`.
   - Use these components by importing them from the `@visionarai-one/ui` package, e.g. `import { Button } from '@visionarai-one/ui';`.
