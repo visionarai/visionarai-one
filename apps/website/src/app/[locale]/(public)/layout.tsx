@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         items={navItems}
         selectedPath={pathname}
       />
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-8">{children}</main>
+      <main>{children}</main>
       <Footer />
     </div>
   );

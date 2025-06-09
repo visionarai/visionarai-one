@@ -1,5 +1,7 @@
 'use client';
+import Link from 'next/dist/client/link';
 import React from 'react';
+import { Button } from '../ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
@@ -38,6 +40,11 @@ export function NavBar({ items, selectedPath }: NavBarProps) {
             </a>
           );
         })}
+        <Button
+          variant="secondary"
+          asChild>
+          <Link href="/login">Login</Link>
+        </Button>
         <LanguageSwitcher />
         <ThemeSwitcher />
       </div>
