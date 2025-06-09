@@ -7,7 +7,7 @@ Vision-one is the monorepo for all application in the [visionar.ai](https://visi
 | Feature | Description |
 | --- | --- |
 | Monorepo Structure | Vision-One follows a true monorepo architecture with a single `package.json` at the root level that manages all dependencies and scripts for the entire project. |
-| Package Manager | We use `pnpm` as the package manager for the entire project. All commands should be run using `pnpm` instead of `npm` or `yarn`. |
+| Package Manager | We use `yarn` as the package manager for the entire project. All commands should be run using `yarn` instead of `npm` or `pnpm`. |
 | Directory Structure | The project is organized into `apps/` for front-end applications and `libs/` for shared libraries and utilities. |
 | Frontend Applications | All front-end applications use Tailwind CSS version 4.\* for styling and the shadcn/ui library for UI components. |
 | Key Configuration Files | Important files include `nx.json`, `package.json`, `tsconfig.base.json`, `tsconfig.json`, `eslint.config.mjs`, and `.prettierrc.js` for configuration and code style. |

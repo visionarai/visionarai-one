@@ -1,0 +1,17 @@
+{
+  "HomePage": {
+    "title": "Hallo Welt!",
+    "about": "Zur About-Seite"
+  },
+  "Footer": {
+    "company": "Vision One",
+    "contactCta": "Kontaktieren Sie uns",
+    "description": "Die Zukunft gestalten, eine Vision nach der anderen.",
+    "rights": "Alle Rechte vorbehalten.",
+    "links": {
+      "privacy": "Datenschutz",
+      "terms": "Nutzungsbedingungen",
+      "support": "Support"
+    }
+  }
+}

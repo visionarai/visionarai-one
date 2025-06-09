@@ -1,0 +1,17 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+  "Footer": {
+    "company": "Vision One",
+    "contactCta": "Contact Us",
+    "description": "Building the future, one vision at a time.",
+    "rights": "All rights reserved.",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "support": "Support"
+    }
+  }
+}
