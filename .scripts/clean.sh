@@ -32,16 +32,18 @@ CLEAN_DIRS=(
 
 # Find and delete directories, skipping node_modules, .git, and .yarn
 FOUND=0
-find . -maxdepth 4 \
-    \( -path "./node_modules" -o -path "./.git" -o -path "./.yarn" \) -prune -o \
-    \( -type d \
-    $(printf -- '-name "%s" -o ' "${CLEAN_DIRS[@]}") -false \
-    \) -print0 | while IFS= read -r -d $'\0' dir; do
-    if [ -d "$dir" ]; then
-        echo "Deleting directory: $dir"
-        rm -rf "$dir"
-        FOUND=1
-    fi
+for dir_name in "${CLEAN_DIRS[@]}"; do
+    find . -type d -name "$dir_name" \
+        -not -path "*/node_modules/*" \
+        -not -path "*/.git/*" \
+        -not -path "*/.yarn/*" \
+        -prune -print0 | while IFS= read -r -d $'\0' dir; do
+        if [ -d "$dir" ]; then
+            echo "Deleting directory: $dir"
+            rm -rf "$dir"
+            FOUND=1
+        fi
+    done
 done
 
 if [ $FOUND -eq 0 ]; then
