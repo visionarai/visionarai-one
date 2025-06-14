@@ -3,6 +3,13 @@
     "title": "Hallo Welt!",
     "about": "Zur About-Seite"
   },
+  "Navigation": {
+    "features": "Funktionen",
+    "pricing": "Preise",
+    "about": "Über uns",
+    "login": "Anmelden",
+    "logo": "Visionar.Ai"
+  },
   "Footer": {
     "company": "Vision One",
     "contactCta": "Kontaktieren Sie uns",

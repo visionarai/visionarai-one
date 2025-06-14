@@ -15,15 +15,17 @@ export interface NavigationItem {
 interface NavBarProps {
   items: NavigationItem[];
   selectedPath?: string;
+  loginText?: string;
+  logoText?: string;
 }
 
-export function NavBar({ items, selectedPath }: NavBarProps) {
+export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'Visionar.Ai' }: NavBarProps) {
   return (
     <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur border-b border-border flex items-center justify-between px-6 py-3">
       {/* Logo */}
       <div className="flex items-center gap-2">
         {/* Replace with your SVG or image logo */}
-        <span className="font-bold text-lg tracking-tight">Visionar.Ai</span>
+        <span className="font-bold text-lg tracking-tight">{logoText}</span>
       </div>
       {/* Navigation Links & Switchers */}
       <div className="flex items-center gap-4">
@@ -43,7 +45,7 @@ export function NavBar({ items, selectedPath }: NavBarProps) {
         <Button
           variant="secondary"
           asChild>
-          <Link href="/login">Login</Link>
+          <Link href="/login">{loginText}</Link>
         </Button>
         <LanguageSwitcher />
         <ThemeSwitcher />
