@@ -10,7 +10,10 @@
   ],
   "scripts": {
     "clean": "./.scripts/clean.sh",
-    "format": "prettier --write \"**/*.{ts,js,json,tsx,jsx}\""
+    "dep-graph": "nx graph",
+    "format": "prettier --write \"**/*.{ts,js,json,tsx,jsx}\"",
+    "lint": "nx run-many --target=lint --all --parallel",
+    "lint:fix": "nx run-many --target=lint --fix --all --parallel"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
