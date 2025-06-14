@@ -45,6 +45,7 @@ You are a Senior Front-End Developer and an Expert in ReactJS, NextJS, JavaScrip
   - Make sure to define clear and concise prop types using TypeScript interfaces.
   - All data should be passed as props to the component, avoiding hardcoded values.
 - Reuseable components should be placed in the `libs/ui/src/components/functional` directory.
+  - Make sure that props are typed correctly using TypeScript types.
 - Use [@visionarai-one/ui index.ts file](../../libs/ui/src/index.ts) to export reusable components, e.g. `export * from './components/functional/LanguageSwitcher';`.
 - Ensure that components are self-contained and do not rely on global state or context unless absolutely necessary.
 - For local Modularity, create or use a `_components` directory within the component's directory to organize related files, such as sub-components. e is complete! Verify thoroughly finalised.
@@ -52,13 +53,4 @@ You are a Senior Front-End Developer and an Expert in ReactJS, NextJS, JavaScrip
 
 ## Copy and Internalization
 
-- Use correct and consistent copy for all UI elements.
-- Ensure that all text is internalized and can be easily translated.
-- DO not use hardcoded strings in the UI components.
-- All translations are in the [`messages`](../../messages) directory.
-  - Update the `messages` directory with new translations as needed.
-  - [`en.json`](../../messages/en.json) is the default language file.
-  - [`de.json`](../../messages/de.json) is the German language file.
-- For server async components, use the `import {getTranslations} from 'next-intl/server';` and `const t = await getTranslations('HomePage');` function to fetch translations.
-- For client components, use the `import {useTranslations} from 'next-intl';` hook and ` const t = useTranslations('HomePage');` to fetch translations.
-- Ensure that all text content is wrapped in the `t` function to enable translation, e.g. `t('welcomeMessage')`.
+Refer to the [i18n instructions](../instructions/i18n.instructions.md) for guidelines on copy and internalization.
