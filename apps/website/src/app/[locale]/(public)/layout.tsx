@@ -2,7 +2,7 @@ import { Footer, NavBar } from '@visionarai-one/ui';
 import { Home, Home as HomeSolid, Info, Info as InfoSolid, Star, Star as StarSolid } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('Navigation');
 
   const navItems = [
