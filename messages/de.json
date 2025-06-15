@@ -1,44 +1,53 @@
 {
-  "HomePage": {
-    "title": "Hallo Welt!",
-    "about": "Zur About-Seite"
-  },
-  "Navigation": {
-    "features": "Funktionen",
-    "pricing": "Preise",
-    "about": "Über uns",
-    "login": "Anmelden",
-    "logo": "Visionar.Ai"
+  "Auth": {
+    "login": {
+      "emailLabel": "E-Mail-Adresse",
+      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+      "noAccount": "Noch kein Konto?",
+      "passwordLabel": "Passwort",
+      "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
+      "registerLink": "Registrieren",
+      "submit": "Anmelden"
+    },
+    "register": {
+      "emailLabel": "E-Mail-Adresse",
+      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+      "haveAccount": "Bereits ein Konto?",
+      "loginLink": "Anmelden",
+      "passwordLabel": "Passwort",
+      "passwordPlaceholder": "Erstellen Sie ein Passwort",
+      "submit": "Registrieren"
+    }
   },
   "Footer": {
     "company": "Vision One",
     "contactCta": "Kontaktieren Sie uns",
     "description": "Die Zukunft gestalten, eine Vision nach der anderen.",
-    "rights": "Alle Rechte vorbehalten.",
     "links": {
       "privacy": "Datenschutz",
-      "terms": "Nutzungsbedingungen",
-      "support": "Support"
-    }
-  },
-  "Auth": {
-    "login": {
-      "emailLabel": "E-Mail-Adresse",
-      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
-      "passwordLabel": "Passwort",
-      "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
-      "submit": "Anmelden",
-      "noAccount": "Noch kein Konto?",
-      "registerLink": "Registrieren"
+      "support": "Support",
+      "terms": "Nutzungsbedingungen"
     },
-    "register": {
-      "emailLabel": "E-Mail-Adresse",
-      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
-      "passwordLabel": "Passwort",
-      "passwordPlaceholder": "Erstellen Sie ein Passwort",
-      "submit": "Registrieren",
-      "haveAccount": "Bereits ein Konto?",
-      "loginLink": "Anmelden"
-    }
+    "rights": "Alle Rechte vorbehalten."
+  },
+  "HomePage": {
+    "about": "Zur About-Seite",
+    "percentage": "Als Prozentsatz angezeigt: {value, number, percent}",
+    "title": "Hallo Welt!"
+  },
+  "Navigation": {
+    "about": "Über uns",
+    "features": "Funktionen",
+    "login": "Anmelden",
+    "logo": "Visionar.Ai",
+    "pricing": "Preise"
+  },
+  "NotFound": {
+    "backButton": "Zurück",
+    "description": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "homeButton": "Zur Startseite",
+    "searchPlaceholder": "Nach etwas suchen...",
+    "subtitle": "404",
+    "title": "Seite nicht gefunden"
   }
 }

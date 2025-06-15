@@ -1,44 +1,53 @@
 {
-  "HomePage": {
-    "title": "Hello world!",
-    "about": "Go to the about page"
-  },
-  "Navigation": {
-    "features": "Features",
-    "pricing": "Pricing",
-    "about": "About",
-    "login": "Login",
-    "logo": "Visionar.Ai"
+  "Auth": {
+    "login": {
+      "emailLabel": "Email address",
+      "emailPlaceholder": "Enter your email",
+      "noAccount": "Don't have an account?",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "registerLink": "Register",
+      "submit": "Log In"
+    },
+    "register": {
+      "emailLabel": "Email address",
+      "emailPlaceholder": "Enter your email",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log In",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "submit": "Register"
+    }
   },
   "Footer": {
     "company": "Vision One",
     "contactCta": "Contact Us",
     "description": "Building the future, one vision at a time.",
-    "rights": "All rights reserved.",
     "links": {
       "privacy": "Privacy Policy",
-      "terms": "Terms of Service",
-      "support": "Support"
-    }
-  },
-  "Auth": {
-    "login": {
-      "emailLabel": "Email address",
-      "emailPlaceholder": "Enter your email",
-      "passwordLabel": "Password",
-      "passwordPlaceholder": "Enter your password",
-      "submit": "Log In",
-      "noAccount": "Don't have an account?",
-      "registerLink": "Register"
+      "support": "Support",
+      "terms": "Terms of Service"
     },
-    "register": {
-      "emailLabel": "Email address",
-      "emailPlaceholder": "Enter your email",
-      "passwordLabel": "Password",
-      "passwordPlaceholder": "Create a password",
-      "submit": "Register",
-      "haveAccount": "Already have an account?",
-      "loginLink": "Log In"
-    }
+    "rights": "All rights reserved."
+  },
+  "HomePage": {
+    "about": "Go to the about page",
+    "percentage": "Displayed as a percentage: {value, number, percent}",
+    "title": "Hello world!"
+  },
+  "Navigation": {
+    "about": "About",
+    "features": "Features",
+    "login": "Login",
+    "logo": "Visionar.Ai",
+    "pricing": "Pricing"
+  },
+  "NotFound": {
+    "backButton": "Go Back",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "homeButton": "Go Home",
+    "searchPlaceholder": "Search for something...",
+    "subtitle": "404",
+    "title": "Page Not Found"
   }
 }
