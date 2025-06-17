@@ -5,19 +5,90 @@
 # ===============================
 # This script resets Nx, runs all clean targets, and deletes common build/output directories.
 # It is safe to run multiple times and will not delete node_modules, .git, or .yarn.
+#
+# Usage: ./clean.sh [options]
+#
+# Options:
+#   -h, --help     Show this help message and exit
+#   -y, --yes      Run non-interactively (do not prompt for confirmation)
+#
+# Examples:
+#   ./clean.sh
+#   ./clean.sh --yes
+# ===============================
 
 set -e
 
+# =========================
+#  SIGNAL HANDLING
+# =========================
+trap 'echo -e "\nAborted by user (Ctrl+C). Exiting."; exit 130' INT
+
+# =========================
+#  PATHS & UTILITIES
+# =========================
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SCRIPT_DIR="$PROJECT_DIR/.scripts"
+source "$SCRIPT_DIR/utils.sh"
+
+# =========================
+#  HELP MESSAGE
+# =========================
+show_help() {
+    echo -e "${BOLD}Visionarai-one Script - clean.sh${RESET}"
+    echo -e "Usage: $0 [options]"
+    echo -e "Options:"
+    echo -e "  -h, --help     Show this help message and exit"
+    echo -e "  -y, --yes      Run non-interactively (do not prompt for confirmation)"
+    echo -e "Examples:"
+    echo -e "  $0"
+    echo -e "  $0 --yes"
+}
+
+# =========================
+#  ARGUMENT PARSING
+# =========================
+YES_MODE=0
+while [[ $# -gt 0 ]]; do
+    case $1 in
+    -h | --help)
+        show_help
+        exit 0
+        ;;
+    -y | --yes)
+        YES_MODE=1
+        shift
+        ;;
+    *)
+        LogError "Unknown option: $1"
+        show_help
+        exit 1
+        ;;
+    esac
+done
+
+# =========================
+#  INTERACTIVE CONFIRMATION
+# =========================
+if [[ $YES_MODE -eq 0 ]]; then
+    echo -e "${YELLOW}⚠️  This will reset Nx, run all clean targets, and delete build/output directories. Continue? [y/N]${RESET}"
+    read -r -p "Proceed with cleanup? [y/N]: " confirm
+    if [[ ! $confirm =~ ^[Yy]$ ]]; then
+        LogWarn "Cleanup aborted by user."
+        exit 0
+    fi
+fi
+
 # Step 1: Reset Nx state
-printf "\033[1;34m[INFO]\033[0m Resetting Nx state...\n"
+LogInfo "Resetting Nx state..."
 yarn nx reset
 
 # Step 2: Run all 'clean' targets in parallel
-printf "\033[1;34m[INFO]\033[0m Running all Nx 'clean' targets in parallel...\n"
+LogInfo "Running all Nx 'clean' targets in parallel..."
 yarn nx run-many --target=clean --all --parallel
 
 # Step 3: Delete common output and cache directories
-printf "\033[1;34m[INFO]\033[0m Deleting build, cache, and temp directories (dist, coverage, .next, .turbo, tmp, .nx, .docusaurus)...\n"
+LogInfo "Deleting build, cache, and temp directories (dist, coverage, .next, .turbo, tmp, .nx, .docusaurus)..."
 
 # List of directory names to clean
 CLEAN_DIRS=(
@@ -39,7 +110,7 @@ for dir_name in "${CLEAN_DIRS[@]}"; do
         -not -path "*/.yarn/*" \
         -prune -print0 | while IFS= read -r -d $'\0' dir; do
         if [ -d "$dir" ]; then
-            echo "Deleting directory: $dir"
+            LogWarn "Deleting directory: $dir"
             rm -rf "$dir"
             FOUND=1
         fi
@@ -47,7 +118,7 @@ for dir_name in "${CLEAN_DIRS[@]}"; do
 done
 
 if [ $FOUND -eq 0 ]; then
-    printf "\033[1;33m[WARN]\033[0m No directories found to delete.\n"
+    LogWarn "No directories found to delete."
 else
-    printf "\033[1;32m[SUCCESS]\033[0m Cleanup complete.\n"
+    LogSuccess "Cleanup complete."
 fi

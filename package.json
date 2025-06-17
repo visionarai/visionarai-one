@@ -9,7 +9,7 @@
     "libs/*"
   ],
   "scripts": {
-    "clean": "./.scripts/clean.sh",
+    "clean": ".scripts/clean.sh --yes",
     "dep-graph": "nx graph",
     "format": "prettier --write \"**/*.{ts,js,json,tsx,jsx}\"",
     "lint": "nx run-many --target=lint --all --parallel",
