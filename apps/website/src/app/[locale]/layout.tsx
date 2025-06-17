@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import { routing } from '@/i18n/routing';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
@@ -12,10 +13,18 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
+  const isDev = process.env.NODE_ENV === 'development';
   // Enable static rendering
   setRequestLocale(locale);
   return (
     <html lang={locale}>
+      <head>
+        <script
+          crossOrigin="anonymous"
+          src="//unpkg.com/react-scan/dist/auto.global.js"
+        />
+      </head>
       <body>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
