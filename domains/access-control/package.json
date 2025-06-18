@@ -14,6 +14,6 @@
     "./package.json": "./package.json"
   },
   "nx": {
-    "name": "access-control"
+    "name": "@visionarai-one/access-control"
   }
 }

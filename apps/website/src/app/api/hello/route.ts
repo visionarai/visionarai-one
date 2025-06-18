@@ -1,6 +1,14 @@
-import { accessControl } from '@visionarai-one/access-control';
+import { accessControlPolicy } from '@visionarai-one/access-control';
 
 export async function GET(request: Request) {
-  accessControl();
-  return new Response('Hello, from API!');
+  const data = accessControlPolicy();
+  return new Response(JSON.stringify(data, null, 2), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
 }
