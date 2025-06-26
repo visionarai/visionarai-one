@@ -26,6 +26,19 @@ export default async function LocaleLayout({ children, params }: { children: Rea
         />
       </head>
       <body>
+        {isDev && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              window.__NEXT_INTL_DEV_TOOLS = {
+                enabled: true,
+                locales: ${JSON.stringify(routing.locales)},
+                defaultLocale: ${JSON.stringify(routing.defaultLocale)},
+              };
+            `,
+            }}
+          />
+        )}
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

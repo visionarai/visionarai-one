@@ -1,1 +1,3 @@
-export * from './lib/access-control.js';
+export function isAccessControlDomain(): boolean {
+  return true;
+}

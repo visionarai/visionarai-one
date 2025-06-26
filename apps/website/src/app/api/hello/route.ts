@@ -1,7 +1,7 @@
-import { accessControlPolicy } from '@visionarai-one/access-control';
+import { isAccessControlDomain } from '@visionarai-one/access-control';
 
 export async function GET(request: Request) {
-  const data = accessControlPolicy();
+  const data = isAccessControlDomain();
   return new Response(JSON.stringify(data, null, 2), {
     headers: {
       'Content-Type': 'application/json',
