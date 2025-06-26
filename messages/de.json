@@ -35,6 +35,35 @@
     "percentage": "Als Prozentsatz angezeigt: {value, number, percent}",
     "title": "Hallo Welt!"
   },
+  "LandingPage": {
+    "hero": {
+      "title": "Visionar.ai",
+      "subtitle": "AI für Visionäre",
+      "description": "Lass uns gemeinsam etwas Bahnbrechendes schaffen. Du bringst die Idee, wir helfen dir beim Design, Training und Skalieren.",
+      "cta": "Jetzt starten"
+    },
+    "missionVision": {
+      "title": "Warum Visionar.ai?",
+      "missionTitle": "Unsere Mission",
+      "missionText": "Wir befähigen zukunftsorientierte Macher mit intelligenten Tools und Expertenwissen, um kühne Ideen zum Leben zu erwecken.",
+      "visionTitle": "Unsere Vision",
+      "visionText": "Wir wollen der vertrauenswürdigste KI-Partner für Kreative sein, die die Zukunft von Technologie, Produkten und Innovation gestalten."
+    },
+    "offerings": {
+      "title": "Was wir bieten",
+      "consultingTitle": "KI-Beratung",
+      "consultingText": "Arbeite mit unseren Experten zusammen, um herauszufinden, wie KI deine Vision unterstützen kann.",
+      "prototypingTitle": "KI-Prototyping-Tools",
+      "prototypingText": "Iteriere und validiere deine Ideen schnell mit intelligenten, skalierbaren Tools.",
+      "developmentTitle": "Produktentwicklung",
+      "developmentText": "Starte individuelle Software, die von modernstem maschinellen Lernen angetrieben wird."
+    },
+    "cta": {
+      "title": "Bereit, die Zukunft zu gestalten?",
+      "subtitle": "Schließe dich den Kreativen an, die mit Visionar.ai kühne Ideen verwirklichen.",
+      "button": "Kontakt aufnehmen"
+    }
+  },
   "Navigation": {
     "about": "Über uns",
     "features": "Funktionen",
