@@ -1,4 +1,4 @@
-import { model, Model, models, Schema } from 'mongoose';
+import { Schema } from 'mongoose';
 import { type PolicyType } from './policy.types.js';
 
 export const PolicySchema = new Schema<PolicyType>(
@@ -23,6 +23,6 @@ export const PolicySchema = new Schema<PolicyType>(
   { timestamps: true }
 );
 
-const PolicyModel = (models.Policy as Model<PolicyType>) || model<PolicyType>('Policy', PolicySchema);
+// const PolicyModel = (models.Policy as Model<PolicyType>) || model<PolicyType>('Policy', PolicySchema);
 
-export default PolicyModel as unknown as Model<PolicyType>;
+// export default PolicyModel as unknown as Model<PolicyType>;
