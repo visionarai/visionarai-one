@@ -75,12 +75,12 @@ type BooleanOperations = 'isTrue' | 'isFalse';
 type OperationsMap<T> = T extends string
   ? CommonOperations | StringOperations
   : T extends number
-  ? CommonOperations | NumberOperations
-  : T extends boolean
-  ? CommonOperations | BooleanOperations
-  : T extends Date
-  ? CommonOperations | DateOperations
-  : CommonOperations;
+    ? CommonOperations | NumberOperations
+    : T extends boolean
+      ? CommonOperations | BooleanOperations
+      : T extends Date
+        ? CommonOperations | DateOperations
+        : CommonOperations;
 
 /** Flatten nested object keys into dot notation strings. */
 type NestedKeys<T, Prefix extends string = ''> = {
@@ -100,16 +100,16 @@ type DeepValueOf<T, Path extends string> = Path extends `${infer Key}.${infer Re
     ? DeepValueOf<T[Key], Rest>
     : never
   : Path extends keyof T
-  ? T[Path]
-  : never;
+    ? T[Path]
+    : never;
 
 type ValueOfField<F extends FieldIdentifier> = F extends `resource.${infer Key}`
   ? DeepValueOf<Resource, Key>
   : F extends `subject.${infer Key}`
-  ? DeepValueOf<Subject, Key>
-  : F extends `environment.${infer Key}`
-  ? DeepValueOf<Environment, Key>
-  : never;
+    ? DeepValueOf<Subject, Key>
+    : F extends `environment.${infer Key}`
+      ? DeepValueOf<Environment, Key>
+      : never;
 
 type PrettifyType<T> = {
   [K in keyof T]: T[K];

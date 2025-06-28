@@ -1,3 +1,5 @@
+import { AllPossibleOperations } from "./operators.js";
+
 export type Subject = {
   _id: string;
   currentWorkspaceId: string;
@@ -9,7 +11,7 @@ type NestedKeys<T, Prefix extends string = ''> = {
 
 export type Condition = {
   field: `subject.${NestedKeys<Subject>}`;
-  operation: string;
+  operation: AllPossibleOperations;
   value: unknown;
 };
 
