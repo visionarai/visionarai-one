@@ -25,13 +25,3 @@ export default async function PublicLayout({ children, params }: { children: Rea
     </header>
   );
 }
-// const handleSwitch = (lang: string) => {
-//   if (lang === locale) return;
-//   // Replace the locale in the pathname
-//   const segments = pathname.split('/');
-//   segments[1] = lang;
-//   const newPath = segments.join('/');
-//   startTransition(() => {
-//     router.replace(newPath);
-//   });
-// };

@@ -1,5 +1,6 @@
 'use client';
-import Link from 'next/dist/client/link';
+
+import Link from 'next/link';
 import React, { JSX } from 'react';
 import { Button } from '../ui/button';
 import { ThemeSwitcher } from './ThemeSwitcher';
@@ -24,23 +25,25 @@ export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'V
   return (
     <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur border-b border-border flex items-center justify-between px-6 py-3">
       {/* Logo */}
-      <div className="flex items-center gap-2">
+      <Link
+        href="/"
+        className="flex items-center gap-2">
         {/* Replace with your SVG or image logo */}
         <span className="font-bold text-lg tracking-tight">{logoText}</span>
-      </div>
+      </Link>
       {/* Navigation Links & Switchers */}
       <div className="flex items-center gap-4">
         {items.map(item => {
           const selected = selectedPath === item.path;
           return (
-            <a
+            <Link
               key={item.path}
               href={item.path}
               className={`flex items-center gap-1 text-sm font-medium hover:underline ${selected ? 'text-primary' : ''}`}
               aria-current={selected ? 'page' : undefined}>
               {selected ? item.iconSelected : item.icon}
               <span>{item.title}</span>
-            </a>
+            </Link>
           );
         })}
         <Button

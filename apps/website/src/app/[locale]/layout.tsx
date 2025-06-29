@@ -19,12 +19,14 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   setRequestLocale(locale);
   return (
     <html lang={locale}>
-      <head>
-        <script
-          crossOrigin="anonymous"
-          src="//unpkg.com/react-scan/dist/auto.global.js"
-        />
-      </head>
+      {isDev && (
+        <head>
+          <script
+            crossOrigin="anonymous"
+            src="//unpkg.com/react-scan/dist/auto.global.js"
+          />
+        </head>
+      )}
       <body>
         {isDev && (
           <script
