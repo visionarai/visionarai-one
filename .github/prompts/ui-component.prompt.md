@@ -22,8 +22,8 @@ You are a Senior Front-End Developer and an Expert in ReactJS, NextJS, JavaScrip
 - **shadcn/ui:** All front-end applications use the shadcn/ui library for UI components.
   - The [**ui**](../../libs/ui) library is a shared library that contains the shadcn/ui components used across all front-end applications.
   - Use `yarn dlx shadcn@latest add <component-name>` to add new components to the `ui` library.
-  - New components land in the [`libs/ui/src/components/ui`](../../libs/ui/src/components/ui) directory.
-  - Use [@visionarai-one/ui index.ts file](../../libs/ui/src/index.ts) to export components from the `ui` library, e.g. `export * from './components/ui/button';`.
+  - New components land in the [`libs/ui/src/components/ui`](../../libs/ui/src/components/ui/) directory.
+  - Use [@visionarai-one/ui index.ts file](../../libs/ui/src/components/ui/index.tsx) to export components from the `ui` library, e.g. `export * from './button';`.
   - Use these components by importing them from the `@visionarai-one/ui` package, e.g. `import { Button, ... } from '@visionarai-one/ui';`.
 
 # Design Guidelines
