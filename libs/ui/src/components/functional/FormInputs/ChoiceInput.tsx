@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Checkbox,
   FormControl,
   FormDescription,
   FormField,
@@ -29,6 +30,7 @@ export type SelectOption = {
 
 /**
  * Props for the Choice component.
+ * @param multiple If true, allows multiple selections (checkboxes)
  */
 export type ChoiceProps<T extends FieldValues> = {
   name: FieldPath<T>;
@@ -37,6 +39,7 @@ export type ChoiceProps<T extends FieldValues> = {
   options: SelectOption[];
   placeholder?: string;
   description?: string;
+  multiple?: boolean;
 };
 
 /**
@@ -47,11 +50,11 @@ export type ChoiceProps<T extends FieldValues> = {
 const getInputType = (numberOfOptions: number): 'Select' | 'RadioGroup' => (numberOfOptions >= 5 ? 'Select' : 'RadioGroup');
 
 /**
- * Choice input that renders a select or radio group based on options length.
+ * Choice input that renders a select, radio group, or checkbox group based on options length and multiple prop.
  */
-export function Choice<T extends FieldValues>({ name, label, formControl, options, placeholder, description }: ChoiceProps<T>) {
+export function Choice<T extends FieldValues>({ name, label, formControl, options, placeholder, description, multiple = false }: ChoiceProps<T>) {
   const numberOfOptions = options.length;
-  const inputType = useMemo(() => getInputType(numberOfOptions), [numberOfOptions]);
+  const inputType = useMemo(() => (multiple ? 'CheckboxGroup' : getInputType(numberOfOptions)), [multiple, numberOfOptions]);
 
   return (
     <FormField
@@ -60,14 +63,21 @@ export function Choice<T extends FieldValues>({ name, label, formControl, option
       render={({ field, fieldState }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          {inputType === 'Select' ? (
+          {inputType === 'Select' && (
             <MemoizedChoiceSelect
               field={field}
               placeholder={placeholder}
               options={options}
             />
-          ) : (
+          )}
+          {inputType === 'RadioGroup' && (
             <MemoizedChoiceRadioGroup
+              field={field}
+              options={options}
+            />
+          )}
+          {inputType === 'CheckboxGroup' && (
+            <ChoiceCheckboxGroup
               field={field}
               options={options}
             />
@@ -142,3 +152,30 @@ function ChoiceRadioGroup<T extends FieldValues>({ field, options }: ChoiceInput
   );
 }
 const MemoizedChoiceRadioGroup = React.memo(ChoiceRadioGroup) as typeof ChoiceRadioGroup;
+
+/**
+ * Checkbox group input for multiple choices.
+ */
+function ChoiceCheckboxGroup<T extends FieldValues>({ field, options }: Omit<ChoiceInputComponentProps<T>, 'placeholder'>) {
+  return (
+    <div className="flex flex-col gap-2">
+      {options.map(option => (
+        <FormItem
+          key={option.value}
+          className="flex flex-row items-center gap-2">
+          <FormControl>
+            <Checkbox
+              checked={Array.isArray(field.value) ? field.value.includes(option.value) : false}
+              onCheckedChange={checked => {
+                if (!Array.isArray(field.value)) return;
+                field.onChange(checked ? [...field.value, option.value] : field.value.filter((v: string) => v !== option.value));
+              }}
+              disabled={option.disabled}
+            />
+          </FormControl>
+          <FormLabel className="text-sm font-normal">{option.label}</FormLabel>
+        </FormItem>
+      ))}
+    </div>
+  );
+}
