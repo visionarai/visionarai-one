@@ -1,8 +1,7 @@
 'use client';
-import { Button, Input } from '@visionarai-one/ui';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 import { FormEvent, useState } from 'react';
+import { LoginForm } from './_form';
 
 export default function LoginPage() {
   const t = useTranslations('Auth');
@@ -15,54 +14,5 @@ export default function LoginPage() {
     setTimeout(() => setLoading(false), 1000);
   };
 
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-6">
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium mb-1">
-          {t('login.emailLabel')}
-        </label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          placeholder={t('login.emailPlaceholder')}
-        />
-      </div>
-      <div>
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium mb-1">
-          {t('login.passwordLabel')}
-        </label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          required
-          placeholder={t('login.passwordPlaceholder')}
-        />
-      </div>
-      <Button
-        type="submit"
-        className="w-full"
-        disabled={loading}>
-        {t('login.submit')}
-      </Button>
-      <div className="text-center text-sm mt-4">
-        {t('login.noAccount')}{' '}
-        <Link
-          href="/register"
-          className="text-primary underline">
-          {t('login.registerLink')}
-        </Link>
-      </div>
-    </form>
-  );
+  return <LoginForm />;
 }
