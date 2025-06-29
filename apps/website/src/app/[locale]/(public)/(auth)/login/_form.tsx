@@ -20,6 +20,15 @@ const AllTopics = [
   { value: 'finance', label: 'Finance' },
   { value: 'education', label: 'Education' },
   { value: 'science', label: 'Science' },
+  { value: 'art', label: 'Art' },
+  { value: 'sports', label: 'Sports' },
+  { value: 'travel', label: 'Travel' },
+  { value: 'food', label: 'Food' },
+  { value: 'lifestyle', label: 'Lifestyle' },
+  { value: 'entertainment', label: 'Entertainment' },
+  { value: 'environment', label: 'Environment' },
+  { value: 'politics', label: 'Politics' },
+  { value: 'history', label: 'History' },
 ];
 
 export function LoginForm() {
@@ -84,6 +93,7 @@ export function LoginForm() {
           options={AllTopics}
           placeholder="Choose a topic"
           description="Select a topic that interests you."
+          emptyText="No topics available"
         />
         <Button type="submit">Login</Button>
       </form>

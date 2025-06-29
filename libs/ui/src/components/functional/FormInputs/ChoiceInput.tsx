@@ -15,6 +15,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  MultiSelect,
+  MultiSelectContent,
+  MultiSelectGroup,
+  MultiSelectItem,
+  MultiSelectTrigger,
+  MultiSelectValue,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -59,10 +65,13 @@ export type ChoiceProps<T extends FieldValues> = {
  * Determines which input type to show based on the number of options and multiple prop.
  * @param numberOfOptions Number of options to choose from
  * @param multiple Whether multiple selection is enabled
- * @returns 'Combobox' if single select and options >= 10, 'CheckboxGroup' if multiple, 'Select' or 'RadioGroup' otherwise
+ * @returns 'MultiSelect' if multiple and options >= 10, 'CheckboxGroup' if multiple and < 10, 'Combobox' if single select and options >= 10, 'Select' or 'RadioGroup' otherwise
  */
-const getInputType = (numberOfOptions: number, multiple: boolean): 'Combobox' | 'CheckboxGroup' | 'Select' | 'RadioGroup' => {
-  if (multiple) return 'CheckboxGroup';
+const getInputType = (numberOfOptions: number, multiple: boolean): 'MultiSelect' | 'Combobox' | 'CheckboxGroup' | 'Select' | 'RadioGroup' => {
+  if (multiple) {
+    if (numberOfOptions >= 10) return 'MultiSelect';
+    return 'CheckboxGroup';
+  }
   if (numberOfOptions >= 10) return 'Combobox';
   return numberOfOptions >= 5 ? 'Select' : 'RadioGroup';
 };
@@ -81,6 +90,14 @@ export function Choice<T extends FieldValues>({ name, label, formControl, option
       render={({ field, fieldState }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
+          {inputType === 'MultiSelect' && (
+            <ChoiceMultiSelect
+              field={field}
+              options={options}
+              placeholder={placeholder}
+              emptyText={emptyText}
+            />
+          )}
           {inputType === 'Combobox' && (
             <ChoiceCombobox
               field={field}
@@ -246,5 +263,36 @@ function ChoiceCombobox<T extends FieldValues>({ field, options, placeholder, em
         </Command>
       </PopoverContent>
     </Popover>
+  );
+}
+
+/**
+ * MultiSelect input for multiple select with many options.
+ */
+function ChoiceMultiSelect<T extends FieldValues>({ field, options, placeholder, emptyText }: ChoiceInputComponentProps<T> & { emptyText?: string }) {
+  return (
+    <MultiSelect
+      values={field.value || []}
+      onValuesChange={field.onChange}>
+      <MultiSelectTrigger className="w-full max-w-[400px]">
+        <MultiSelectValue placeholder={placeholder || 'Select options...'} />
+      </MultiSelectTrigger>
+      <MultiSelectContent>
+        <MultiSelectGroup>
+          {options.length === 0 ? (
+            <div className="px-4 py-2 text-muted-foreground text-sm">{emptyText || 'No option found.'}</div>
+          ) : (
+            options.map(option => (
+              <MultiSelectItem
+                key={option.value}
+                value={option.value}
+                disabled={option.disabled}>
+                {option.label}
+              </MultiSelectItem>
+            ))
+          )}
+        </MultiSelectGroup>
+      </MultiSelectContent>
+    </MultiSelect>
   );
 }
