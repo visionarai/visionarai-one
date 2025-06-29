@@ -1,15 +1,15 @@
 import { Connection, Model, models, Types } from 'mongoose';
 import { AppError } from './error/index.js';
-import { MasterDataSchema } from './master_data/master_data.schema.js';
-import { MasterDataType } from './master_data/master_data.types.js';
-import { PolicySchema, Subject, type PolicyType } from './policy/index.js';
+import { MasterDataSchema, MasterDataType } from './master_data/index.js';
+import { PolicyDocument, PolicyModelType, PolicySchema, PolicyType, Subject } from './policy/index.js';
 
 export function isAccessControlDomain(): boolean {
   return true;
 }
 
 export const createPolicyRepository = (mongooseConnection: Connection) => {
-  const PolicyModel: Model<PolicyType> = models['Policy'] || mongooseConnection.model<PolicyType>('Policy', PolicySchema);
+  const PolicyModel =
+    (models['Policy'] as Model<PolicyDocument, PolicyModelType>) || mongooseConnection.model<PolicyDocument, PolicyModelType>('Policy', PolicySchema);
   const MasterDataModel: Model<MasterDataType> = models['MasterData'] || mongooseConnection.model<MasterDataType>('MasterData', MasterDataSchema);
 
   let recentMasterData: MasterDataType['resources'] = {};
@@ -48,31 +48,11 @@ export const createPolicyRepository = (mongooseConnection: Connection) => {
               metadata: { resource: resourceType },
             });
           }
-          const permissions = policy.permissions[resourceType];
-          if (!permissions || !permissions[action]) {
-            return false; // No permission defined for this action
-          }
-          const permission = permissions[action];
-          if (typeof permission === 'boolean') {
-            return permission; // Direct boolean permission
-          }
-          if (typeof permission === 'object' && 'field' in permission && 'operation' in permission && 'value' in permission) {
-            // Handle condition
-            const condition = permission as { field: string; operation: string; value: unknown };
-            // const subjectValue = subject[condition.field.replace('subject.', '')];
-            // switch (condition.operation) {
-            //   case 'equals':
-            //     if (subjectValue !== condition.value) {
-            //       return false;
-            //     }
-            //     break;
-            // }
-          }
-          return false; // Default to false if no conditions match
+          return policy.evaluate(resourceType, action, subject);
         },
       };
     },
-    async createPolicy(policyData: any) {
+    async createPolicy(policyData: PolicyType): Promise<PolicyDocument> {
       const policy = new PolicyModel(policyData);
       return policy.save();
     },

@@ -26,53 +26,43 @@ export const isValidOperation = (operation: string, dataType: OperationDataType)
   return (OPERATION_TYPES[dataType] as readonly string[]).includes(operation);
 };
 
+// Operation handler lookup
+const operationHandlers: Record<string, (value: unknown, compareValue: unknown) => boolean> = {
+  equals: (value, compareValue) => (Array.isArray(compareValue) ? compareValue.includes(value) : value === compareValue),
+  in: (value, compareValue) => Array.isArray(compareValue) && compareValue.includes(value),
+  exists: value => value !== undefined && value !== null,
+  contains: (value, compareValue) => typeof value === 'string' && typeof compareValue === 'string' && value.includes(compareValue),
+  startsWith: (value, compareValue) => typeof value === 'string' && typeof compareValue === 'string' && value.startsWith(compareValue),
+  endsWith: (value, compareValue) => typeof value === 'string' && typeof compareValue === 'string' && value.endsWith(compareValue),
+  regex: (value, compareValue) => typeof value === 'string' && compareValue instanceof RegExp && compareValue.test(value),
+  greaterThan: (value, compareValue) => typeof value === 'number' && typeof compareValue === 'number' && value > compareValue,
+  lessThan: (value, compareValue) => typeof value === 'number' && typeof compareValue === 'number' && value < compareValue,
+  greaterThanOrEqual: (value, compareValue) => typeof value === 'number' && typeof compareValue === 'number' && value >= compareValue,
+  lessThanOrEqual: (value, compareValue) => typeof value === 'number' && typeof compareValue === 'number' && value <= compareValue,
+  before: (value, compareValue) => value instanceof Date && compareValue instanceof Date && value < compareValue,
+  after: (value, compareValue) => value instanceof Date && compareValue instanceof Date && value > compareValue,
+  on: (value, compareValue) => value instanceof Date && compareValue instanceof Date && value.getTime() === compareValue.getTime(),
+  between: (value, compareValue) => {
+    if (Array.isArray(compareValue) && compareValue.length === 2) {
+      const [start, end] = compareValue as [Date, Date];
+      return value instanceof Date && start instanceof Date && end instanceof Date && value >= start && value <= end;
+    }
+    return false;
+  },
+  isTrue: value => typeof value === 'boolean' && value === true,
+  isFalse: value => typeof value === 'boolean' && value === false,
+  notSet: value => value === undefined || value === null,
+};
+
+/**
+ * Performs an operation on the given value(s) using a lookup table for handlers.
+ */
 export const performOperation = <T extends OperationDataType>(
   operation: OperationTypeForDataType<T>,
   value: OperationTypeToTSType<T>,
   compareValue: OperationTypeToTSType<T> | OperationTypeToTSType<T>[]
 ): boolean => {
-  switch (operation) {
-    case 'equals':
-      return Array.isArray(compareValue) ? compareValue.includes(value) : value === compareValue;
-    case 'in':
-      return Array.isArray(compareValue) && compareValue.includes(value);
-    case 'exists':
-      return value !== undefined && value !== null;
-    case 'contains':
-      return typeof value === 'string' && typeof compareValue === 'string' && value.includes(compareValue);
-    case 'startsWith':
-      return typeof value === 'string' && typeof compareValue === 'string' && value.startsWith(compareValue);
-    case 'endsWith':
-      return typeof value === 'string' && typeof compareValue === 'string' && value.endsWith(compareValue);
-    case 'regex':
-      return typeof value === 'string' && compareValue instanceof RegExp && compareValue.test(value);
-    case 'greaterThan':
-      return typeof value === 'number' && typeof compareValue === 'number' && value > compareValue;
-    case 'lessThan':
-      return typeof value === 'number' && typeof compareValue === 'number' && value < compareValue;
-    case 'greaterThanOrEqual':
-      return typeof value === 'number' && typeof compareValue === 'number' && value >= compareValue;
-    case 'lessThanOrEqual':
-      return typeof value === 'number' && typeof compareValue === 'number' && value <= compareValue;
-    case 'before':
-      return value instanceof Date && compareValue instanceof Date && value < compareValue;
-    case 'after':
-      return value instanceof Date && compareValue instanceof Date && value > compareValue;
-    case 'on':
-      return value instanceof Date && compareValue instanceof Date && value.getTime() === compareValue.getTime();
-    case 'between':
-      if (Array.isArray(compareValue) && compareValue.length === 2) {
-        const [start, end] = compareValue as unknown as [Date, Date];
-        return value instanceof Date && start instanceof Date && end instanceof Date && value >= start && value <= end;
-      }
-      return false;
-    case 'isTrue':
-      return typeof value === 'boolean' && value === true;
-    case 'isFalse':
-      return typeof value === 'boolean' && value === false;
-    case 'notSet':
-      return value === undefined || value === null;
-    default:
-      throw new Error(`Unknown operation: ${operation}`);
-  }
+  const handler = operationHandlers[operation];
+  if (!handler) throw new Error(`Unknown operation: ${operation}`);
+  return handler(value, compareValue);
 };
