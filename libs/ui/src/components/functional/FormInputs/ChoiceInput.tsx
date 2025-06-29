@@ -1,13 +1,23 @@
 'use client';
 
 import {
+  Button,
   Checkbox,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   RadioGroup,
   RadioGroupItem,
   Select,
@@ -16,7 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@visionarai-one/ui';
-import React, { useMemo } from 'react';
+import { cn } from '@visionarai-one/utils';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { useMemo } from 'react';
 import { Control, ControllerRenderProps, FieldPath, FieldValues, Path } from 'react-hook-form';
 
 /**
@@ -40,21 +52,27 @@ export type ChoiceProps<T extends FieldValues> = {
   placeholder?: string;
   description?: string;
   multiple?: boolean;
+  emptyText?: string; // Optional prop for empty state text
 };
 
 /**
- * Determines which input type to show based on the number of options.
+ * Determines which input type to show based on the number of options and multiple prop.
  * @param numberOfOptions Number of options to choose from
- * @returns 'Select' if options >= 5, otherwise 'RadioGroup'
+ * @param multiple Whether multiple selection is enabled
+ * @returns 'Combobox' if single select and options >= 10, 'CheckboxGroup' if multiple, 'Select' or 'RadioGroup' otherwise
  */
-const getInputType = (numberOfOptions: number): 'Select' | 'RadioGroup' => (numberOfOptions >= 5 ? 'Select' : 'RadioGroup');
+const getInputType = (numberOfOptions: number, multiple: boolean): 'Combobox' | 'CheckboxGroup' | 'Select' | 'RadioGroup' => {
+  if (multiple) return 'CheckboxGroup';
+  if (numberOfOptions >= 10) return 'Combobox';
+  return numberOfOptions >= 5 ? 'Select' : 'RadioGroup';
+};
 
 /**
  * Choice input that renders a select, radio group, or checkbox group based on options length and multiple prop.
  */
-export function Choice<T extends FieldValues>({ name, label, formControl, options, placeholder, description, multiple = false }: ChoiceProps<T>) {
+export function Choice<T extends FieldValues>({ name, label, formControl, options, placeholder, description, multiple = false, emptyText }: ChoiceProps<T>) {
   const numberOfOptions = options.length;
-  const inputType = useMemo(() => (multiple ? 'CheckboxGroup' : getInputType(numberOfOptions)), [multiple, numberOfOptions]);
+  const inputType = useMemo(() => getInputType(numberOfOptions, multiple), [multiple, numberOfOptions]);
 
   return (
     <FormField
@@ -63,15 +81,23 @@ export function Choice<T extends FieldValues>({ name, label, formControl, option
       render={({ field, fieldState }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
+          {inputType === 'Combobox' && (
+            <ChoiceCombobox
+              field={field}
+              options={options}
+              placeholder={placeholder}
+              emptyText={emptyText}
+            />
+          )}
           {inputType === 'Select' && (
-            <MemoizedChoiceSelect
+            <ChoiceSelect
               field={field}
               placeholder={placeholder}
               options={options}
             />
           )}
           {inputType === 'RadioGroup' && (
-            <MemoizedChoiceRadioGroup
+            <ChoiceRadioGroup
               field={field}
               options={options}
             />
@@ -125,7 +151,6 @@ function ChoiceSelect<T extends FieldValues>({ field, placeholder, options }: Ch
     </Select>
   );
 }
-const MemoizedChoiceSelect = React.memo(ChoiceSelect) as typeof ChoiceSelect;
 
 /**
  * Memoized radio group input for choices.
@@ -151,7 +176,6 @@ function ChoiceRadioGroup<T extends FieldValues>({ field, options }: ChoiceInput
     </FormControl>
   );
 }
-const MemoizedChoiceRadioGroup = React.memo(ChoiceRadioGroup) as typeof ChoiceRadioGroup;
 
 /**
  * Checkbox group input for multiple choices.
@@ -177,5 +201,50 @@ function ChoiceCheckboxGroup<T extends FieldValues>({ field, options }: Omit<Cho
         </FormItem>
       ))}
     </div>
+  );
+}
+
+/**
+ * Combobox input for single select with many options.
+ */
+function ChoiceCombobox<T extends FieldValues>({ field, options, placeholder, emptyText }: ChoiceInputComponentProps<T> & { emptyText?: string }) {
+  const selectedOption = options.find(option => option.value === field.value);
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <FormControl>
+          <Button
+            variant="outline"
+            role="combobox"
+            className={cn('w-full justify-between', !field.value && 'text-muted-foreground')}>
+            {selectedOption ? selectedOption.label : placeholder || 'Select option'}
+            <ChevronsUpDown className="opacity-50 ml-2 h-4 w-4 shrink-0" />
+          </Button>
+        </FormControl>
+      </PopoverTrigger>
+      <PopoverContent className="w-full min-w-[200px] p-0">
+        <Command>
+          <CommandInput
+            placeholder={placeholder || 'Search...'}
+            className="h-9"
+          />
+          <CommandList>
+            <CommandEmpty>{emptyText || 'No option found.'}</CommandEmpty>
+            <CommandGroup>
+              {options.map(option => (
+                <CommandItem
+                  value={option.label}
+                  key={option.value}
+                  onSelect={() => field.onChange(option.value)}
+                  disabled={option.disabled}>
+                  {option.label}
+                  <Check className={cn('ml-auto', option.value === field.value ? 'opacity-100' : 'opacity-0')} />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }
