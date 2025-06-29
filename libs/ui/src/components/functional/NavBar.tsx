@@ -1,8 +1,7 @@
 'use client';
 import Link from 'next/dist/client/link';
-import React from 'react';
+import React, { JSX } from 'react';
 import { Button } from '../ui/button';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
 export interface NavigationItem {
@@ -14,12 +13,14 @@ export interface NavigationItem {
 
 interface NavBarProps {
   items: NavigationItem[];
+
   selectedPath?: string;
   loginText?: string;
   logoText?: string;
+  languageSwitcher?: JSX.Element;
 }
 
-export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'Visionar.Ai' }: NavBarProps) {
+export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'Visionar.Ai', languageSwitcher }: NavBarProps) {
   return (
     <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur border-b border-border flex items-center justify-between px-6 py-3">
       {/* Logo */}
@@ -47,7 +48,7 @@ export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'V
           asChild>
           <Link href="/login">{loginText}</Link>
         </Button>
-        <LanguageSwitcher />
+        {languageSwitcher}
         <ThemeSwitcher />
       </div>
     </nav>

@@ -1,8 +1,8 @@
 import { Footer, NavBar } from '@visionarai-one/ui';
 import { Home, Home as HomeSolid, Info, Info as InfoSolid, Star, Star as StarSolid } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
-
-export default async function PublicLayout({ children }: { children: React.ReactNode }) {
+import { LanguageSwitcher } from './_LanguageSwitcher';
+export default async function PublicLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
   const t = await getTranslations('Navigation');
 
   const navItems = [
@@ -12,15 +12,26 @@ export default async function PublicLayout({ children }: { children: React.React
   ];
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
+    <header className="min-h-screen flex flex-col bg-background text-foreground">
       <NavBar
         items={navItems}
         selectedPath={pathname}
         loginText={t('login')}
         logoText={t('logo')}
+        languageSwitcher={<LanguageSwitcher />}
       />
       <main>{children}</main>
       <Footer />
-    </div>
+    </header>
   );
 }
+// const handleSwitch = (lang: string) => {
+//   if (lang === locale) return;
+//   // Replace the locale in the pathname
+//   const segments = pathname.split('/');
+//   segments[1] = lang;
+//   const newPath = segments.join('/');
+//   startTransition(() => {
+//     router.replace(newPath);
+//   });
+// };
