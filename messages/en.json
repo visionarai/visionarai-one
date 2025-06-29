@@ -35,6 +35,14 @@
     "percentage": "Displayed as a percentage: {value, number, percent}",
     "title": "Hello world!"
   },
+  "LandingPage": {
+    "hero": {
+      "headline": "AI for Visionaries",
+      "subheadline": "Turn your boldest ideas into working AI products — with expert guidance and intelligent tools.",
+      "primaryCta": "Explore the Platform",
+      "secondaryCta": "Book a Free Strategy Call"
+    }
+  },
   "Navigation": {
     "about": "About",
     "features": "Features",
@@ -49,34 +57,5 @@
     "searchPlaceholder": "Search for something...",
     "subtitle": "404",
     "title": "Page Not Found"
-  },
-  "LandingPage": {
-    "hero": {
-      "title": "Visionar.ai",
-      "subtitle": "AI for Visionaries",
-      "description": "Let’s build something game-changing — together. You bring the idea. We’ll help you design, train, and scale it.",
-      "cta": "Start Building"
-    },
-    "missionVision": {
-      "title": "Why Visionar.ai?",
-      "missionTitle": "Our Mission",
-      "missionText": "To empower forward-thinking builders with intelligent tools and expert guidance to bring bold ideas to life.",
-      "visionTitle": "Our Vision",
-      "visionText": "To be the most trusted AI partner for creators shaping the future of technology, products, and innovation."
-    },
-    "offerings": {
-      "title": "What We Offer",
-      "consultingTitle": "AI Consulting",
-      "consultingText": "Work with our experts to identify how AI can power your vision.",
-      "prototypingTitle": "AI Prototyping Tools",
-      "prototypingText": "Rapidly iterate and validate your ideas using smart, scalable tools.",
-      "developmentTitle": "Product Development",
-      "developmentText": "Launch custom software powered by the latest in machine learning."
-    },
-    "cta": {
-      "title": "Ready to shape the future?",
-      "subtitle": "Join creators using Visionar.ai to bring bold ideas to life.",
-      "button": "Get in Touch"
-    }
   }
 }

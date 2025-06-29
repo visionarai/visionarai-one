@@ -1,71 +1,45 @@
-import { Button } from '@visionarai-one/ui';
-import { Brain, Rocket, Sparkles } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
-export default async function LandingPage() {
-  const t = await getTranslations('LandingPage');
+const HeroSection = async () => {
+  const t = await getTranslations('LandingPage.hero');
+
   return (
-    <div className="bg-white text-black font-sans">
-      {/* Hero Section */}
-      <section className="bg-black text-white px-6 py-24 text-center relative overflow-hidden">
-        <div className="absolute -top-10 -left-10 w-80 h-80 bg-lime-400 rounded-full blur-3xl opacity-20"></div>
-        <div className="absolute -bottom-10 -right-10 w-80 h-80 bg-teal-400 rounded-full blur-3xl opacity-20"></div>
+    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 bg-gradient-to-r from-teal-500/10 via-transparent to-lime-500/10" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(20,184,166,0.1),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(132,204,22,0.1),transparent_50%)]" />
 
-        <div className="relative z-10 max-w-5xl mx-auto">
-          <h1 className="text-6xl font-extrabold mb-4">{t('hero.title')}</h1>
-          <p className="text-2xl text-gray-300 mb-6 italic">{t('hero.subtitle')}</p>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-8">{t('hero.description')}</p>
-          <Button className="text-black bg-lime-400 hover:bg-lime-300 text-lg px-8 py-4 rounded-full font-semibold shadow-md">{t('hero.cta')}</Button>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center max-w-4xl mx-auto">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-teal-100 to-lime-100 bg-clip-text text-transparent">
+            {t('headline')}
+          </h1>
+          <p className="text-xl sm:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto leading-relaxed">{t('subheadline')}</p>
+          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button
+              size="lg"
+              className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 text-lg font-semibold group">
+              {t('primaryCta')}
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-slate-300 text-slate-300 hover:bg-slate-800 px-8 py-4 text-lg font-semibold">
+              {t('secondaryCta')}
+            </Button>
+          </div> */}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+};
 
-      {/* Mission & Vision */}
-      <section className="px-6 py-24 bg-gradient-to-br from-white to-gray-50 text-center">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-4xl font-bold mb-10">{t('missionVision.title')}</h2>
-          <div className="grid md:grid-cols-2 gap-10 text-left">
-            <div>
-              <h3 className="text-2xl font-semibold mb-3">{t('missionVision.missionTitle')}</h3>
-              <p className="text-gray-700">{t('missionVision.missionText')}</p>
-            </div>
-            <div>
-              <h3 className="text-2xl font-semibold mb-3">{t('missionVision.visionTitle')}</h3>
-              <p className="text-gray-700">{t('missionVision.visionText')}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What We Offer */}
-      <section className="px-6 py-24 bg-white text-center">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold mb-16">{t('offerings.title')}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="flex flex-col items-center">
-              <Brain className="w-10 h-10 text-teal-500 mb-4" />
-              <h3 className="text-xl font-bold mb-2">{t('offerings.consultingTitle')}</h3>
-              <p className="text-gray-600 max-w-xs">{t('offerings.consultingText')}</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <Sparkles className="w-10 h-10 text-lime-500 mb-4" />
-              <h3 className="text-xl font-bold mb-2">{t('offerings.prototypingTitle')}</h3>
-              <p className="text-gray-600 max-w-xs">{t('offerings.prototypingText')}</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <Rocket className="w-10 h-10 text-teal-500 mb-4" />
-              <h3 className="text-xl font-bold mb-2">{t('offerings.developmentTitle')}</h3>
-              <p className="text-gray-600 max-w-xs">{t('offerings.developmentText')}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="bg-gradient-to-r from-lime-400 to-teal-400 text-black text-center px-6 py-20">
-        <h2 className="text-4xl font-extrabold mb-4">{t('cta.title')}</h2>
-        <p className="mb-8 text-lg">{t('cta.subtitle')}</p>
-        <Button className="bg-black text-white hover:bg-gray-900 text-lg px-8 py-4 rounded-full font-semibold">{t('cta.button')}</Button>
-      </section>
+export default async function LandingPage() {
+  return (
+    <div className="min-h-screen">
+      <HeroSection />
     </div>
   );
 }
