@@ -1,9 +1,9 @@
 import { Button } from '@visionarai-one/ui';
 import { Brain, Rocket, Sparkles } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export default function LandingPage() {
-  const t = useTranslations('LandingPage');
+export default async function LandingPage() {
+  const t = await getTranslations('LandingPage');
   return (
     <div className="bg-white text-black font-sans">
       {/* Hero Section */}
