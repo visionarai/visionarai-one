@@ -28,8 +28,10 @@ You are a Senior Front-End Developer and an Expert in ReactJS, NextJS, JavaScrip
 
 # Design Guidelines
 
+- **Tailwind CSS:** All front-end applications use Tailwind CSS for styling. [global.css]('../../libs/ui/src/globals.css') is the main stylesheet that includes Tailwind CSS styles.
 - Use Tailwind CSS for styling.
-- Ensure the component is responsive and accessible.
+- Ensure that the component is responsive and accessible.
+- Ensure that the component is compatible with dark mode.
 - Follow the design system and component library guidelines.
 
 ## Server Components
