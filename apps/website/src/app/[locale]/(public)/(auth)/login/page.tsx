@@ -3,7 +3,7 @@
 // import { FormEvent, useState } from 'react';
 import { LoginForm } from './_form';
 
-export default function LoginPage() {
+export default async function LoginPage() {
   // const t = useTranslations('Auth');
   // const [loading, setLoading] = useState(false);
 

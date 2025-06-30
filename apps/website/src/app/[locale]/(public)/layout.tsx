@@ -17,9 +17,9 @@ export default async function PublicLayout({ children, params }: { children: Rea
         items={navItems}
         selectedPath={pathname}
         loginText={t('login')}
-        logoText={t('logo')}
-        languageSwitcher={<LanguageSwitcher />}
-      />
+        logoText={t('logo')}>
+        <LanguageSwitcher />
+      </NavBar>
       <main>{children}</main>
       <Footer />
     </header>

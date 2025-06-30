@@ -18,10 +18,10 @@ interface NavBarProps {
   selectedPath?: string;
   loginText?: string;
   logoText?: string;
-  languageSwitcher?: JSX.Element;
+  children?: JSX.Element;
 }
 
-export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'Visionar.Ai', languageSwitcher }: NavBarProps) {
+export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'Visionar.Ai', children }: NavBarProps) {
   return (
     <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur border-b border-border flex items-center justify-between px-6 py-3">
       {/* Logo */}
@@ -51,7 +51,7 @@ export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'V
           asChild>
           <Link href="/login">{loginText}</Link>
         </Button>
-        {languageSwitcher}
+        {children}
         <ThemeSwitcher />
       </div>
     </nav>
