@@ -8,7 +8,7 @@ import { Button, Choice, DatePickerInput, DateRangePickerInput, Form, InputFormF
 
 const formSchema = z
   .object({
-    email: z.string().email('Invalid email address'),
+    email: z.string().email('Invalid email address').max(10, 'Email must be less than 10 characters'),
     password: z.string().min(6, 'Password must be at least 6 characters long'),
     comments: z.string().max(500, 'Comments must be less than 500 characters'),
     selectedTopic: z.string().optional(),
@@ -40,6 +40,7 @@ const AllTopics = [
 
 export function LoginForm() {
   const form = useForm({
+    mode: 'onBlur',
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
