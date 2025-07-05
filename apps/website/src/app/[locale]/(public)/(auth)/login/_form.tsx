@@ -4,16 +4,21 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Choice, Form, InputFormField, SwitchInput, TextAreaFormField } from '@visionarai-one/ui';
+import { Button, Choice, DatePickerInput, Form, InputFormField, SwitchInput, TextAreaFormField } from '@visionarai-one/ui';
 
-const formSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters long'),
-  comments: z.string().max(500, 'Comments must be less than 500 characters'),
-  selectedTopic: z.string().optional(),
-  selectedTopics: z.array(z.string()).min(1, 'At least one topic must be selected').max(5, 'You can select up to 5 topics'),
-  subscribe: z.boolean().optional(),
-});
+const formSchema = z
+  .object({
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(6, 'Password must be at least 6 characters long'),
+    comments: z.string().max(500, 'Comments must be less than 500 characters'),
+    selectedTopic: z.string().optional(),
+    selectedTopics: z.array(z.string()).min(1, 'At least one topic must be selected').max(5, 'You can select up to 5 topics'),
+    subscribe: z.boolean().optional(),
+    date: z.date().optional(),
+  })
+  .refine(data => data.selectedTopic || data.selectedTopics.length > 0, {
+    message: 'Please select at least one topic',
+  });
 
 const AllTopics = [
   { value: 'technology', label: 'Technology' },
@@ -42,6 +47,7 @@ export function LoginForm() {
       selectedTopic: 'education',
       selectedTopics: ['technology', 'health'],
       subscribe: false,
+      date: new Date('2023-01-01'),
     },
   });
 
@@ -102,6 +108,12 @@ export function LoginForm() {
           label="Subscribe to newsletter"
           formControl={form.control}
           description="Receive updates and news via email."
+        />
+        <DatePickerInput
+          name="date"
+          label="Select a Date"
+          formControl={form.control}
+          description="Choose a date for your appointment."
         />
         <Button type="submit">Login</Button>
       </form>
