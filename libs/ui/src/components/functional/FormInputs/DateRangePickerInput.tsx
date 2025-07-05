@@ -72,9 +72,10 @@ export const DateRangePickerInput = <T extends FieldValues>({
               </PopoverTrigger>
               <PopoverContent
                 align="end"
-                className="p-0">
+                className="p-2 w-full">
                 <Calendar
                   mode="range"
+                  numberOfMonths={2}
                   selected={value}
                   onSelect={field.onChange as SelectRangeEventHandler}
                   disabled={disableDate}
