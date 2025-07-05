@@ -11,4 +11,5 @@ export * from './multi-select';
 export * from './popover';
 export * from './radio-group';
 export * from './select';
+export * from './switch';
 export * from './textarea';

@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Choice, Form, InputFormField, TextAreaFormField } from '@visionarai-one/ui';
+import { Button, Choice, Form, InputFormField, SwitchInput, TextAreaFormField } from '@visionarai-one/ui';
 
 const formSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -12,6 +12,7 @@ const formSchema = z.object({
   comments: z.string().max(500, 'Comments must be less than 500 characters'),
   selectedTopic: z.string().optional(),
   selectedTopics: z.array(z.string()).min(1, 'At least one topic must be selected').max(5, 'You can select up to 5 topics'),
+  subscribe: z.boolean().optional(),
 });
 
 const AllTopics = [
@@ -40,6 +41,7 @@ export function LoginForm() {
       comments: '',
       selectedTopic: 'education',
       selectedTopics: ['technology', 'health'],
+      subscribe: false,
     },
   });
 
@@ -94,6 +96,12 @@ export function LoginForm() {
           placeholder="Choose a topic"
           description="Select a topic that interests you."
           emptyText="No topics available"
+        />
+        <SwitchInput
+          name="subscribe"
+          label="Subscribe to newsletter"
+          formControl={form.control}
+          description="Receive updates and news via email."
         />
         <Button type="submit">Login</Button>
       </form>
