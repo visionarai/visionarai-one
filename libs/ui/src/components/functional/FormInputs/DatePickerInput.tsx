@@ -19,7 +19,8 @@ import { de } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 import { DayPicker } from 'react-day-picker';
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
-export type DatePickerInputProps<T extends FieldValues> = React.ComponentProps<typeof DayPicker> & {
+
+export type DatePickerInputProps<T extends FieldValues> = Omit<React.ComponentProps<typeof DayPicker>, 'mode' | 'selected' | 'onSelect'> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant'];
 } & {
   name: FieldPath<T>;

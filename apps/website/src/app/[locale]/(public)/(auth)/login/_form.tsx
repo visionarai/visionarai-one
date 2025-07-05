@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Choice, DatePickerInput, Form, InputFormField, SwitchInput, TextAreaFormField } from '@visionarai-one/ui';
+import { Button, Choice, DatePickerInput, DateRangePickerInput, Form, InputFormField, SwitchInput, TextAreaFormField } from '@visionarai-one/ui';
 
 const formSchema = z
   .object({
@@ -15,6 +15,7 @@ const formSchema = z
     selectedTopics: z.array(z.string()).min(1, 'At least one topic must be selected').max(5, 'You can select up to 5 topics'),
     subscribe: z.boolean().optional(),
     date: z.date().optional(),
+    dateRange: z.object({ from: z.date().optional(), to: z.date().optional() }).optional(),
   })
   .refine(data => data.selectedTopic || data.selectedTopics.length > 0, {
     message: 'Please select at least one topic',
@@ -48,6 +49,7 @@ export function LoginForm() {
       selectedTopics: ['technology', 'health'],
       subscribe: false,
       date: new Date('2023-01-01'),
+      dateRange: { from: undefined, to: undefined },
     },
   });
 
@@ -114,6 +116,12 @@ export function LoginForm() {
           label="Select a Date"
           formControl={form.control}
           description="Choose a date for your appointment."
+        />
+        <DateRangePickerInput
+          name="dateRange"
+          label="Select a Date Range"
+          formControl={form.control}
+          description="Choose a date range for your booking."
         />
         <Button type="submit">Login</Button>
       </form>
