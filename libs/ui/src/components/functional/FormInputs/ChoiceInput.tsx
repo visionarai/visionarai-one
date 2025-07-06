@@ -274,7 +274,7 @@ function ChoiceMultiSelect<T extends FieldValues>({ field, options, placeholder,
     <MultiSelect
       values={field.value || []}
       onValuesChange={field.onChange}>
-      <MultiSelectTrigger className="w-full max-w-[400px]">
+      <MultiSelectTrigger className="w-full">
         <MultiSelectValue placeholder={placeholder || 'Select options...'} />
       </MultiSelectTrigger>
       <MultiSelectContent>
