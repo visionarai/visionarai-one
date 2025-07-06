@@ -4,7 +4,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Choice, DatePickerInput, DateRangePickerInput, Form, InputFormField, SwitchInput, TextAreaFormField } from '@visionarai-one/ui';
+import {
+  Button,
+  Choice,
+  DatePickerInput,
+  DateRangePickerInput,
+  Form,
+  InputFormField,
+  PasswordInputFormField,
+  SwitchInput,
+  TextAreaFormField,
+} from '@visionarai-one/ui';
 
 const formSchema = z
   .object({
@@ -40,7 +50,7 @@ const AllTopics = [
 
 export function LoginForm() {
   const form = useForm({
-    mode: 'onBlur',
+    // mode: 'onBlur',
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
@@ -80,6 +90,35 @@ export function LoginForm() {
           autoComplete="current-password"
           placeholder="Enter your password"
           description="Your password must be at least 6 characters long."
+        />
+        <PasswordInputFormField
+          name="password"
+          label="Password"
+          formControl={form.control}
+          placeholder="Enter your password"
+          description="Your password must be at least 6 characters long."
+          passwordRequirements={[
+            {
+              key: 'minLength',
+              test: value => value.length >= 6,
+              message: 'Password must be at least 6 characters long',
+            },
+            {
+              key: 'hasNumber',
+              test: value => /\d/.test(value),
+              message: 'Password must contain at least one number',
+            },
+            {
+              key: 'hasSpecialChar',
+              test: value => /[!@#$%^&*(),.?":{}|<>]/.test(value),
+              message: 'Password must contain at least one special character',
+            },
+            {
+              key: 'hasUpperCase',
+              test: value => /[A-Z]/.test(value),
+              message: 'Password must contain at least one uppercase letter',
+            },
+          ]}
         />
         <TextAreaFormField
           name="comments"
