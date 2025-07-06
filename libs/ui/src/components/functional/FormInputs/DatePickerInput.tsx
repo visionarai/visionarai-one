@@ -9,13 +9,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  Input,
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@visionarai-one/ui';
 import { cn } from '@visionarai-one/utils';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, ClockIcon } from 'lucide-react';
 import { useFormatter } from 'next-intl';
+import { useCallback } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
 
@@ -28,6 +30,12 @@ export type DatePickerInputProps<T extends FieldValues> = Omit<React.ComponentPr
   description?: string;
   placeholder?: string;
   disableDate?: (date: Date) => boolean;
+  /** Enable time picker functionality */
+  enableTimePicker?: boolean;
+  /** Show seconds in time picker (only when enableTimePicker is true) */
+  showSeconds?: boolean;
+  /** Default time when date is selected and time picker is disabled */
+  defaultTime?: { hours: number; minutes: number; seconds: number };
 };
 
 export const DatePickerInput = <T extends FieldValues>({
@@ -37,47 +45,154 @@ export const DatePickerInput = <T extends FieldValues>({
   description,
   placeholder,
   disableDate = date => date > new Date('2025-12-12') || date < new Date('1900-01-01'),
+  enableTimePicker = false,
+  showSeconds = false,
+  defaultTime = { hours: 0, minutes: 0, seconds: 0 },
   ...props
 }: DatePickerInputProps<T>) => {
   const format = useFormatter();
+
+  // Helper function to create a new date with specified time
+  const createDateWithTime = useCallback((date: Date, time: { hours: number; minutes: number; seconds: number }) => {
+    const newDate = new Date(date);
+    newDate.setHours(time.hours, time.minutes, time.seconds, 0);
+    return newDate;
+  }, []);
+
+  // Extract time from a date object
+  const extractTimeFromDate = useCallback(
+    (date: Date) => ({
+      hours: date.getHours(),
+      minutes: date.getMinutes(),
+      seconds: date.getSeconds(),
+    }),
+    []
+  );
+
+  // Format time for display in input
+  const formatTimeForInput = useCallback(
+    (time: { hours: number; minutes: number; seconds: number }) => {
+      const hours = time.hours.toString().padStart(2, '0');
+      const minutes = time.minutes.toString().padStart(2, '0');
+      const seconds = time.seconds.toString().padStart(2, '0');
+      return showSeconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
+    },
+    [showSeconds]
+  );
+
+  // Parse time from input string
+  const parseTimeFromInput = useCallback(
+    (timeString: string) => {
+      const parts = timeString.split(':');
+
+      return {
+        hours: parseInt(parts[0] || '0', 10),
+        minutes: parseInt(parts[1] || '0', 10),
+        seconds: showSeconds ? parseInt(parts[2] || '0', 10) : 0,
+      };
+    },
+    [showSeconds]
+  );
+
+  // Type guard for Date objects
+  const isDate = (value: unknown): value is Date => value instanceof Date;
+
   return (
     <FormField
       control={formControl}
       name={name}
-      render={({ field, fieldState }) => (
-        <FormItem>
-          <FormLabel>{label}</FormLabel>
+      render={({ field, fieldState }) => {
+        // Get current time from field value or use default
+        const currentTime = field.value && isDate(field.value) ? extractTimeFromDate(field.value) : defaultTime;
 
-          <Popover>
-            <PopoverTrigger asChild>
-              <FormControl>
-                <Button
-                  variant={'outline'}
-                  className={cn('min-w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}>
-                  {field.value ? format.dateTime(field.value, { dateStyle: 'medium' }) : <span>{placeholder}</span>}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </FormControl>
-            </PopoverTrigger>
-            <PopoverContent
-              align="end"
-              className="p-2 w-full">
-              <Calendar
-                mode="single"
-                selected={field.value}
-                onSelect={field.onChange}
-                disabled={disableDate}
-                captionLayout="dropdown"
-                {...props}
-              />
-            </PopoverContent>
-          </Popover>
+        // Handle date selection
+        const handleDateSelect = (selectedDate: Date | undefined) => {
+          if (!selectedDate) {
+            field.onChange(undefined);
+            return;
+          }
 
-          {description && !fieldState.error && <FormDescription>{description}</FormDescription>}
+          if (enableTimePicker && field.value && isDate(field.value)) {
+            // Preserve existing time when changing date
+            const existingTime = extractTimeFromDate(field.value);
+            field.onChange(createDateWithTime(selectedDate, existingTime));
+          } else {
+            // Set time to default when time picker is disabled or no existing value
+            field.onChange(createDateWithTime(selectedDate, defaultTime));
+          }
+        };
 
-          <FormMessage />
-        </FormItem>
-      )}
+        // Handle time change
+        const handleTimeChange = (timeString: string) => {
+          if (!field.value || !isDate(field.value)) return;
+
+          const newTime = parseTimeFromInput(timeString);
+          const newDate = createDateWithTime(field.value, newTime);
+          field.onChange(newDate);
+        };
+
+        return (
+          <FormItem>
+            <FormLabel>{label}</FormLabel>
+
+            <Popover>
+              <PopoverTrigger asChild>
+                <FormControl>
+                  <Button
+                    variant={'outline'}
+                    className={cn('min-w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}>
+                    {field.value ? (
+                      enableTimePicker ? (
+                        format.dateTime(field.value, { dateStyle: 'medium', timeStyle: 'short' })
+                      ) : (
+                        format.dateTime(field.value, { dateStyle: 'medium' })
+                      )
+                    ) : (
+                      <span>{placeholder}</span>
+                    )}
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                className="p-2 w-full">
+                <Calendar
+                  mode="single"
+                  selected={field.value}
+                  onSelect={handleDateSelect}
+                  disabled={disableDate}
+                  captionLayout="dropdown"
+                  {...props}
+                />
+
+                {/* Time Picker Section */}
+                {enableTimePicker && field.value && (
+                  <div className="border-t pt-3 mt-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <ClockIcon className="h-4 w-4" />
+                      <span className="text-sm font-medium">Time</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="time"
+                        step={showSeconds ? 1 : 60}
+                        value={formatTimeForInput(currentTime)}
+                        onChange={e => handleTimeChange(e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                  </div>
+                )}
+              </PopoverContent>
+            </Popover>
+
+            {description && !fieldState.error && <FormDescription>{description}</FormDescription>}
+
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 };

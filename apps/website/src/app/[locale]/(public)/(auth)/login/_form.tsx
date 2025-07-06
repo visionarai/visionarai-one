@@ -8,7 +8,7 @@ import { Button, Choice, DatePickerInput, DateRangePickerInput, Form, InputFormF
 
 const formSchema = z
   .object({
-    email: z.string().email('Invalid email address').max(10, 'Email must be less than 10 characters'),
+    email: z.string().email('Invalid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters long'),
     comments: z.string().max(500, 'Comments must be less than 500 characters'),
     selectedTopic: z.string().optional(),
@@ -118,6 +118,7 @@ export function LoginForm() {
           formControl={form.control}
           placeholder="Pick a date"
           description="Choose a date for your appointment."
+          enableTimePicker
         />
         <DateRangePickerInput
           name="dateRange"
