@@ -4,14 +4,14 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import type { ComponentProps } from 'react';
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
 
-export type SwitchInputProps<T extends FieldValues> = Omit<ComponentProps<typeof Switch>, 'name'> & {
+export type SwitchFormFieldProps<T extends FieldValues> = Omit<ComponentProps<typeof Switch>, 'name'> & {
   name: FieldPath<T>;
   label: string;
   formControl: Control<T>;
   description?: string;
 };
 
-export const SwitchInput = <T extends FieldValues>({ name, label, formControl, description, ...props }: SwitchInputProps<T>) => (
+export const SwitchFormField = <T extends FieldValues>({ name, label, formControl, description, ...props }: SwitchFormFieldProps<T>) => (
   <FormField
     control={formControl}
     name={name}

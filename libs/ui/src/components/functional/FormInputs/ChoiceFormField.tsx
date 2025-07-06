@@ -50,7 +50,7 @@ export type SelectOption = {
  * Props for the Choice component.
  * @param multiple If true, allows multiple selections (checkboxes)
  */
-export type ChoiceProps<T extends FieldValues> = {
+export type ChoiceFormFieldProps<T extends FieldValues> = {
   name: FieldPath<T>;
   label: string;
   formControl: Control<T>;
@@ -79,7 +79,16 @@ const getInputType = (numberOfOptions: number, multiple: boolean): 'MultiSelect'
 /**
  * Choice input that renders a select, radio group, or checkbox group based on options length and multiple prop.
  */
-export function Choice<T extends FieldValues>({ name, label, formControl, options, placeholder, description, multiple = false, emptyText }: ChoiceProps<T>) {
+export function ChoiceFormField<T extends FieldValues>({
+  name,
+  label,
+  formControl,
+  options,
+  placeholder,
+  description,
+  multiple = false,
+  emptyText,
+}: ChoiceFormFieldProps<T>) {
   const numberOfOptions = options.length;
   const inputType = useMemo(() => getInputType(numberOfOptions, multiple), [multiple, numberOfOptions]);
 

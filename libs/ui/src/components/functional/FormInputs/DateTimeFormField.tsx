@@ -21,7 +21,7 @@ import { useCallback } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
 
-export type DatePickerInputProps<T extends FieldValues> = Omit<React.ComponentProps<typeof DayPicker>, 'mode' | 'selected' | 'onSelect'> & {
+export type DateTimeFormFieldProps<T extends FieldValues> = Omit<React.ComponentProps<typeof DayPicker>, 'mode' | 'selected' | 'onSelect'> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant'];
 } & {
   name: FieldPath<T>;
@@ -38,7 +38,7 @@ export type DatePickerInputProps<T extends FieldValues> = Omit<React.ComponentPr
   defaultTime?: { hours: number; minutes: number; seconds: number };
 };
 
-export const DatePickerInput = <T extends FieldValues>({
+export const DateTimeFormField = <T extends FieldValues>({
   name,
   label,
   formControl,
@@ -49,7 +49,7 @@ export const DatePickerInput = <T extends FieldValues>({
   showSeconds = false,
   defaultTime = { hours: 0, minutes: 0, seconds: 0 },
   ...props
-}: DatePickerInputProps<T>) => {
+}: DateTimeFormFieldProps<T>) => {
   const format = useFormatter();
 
   // Helper function to create a new date with specified time

@@ -5,21 +5,21 @@ import { cn } from '@visionarai-one/utils';
 import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
-export type PasswordInputFieldProps<T extends FieldValues> = React.ComponentProps<'input'> & {
+export type PasswordFormFieldProps<T extends FieldValues> = React.ComponentProps<'input'> & {
   name: FieldPath<T>;
   label: string;
   formControl: Control<T>;
-  passwordRequirements?: PasswordRequirement[];
+  passwordRequirements?: PasswordRequirementProps[];
   placeholder?: string;
   description?: string;
 };
-type PasswordRequirement = {
+export type PasswordRequirementProps = {
   key: string;
   test: (value: string) => boolean;
   message: string;
 };
 
-export function PasswordInputFormField<T extends FieldValues>({
+export function PasswordFormField<T extends FieldValues>({
   name,
   label,
   formControl,
@@ -27,7 +27,7 @@ export function PasswordInputFormField<T extends FieldValues>({
   description,
   passwordRequirements,
   ...props
-}: PasswordInputFieldProps<T>) {
+}: PasswordFormFieldProps<T>) {
   const [type, setType] = useState<'password' | 'text'>('password');
 
   return (

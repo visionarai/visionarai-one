@@ -24,7 +24,7 @@ export type DateRange = {
   to?: Date | undefined;
 };
 
-export type DateRangePickerInputProps<T extends FieldValues> = Omit<React.ComponentProps<typeof DayPicker>, 'mode' | 'selected' | 'onSelect'> & {
+export type DateRangeFormFieldProps<T extends FieldValues> = Omit<React.ComponentProps<typeof DayPicker>, 'mode' | 'selected' | 'onSelect'> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant'];
   name: FieldPath<T>;
   label: string;
@@ -34,7 +34,7 @@ export type DateRangePickerInputProps<T extends FieldValues> = Omit<React.Compon
   disableDate?: (date: Date) => boolean;
 };
 
-export const DateRangePickerInput = <T extends FieldValues>({
+export const DateRangeFormField = <T extends FieldValues>({
   name,
   label,
   formControl,
@@ -42,7 +42,7 @@ export const DateRangePickerInput = <T extends FieldValues>({
   placeholder,
   disableDate = date => date > new Date('2025-12-12') || date < new Date('1900-01-01'),
   ...props
-}: DateRangePickerInputProps<T>) => {
+}: DateRangeFormFieldProps<T>) => {
   const format = useFormatter();
 
   return (

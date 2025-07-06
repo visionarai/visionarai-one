@@ -1,38 +1,11 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { getPasswordRequirements, passwordZod } from '@visionarai-one/utils';
 import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
-import {
-  Button,
-  Choice,
-  DatePickerInput,
-  DateRangePickerInput,
-  Form,
-  InputFormField,
-  PasswordInputFormField,
-  SwitchInput,
-  TextAreaFormField,
-} from '@visionarai-one/ui';
-
-const formSchema = z
-  .object({
-    email: z.string().email('Invalid email address'),
-    password: passwordZod,
-    comments: z.string().max(500, 'Comments must be less than 500 characters'),
-    selectedTopic: z.string().optional(),
-    selectedTopics: z.array(z.string()).min(1, 'At least one topic must be selected').max(5, 'You can select up to 5 topics'),
-    subscribe: z.boolean().optional(),
-    date: z.date().optional(),
-    dateRange: z.object({ from: z.date().optional(), to: z.date().optional() }).optional(),
-  })
-  .refine(data => data.selectedTopic || data.selectedTopics.length > 0, {
-    message: 'Please select at least one topic',
-  });
-
+import { FormRenderer } from '@visionarai-one/ui';
+import { stringifyFieldMetadata } from '../../../../../../../../libs/ui/src/components/functional/FormRenderer/types';
 const AllTopics = [
   { value: 'technology', label: 'Technology' },
   { value: 'health', label: 'Health' },
@@ -50,98 +23,151 @@ const AllTopics = [
   { value: 'history', label: 'History' },
 ];
 
+const formSchema = z
+  .object({
+    email: z.email('Invalid email address').describe(
+      stringifyFieldMetadata({
+        name: 'email',
+        label: 'Email',
+        type: 'email',
+        placeholder: 'Enter your email',
+        description: 'We will never share your email with anyone else.',
+        inputMode: 'email',
+        autoComplete: 'email',
+      })
+    ),
+    password: passwordZod.describe(
+      stringifyFieldMetadata({
+        name: 'password',
+        type: 'password',
+        label: 'Password',
+        placeholder: 'Enter your password',
+        description: 'Your password must be at least 6 characters long.',
+      })
+    ),
+    comments: z
+      .string()
+      .max(500, 'Comments must be less than 500 characters')
+      .describe(
+        stringifyFieldMetadata({
+          name: 'comments',
+          type: 'textarea',
+          label: 'Comments',
+          placeholder: 'Any additional comments?',
+          description: 'Feel free to share any additional information.',
+        })
+      ),
+    selectedTopic: z
+      .string()
+      .optional()
+      .describe(
+        stringifyFieldMetadata({
+          name: 'selectedTopic',
+          type: 'choice',
+          label: 'Select a Topic',
+          options: AllTopics,
+          placeholder: 'Choose a topic',
+          description: 'Select a topic that interests you.',
+        })
+      ),
+
+    address: z.object({
+      street: z
+        .string()
+        .optional()
+        .describe(
+          stringifyFieldMetadata({
+            name: 'address.street',
+            type: 'text',
+            label: 'Street Address',
+            placeholder: 'Enter your street address',
+            description: 'Your street address including house number and street name.',
+            inputMode: 'text',
+            autoComplete: 'street-address',
+          })
+        ),
+      city: z
+        .string()
+        .optional()
+        .describe(
+          stringifyFieldMetadata({
+            name: 'address.city',
+            type: 'text',
+            label: 'City',
+            placeholder: 'Enter your city',
+            description: 'The city where you live.',
+          })
+        ),
+    }),
+    selectedTopics: z
+      .array(z.string())
+      .min(1, 'At least one topic must be selected')
+      .max(5, 'You can select up to 5 topics')
+      .describe(
+        stringifyFieldMetadata({
+          name: 'selectedTopics',
+          type: 'choice',
+          label: 'Select Topics',
+          options: AllTopics,
+          placeholder: 'Choose topics',
+          description: 'Select topics that interest you.',
+          multiple: true,
+        })
+      ),
+    subscribe: z
+      .boolean()
+      .optional()
+      .describe(
+        stringifyFieldMetadata({
+          name: 'subscribe',
+          type: 'switch',
+          label: 'Subscribe to newsletter',
+          description: 'Receive updates and news via email.',
+        })
+      ),
+    date: z
+      .date()
+      .optional()
+      .describe(
+        stringifyFieldMetadata({
+          name: 'date',
+          type: 'datetime',
+          label: 'Select a Date',
+          placeholder: 'Pick a date',
+          description: 'Choose a date for your appointment.',
+          enableTimePicker: true,
+        })
+      ),
+    dateRange: z
+      .object({ from: z.date().optional(), to: z.date().optional() })
+      .optional()
+      .describe(
+        stringifyFieldMetadata({
+          name: 'dateRange',
+          type: 'dateRange',
+          label: 'Select a Date Range',
+          placeholder: 'Pick a date range',
+          description: 'Choose a date range for your booking.',
+        })
+      ),
+  })
+  .refine(data => data.selectedTopic || data.selectedTopics.length > 0, {
+    message: 'Please select at least one topic',
+  });
+
 export function LoginForm() {
   const passwordT = useTranslations('Auth.passwordRequirements');
 
-  const form = useForm({
-    mode: 'onBlur',
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-      comments: '',
-      selectedTopic: 'education',
-      selectedTopics: ['technology', 'health'],
-      subscribe: false,
-      date: new Date('2023-01-01'),
-      dateRange: { from: undefined, to: undefined },
-    },
-  });
+  const passwordRequirements = getPasswordRequirements(passwordT);
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log('Form submitted:', data);
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8">
-        <InputFormField
-          name="email"
-          label="Email"
-          formControl={form.control}
-          type="email"
-          autoComplete="email"
-          placeholder="Enter your email"
-          description="We will never share your email with anyone else."
-        />
-        <PasswordInputFormField
-          name="password"
-          label="Password"
-          formControl={form.control}
-          placeholder="Enter your password"
-          description="Your password must be at least 6 characters long."
-          passwordRequirements={getPasswordRequirements(passwordT)}
-        />
-        <TextAreaFormField
-          name="comments"
-          label="Comments"
-          formControl={form.control}
-          placeholder="Any additional comments?"
-          description="Feel free to share any additional information."
-        />
-        <Choice
-          name="selectedTopics"
-          label="Select a Topic"
-          formControl={form.control}
-          options={AllTopics}
-          placeholder="Choose a topic"
-          description="Select a topic that interests you."
-          multiple
-        />{' '}
-        <Choice
-          name="selectedTopic"
-          label="Select a Topic"
-          formControl={form.control}
-          options={AllTopics}
-          placeholder="Choose a topic"
-          description="Select a topic that interests you."
-          emptyText="No topics available"
-        />
-        <SwitchInput
-          name="subscribe"
-          label="Subscribe to newsletter"
-          formControl={form.control}
-          description="Receive updates and news via email."
-        />
-        <DatePickerInput
-          name="date"
-          label="Select a Date"
-          formControl={form.control}
-          placeholder="Pick a date"
-          description="Choose a date for your appointment."
-          enableTimePicker
-        />
-        <DateRangePickerInput
-          name="dateRange"
-          label="Select a Date Range"
-          formControl={form.control}
-          placeholder="Pick a date range"
-          description="Choose a date range for your booking."
-        />
-        <Button type="submit">Login</Button>
-      </form>
-    </Form>
+    <FormRenderer
+      formSchema={formSchema}
+      passwordRequirements={passwordRequirements}
+    />
   );
 }
