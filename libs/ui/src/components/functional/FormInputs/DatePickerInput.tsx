@@ -14,9 +14,8 @@ import {
   PopoverTrigger,
 } from '@visionarai-one/ui';
 import { cn } from '@visionarai-one/utils';
-import { format } from 'date-fns';
-import { de } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
+import { useFormatter } from 'next-intl';
 import { DayPicker } from 'react-day-picker';
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
 
@@ -40,8 +39,7 @@ export const DatePickerInput = <T extends FieldValues>({
   disableDate = date => date > new Date('2025-12-12') || date < new Date('1900-01-01'),
   ...props
 }: DatePickerInputProps<T>) => {
-  // Set locale based on user preference or default to English
-
+  const format = useFormatter();
   return (
     <FormField
       control={formControl}
@@ -56,7 +54,7 @@ export const DatePickerInput = <T extends FieldValues>({
                 <Button
                   variant={'outline'}
                   className={cn('min-w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}>
-                  {field.value ? format(field.value, 'PPP', { locale: de }) : <span>Pick a date</span>}
+                  {field.value ? format.dateTime(field.value, { dateStyle: 'medium' }) : <span>{placeholder}</span>}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
               </FormControl>

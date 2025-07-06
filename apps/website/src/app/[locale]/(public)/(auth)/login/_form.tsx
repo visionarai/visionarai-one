@@ -116,12 +116,14 @@ export function LoginForm() {
           name="date"
           label="Select a Date"
           formControl={form.control}
+          placeholder="Pick a date"
           description="Choose a date for your appointment."
         />
         <DateRangePickerInput
           name="dateRange"
           label="Select a Date Range"
           formControl={form.control}
+          placeholder="Pick a date range"
           description="Choose a date range for your booking."
         />
         <Button type="submit">Login</Button>
