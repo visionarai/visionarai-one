@@ -34,7 +34,7 @@ export function PasswordInputFormField<T extends FieldValues>({
     <FormField
       control={formControl}
       name={name}
-      render={({ field, fieldState }) => {
+      render={({ field }) => {
         const metRequirements = passwordRequirements?.map(req => req.test(field.value)) || [];
         return (
           <FormItem>

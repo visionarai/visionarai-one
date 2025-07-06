@@ -17,6 +17,13 @@
       "passwordLabel": "Password",
       "passwordPlaceholder": "Create a password",
       "submit": "Register"
+    },
+    "passwordRequirements": {
+      "minLength": "Password must be at least 6 characters long",
+      "maxLength": "Password must be at most 100 characters long",
+      "hasNumber": "Password must contain at least one number",
+      "hasSpecialChar": "Password must contain at least one special character (e.g. !@#$%^&*)",
+      "hasUpperCase": "Password must contain at least one uppercase letter"
     }
   },
   "Footer": {

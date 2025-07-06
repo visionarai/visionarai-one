@@ -1,6 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getPasswordRequirements, passwordZod } from '@visionarai-one/utils';
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -19,7 +21,7 @@ import {
 const formSchema = z
   .object({
     email: z.string().email('Invalid email address'),
-    password: z.string().min(6, 'Password must be at least 6 characters long'),
+    password: passwordZod,
     comments: z.string().max(500, 'Comments must be less than 500 characters'),
     selectedTopic: z.string().optional(),
     selectedTopics: z.array(z.string()).min(1, 'At least one topic must be selected').max(5, 'You can select up to 5 topics'),
@@ -49,8 +51,10 @@ const AllTopics = [
 ];
 
 export function LoginForm() {
+  const passwordT = useTranslations('Auth.passwordRequirements');
+
   const form = useForm({
-    // mode: 'onBlur',
+    mode: 'onBlur',
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
@@ -82,43 +86,13 @@ export function LoginForm() {
           placeholder="Enter your email"
           description="We will never share your email with anyone else."
         />
-        <InputFormField
-          name="password"
-          label="Password"
-          formControl={form.control}
-          type="password"
-          autoComplete="current-password"
-          placeholder="Enter your password"
-          description="Your password must be at least 6 characters long."
-        />
         <PasswordInputFormField
           name="password"
           label="Password"
           formControl={form.control}
           placeholder="Enter your password"
           description="Your password must be at least 6 characters long."
-          passwordRequirements={[
-            {
-              key: 'minLength',
-              test: value => value.length >= 6,
-              message: 'Password must be at least 6 characters long',
-            },
-            {
-              key: 'hasNumber',
-              test: value => /\d/.test(value),
-              message: 'Password must contain at least one number',
-            },
-            {
-              key: 'hasSpecialChar',
-              test: value => /[!@#$%^&*(),.?":{}|<>]/.test(value),
-              message: 'Password must contain at least one special character',
-            },
-            {
-              key: 'hasUpperCase',
-              test: value => /[A-Z]/.test(value),
-              message: 'Password must contain at least one uppercase letter',
-            },
-          ]}
+          passwordRequirements={getPasswordRequirements(passwordT)}
         />
         <TextAreaFormField
           name="comments"
