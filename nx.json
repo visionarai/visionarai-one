@@ -4,8 +4,6 @@
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.mjs",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/src/test-setup.[jt]s"
@@ -51,12 +49,6 @@
       }
     },
     {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    },
-    {
       "plugin": "@nx/js/typescript",
       "include": ["libs/utils/*", "domains/access-control/*"],
       "options": {
@@ -83,8 +75,7 @@
   "generators": {
     "@nx/next": {
       "application": {
-        "style": "tailwind",
-        "linter": "eslint"
+        "style": "tailwind"
       }
     },
     "@nx/react": {

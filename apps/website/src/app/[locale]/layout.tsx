@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-sync-scripts */
 import { routing } from '@/i18n/routing';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
