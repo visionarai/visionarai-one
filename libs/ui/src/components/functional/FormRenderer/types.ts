@@ -20,7 +20,7 @@ export type FieldMetadata = Prettify<
   CommonFieldMetadata &
     (
       | {
-          type: 'text' | 'number' | 'email';
+          type: 'text' | 'number' | 'email' | 'password-no';
           inputMode?: 'numeric' | 'text' | 'email';
           autoComplete?: string;
         }

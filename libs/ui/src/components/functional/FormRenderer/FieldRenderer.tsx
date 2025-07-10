@@ -22,10 +22,11 @@ export function FieldRenderer<FieldValuesType extends FieldValues, T extends Fie
     case 'text':
     case 'number':
     case 'email':
+    case 'password-no':
       return (
         <InputFormField
           {...commonProps}
-          type={type}
+          type={type === 'password-no' ? 'password' : type}
           autoComplete={'type' in fieldMetadata && 'autoComplete' in fieldMetadata ? fieldMetadata.autoComplete : undefined}
           inputMode={'type' in fieldMetadata && 'inputMode' in fieldMetadata ? fieldMetadata.inputMode : undefined}
         />
