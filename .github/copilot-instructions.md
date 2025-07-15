@@ -1,8 +1,38 @@
----
-description: Ultracite Rules
-globs: "**/*.{ts,tsx,js,jsx}"
-alwaysApply: true
----
+# Visionarai-one: AI Agent Coding Guide
+
+## Project Architecture
+
+- **Monorepo**: Managed by Nx (`nx.json`), with a single root `package.json` and Yarn v4. All commands should use `yarn`.
+- **Directory Structure**:
+  - `apps/`: Frontend Next.js apps (e.g., `apps/website`)
+  - `libs/`: Shared React UI components (`ui/`), utilities (`utils/`)
+  - `domains/`: Domain-driven modules (e.g., `access-control` for ABAC)
+- **Styling**: Tailwind CSS v4 and shadcn/ui. Global styles in `libs/ui/src/globals.css` and imported in app-level `global.css`.
+- **i18n**: Uses `next-intl` with locale-aware routing and translation files in `messages/`.
+- **TypeScript**: Strict, with shared configs in `tsconfig.base.json` and per-app overrides.
+
+## Developer Workflows
+
+- **Build/Test/Lint**: Use Nx tasks (e.g., `yarn nx build <project>`, `yarn nx test <project>`, `yarn nx lint <project>`). See `package.json` scripts for helpers.
+- **Formatting**: Enforced by `ultracite format` (see `lefthook.yml` for pre-commit hooks).
+- **Dependency Graph**: Visualize with `yarn nx dep-graph`.
+- **Vite**: Used for local dev in some domains/libs (see `vite.config.ts`).
+
+## Conventions & Patterns
+
+- **UI**: All UI primitives and forms are in `libs/ui/src/components/ui/` and `libs/ui/src/components/functional/`.
+- **Forms**: Use Zod schemas and metadata for validation and rendering (see `FormRenderer`).
+- **No direct `<img>` in Next.js apps**: Use Next.js image components.
+- **No direct `<head>` usage**: Use Next.js metadata APIs.
+- **No TypeScript enums**: Use union types or `as const` arrays.
+- **Accessibility**: Follow strict ARIA and accessibility rules (see below).
+
+## Integration Points
+
+- **External**: Integrates with `next-intl`, `shadcn/ui`, `lucide-react`, and Radix UI primitives.
+- **Internal**: Cross-app/lib imports use path aliases defined in `tsconfig.json`.
+
+## Linting, Formatting and Code Quality
 
 - Don't use `accessKey` attribute on any HTML element.
 - Don't set `aria-hidden="true"` on focusable elements.
@@ -120,7 +150,7 @@ alwaysApply: true
 - Don't use expressions where the operation doesn't change the value.
 - Don't destructure props inside JSX components in Solid projects.
 - Make sure Promise-like statements are handled appropriately.
-- Don't use __dirname and __filename in the global scope.
+- Don't use **dirname and **filename in the global scope.
 - Prevent import cycles.
 - Don't define React components inside other components.
 - Don't use event handlers on non-interactive elements.
@@ -219,7 +249,7 @@ alwaysApply: true
 - Don't use control characters and escape sequences that match control characters in regular expression literals.
 - Don't use debugger.
 - Don't assign directly to document.cookie.
-- Don't import next/document outside of pages/_document.jsx in Next.js projects.
+- Don't import next/document outside of pages/\_document.jsx in Next.js projects.
 - Use `===` and `!==`.
 - Don't use duplicate case labels.
 - Don't use duplicate class members.
@@ -240,7 +270,7 @@ alwaysApply: true
 - Don't allow assignments to native objects and read-only global variables.
 - Use Number.isFinite instead of global isFinite.
 - Use Number.isNaN instead of global isNaN.
-- Don't use the next/head module in pages/_document.js on Next.js projects.
+- Don't use the next/head module in pages/\_document.js on Next.js projects.
 - Don't use implicit any type on variable declarations.
 - Don't assign to imported bindings.
 - Don't use irregular whitespace characters.
