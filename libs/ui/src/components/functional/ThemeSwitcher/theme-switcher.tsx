@@ -11,11 +11,16 @@ export const ThemeSwitcher = memo(() => {
 
   return (
     <button
-      type="button"
       aria-label="Toggle theme"
-      className="ml-2 p-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-muted hover:bg-accent transition-colors"
-      onClick={toggleTheme}>
-      {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      className="ml-2 rounded bg-muted p-2 transition-colors hover:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      onClick={toggleTheme}
+      type="button"
+    >
+      {theme === 'dark' ? (
+        <Sun className="h-4 w-4" />
+      ) : (
+        <Moon className="h-4 w-4" />
+      )}
     </button>
   );
 });

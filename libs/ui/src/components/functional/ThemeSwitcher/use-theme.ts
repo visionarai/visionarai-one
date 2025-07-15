@@ -1,7 +1,13 @@
 'use client';
 
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { applyTheme, getInitialTheme, getSystemTheme, persistTheme, toggleThemeValue } from './theme-utils';
+import {
+  applyTheme,
+  getInitialTheme,
+  getSystemTheme,
+  persistTheme,
+  toggleThemeValue,
+} from './theme-utils';
 import type { Theme } from './types';
 
 /**
@@ -12,7 +18,9 @@ export const useTheme = () => {
 
   // Set theme from localStorage or system preference on mount (sync to avoid FOUC)
   useLayoutEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+      return;
+    }
     const stored = localStorage.getItem('theme') as Theme | null;
     const initialTheme = stored || getSystemTheme();
     setTheme(initialTheme);
@@ -26,11 +34,15 @@ export const useTheme = () => {
 
   // Listen for system preference changes
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+      return;
+    }
 
     // Only listen if no stored preference exists
     const stored = localStorage.getItem('theme');
-    if (stored) return;
+    if (stored) {
+      return;
+    }
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
@@ -42,7 +54,7 @@ export const useTheme = () => {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setTheme(prev => toggleThemeValue(prev));
+    setTheme((prev) => toggleThemeValue(prev));
   }, []);
 
   return { theme, toggleTheme };

@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { type MasterDataType } from './master_data.types.js';
+import type { MasterDataType } from './master-data.types.js';
 
 export const MasterDataSchema = new Schema<MasterDataType>(
   {

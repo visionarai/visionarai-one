@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import React, { JSX } from 'react';
+import type React from 'react';
+import type { JSX } from 'react';
 import { Button } from '../ui/button';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
@@ -21,34 +22,37 @@ interface NavBarProps {
   children?: JSX.Element;
 }
 
-export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'Visionar.Ai', children }: NavBarProps) {
+export function NavBar({
+  items,
+  selectedPath,
+  loginText = 'Login',
+  logoText = 'Visionar.Ai',
+  children,
+}: NavBarProps) {
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur border-b border-border flex items-center justify-between px-6 py-3">
+    <nav className="sticky top-0 z-50 flex w-full items-center justify-between border-border border-b bg-background/80 px-6 py-3 backdrop-blur">
       {/* Logo */}
-      <Link
-        href="/"
-        className="flex items-center gap-2">
+      <Link className="flex items-center gap-2" href="/">
         {/* Replace with your SVG or image logo */}
         <span className="font-bold text-lg tracking-tight">{logoText}</span>
       </Link>
       {/* Navigation Links & Switchers */}
       <div className="flex items-center gap-4">
-        {items.map(item => {
+        {items.map((item) => {
           const selected = selectedPath === item.path;
           return (
             <Link
-              key={item.path}
+              aria-current={selected ? 'page' : undefined}
+              className={`flex items-center gap-1 font-medium text-sm hover:underline ${selected ? 'text-primary' : ''}`}
               href={item.path}
-              className={`flex items-center gap-1 text-sm font-medium hover:underline ${selected ? 'text-primary' : ''}`}
-              aria-current={selected ? 'page' : undefined}>
+              key={item.path}
+            >
               {selected ? item.iconSelected : item.icon}
               <span>{item.title}</span>
             </Link>
           );
         })}
-        <Button
-          variant="secondary"
-          asChild>
+        <Button asChild variant="secondary">
           <Link href="/login">{loginText}</Link>
         </Button>
         {children}

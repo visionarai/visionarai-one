@@ -12,9 +12,8 @@
   "scripts": {
     "clean": ".scripts/clean.sh --yes",
     "dep-graph": "nx graph",
-    "format": "prettier --write \"**/*.{ts,js,json,tsx,jsx}\"",
-    "lint": "nx run-many --target=lint --all --parallel",
-    "lint:fix": "nx run-many --target=lint --fix --all --parallel"
+    "lint": "ultracite lint",
+    "format": "ultracite format"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -46,6 +45,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
+    "@biomejs/biome": "2.0.6",
     "@nx/js": "21.2.2",
     "@nx/next": "21.2.2",
     "@nx/react": "21.2.2",
@@ -61,6 +61,7 @@
     "@vitest/coverage-v8": "^3.0.5",
     "@vitest/ui": "^3.0.0",
     "jiti": "2.4.2",
+    "lefthook": "^1.12.2",
     "nx": "21.2.2",
     "postcss": "8.4.38",
     "prettier": "^3.6.2",
@@ -69,6 +70,7 @@
     "tslib": "^2.3.0",
     "tw-animate-css": "^1.3.4",
     "typescript": "5.8.3",
+    "ultracite": "5.0.32",
     "vite": "^6.0.0",
     "vitest": "^3.0.0"
   },

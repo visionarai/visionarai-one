@@ -18,10 +18,13 @@ import { cn } from '@visionarai-one/utils';
 import { CalendarIcon, ClockIcon } from 'lucide-react';
 import { useFormatter } from 'next-intl';
 import { useCallback } from 'react';
-import { DayPicker } from 'react-day-picker';
-import { Control, FieldPath, FieldValues } from 'react-hook-form';
+import type { DayPicker } from 'react-day-picker';
+import type { Control, FieldPath, FieldValues } from 'react-hook-form';
 
-export type DateTimeFormFieldProps<T extends FieldValues> = Omit<React.ComponentProps<typeof DayPicker>, 'mode' | 'selected' | 'onSelect'> & {
+export type DateTimeFormFieldProps<T extends FieldValues> = Omit<
+  React.ComponentProps<typeof DayPicker>,
+  'mode' | 'selected' | 'onSelect'
+> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant'];
 } & {
   name: FieldPath<T>;
@@ -44,7 +47,8 @@ export const DateTimeFormField = <T extends FieldValues>({
   formControl,
   description,
   placeholder,
-  disableDate = date => date > new Date('2025-12-12') || date < new Date('1900-01-01'),
+  disableDate = (date) =>
+    date > new Date('2025-12-12') || date < new Date('1900-01-01'),
   enableTimePicker = false,
   showSeconds = false,
   defaultTime = { hours: 0, minutes: 0, seconds: 0 },
@@ -53,11 +57,14 @@ export const DateTimeFormField = <T extends FieldValues>({
   const format = useFormatter();
 
   // Helper function to create a new date with specified time
-  const createDateWithTime = useCallback((date: Date, time: { hours: number; minutes: number; seconds: number }) => {
-    const newDate = new Date(date);
-    newDate.setHours(time.hours, time.minutes, time.seconds, 0);
-    return newDate;
-  }, []);
+  const createDateWithTime = useCallback(
+    (date: Date, time: { hours: number; minutes: number; seconds: number }) => {
+      const newDate = new Date(date);
+      newDate.setHours(time.hours, time.minutes, time.seconds, 0);
+      return newDate;
+    },
+    []
+  );
 
   // Extract time from a date object
   const extractTimeFromDate = useCallback(
@@ -75,7 +82,9 @@ export const DateTimeFormField = <T extends FieldValues>({
       const hours = time.hours.toString().padStart(2, '0');
       const minutes = time.minutes.toString().padStart(2, '0');
       const seconds = time.seconds.toString().padStart(2, '0');
-      return showSeconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
+      return showSeconds
+        ? `${hours}:${minutes}:${seconds}`
+        : `${hours}:${minutes}`;
     },
     [showSeconds]
   );
@@ -86,9 +95,9 @@ export const DateTimeFormField = <T extends FieldValues>({
       const parts = timeString.split(':');
 
       return {
-        hours: parseInt(parts[0] || '0', 10),
-        minutes: parseInt(parts[1] || '0', 10),
-        seconds: showSeconds ? parseInt(parts[2] || '0', 10) : 0,
+        hours: Number.parseInt(parts[0] || '0', 10),
+        minutes: Number.parseInt(parts[1] || '0', 10),
+        seconds: showSeconds ? Number.parseInt(parts[2] || '0', 10) : 0,
       };
     },
     [showSeconds]
@@ -103,7 +112,10 @@ export const DateTimeFormField = <T extends FieldValues>({
       name={name}
       render={({ field, fieldState }) => {
         // Get current time from field value or use default
-        const currentTime = field.value && isDate(field.value) ? extractTimeFromDate(field.value) : defaultTime;
+        const currentTime =
+          field.value && isDate(field.value)
+            ? extractTimeFromDate(field.value)
+            : defaultTime;
 
         // Handle date selection
         const handleDateSelect = (selectedDate: Date | undefined) => {
@@ -124,7 +136,9 @@ export const DateTimeFormField = <T extends FieldValues>({
 
         // Handle time change
         const handleTimeChange = (timeString: string) => {
-          if (!field.value || !isDate(field.value)) return;
+          if (!(field.value && isDate(field.value))) {
+            return;
+          }
 
           const newTime = parseTimeFromInput(timeString);
           const newDate = createDateWithTime(field.value, newTime);
@@ -139,11 +153,18 @@ export const DateTimeFormField = <T extends FieldValues>({
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
+                    className={cn(
+                      'min-w-[240px] pl-3 text-left font-normal',
+                      !field.value && 'text-muted-foreground'
+                    )}
                     variant={'outline'}
-                    className={cn('min-w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}>
+                  >
                     {field.value ? (
                       enableTimePicker ? (
-                        format.dateTime(field.value, { dateStyle: 'medium', timeStyle: 'short' })
+                        format.dateTime(field.value, {
+                          dateStyle: 'medium',
+                          timeStyle: 'short',
+                        })
                       ) : (
                         format.dateTime(field.value, { dateStyle: 'medium' })
                       )
@@ -154,32 +175,30 @@ export const DateTimeFormField = <T extends FieldValues>({
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent
-                align="end"
-                className="p-2 w-full">
+              <PopoverContent align="end" className="w-full p-2">
                 <Calendar
-                  mode="single"
-                  selected={field.value}
-                  onSelect={handleDateSelect}
-                  disabled={disableDate}
                   captionLayout="dropdown"
+                  disabled={disableDate}
+                  mode="single"
+                  onSelect={handleDateSelect}
+                  selected={field.value}
                   {...props}
                 />
 
                 {/* Time Picker Section */}
                 {enableTimePicker && field.value && (
-                  <div className="border-t pt-3 mt-3">
-                    <div className="flex items-center gap-2 mb-2">
+                  <div className="mt-3 border-t pt-3">
+                    <div className="mb-2 flex items-center gap-2">
                       <ClockIcon className="h-4 w-4" />
-                      <span className="text-sm font-medium">Time</span>
+                      <span className="font-medium text-sm">Time</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Input
-                        type="time"
-                        step={showSeconds ? 1 : 60}
-                        value={formatTimeForInput(currentTime)}
-                        onChange={e => handleTimeChange(e.target.value)}
                         className="flex-1"
+                        onChange={(e) => handleTimeChange(e.target.value)}
+                        step={showSeconds ? 1 : 60}
+                        type="time"
+                        value={formatTimeForInput(currentTime)}
                       />
                     </div>
                   </div>
@@ -187,7 +206,9 @@ export const DateTimeFormField = <T extends FieldValues>({
               </PopoverContent>
             </Popover>
 
-            {description && !fieldState.error && <FormDescription>{description}</FormDescription>}
+            {description && !fieldState.error && (
+              <FormDescription>{description}</FormDescription>
+            )}
 
             <FormMessage />
           </FormItem>

@@ -29,12 +29,13 @@ export const AppErrorCodes = {
 
 export type APP_ERROR_CODE_KEYS = keyof typeof AppErrorCodes;
 
-export type AppErrorOptions<K extends APP_ERROR_CODE_KEYS> = (typeof AppErrorCodes)[K] extends { metaData: z.ZodTypeAny }
-  ? {
-      context?: Record<string, unknown>;
-      metadata: z.infer<NonNullable<(typeof AppErrorCodes)[K]['metaData']>>;
-    }
-  : {
-      context?: Record<string, unknown>;
-      metadata?: never;
-    };
+export type AppErrorOptions<K extends APP_ERROR_CODE_KEYS> =
+  (typeof AppErrorCodes)[K] extends { metaData: z.ZodTypeAny }
+    ? {
+        context?: Record<string, unknown>;
+        metadata: z.infer<NonNullable<(typeof AppErrorCodes)[K]['metaData']>>;
+      }
+    : {
+        context?: Record<string, unknown>;
+        metadata?: never;
+      };

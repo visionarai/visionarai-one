@@ -12,18 +12,41 @@ const subjectFields = ['subject._id', 'subject.currentWorkspaceId'] as const;
 export const SubjectFieldSchema = z.enum(subjectFields);
 
 // typeOfValue options
-const typeOfValueOptions = ['string', 'number', 'boolean', 'Date', 'string[]', 'number[]', 'boolean[]', 'Date[]'] as const;
+const typeOfValueOptions = [
+  'string',
+  'number',
+  'boolean',
+  'Date',
+  'string[]',
+  'number[]',
+  'boolean[]',
+  'Date[]',
+] as const;
 export const TypeOfValueSchema = z.enum(typeOfValueOptions);
 
 // Operation options (flattened for Zod, can be improved for stricter typing)
-const allOperations = [...OPERATION_TYPES.string, ...OPERATION_TYPES.number, ...OPERATION_TYPES.Date, ...OPERATION_TYPES.boolean] as const;
+const allOperations = [
+  ...OPERATION_TYPES.string,
+  ...OPERATION_TYPES.number,
+  ...OPERATION_TYPES.Date,
+  ...OPERATION_TYPES.boolean,
+] as const;
 export const OperationSchema = z.enum(allOperations);
 
 // Condition schema
 export const ConditionSchema = z.object({
   field: SubjectFieldSchema,
   operation: OperationSchema,
-  value: z.union([z.string(), z.number(), z.boolean(), z.date(), z.array(z.string()), z.array(z.number()), z.array(z.boolean()), z.array(z.date())]),
+  value: z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.date(),
+    z.array(z.string()),
+    z.array(z.number()),
+    z.array(z.boolean()),
+    z.array(z.date()),
+  ]),
   typeOfValue: TypeOfValueSchema,
 });
 
@@ -60,7 +83,13 @@ export const PolicyTypeSchema = z.object({
   createdBy: z.string(),
   name: z.string(),
   description: z.string().optional(),
-  permissions: z.record(z.string(), z.record(z.string(), z.union([z.boolean(), ConditionSchema, ConditionGroupSchema]))),
+  permissions: z.record(
+    z.string(),
+    z.record(
+      z.string(),
+      z.union([z.boolean(), ConditionSchema, ConditionGroupSchema])
+    )
+  ),
   globalConditions: z.union([ConditionSchema, ConditionGroupSchema]).optional(),
 });
 

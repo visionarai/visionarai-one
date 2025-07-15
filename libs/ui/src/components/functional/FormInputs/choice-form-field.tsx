@@ -35,7 +35,13 @@ import {
 import { cn } from '@visionarai-one/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useMemo } from 'react';
-import { Control, ControllerRenderProps, FieldPath, FieldValues, Path } from 'react-hook-form';
+import type {
+  Control,
+  ControllerRenderProps,
+  FieldPath,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 
 /**
  * Option for select or radio group input.
@@ -67,12 +73,19 @@ export type ChoiceFormFieldProps<T extends FieldValues> = {
  * @param multiple Whether multiple selection is enabled
  * @returns 'MultiSelect' if multiple and options >= 10, 'CheckboxGroup' if multiple and < 10, 'Combobox' if single select and options >= 10, 'Select' or 'RadioGroup' otherwise
  */
-const getInputType = (numberOfOptions: number, multiple: boolean): 'MultiSelect' | 'Combobox' | 'CheckboxGroup' | 'Select' | 'RadioGroup' => {
+const getInputType = (
+  numberOfOptions: number,
+  multiple: boolean
+): 'MultiSelect' | 'Combobox' | 'CheckboxGroup' | 'Select' | 'RadioGroup' => {
   if (multiple) {
-    if (numberOfOptions >= 10) return 'MultiSelect';
+    if (numberOfOptions >= 10) {
+      return 'MultiSelect';
+    }
     return 'CheckboxGroup';
   }
-  if (numberOfOptions >= 10) return 'Combobox';
+  if (numberOfOptions >= 10) {
+    return 'Combobox';
+  }
   return numberOfOptions >= 5 ? 'Select' : 'RadioGroup';
 };
 
@@ -90,7 +103,10 @@ export function ChoiceFormField<T extends FieldValues>({
   emptyText,
 }: ChoiceFormFieldProps<T>) {
   const numberOfOptions = options.length;
-  const inputType = useMemo(() => getInputType(numberOfOptions, multiple), [multiple, numberOfOptions]);
+  const inputType = useMemo(
+    () => getInputType(numberOfOptions, multiple),
+    [multiple, numberOfOptions]
+  );
 
   return (
     <FormField
@@ -101,40 +117,36 @@ export function ChoiceFormField<T extends FieldValues>({
           <FormLabel>{label}</FormLabel>
           {inputType === 'MultiSelect' && (
             <ChoiceMultiSelect
+              emptyText={emptyText}
               field={field}
               options={options}
               placeholder={placeholder}
-              emptyText={emptyText}
             />
           )}
           {inputType === 'Combobox' && (
             <ChoiceCombobox
+              emptyText={emptyText}
               field={field}
               options={options}
               placeholder={placeholder}
-              emptyText={emptyText}
             />
           )}
           {inputType === 'Select' && (
             <ChoiceSelect
               field={field}
-              placeholder={placeholder}
               options={options}
+              placeholder={placeholder}
             />
           )}
           {inputType === 'RadioGroup' && (
-            <ChoiceRadioGroup
-              field={field}
-              options={options}
-            />
+            <ChoiceRadioGroup field={field} options={options} />
           )}
           {inputType === 'CheckboxGroup' && (
-            <ChoiceCheckboxGroup
-              field={field}
-              options={options}
-            />
+            <ChoiceCheckboxGroup field={field} options={options} />
           )}
-          {description && !fieldState.error && <FormDescription>{description}</FormDescription>}
+          {description && !fieldState.error && (
+            <FormDescription>{description}</FormDescription>
+          )}
           <FormMessage />
         </FormItem>
       )}
@@ -154,22 +166,25 @@ type ChoiceInputComponentProps<T extends FieldValues> = {
 /**
  * Memoized select input for choices.
  */
-function ChoiceSelect<T extends FieldValues>({ field, placeholder, options }: ChoiceInputComponentProps<T>) {
+function ChoiceSelect<T extends FieldValues>({
+  field,
+  placeholder,
+  options,
+}: ChoiceInputComponentProps<T>) {
   return (
-    <Select
-      onValueChange={field.onChange}
-      defaultValue={field.value}>
+    <Select defaultValue={field.value} onValueChange={field.onChange}>
       <FormControl>
         <SelectTrigger className="w-full">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
       </FormControl>
       <SelectContent>
-        {options.map(option => (
+        {options.map((option) => (
           <SelectItem
             disabled={option.disabled}
             key={option.value}
-            value={option.value}>
+            value={option.value}
+          >
             {option.label}
           </SelectItem>
         ))}
@@ -181,17 +196,19 @@ function ChoiceSelect<T extends FieldValues>({ field, placeholder, options }: Ch
 /**
  * Memoized radio group input for choices.
  */
-function ChoiceRadioGroup<T extends FieldValues>({ field, options }: ChoiceInputComponentProps<T>) {
+function ChoiceRadioGroup<T extends FieldValues>({
+  field,
+  options,
+}: ChoiceInputComponentProps<T>) {
   return (
     <FormControl>
       <RadioGroup
-        onValueChange={field.onChange}
+        className="flex flex-col"
         defaultValue={field.value}
-        className="flex flex-col">
-        {options.map(option => (
-          <FormItem
-            key={option.value}
-            className="flex items-center gap-3">
+        onValueChange={field.onChange}
+      >
+        {options.map((option) => (
+          <FormItem className="flex items-center gap-3" key={option.value}>
             <FormControl>
               <RadioGroupItem value={option.value} />
             </FormControl>
@@ -206,24 +223,38 @@ function ChoiceRadioGroup<T extends FieldValues>({ field, options }: ChoiceInput
 /**
  * Checkbox group input for multiple choices.
  */
-function ChoiceCheckboxGroup<T extends FieldValues>({ field, options }: Omit<ChoiceInputComponentProps<T>, 'placeholder'>) {
+function ChoiceCheckboxGroup<T extends FieldValues>({
+  field,
+  options,
+}: Omit<ChoiceInputComponentProps<T>, 'placeholder'>) {
   return (
     <div className="flex flex-col gap-2">
-      {options.map(option => (
+      {options.map((option) => (
         <FormItem
+          className="flex flex-row items-center gap-2"
           key={option.value}
-          className="flex flex-row items-center gap-2">
+        >
           <FormControl>
             <Checkbox
-              checked={Array.isArray(field.value) ? field.value.includes(option.value) : false}
-              onCheckedChange={checked => {
-                if (!Array.isArray(field.value)) return;
-                field.onChange(checked ? [...field.value, option.value] : field.value.filter((v: string) => v !== option.value));
-              }}
+              checked={
+                Array.isArray(field.value)
+                  ? field.value.includes(option.value)
+                  : false
+              }
               disabled={option.disabled}
+              onCheckedChange={(checked) => {
+                if (!Array.isArray(field.value)) {
+                  return;
+                }
+                field.onChange(
+                  checked
+                    ? [...field.value, option.value]
+                    : field.value.filter((v: string) => v !== option.value)
+                );
+              }}
             />
           </FormControl>
-          <FormLabel className="text-sm font-normal">{option.label}</FormLabel>
+          <FormLabel className="font-normal text-sm">{option.label}</FormLabel>
         </FormItem>
       ))}
     </div>
@@ -233,38 +264,54 @@ function ChoiceCheckboxGroup<T extends FieldValues>({ field, options }: Omit<Cho
 /**
  * Combobox input for single select with many options.
  */
-function ChoiceCombobox<T extends FieldValues>({ field, options, placeholder, emptyText }: ChoiceInputComponentProps<T> & { emptyText?: string }) {
-  const selectedOption = options.find(option => option.value === field.value);
+function ChoiceCombobox<T extends FieldValues>({
+  field,
+  options,
+  placeholder,
+  emptyText,
+}: ChoiceInputComponentProps<T> & { emptyText?: string }) {
+  const selectedOption = options.find((option) => option.value === field.value);
   return (
     <Popover>
       <PopoverTrigger asChild>
         <FormControl>
           <Button
+            className={cn(
+              'w-full justify-between',
+              !field.value && 'text-muted-foreground'
+            )}
             variant="outline"
-            role="combobox"
-            className={cn('w-full justify-between', !field.value && 'text-muted-foreground')}>
-            {selectedOption ? selectedOption.label : placeholder || 'Select option'}
-            <ChevronsUpDown className="opacity-50 ml-2 h-4 w-4 shrink-0" />
+          >
+            {selectedOption
+              ? selectedOption.label
+              : placeholder || 'Select option'}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </FormControl>
       </PopoverTrigger>
       <PopoverContent className="w-full min-w-[200px] p-0">
         <Command>
           <CommandInput
-            placeholder={placeholder || 'Search...'}
             className="h-9"
+            placeholder={placeholder || 'Search...'}
           />
           <CommandList>
             <CommandEmpty>{emptyText || 'No option found.'}</CommandEmpty>
             <CommandGroup>
-              {options.map(option => (
+              {options.map((option) => (
                 <CommandItem
-                  value={option.label}
+                  disabled={option.disabled}
                   key={option.value}
                   onSelect={() => field.onChange(option.value)}
-                  disabled={option.disabled}>
+                  value={option.label}
+                >
                   {option.label}
-                  <Check className={cn('ml-auto', option.value === field.value ? 'opacity-100' : 'opacity-0')} />
+                  <Check
+                    className={cn(
+                      'ml-auto',
+                      option.value === field.value ? 'opacity-100' : 'opacity-0'
+                    )}
+                  />
                 </CommandItem>
               ))}
             </CommandGroup>
@@ -278,24 +325,30 @@ function ChoiceCombobox<T extends FieldValues>({ field, options, placeholder, em
 /**
  * MultiSelect input for multiple select with many options.
  */
-function ChoiceMultiSelect<T extends FieldValues>({ field, options, placeholder, emptyText }: ChoiceInputComponentProps<T> & { emptyText?: string }) {
+function ChoiceMultiSelect<T extends FieldValues>({
+  field,
+  options,
+  placeholder,
+  emptyText,
+}: ChoiceInputComponentProps<T> & { emptyText?: string }) {
   return (
-    <MultiSelect
-      values={field.value || []}
-      onValuesChange={field.onChange}>
+    <MultiSelect onValuesChange={field.onChange} values={field.value || []}>
       <MultiSelectTrigger className="w-full">
         <MultiSelectValue placeholder={placeholder || 'Select options...'} />
       </MultiSelectTrigger>
       <MultiSelectContent>
         <MultiSelectGroup>
           {options.length === 0 ? (
-            <div className="px-4 py-2 text-muted-foreground text-sm">{emptyText || 'No option found.'}</div>
+            <div className="px-4 py-2 text-muted-foreground text-sm">
+              {emptyText || 'No option found.'}
+            </div>
           ) : (
-            options.map(option => (
+            options.map((option) => (
               <MultiSelectItem
+                disabled={option.disabled}
                 key={option.value}
                 value={option.value}
-                disabled={option.disabled}>
+              >
                 {option.label}
               </MultiSelectItem>
             ))

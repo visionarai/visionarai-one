@@ -1,0 +1,13 @@
+pre-commit:
+  jobs:
+    - name: format code
+      run: npx ultracite format
+      glob:
+        - '*.js'
+        - '*.jsx'
+        - '*.ts'
+        - '*.tsx'
+        - '*.json'
+        - '*.jsonc'
+        - '*.md'
+      stage_fixed: true

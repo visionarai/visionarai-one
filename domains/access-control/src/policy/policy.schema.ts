@@ -1,6 +1,10 @@
-import { Document, Model, Schema } from 'mongoose';
+import { type Document, type Model, Schema } from 'mongoose';
+import {
+  type PolicyType,
+  PolicyTypeSchema,
+  type Subject,
+} from './policy.zod.js';
 import { evaluatePolicy } from './policy-evaluator.js';
-import { PolicyType, PolicyTypeSchema, Subject } from './policy.zod.js';
 
 // Instance methods type
 type PolicyMethodsType = {
@@ -13,13 +17,19 @@ type PolicyStaticsType = {
 };
 
 // Document type
-export type PolicyDocument = Omit<PolicyType, '_id'> & Document<string> & PolicyMethodsType & { _id: string };
+export type PolicyDocument = Omit<PolicyType, '_id'> &
+  Document<string> &
+  PolicyMethodsType & { _id: string };
 
 // Model type
 export type PolicyModelType = Model<PolicyDocument> & PolicyStaticsType;
 
 // Mongoose schema for Policy
-export const PolicySchema = new Schema<PolicyDocument, PolicyModelType, PolicyMethodsType>(
+export const PolicySchema = new Schema<
+  PolicyDocument,
+  PolicyModelType,
+  PolicyMethodsType
+>(
   {
     _id: { type: String, required: true },
     createdAt: { type: Date, required: true },
@@ -33,7 +43,11 @@ export const PolicySchema = new Schema<PolicyDocument, PolicyModelType, PolicyMe
   {
     timestamps: true,
     methods: {
-      evaluate(resourceType: string, action: string, subject: Subject): boolean {
+      evaluate(
+        resourceType: string,
+        action: string,
+        subject: Subject
+      ): boolean {
         const policy = this.toObject() as PolicyType;
         return evaluatePolicy({
           policy,
@@ -44,7 +58,7 @@ export const PolicySchema = new Schema<PolicyDocument, PolicyModelType, PolicyMe
       },
     },
     statics: {
-      async findByName(name: string) {
+      findByName(name: string) {
         return this.findOne({ name });
       },
     },
@@ -55,7 +69,11 @@ export const PolicySchema = new Schema<PolicyDocument, PolicyModelType, PolicyMe
 PolicySchema.pre('save', function (next) {
   const parsed = PolicyTypeSchema.safeParse(this.toObject());
   if (!parsed.success) {
-    return next(new Error('Policy validation failed: ' + JSON.stringify(parsed.error.format())));
+    return next(
+      new Error(
+        `Policy validation failed: ${JSON.stringify(parsed.error.format())}`
+      )
+    );
   }
   next();
 });

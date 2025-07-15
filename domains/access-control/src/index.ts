@@ -1,7 +1,13 @@
-import { Connection, Model, models, Types } from 'mongoose';
+import { type Connection, type Model, models, Types } from 'mongoose';
 import { AppError } from './error/index.js';
-import { MasterDataSchema, MasterDataType } from './master_data/index.js';
-import { PolicyDocument, PolicyModelType, PolicySchema, PolicyType, Subject } from './policy/index.js';
+import { MasterDataSchema, type MasterDataType } from './master_data/index.js';
+import {
+  type PolicyDocument,
+  type PolicyModelType,
+  PolicySchema,
+  type PolicyType,
+  type Subject,
+} from './policy/index.js';
 
 export function isAccessControlDomain(): boolean {
   return true;
@@ -9,8 +15,14 @@ export function isAccessControlDomain(): boolean {
 
 export const createPolicyRepository = (mongooseConnection: Connection) => {
   const PolicyModel =
-    (models['Policy'] as Model<PolicyDocument, PolicyModelType>) || mongooseConnection.model<PolicyDocument, PolicyModelType>('Policy', PolicySchema);
-  const MasterDataModel: Model<MasterDataType> = models['MasterData'] || mongooseConnection.model<MasterDataType>('MasterData', MasterDataSchema);
+    (models.Policy as Model<PolicyDocument, PolicyModelType>) ||
+    mongooseConnection.model<PolicyDocument, PolicyModelType>(
+      'Policy',
+      PolicySchema
+    );
+  const MasterDataModel: Model<MasterDataType> =
+    models.MasterData ||
+    mongooseConnection.model<MasterDataType>('MasterData', MasterDataSchema);
 
   let recentMasterData: MasterDataType['resources'] = {};
   let allowedResourceTypes: string[] = [];
@@ -18,10 +30,14 @@ export const createPolicyRepository = (mongooseConnection: Connection) => {
     if (recentMasterData) {
       return;
     }
-    const masterData = await MasterDataModel.findOne().sort({ createdAt: -1 }).exec();
-    if (!masterData || !masterData.resources) {
+    const masterData = await MasterDataModel.findOne()
+      .sort({ createdAt: -1 })
+      .exec();
+    if (!masterData?.resources) {
       throw new AppError('MASTER_DATA_NOT_FOUND', {
-        context: { location: 'createPolicyRepository.loadMostRecentMasterData' },
+        context: {
+          location: 'createPolicyRepository.loadMostRecentMasterData',
+        },
       });
     }
     recentMasterData = masterData.resources;
@@ -41,10 +57,18 @@ export const createPolicyRepository = (mongooseConnection: Connection) => {
       }
 
       return {
-        isPermissionGranted: (subject: Subject, resourceType: string, action: string): boolean => {
+        isPermissionGranted: (
+          subject: Subject,
+          resourceType: string,
+          action: string
+        ): boolean => {
           if (!allowedResourceTypes.includes(resourceType)) {
             throw new AppError('RESOURCE_TYPE_NOT_ALLOWED', {
-              context: { location: 'createPolicyRepository.getPolicyById.isPermissionGranted', resourceType },
+              context: {
+                location:
+                  'createPolicyRepository.getPolicyById.isPermissionGranted',
+                resourceType,
+              },
               metadata: { resource: resourceType },
             });
           }
@@ -52,7 +76,7 @@ export const createPolicyRepository = (mongooseConnection: Connection) => {
         },
       };
     },
-    async createPolicy(policyData: PolicyType): Promise<PolicyDocument> {
+    createPolicy(policyData: PolicyType): Promise<PolicyDocument> {
       const policy = new PolicyModel(policyData);
       return policy.save();
     },

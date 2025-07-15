@@ -102,23 +102,23 @@ CLEAN_DIRS=(
 )
 
 # Find and delete directories, skipping node_modules, .git, and .yarn
-FOUND=0
+DELETED_DIRS=()
 for dir_name in "${CLEAN_DIRS[@]}"; do
-    find . -type d -name "$dir_name" \
-        -not -path "*/node_modules/*" \
-        -not -path "*/.git/*" \
-        -not -path "*/.yarn/*" \
-        -prune -print0 | while IFS= read -r -d $'\0' dir; do
+    while IFS= read -r -d $'\0' dir; do
         if [ -d "$dir" ]; then
             LogWarn "Deleting directory: $dir"
             rm -rf "$dir"
-            FOUND=1
+            DELETED_DIRS+=("$dir")
         fi
-    done
+    done < <(find . -type d -name "$dir_name" \
+        -not -path "*/node_modules/*" \
+        -not -path "*/.git/*" \
+        -not -path "*/.yarn/*" \
+        -prune -print0)
 done
 
-if [ $FOUND -eq 0 ]; then
+if [ ${#DELETED_DIRS[@]} -eq 0 ]; then
     LogWarn "No directories found to delete."
 else
-    LogSuccess "Cleanup complete."
+    LogInfo "Cleanup complete. Deleted ${#DELETED_DIRS[@]} directories."
 fi

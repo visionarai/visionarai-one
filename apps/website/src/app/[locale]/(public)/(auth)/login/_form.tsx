@@ -1,28 +1,28 @@
 'use client';
 
+import { FormRenderer } from '@visionarai-one/ui';
 import { getPasswordRequirements, passwordZod } from '@visionarai-one/utils';
+import { RotateCcw, SendHorizontal } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { z } from 'zod/v4';
-
-import { FormRenderer } from '@visionarai-one/ui';
-import { RotateCcw, SendHorizontal } from 'lucide-react';
 import { stringifyFieldMetadata } from '../../../../../../../../libs/ui/src/components/functional/FormRenderer/types';
-const AllTopics = [
-  { value: 'technology', label: 'Technology' },
-  { value: 'health', label: 'Health' },
-  { value: 'finance', label: 'Finance' },
-  { value: 'education', label: 'Education' },
-  { value: 'science', label: 'Science' },
-  { value: 'art', label: 'Art' },
-  { value: 'sports', label: 'Sports' },
-  { value: 'travel', label: 'Travel' },
-  { value: 'food', label: 'Food' },
-  { value: 'lifestyle', label: 'Lifestyle' },
-  { value: 'entertainment', label: 'Entertainment' },
-  { value: 'environment', label: 'Environment' },
-  { value: 'politics', label: 'Politics' },
-  { value: 'history', label: 'History' },
-];
+
+// const AllTopics = [
+//   { value: 'technology', label: 'Technology' },
+//   { value: 'health', label: 'Health' },
+//   { value: 'finance', label: 'Finance' },
+//   { value: 'education', label: 'Education' },
+//   { value: 'science', label: 'Science' },
+//   { value: 'art', label: 'Art' },
+//   { value: 'sports', label: 'Sports' },
+//   { value: 'travel', label: 'Travel' },
+//   { value: 'food', label: 'Food' },
+//   { value: 'lifestyle', label: 'Lifestyle' },
+//   { value: 'entertainment', label: 'Entertainment' },
+//   { value: 'environment', label: 'Environment' },
+//   { value: 'politics', label: 'Politics' },
+//   { value: 'history', label: 'History' },
+// ];
 
 const formSchema = z
   .object({
@@ -56,7 +56,7 @@ const formSchema = z
       })
     ),
   })
-  .refine(data => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   });
@@ -69,10 +69,11 @@ export function LoginForm() {
   return (
     <FormRenderer
       formSchema={formSchema}
-      passwordRequirements={passwordRequirements}
-      onSubmit={data => {
+      onSubmit={(data) => {
+        // biome-ignore lint/suspicious/noConsole: Debugging purpose
         console.log('Form submitted:', data);
       }}
+      passwordRequirements={passwordRequirements}
       resetButtonIcon={<RotateCcw />}
       submitButtonIcon={<SendHorizontal />}
     />

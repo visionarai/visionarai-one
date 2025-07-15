@@ -24,6 +24,6 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default async function RootLayout({ children }: Readonly<Props>) {
+export default function RootLayout({ children }: Readonly<Props>) {
   return children;
 }

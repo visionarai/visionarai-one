@@ -1,11 +1,11 @@
 'use client';
 
+import { FormRenderer } from '@visionarai-one/ui';
 import { getPasswordRequirements, passwordZod } from '@visionarai-one/utils';
 import { useTranslations } from 'next-intl';
 import { z } from 'zod/v4';
-
-import { FormRenderer } from '@visionarai-one/ui';
 import { stringifyFieldMetadata } from '../../../../../../../../libs/ui/src/components/functional/FormRenderer/types';
+
 const AllTopics = [
   { value: 'technology', label: 'Technology' },
   { value: 'health', label: 'Health' },
@@ -81,7 +81,8 @@ const formSchema = z
             type: 'text',
             label: 'Street Address',
             placeholder: 'Enter your street address',
-            description: 'Your street address including house number and street name.',
+            description:
+              'Your street address including house number and street name.',
             inputMode: 'text',
             autoComplete: 'street-address',
           })
@@ -151,7 +152,7 @@ const formSchema = z
         })
       ),
   })
-  .refine(data => data.selectedTopic || data.selectedTopics.length > 0, {
+  .refine((data) => data.selectedTopic || data.selectedTopics.length > 0, {
     message: 'Please select at least one topic',
   });
 
@@ -163,10 +164,11 @@ export function LoginForm() {
   return (
     <FormRenderer
       formSchema={formSchema}
-      passwordRequirements={passwordRequirements}
-      onSubmit={data => {
+      onSubmit={(data) => {
+        // biome-ignore lint/suspicious/noConsole: TODO: Remove in production
         console.log('Form submitted:', data);
       }}
+      passwordRequirements={passwordRequirements}
     />
   );
 }

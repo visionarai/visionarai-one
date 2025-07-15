@@ -16,7 +16,8 @@ type AppResourceKey = keyof typeof APP_RESOURCES;
 /**
  * All possible actions for a given resource key.
  */
-type AppResourceActions<K extends AppResourceKey> = (typeof APP_RESOURCES)[K][number];
+type AppResourceActions<K extends AppResourceKey> =
+  (typeof APP_RESOURCES)[K][number];
 
 /**
  * Permissions can be a boolean (unconditional) or a ConditionGroup (conditional grant).
@@ -65,7 +66,11 @@ type Environment = {
 /** Field condition operations per type */
 type CommonOperations = 'equals' | 'in' | 'exists';
 type StringOperations = 'contains' | 'startsWith' | 'endsWith' | 'regex';
-type NumberOperations = 'greaterThan' | 'lessThan' | 'greaterThanOrEqual' | 'lessThanOrEqual';
+type NumberOperations =
+  | 'greaterThan'
+  | 'lessThan'
+  | 'greaterThanOrEqual'
+  | 'lessThanOrEqual';
 type DateOperations = 'before' | 'after' | 'on' | 'between';
 type BooleanOperations = 'isTrue' | 'isFalse';
 
@@ -84,7 +89,9 @@ type OperationsMap<T> = T extends string
 
 /** Flatten nested object keys into dot notation strings. */
 type NestedKeys<T, Prefix extends string = ''> = {
-  [K in keyof T & string]: T[K] extends object ? `${Prefix}${K}` | NestedKeys<T[K], `${Prefix}${K}.`> : `${Prefix}${K}`;
+  [K in keyof T & string]: T[K] extends object
+    ? `${Prefix}${K}` | NestedKeys<T[K], `${Prefix}${K}.`>
+    : `${Prefix}${K}`;
 }[keyof T & string];
 
 /** Field identifiers for resources, subjects, and environment. */
@@ -92,10 +99,15 @@ type ResourceFields = `resource.${NestedKeys<Resource>}`;
 type SubjectFields = `subject.${NestedKeys<Subject>}`;
 type EnvironmentFields = `environment.${NestedKeys<Environment>}`;
 
-type FieldIdentifier = PrettifyType<ResourceFields | SubjectFields | EnvironmentFields>;
+type FieldIdentifier = PrettifyType<
+  ResourceFields | SubjectFields | EnvironmentFields
+>;
 
 /** Extract value type of a field identifier. */
-type DeepValueOf<T, Path extends string> = Path extends `${infer Key}.${infer Rest}`
+type DeepValueOf<
+  T,
+  Path extends string,
+> = Path extends `${infer Key}.${infer Rest}`
   ? Key extends keyof T
     ? DeepValueOf<T[Key], Rest>
     : never
@@ -125,7 +137,9 @@ type CompatibleFieldRefs<T> = {
 /**
  * Type-safe value for a condition: either a literal of the correct type, or a fieldRef to a compatible field.
  */
-type ConditionValue<F extends FieldIdentifier> = { literal: ValueOfField<F> } | { fieldRef: CompatibleFieldRefs<ValueOfField<F>> };
+type ConditionValue<F extends FieldIdentifier> =
+  | { literal: ValueOfField<F> }
+  | { fieldRef: CompatibleFieldRefs<ValueOfField<F>> };
 
 /**
  * Type-safe condition: field, operation, and value are all type-checked.
@@ -140,7 +154,13 @@ type Condition<F extends FieldIdentifier = FieldIdentifier> = {
 /** Group of conditions for logical operations. Supports deep nesting. */
 type ConditionGroup =
   | { operator: 'AND' | 'OR'; conditions: Array<Condition | ConditionGroup> }
-  | { operator: 'NOT'; conditions: Condition | ConditionGroup | Array<Condition | ConditionGroup> };
+  | {
+      operator: 'NOT';
+      conditions:
+        | Condition
+        | ConditionGroup
+        | Array<Condition | ConditionGroup>;
+    };
 
 /** ABAC Policy definition. (Zero Trust, allow only explicitly set permissions) */
 type Policy = {
@@ -153,7 +173,8 @@ type Policy = {
 /** Zero Trust example policy with explicit allowed permissions and conditional grants. */
 const examplePolicy: Policy = {
   name: 'Zero Trust Policy',
-  description: 'Explicitly allow selected permissions only, with conditional and unconditional grants.',
+  description:
+    'Explicitly allow selected permissions only, with conditional and unconditional grants.',
   permissions: {
     workspace: {
       // Unconditional read
@@ -226,11 +247,23 @@ const examplePolicy: Policy = {
     operator: 'AND',
     conditions: [
       // Global condition: subject must be a user
-      { field: 'subject.type', operation: 'equals', value: { literal: 'user' } },
+      {
+        field: 'subject.type',
+        operation: 'equals',
+        value: { literal: 'user' },
+      },
       // Global condition: request must come from a specific country
-      { field: 'environment.country', operation: 'equals', value: { literal: 'IN' } },
+      {
+        field: 'environment.country',
+        operation: 'equals',
+        value: { literal: 'IN' },
+      },
       // Optional city check (now type-correct)
-      { field: 'environment.city', operation: 'equals', value: { literal: 'Berlin' } }, // Optional city check
+      {
+        field: 'environment.city',
+        operation: 'equals',
+        value: { literal: 'Berlin' },
+      }, // Optional city check
     ],
   },
 };
