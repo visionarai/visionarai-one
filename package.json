@@ -10,10 +10,12 @@
     "domains/*"
   ],
   "scripts": {
-    "clean": ".scripts/clean.sh --yes",
+    "clean:all": "yarn clean:project && yarn clean:install",
+    "clean:install": "rm -rf node_modules yarn.lock && yarn install",
+    "clean:project": "./.scripts/clean.sh -y",
     "dep-graph": "nx graph",
-    "lint": "ultracite lint",
-    "format": "ultracite format"
+    "format": "ultracite format",
+    "lint": "ultracite lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
