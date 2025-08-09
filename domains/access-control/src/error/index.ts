@@ -14,7 +14,7 @@ export class AppError<ErrorCode extends APP_ERROR_CODE_KEYS> extends Error {
 
   constructor(
     code: ErrorCode,
-    { context = {}, metadata = {} }: AppErrorOptions<ErrorCode>
+    { context = {}, metadata }: AppErrorOptions<ErrorCode>
   ) {
     super(code as string);
     this.name = 'AppError';
@@ -31,7 +31,7 @@ export class AppError<ErrorCode extends APP_ERROR_CODE_KEYS> extends Error {
     const where = stack?.[1]?.trim().replace('at ', '');
     this.where = where;
 
-    this.metadata = metadata || null;
+    this.metadata = metadata;
   }
 }
 

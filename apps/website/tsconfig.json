@@ -22,8 +22,8 @@
       "@/*": ["./src/*"]
     },
     "outDir": "dist",
-    "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "rootDir": "../../"
   },
   "include": [
     "../../apps/website/.next/types/**/*.ts",
@@ -47,10 +47,13 @@
   ],
   "references": [
     {
-      "path": "../../libs/ui"
+      "path": "../../domains/access-control"
     },
     {
       "path": "../../libs/utils"
+    },
+    {
+      "path": "../../libs/ui"
     }
   ]
 }
