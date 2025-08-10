@@ -3,5 +3,26 @@
   "extends": ["ultracite"],
   "files": {
     "includes": ["**", "!libs/ui/src/components/ui/**/*.{ts,tsx}"]
+  },
+  "formatter": {
+    "lineWidth": 160,
+    "indentWidth": 2,
+    "bracketSpacing": true,
+    "attributePosition": "auto",
+    "indentStyle": "tab",
+    "bracketSameLine": true
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "useSortedKeys": "on",
+        "useSortedAttributes": "on",
+        "organizeImports": "on",
+        "useSortedProperties": "on"
+      },
+      "recommended": true
+    },
+
+    "enabled": true
   }
 }
