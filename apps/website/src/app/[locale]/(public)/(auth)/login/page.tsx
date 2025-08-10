@@ -4,15 +4,15 @@
 import { LoginForm } from './_form';
 
 export default function LoginPage() {
-  // const t = useTranslations('Auth');
-  // const [loading, setLoading] = useState(false);
+	// const t = useTranslations('Auth');
+	// const [loading, setLoading] = useState(false);
 
-  // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   // TODO: Implement authentication logic
-  //   setTimeout(() => setLoading(false), 1000);
-  // };
+	// const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	//   e.preventDefault();
+	//   setLoading(true);
+	//   // TODO: Implement authentication logic
+	//   setTimeout(() => setLoading(false), 1000);
+	// };
 
-  return <LoginForm />;
+	return <LoginForm />;
 }

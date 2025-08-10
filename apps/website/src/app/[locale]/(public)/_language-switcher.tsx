@@ -10,71 +10,57 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 export type AllowedLocales = 'en' | 'de';
 
 const LANGS: Array<{ code: AllowedLocales; label: string }> = [
-  { code: 'en', label: 'EN' },
-  { code: 'de', label: 'DE' },
+	{ code: 'en', label: 'EN' },
+	{ code: 'de', label: 'DE' },
 ];
 
 interface LanguageButtonProps {
-  code: AllowedLocales;
-  label: string;
-  isActive: boolean;
-  isPending: boolean;
-  onSwitch: (locale: AllowedLocales) => void;
+	code: AllowedLocales;
+	label: string;
+	isActive: boolean;
+	isPending: boolean;
+	onSwitch: (locale: AllowedLocales) => void;
 }
 
-const LanguageButton = memo(function LanguageButtonA({
-  code,
-  label,
-  isActive,
-  isPending,
-  onSwitch,
-}: LanguageButtonProps) {
-  return (
-    <Button
-      aria-pressed={isActive}
-      className="px-2 py-1 font-semibold text-xs"
-      disabled={isPending}
-      key={code}
-      onClick={() => onSwitch(code)}
-      size="sm"
-      variant={isActive ? 'default' : 'secondary'}
-    >
-      {label}
-    </Button>
-  );
+const LanguageButton = memo(function LanguageButtonA({ code, label, isActive, isPending, onSwitch }: LanguageButtonProps) {
+	return (
+		<Button
+			aria-pressed={isActive}
+			className="px-2 py-1 font-semibold text-xs"
+			disabled={isPending}
+			key={code}
+			onClick={() => onSwitch(code)}
+			size="sm"
+			variant={isActive ? 'default' : 'secondary'}
+		>
+			{label}
+		</Button>
+	);
 });
 
 export function LanguageSwitcher() {
-  const router = useRouter();
-  const currentPath = usePathname();
-  const localeActive = useLocale();
-  const searchParams = useSearchParams();
-  const urlParams = new URLSearchParams(searchParams);
-  const [isPending, startTransition] = useTransition();
+	const router = useRouter();
+	const currentPath = usePathname();
+	const localeActive = useLocale();
+	const searchParams = useSearchParams();
+	const urlParams = new URLSearchParams(searchParams);
+	const [isPending, startTransition] = useTransition();
 
-  const selectedLocale =
-    LANGS.find(({ code }) => code === localeActive) || LANGS[0];
+	const selectedLocale = LANGS.find(({ code }) => code === localeActive) || LANGS[0];
 
-  const handleSwitch = (locale: AllowedLocales) => {
-    const searchParamString = urlParams.toString();
+	const handleSwitch = (locale: AllowedLocales) => {
+		const searchParamString = urlParams.toString();
 
-    startTransition(() => {
-      router.push(`${currentPath}?${searchParamString}`, { locale });
-    });
-  };
+		startTransition(() => {
+			router.push(`${currentPath}?${searchParamString}`, { locale });
+		});
+	};
 
-  return (
-    <div className="flex items-center gap-1">
-      {LANGS.map(({ code, label }) => (
-        <LanguageButton
-          code={code}
-          isActive={selectedLocale.code === code}
-          isPending={isPending}
-          key={code}
-          label={label}
-          onSwitch={handleSwitch}
-        />
-      ))}
-    </div>
-  );
+	return (
+		<div className="flex items-center gap-1">
+			{LANGS.map(({ code, label }) => (
+				<LanguageButton code={code} isActive={selectedLocale.code === code} isPending={isPending} key={code} label={label} onSwitch={handleSwitch} />
+			))}
+		</div>
+	);
 }

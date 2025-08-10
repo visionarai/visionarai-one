@@ -7,57 +7,51 @@ import { Button } from '../ui/button';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
 export interface NavigationItem {
-  title: string;
-  path: string;
-  icon: React.ReactNode;
-  iconSelected: React.ReactNode;
+	title: string;
+	path: string;
+	icon: React.ReactNode;
+	iconSelected: React.ReactNode;
 }
 
 interface NavBarProps {
-  items: NavigationItem[];
+	items: NavigationItem[];
 
-  selectedPath?: string;
-  loginText?: string;
-  logoText?: string;
-  children?: JSX.Element;
+	selectedPath?: string;
+	loginText?: string;
+	logoText?: string;
+	children?: JSX.Element;
 }
 
-export function NavBar({
-  items,
-  selectedPath,
-  loginText = 'Login',
-  logoText = 'Visionar.Ai',
-  children,
-}: NavBarProps) {
-  return (
-    <nav className="sticky top-0 z-50 flex w-full items-center justify-between border-border border-b bg-background/80 px-6 py-3 backdrop-blur">
-      {/* Logo */}
-      <Link className="flex items-center gap-2" href="/">
-        {/* Replace with your SVG or image logo */}
-        <span className="font-bold text-lg tracking-tight">{logoText}</span>
-      </Link>
-      {/* Navigation Links & Switchers */}
-      <div className="flex items-center gap-4">
-        {items.map((item) => {
-          const selected = selectedPath === item.path;
-          return (
-            <Link
-              aria-current={selected ? 'page' : undefined}
-              className={`flex items-center gap-1 font-medium text-sm hover:underline ${selected ? 'text-primary' : ''}`}
-              href={item.path}
-              key={item.path}
-            >
-              {selected ? item.iconSelected : item.icon}
-              <span>{item.title}</span>
-            </Link>
-          );
-        })}
-        <Button asChild variant="secondary">
-          <Link href="/login">{loginText}</Link>
-        </Button>
-        {children}
-        <ThemeSwitcher />
-      </div>
-    </nav>
-  );
+export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'Visionar.Ai', children }: NavBarProps) {
+	return (
+		<nav className="sticky top-0 z-50 flex w-full items-center justify-between border-border border-b bg-background/80 px-6 py-3 backdrop-blur">
+			{/* Logo */}
+			<Link className="flex items-center gap-2" href="/">
+				{/* Replace with your SVG or image logo */}
+				<span className="font-bold text-lg tracking-tight">{logoText}</span>
+			</Link>
+			{/* Navigation Links & Switchers */}
+			<div className="flex items-center gap-4">
+				{items.map((item) => {
+					const selected = selectedPath === item.path;
+					return (
+						<Link
+							aria-current={selected ? 'page' : undefined}
+							className={`flex items-center gap-1 font-medium text-sm hover:underline ${selected ? 'text-primary' : ''}`}
+							href={item.path}
+							key={item.path}
+						>
+							{selected ? item.iconSelected : item.icon}
+							<span>{item.title}</span>
+						</Link>
+					);
+				})}
+				<Button asChild variant="secondary">
+					<Link href="/login">{loginText}</Link>
+				</Button>
+				{children}
+				<ThemeSwitcher />
+			</div>
+		</nav>
+	);
 }

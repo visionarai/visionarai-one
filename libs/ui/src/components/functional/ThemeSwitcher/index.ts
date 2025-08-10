@@ -2,11 +2,11 @@
 export { ThemeSwitcher } from './theme-switcher';
 // Utility exports for advanced use cases
 export {
-  applyTheme,
-  getInitialTheme,
-  getSystemTheme,
-  persistTheme,
-  toggleThemeValue,
+	applyTheme,
+	getInitialTheme,
+	getSystemTheme,
+	persistTheme,
+	toggleThemeValue,
 } from './theme-utils';
 
 // Type exports
