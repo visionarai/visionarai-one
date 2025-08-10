@@ -9,6 +9,9 @@ import {
   type Subject,
 } from './policy/index.js';
 
+export * from './master_data/index.js';
+export * from './policy/index.js';
+
 export function isAccessControlDomain(): boolean {
   return true;
 }
