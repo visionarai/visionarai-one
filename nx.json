@@ -24,7 +24,11 @@
           "watchDepsName": "watch-deps"
         }
       },
-      "exclude": ["libs/utils/*", "domains/access-control/*"]
+      "exclude": [
+        "libs/utils/*",
+        "domains/access-control/*",
+        "packages/connectors/*"
+      ]
     },
     {
       "plugin": "@nx/next/plugin",
@@ -50,7 +54,11 @@
     },
     {
       "plugin": "@nx/js/typescript",
-      "include": ["libs/utils/*", "domains/access-control/*"],
+      "include": [
+        "libs/utils/*",
+        "domains/access-control/*",
+        "packages/connectors/*"
+      ],
       "options": {
         "typecheck": {
           "targetName": "typecheck"

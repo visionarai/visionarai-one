@@ -38,6 +38,7 @@
     "mongoose": "^8.17.1",
     "next": "~15.4.6",
     "next-intl": "^4.3.4",
+    "pino": "^9.8.0",
     "react": "19.1.1",
     "react-day-picker": "^9.8.1",
     "react-dom": "19.1.1",
