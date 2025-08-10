@@ -1,6 +1,6 @@
 ---
-mode: 'agent'
-description: 'Generate a UI component based on the provided specifications.'
+mode: "agent"
+description: "Generate a UI component based on the provided specifications."
 ---
 
 # Generate a UI component based on the provided specifications.

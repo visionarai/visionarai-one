@@ -13,6 +13,8 @@ import type { z } from 'zod/v4';
 import { FieldRenderer } from './field-renderer';
 import { extractFieldConfigsFromSchema } from './types';
 
+export * from './types';
+
 type FormRendererProps<T extends z.ZodObject<any, any>> = {
   formSchema: T;
   onSubmit: (data: z.infer<T>) => void;

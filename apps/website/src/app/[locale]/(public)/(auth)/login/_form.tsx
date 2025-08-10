@@ -1,11 +1,10 @@
 'use client';
 
-import { FormRenderer } from '@visionarai-one/ui';
+import { FormRenderer, stringifyFieldMetadata } from '@visionarai-one/ui';
 import { getPasswordRequirements, passwordZod } from '@visionarai-one/utils';
 import { RotateCcw, SendHorizontal } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { z } from 'zod/v4';
-import { stringifyFieldMetadata } from '../../../../../../../../libs/ui/src/components/functional/FormRenderer/types';
 
 // const AllTopics = [
 //   { value: 'technology', label: 'Technology' },
