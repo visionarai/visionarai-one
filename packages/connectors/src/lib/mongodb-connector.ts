@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/noMagicNumbers: Need to avoid magic numbers */
 import { type Connection, type ConnectOptions, createConnection } from 'mongoose';
 import { type ConnectorFactory, type ConnectorInfo, type HealthCheck, STATUSES, type Status } from '../connector-factory';
 

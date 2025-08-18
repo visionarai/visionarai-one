@@ -16,5 +16,8 @@
   "nxConsole.generateAiAgentRules": true,
   "nxConsole.projectViewingStyle": "tree",
   "cSpell.words": ["iiot", "lefthook", "orpc", "ultracite", "visionarai"],
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
 }

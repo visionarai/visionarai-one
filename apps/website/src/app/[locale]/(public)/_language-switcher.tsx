@@ -14,13 +14,13 @@ const LANGS: Array<{ code: AllowedLocales; label: string }> = [
 	{ code: 'de', label: 'DE' },
 ];
 
-interface LanguageButtonProps {
+type LanguageButtonProps = {
 	code: AllowedLocales;
 	label: string;
 	isActive: boolean;
 	isPending: boolean;
 	onSwitch: (locale: AllowedLocales) => void;
-}
+};
 
 const LanguageButton = memo(function LanguageButtonA({ code, label, isActive, isPending, onSwitch }: LanguageButtonProps) {
 	return (

@@ -6,21 +6,21 @@ import type { JSX } from 'react';
 import { Button } from '../ui/button';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
-export interface NavigationItem {
+export type NavigationItem = {
 	title: string;
 	path: string;
 	icon: React.ReactNode;
 	iconSelected: React.ReactNode;
-}
+};
 
-interface NavBarProps {
+type NavBarProps = {
 	items: NavigationItem[];
 
 	selectedPath?: string;
 	loginText?: string;
 	logoText?: string;
 	children?: JSX.Element;
-}
+};
 
 export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'Visionar.Ai', children }: NavBarProps) {
 	return (

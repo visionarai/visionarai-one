@@ -51,7 +51,7 @@ export const DateRangeFormField = <T extends FieldValues>({
 			name={name}
 			render={({ field, fieldState }) => {
 				const value: DateRange = field.value || { from: undefined };
-				let formatted = '';
+				let formatted: string | undefined;
 				if (value.from && value.to) {
 					formatted = `${format.dateTime(value.from, { dateStyle: 'medium' })} - ${format.dateTime(value.to, { dateStyle: 'medium' })}`;
 				} else if (value.from) {

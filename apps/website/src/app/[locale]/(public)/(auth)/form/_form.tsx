@@ -5,6 +5,10 @@ import { getPasswordRequirements, passwordZod } from '@visionarai-one/utils';
 import { useTranslations } from 'next-intl';
 import { z } from 'zod/v4';
 
+const COMMENTS_MAX_LENGTH = 500;
+const TOPICS_MAX_LENGTH = 5;
+const TOPICS_MIN_LENGTH = 1;
+
 const AllTopics = [
 	{ label: 'Technology', value: 'technology' },
 	{ label: 'Health', value: 'health' },
@@ -54,7 +58,7 @@ const formSchema = z
 		}),
 		comments: z
 			.string()
-			.max(500, 'Comments must be less than 500 characters')
+			.max(COMMENTS_MAX_LENGTH, `Comments must be less than ${COMMENTS_MAX_LENGTH} characters`)
 			.describe(
 				stringifyFieldMetadata({
 					description: 'Feel free to share any additional information.',
@@ -124,8 +128,8 @@ const formSchema = z
 			),
 		selectedTopics: z
 			.array(z.string())
-			.min(1, 'At least one topic must be selected')
-			.max(5, 'You can select up to 5 topics')
+			.min(TOPICS_MIN_LENGTH, 'At least one topic must be selected')
+			.max(TOPICS_MAX_LENGTH, `You can select up to ${TOPICS_MAX_LENGTH} topics`)
 			.describe(
 				stringifyFieldMetadata({
 					description: 'Select topics that interest you.',

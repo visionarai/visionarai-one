@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "extends": ["ultracite"],
   "files": {
     "includes": ["**", "!libs/ui/src/components/ui/**/*.{ts,tsx}"]
@@ -11,6 +11,19 @@
     "attributePosition": "auto",
     "indentStyle": "tab",
     "bracketSameLine": true
+  },
+  "linter": {
+    "rules": {
+      "performance": {
+        "noBarrelFile": "off"
+      },
+      "suspicious": {
+        "noUnknownAtRules": "off"
+      },
+      "style": {
+        "noMagicNumbers": "off"
+      }
+    }
   },
   "assist": {
     "actions": {
