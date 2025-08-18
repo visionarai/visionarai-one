@@ -49,3 +49,9 @@ out
 
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
+
+
+#terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
