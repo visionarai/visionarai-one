@@ -1,0 +1,10 @@
+{
+  "nx-console": {
+    "initialGitRef": {
+      "ref": "9bb1852e510dace8e156d6d3c7ec20f61d69872a",
+      "subject": "✨ feat(docs): Add Product Requirements Document for Policy Management UI"
+    },
+    "targetVersion": "latest",
+    "confirmedPackageUpdates": true
+  }
+}
