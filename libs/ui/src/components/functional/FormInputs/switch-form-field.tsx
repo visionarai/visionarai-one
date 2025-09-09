@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Switch } from '@visionarai-one/ui';
-import type { ComponentProps } from 'react';
-import type { Control, FieldPath, FieldValues } from 'react-hook-form';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Switch } from "@visionarai-one/ui";
+import type { ComponentProps } from "react";
+import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
-export type SwitchFormFieldProps<T extends FieldValues> = Omit<ComponentProps<typeof Switch>, 'name'> & {
+export type SwitchFormFieldProps<T extends FieldValues> = Omit<ComponentProps<typeof Switch>, "name"> & {
 	name: FieldPath<T>;
 	label: string;
 	formControl: Control<T>;

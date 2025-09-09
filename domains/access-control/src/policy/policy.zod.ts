@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { OPERATION_TYPES } from './operators.js';
+import { z } from "zod";
+import { OPERATION_TYPES } from "./operators.js";
 
 // Subject schema
 export const SubjectSchema = z.object({
@@ -8,11 +8,11 @@ export const SubjectSchema = z.object({
 });
 
 // Helper for NestedKeys (flattened for Zod, can be extended as needed)
-const subjectFields = ['subject._id', 'subject.currentWorkspaceId'] as const;
+const subjectFields = ["subject._id", "subject.currentWorkspaceId"] as const;
 export const SubjectFieldSchema = z.enum(subjectFields);
 
 // typeOfValue options
-const typeOfValueOptions = ['string', 'number', 'boolean', 'Date', 'string[]', 'number[]', 'boolean[]', 'Date[]'] as const;
+const typeOfValueOptions = ["string", "number", "boolean", "Date", "string[]", "number[]", "boolean[]", "Date[]"] as const;
 export const TypeOfValueSchema = z.enum(typeOfValueOptions);
 
 // Operation options (flattened for Zod, can be improved for stricter typing)
@@ -30,11 +30,11 @@ export const ConditionSchema = z.object({
 // Recursive type for ConditionGroup
 export type ConditionGroupType =
 	| {
-			operator: 'AND' | 'OR';
+			operator: "AND" | "OR";
 			conditions: Array<z.infer<typeof ConditionSchema> | ConditionGroupType>;
 	  }
 	| {
-			operator: 'NOT';
+			operator: "NOT";
 			conditions: z.infer<typeof ConditionSchema> | ConditionGroupType;
 	  };
 
@@ -43,11 +43,11 @@ export const ConditionGroupSchema: z.ZodType<ConditionGroupType> = z.lazy(() =>
 	z.union([
 		z.object({
 			conditions: z.array(z.union([ConditionSchema, ConditionGroupSchema])),
-			operator: z.enum(['AND', 'OR']),
+			operator: z.enum(["AND", "OR"]),
 		}),
 		z.object({
 			conditions: z.union([ConditionSchema, ConditionGroupSchema]),
-			operator: z.literal('NOT'),
+			operator: z.literal("NOT"),
 		}),
 	])
 );

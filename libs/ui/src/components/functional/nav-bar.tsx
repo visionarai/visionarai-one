@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import type React from 'react';
-import type { JSX } from 'react';
-import { Button } from '../ui/button';
-import { ThemeSwitcher } from './ThemeSwitcher';
+import Link from "next/link";
+import type React from "react";
+import type { JSX } from "react";
+import { Button } from "../ui/button";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 export type NavigationItem = {
 	title: string;
@@ -22,7 +22,7 @@ type NavBarProps = {
 	children?: JSX.Element;
 };
 
-export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'Visionar.Ai', children }: NavBarProps) {
+export function NavBar({ items, selectedPath, loginText = "Login", logoText = "Visionar.Ai", children }: NavBarProps) {
 	return (
 		<nav className="sticky top-0 z-50 flex w-full items-center justify-between border-border border-b bg-background/80 px-6 py-3 backdrop-blur">
 			{/* Logo */}
@@ -36,8 +36,8 @@ export function NavBar({ items, selectedPath, loginText = 'Login', logoText = 'V
 					const selected = selectedPath === item.path;
 					return (
 						<Link
-							aria-current={selected ? 'page' : undefined}
-							className={`flex items-center gap-1 font-medium text-sm hover:underline ${selected ? 'text-primary' : ''}`}
+							aria-current={selected ? "page" : undefined}
+							className={`flex items-center gap-1 font-medium text-sm hover:underline ${selected ? "text-primary" : ""}`}
 							href={item.path}
 							key={item.path}
 						>

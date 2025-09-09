@@ -1,10 +1,10 @@
-import type { Logger } from 'pino';
+import type { Logger } from "pino";
 
 /**
  * List of possible connector statuses.
  * @readonly
  */
-export const STATUSES = ['disconnected', 'connected', 'connecting', 'disconnecting', 'error', 'reconnecting', 'unknown'] as const;
+export const STATUSES = ["disconnected", "connected", "connecting", "disconnecting", "error", "reconnecting", "unknown"] as const;
 
 /**
  * Type representing all possible connector statuses.

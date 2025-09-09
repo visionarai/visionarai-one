@@ -1,6 +1,6 @@
-import { type Document, type Model, Schema } from 'mongoose';
-import { type PolicyType, PolicyTypeSchema, type Subject } from './policy.zod.js';
-import { evaluatePolicy } from './policy-evaluator.js';
+import { type Document, type Model, Schema } from "mongoose";
+import { type PolicyType, PolicyTypeSchema, type Subject } from "./policy.zod.js";
+import { evaluatePolicy } from "./policy-evaluator.js";
 
 // Instance methods type
 type PolicyMethodsType = {
@@ -13,7 +13,7 @@ type PolicyStaticsType = {
 };
 
 // Document type
-export type PolicyDocument = Omit<PolicyType, '_id'> & Document<string> & PolicyMethodsType & { _id: string };
+export type PolicyDocument = Omit<PolicyType, "_id"> & Document<string> & PolicyMethodsType & { _id: string };
 
 // Model type
 export type PolicyModelType = Model<PolicyDocument> & PolicyStaticsType;
@@ -52,7 +52,7 @@ export const PolicySchema = new Schema<PolicyDocument, PolicyModelType, PolicyMe
 );
 
 // Validate with Zod before saving
-PolicySchema.pre('save', function (next) {
+PolicySchema.pre("save", function (next) {
 	const parsed = PolicyTypeSchema.safeParse(this.toObject());
 	if (!parsed.success) {
 		return next(new Error(`Policy validation failed: ${JSON.stringify(parsed.error.format())}`));

@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/style/noMagicNumbers: Need to avoid magic numbers */
-import { type Connection, type ConnectOptions, createConnection } from 'mongoose';
-import { type ConnectorFactory, type ConnectorInfo, type HealthCheck, STATUSES, type Status } from '../connector-factory';
+import { type Connection, type ConnectOptions, createConnection } from "mongoose";
+import { type ConnectorFactory, type ConnectorInfo, type HealthCheck, STATUSES, type Status } from "../connector-factory";
 
 /**
  * MongoDB connector configuration
@@ -29,29 +29,29 @@ export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection>
 
 	return {
 		connect: async (): Promise<ConnectorInfo> => {
-			logger.info('Connecting to MongoDB .......');
+			logger.info("Connecting to MongoDB .......");
 			connection = createConnection(uri, options);
 
-			connection.on('connected', () => {
-				logger.info('✅ Connected to MongoDB');
+			connection.on("connected", () => {
+				logger.info("✅ Connected to MongoDB");
 			});
-			connection.on('error', (error) => {
-				logger.error(error.message, '🚨 MongoDB connection error');
+			connection.on("error", (error) => {
+				logger.error(error.message, "🚨 MongoDB connection error");
 			});
-			connection.on('disconnected', () => {
-				logger.warn('⚠️ Disconnected from MongoDB');
+			connection.on("disconnected", () => {
+				logger.warn("⚠️ Disconnected from MongoDB");
 			});
 			try {
 				await connection.asPromise();
 			} catch (err: unknown) {
 				const errorMessage = err instanceof Error ? err.message : String(err);
-				logger.error({ errorMessage }, '🚨 MongoDB connection error');
+				logger.error({ errorMessage }, "🚨 MongoDB connection error");
 				throw err;
 			}
 
 			return {
 				healthCheck: () => getMongoHealth(connection),
-				name: name ?? 'mongodb',
+				name: name ?? "mongodb",
 			};
 		},
 		disconnect: async () => {

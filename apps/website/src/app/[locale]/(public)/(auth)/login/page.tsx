@@ -1,7 +1,7 @@
 // 'use client';
 // import { useTranslations } from 'next-intl';
 // import { FormEvent, useState } from 'react';
-import { LoginForm } from './_form';
+import { LoginForm } from "./_form";
 
 export default function LoginPage() {
 	// const t = useTranslations('Auth');

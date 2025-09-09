@@ -1,4 +1,4 @@
 /**
  * Theme-related type definitions
  */
-export type Theme = 'light' | 'dark';
+export type Theme = "light" | "dark";

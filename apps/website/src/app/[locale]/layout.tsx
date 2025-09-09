@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: We need this for dev tools */
-import { notFound } from 'next/navigation';
-import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
-import { routing } from '@/i18n/routing';
+import { notFound } from "next/navigation";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import { routing } from "@/i18n/routing";
 export function generateStaticParams() {
 	return routing.locales.map((locale) => ({ locale }));
 }
@@ -14,7 +14,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 		notFound();
 	}
 
-	const isDev = process.env.NODE_ENV === 'development';
+	const isDev = process.env.NODE_ENV === "development";
 	// Enable static rendering
 	setRequestLocale(locale);
 	return (

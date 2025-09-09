@@ -1,15 +1,15 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: TODO: remove */
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Form, type PasswordRequirementProps } from '@visionarai-one/ui';
-import type { Control, DefaultValues, FieldValues, Resolver, SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
-import type { z } from 'zod/v4';
-import { FieldRenderer } from './field-renderer';
-import { extractFieldConfigsFromSchema, type FieldMetadata } from './types';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, Form, type PasswordRequirementProps } from "@visionarai-one/ui";
+import type { Control, DefaultValues, FieldValues, Resolver, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import type { z } from "zod/v4";
+import { FieldRenderer } from "./field-renderer";
+import { extractFieldConfigsFromSchema, type FieldMetadata } from "./types";
 
-export * from './types';
+export * from "./types";
 
 type SchemaLike = z.ZodObject<any, any>;
 
@@ -33,15 +33,15 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 	passwordRequirements,
 	onSubmit,
 	defaultValues,
-	submitButtonText = 'Submit',
+	submitButtonText = "Submit",
 	submitButtonIcon,
-	resetButtonText = 'Reset',
+	resetButtonText = "Reset",
 	resetButtonIcon,
 }: FormRendererProps<TFieldValues>) {
 	const resolverToUse = (resolver ?? (formSchema ? (zodResolver(formSchema) as Resolver<TFieldValues>) : undefined)) as Resolver<TFieldValues> | undefined;
 	const form = useForm<TFieldValues>({
 		defaultValues,
-		mode: 'onBlur',
+		mode: "onBlur",
 		resetOptions: {
 			keepDefaultValues: true,
 			keepDirtyValues: false,
@@ -57,7 +57,7 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 				{extractedFields.map((fieldMetadata) => {
 					return (
 						<FieldRenderer
-							fieldMetadata={fieldMetadata.type === 'password' ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}
+							fieldMetadata={fieldMetadata.type === "password" ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}
 							formControl={form.control as unknown as Control<TFieldValues>}
 							key={fieldMetadata.name}
 						/>

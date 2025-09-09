@@ -4,8 +4,8 @@
  * Application resource definitions and their allowed actions.
  */
 export const APP_RESOURCES = {
-	project: ['read', 'write', 'delete'],
-	workspace: ['read', 'write', 'delete', 'invite', 'manageSettings'],
+	project: ["read", "write", "delete"],
+	workspace: ["read", "write", "delete", "invite", "manageSettings"],
 } as const;
 
 /**
@@ -33,7 +33,7 @@ type Permissions = {
  */
 type Subject = {
 	_id: string;
-	type: 'user' | 'group';
+	type: "user" | "group";
 	workspaceId: string;
 	clearanceLevel?: number;
 };
@@ -48,7 +48,7 @@ type Resource = {
 	createdAt: Date;
 	updatedAt: Date;
 	createdBy: string;
-	visibility?: 'public' | 'private' | 'departmental';
+	visibility?: "public" | "private" | "departmental";
 	requiredClearance?: number;
 };
 
@@ -63,11 +63,11 @@ type Environment = {
 };
 
 /** Field condition operations per type */
-type CommonOperations = 'equals' | 'in' | 'exists';
-type StringOperations = 'contains' | 'startsWith' | 'endsWith' | 'regex';
-type NumberOperations = 'greaterThan' | 'lessThan' | 'greaterThanOrEqual' | 'lessThanOrEqual';
-type DateOperations = 'before' | 'after' | 'on' | 'between';
-type BooleanOperations = 'isTrue' | 'isFalse';
+type CommonOperations = "equals" | "in" | "exists";
+type StringOperations = "contains" | "startsWith" | "endsWith" | "regex";
+type NumberOperations = "greaterThan" | "lessThan" | "greaterThanOrEqual" | "lessThanOrEqual";
+type DateOperations = "before" | "after" | "on" | "between";
+type BooleanOperations = "isTrue" | "isFalse";
 
 /**
  * All supported operations based on the field type.
@@ -83,7 +83,7 @@ type OperationsMap<T> = T extends string
 				: CommonOperations;
 
 /** Flatten nested object keys into dot notation strings. */
-type NestedKeys<T, Prefix extends string = ''> = {
+type NestedKeys<T, Prefix extends string = ""> = {
 	[K in keyof T & string]: T[K] extends object ? `${Prefix}${K}` | NestedKeys<T[K], `${Prefix}${K}.`> : `${Prefix}${K}`;
 }[keyof T & string];
 
@@ -139,9 +139,9 @@ type Condition<F extends FieldIdentifier = FieldIdentifier> = {
 
 /** Group of conditions for logical operations. Supports deep nesting. */
 type ConditionGroup =
-	| { operator: 'AND' | 'OR'; conditions: Array<Condition | ConditionGroup> }
+	| { operator: "AND" | "OR"; conditions: Array<Condition | ConditionGroup> }
 	| {
-			operator: 'NOT';
+			operator: "NOT";
 			conditions: Condition | ConditionGroup | Array<Condition | ConditionGroup>;
 	  };
 
@@ -159,27 +159,27 @@ const examplePolicy: Policy = {
 		conditions: [
 			// Global condition: subject must be a user
 			{
-				field: 'subject.type',
-				operation: 'equals',
-				value: { literal: 'user' },
+				field: "subject.type",
+				operation: "equals",
+				value: { literal: "user" },
 			},
 			// Global condition: request must come from a specific country
 			{
-				field: 'environment.country',
-				operation: 'equals',
-				value: { literal: 'IN' },
+				field: "environment.country",
+				operation: "equals",
+				value: { literal: "IN" },
 			},
 			// Optional city check (now type-correct)
 			{
-				field: 'environment.city',
-				operation: 'equals',
-				value: { literal: 'Berlin' },
+				field: "environment.city",
+				operation: "equals",
+				value: { literal: "Berlin" },
 			}, // Optional city check
 		],
-		operator: 'AND',
+		operator: "AND",
 	},
-	description: 'Explicitly allow selected permissions only, with conditional and unconditional grants.',
-	name: 'Zero Trust Policy',
+	description: "Explicitly allow selected permissions only, with conditional and unconditional grants.",
+	name: "Zero Trust Policy",
 	permissions: {
 		project: {
 			// No delete permission
@@ -190,17 +190,17 @@ const examplePolicy: Policy = {
 			write: {
 				conditions: [
 					{
-						field: 'subject.type',
-						operation: 'equals',
-						value: { fieldRef: 'subject.clearanceLevel' },
+						field: "subject.type",
+						operation: "equals",
+						value: { fieldRef: "subject.clearanceLevel" },
 					},
 					{
-						field: 'resource.visibility',
-						operation: 'equals',
-						value: { literal: 'public' },
+						field: "resource.visibility",
+						operation: "equals",
+						value: { literal: "public" },
 					},
 				],
-				operator: 'AND',
+				operator: "AND",
 			},
 		},
 		workspace: {
@@ -208,12 +208,12 @@ const examplePolicy: Policy = {
 			delete: {
 				conditions: [
 					{
-						field: 'resource.createdBy',
-						operation: 'equals',
-						value: { fieldRef: 'subject._id' },
+						field: "resource.createdBy",
+						operation: "equals",
+						value: { fieldRef: "subject._id" },
 					},
 				],
-				operator: 'AND',
+				operator: "AND",
 			},
 			// Unconditional invite
 			invite: true,
@@ -221,12 +221,12 @@ const examplePolicy: Policy = {
 			manageSettings: {
 				conditions: [
 					{
-						field: 'environment.ip',
-						operation: 'equals',
-						value: { literal: '192.168.1.100' },
+						field: "environment.ip",
+						operation: "equals",
+						value: { literal: "192.168.1.100" },
 					},
 				],
-				operator: 'AND',
+				operator: "AND",
 			},
 			// Unconditional read
 			read: true,
@@ -234,17 +234,17 @@ const examplePolicy: Policy = {
 			write: {
 				conditions: [
 					{
-						field: 'resource.workspaceId',
-						operation: 'equals',
-						value: { fieldRef: 'subject.workspaceId' },
+						field: "resource.workspaceId",
+						operation: "equals",
+						value: { fieldRef: "subject.workspaceId" },
 					},
 					{
-						field: 'subject.clearanceLevel',
-						operation: 'greaterThanOrEqual',
-						value: { fieldRef: 'resource.requiredClearance' },
+						field: "subject.clearanceLevel",
+						operation: "greaterThanOrEqual",
+						value: { fieldRef: "resource.requiredClearance" },
 					},
 				],
-				operator: 'AND',
+				operator: "AND",
 			},
 		},
 	},

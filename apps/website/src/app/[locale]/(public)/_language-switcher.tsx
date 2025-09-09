@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { Button } from '@visionarai-one/ui';
-import { useSearchParams } from 'next/navigation';
-import { useLocale } from 'next-intl';
-import { memo, useTransition } from 'react';
-import { usePathname, useRouter } from '@/i18n/navigation';
+import { Button } from "@visionarai-one/ui";
+import { useSearchParams } from "next/navigation";
+import { useLocale } from "next-intl";
+import { memo, useTransition } from "react";
+import { usePathname, useRouter } from "@/i18n/navigation";
 
 // Allowed locales for the language switcher
-export type AllowedLocales = 'en' | 'de';
+export type AllowedLocales = "en" | "de";
 
 const LANGS: Array<{ code: AllowedLocales; label: string }> = [
-	{ code: 'en', label: 'EN' },
-	{ code: 'de', label: 'DE' },
+	{ code: "en", label: "EN" },
+	{ code: "de", label: "DE" },
 ];
 
 type LanguageButtonProps = {
@@ -31,7 +31,7 @@ const LanguageButton = memo(function LanguageButtonA({ code, label, isActive, is
 			key={code}
 			onClick={() => onSwitch(code)}
 			size="sm"
-			variant={isActive ? 'default' : 'secondary'}
+			variant={isActive ? "default" : "secondary"}
 		>
 			{label}
 		</Button>

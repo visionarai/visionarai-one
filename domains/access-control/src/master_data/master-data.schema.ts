@@ -1,5 +1,5 @@
-import { Schema } from 'mongoose';
-import type { MasterDataType } from './master-data.types.js';
+import { Schema } from "mongoose";
+import type { MasterDataType } from "./master-data.types.js";
 
 export const MasterDataSchema = new Schema<MasterDataType>(
 	{
@@ -7,7 +7,7 @@ export const MasterDataSchema = new Schema<MasterDataType>(
 			of: new Schema({
 				attributes: {
 					of: {
-						enum: ['string', 'number', 'boolean', 'Date'],
+						enum: ["string", "number", "boolean", "Date"],
 						required: true,
 						type: String,
 					},

@@ -1,1 +1,1 @@
-export * from './lib/mongodb-connector';
+export * from "./lib/mongodb-connector";

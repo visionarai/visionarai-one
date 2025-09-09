@@ -5,7 +5,7 @@ export type MasterDataType = {
 	resources: {
 		[resourceType: string]: {
 			attributes: {
-				[attribute: string]: 'string' | 'number' | 'boolean' | 'Date';
+				[attribute: string]: "string" | "number" | "boolean" | "Date";
 			};
 			permissions: string[];
 		};

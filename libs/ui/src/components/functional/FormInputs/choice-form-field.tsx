@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
 	Button,
@@ -31,11 +31,11 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from '@visionarai-one/ui';
-import { cn } from '@visionarai-one/utils';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { useMemo } from 'react';
-import type { Control, ControllerRenderProps, FieldPath, FieldValues, Path } from 'react-hook-form';
+} from "@visionarai-one/ui";
+import { cn } from "@visionarai-one/utils";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useMemo } from "react";
+import type { Control, ControllerRenderProps, FieldPath, FieldValues, Path } from "react-hook-form";
 
 /**
  * Option for select or radio group input.
@@ -67,17 +67,17 @@ export type ChoiceFormFieldProps<T extends FieldValues> = {
  * @param multiple Whether multiple selection is enabled
  * @returns 'MultiSelect' if multiple and options >= 10, 'CheckboxGroup' if multiple and < 10, 'Combobox' if single select and options >= 10, 'Select' or 'RadioGroup' otherwise
  */
-const getInputType = (numberOfOptions: number, multiple: boolean): 'MultiSelect' | 'Combobox' | 'CheckboxGroup' | 'Select' | 'RadioGroup' => {
+const getInputType = (numberOfOptions: number, multiple: boolean): "MultiSelect" | "Combobox" | "CheckboxGroup" | "Select" | "RadioGroup" => {
 	if (multiple) {
 		if (numberOfOptions >= 10) {
-			return 'MultiSelect';
+			return "MultiSelect";
 		}
-		return 'CheckboxGroup';
+		return "CheckboxGroup";
 	}
 	if (numberOfOptions >= 10) {
-		return 'Combobox';
+		return "Combobox";
 	}
-	return numberOfOptions >= 5 ? 'Select' : 'RadioGroup';
+	return numberOfOptions >= 5 ? "Select" : "RadioGroup";
 };
 
 /**
@@ -103,11 +103,11 @@ export function ChoiceFormField<T extends FieldValues>({
 			render={({ field, fieldState }) => (
 				<FormItem>
 					<FormLabel>{label}</FormLabel>
-					{inputType === 'MultiSelect' && <ChoiceMultiSelect emptyText={emptyText} field={field} options={options} placeholder={placeholder} />}
-					{inputType === 'Combobox' && <ChoiceCombobox emptyText={emptyText} field={field} options={options} placeholder={placeholder} />}
-					{inputType === 'Select' && <ChoiceSelect field={field} options={options} placeholder={placeholder} />}
-					{inputType === 'RadioGroup' && <ChoiceRadioGroup field={field} options={options} />}
-					{inputType === 'CheckboxGroup' && <ChoiceCheckboxGroup field={field} options={options} />}
+					{inputType === "MultiSelect" && <ChoiceMultiSelect emptyText={emptyText} field={field} options={options} placeholder={placeholder} />}
+					{inputType === "Combobox" && <ChoiceCombobox emptyText={emptyText} field={field} options={options} placeholder={placeholder} />}
+					{inputType === "Select" && <ChoiceSelect field={field} options={options} placeholder={placeholder} />}
+					{inputType === "RadioGroup" && <ChoiceRadioGroup field={field} options={options} />}
+					{inputType === "CheckboxGroup" && <ChoiceCheckboxGroup field={field} options={options} />}
 					{description && !fieldState.error && <FormDescription>{description}</FormDescription>}
 					<FormMessage />
 				</FormItem>
@@ -170,7 +170,7 @@ function ChoiceRadioGroup<T extends FieldValues>({ field, options }: ChoiceInput
 /**
  * Checkbox group input for multiple choices.
  */
-function ChoiceCheckboxGroup<T extends FieldValues>({ field, options }: Omit<ChoiceInputComponentProps<T>, 'placeholder'>) {
+function ChoiceCheckboxGroup<T extends FieldValues>({ field, options }: Omit<ChoiceInputComponentProps<T>, "placeholder">) {
 	return (
 		<div className="flex flex-col gap-2">
 			{options.map((option) => (
@@ -203,22 +203,22 @@ function ChoiceCombobox<T extends FieldValues>({ field, options, placeholder, em
 		<Popover>
 			<PopoverTrigger asChild>
 				<FormControl>
-					<Button className={cn('w-full justify-between', !field.value && 'text-muted-foreground')} variant="outline">
-						{selectedOption ? selectedOption.label : placeholder || 'Select option'}
+					<Button className={cn("w-full justify-between", !field.value && "text-muted-foreground")} variant="outline">
+						{selectedOption ? selectedOption.label : placeholder || "Select option"}
 						<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 					</Button>
 				</FormControl>
 			</PopoverTrigger>
 			<PopoverContent className="w-full min-w-[200px] p-0">
 				<Command>
-					<CommandInput className="h-9" placeholder={placeholder || 'Search...'} />
+					<CommandInput className="h-9" placeholder={placeholder || "Search..."} />
 					<CommandList>
-						<CommandEmpty>{emptyText || 'No option found.'}</CommandEmpty>
+						<CommandEmpty>{emptyText || "No option found."}</CommandEmpty>
 						<CommandGroup>
 							{options.map((option) => (
 								<CommandItem disabled={option.disabled} key={option.value} onSelect={() => field.onChange(option.value)} value={option.label}>
 									{option.label}
-									<Check className={cn('ml-auto', option.value === field.value ? 'opacity-100' : 'opacity-0')} />
+									<Check className={cn("ml-auto", option.value === field.value ? "opacity-100" : "opacity-0")} />
 								</CommandItem>
 							))}
 						</CommandGroup>
@@ -236,12 +236,12 @@ function ChoiceMultiSelect<T extends FieldValues>({ field, options, placeholder,
 	return (
 		<MultiSelect onValuesChange={field.onChange} values={field.value || []}>
 			<MultiSelectTrigger className="w-full">
-				<MultiSelectValue placeholder={placeholder || 'Select options...'} />
+				<MultiSelectValue placeholder={placeholder || "Select options..."} />
 			</MultiSelectTrigger>
 			<MultiSelectContent>
 				<MultiSelectGroup>
 					{options.length === 0 ? (
-						<div className="px-4 py-2 text-muted-foreground text-sm">{emptyText || 'No option found.'}</div>
+						<div className="px-4 py-2 text-muted-foreground text-sm">{emptyText || "No option found."}</div>
 					) : (
 						options.map((option) => (
 							<MultiSelectItem disabled={option.disabled} key={option.value} value={option.value}>

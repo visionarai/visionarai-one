@@ -1,5 +1,5 @@
 // Main component export
-export { ThemeSwitcher } from './theme-switcher';
+export { ThemeSwitcher } from "./theme-switcher";
 // Utility exports for advanced use cases
 export {
 	applyTheme,
@@ -7,9 +7,9 @@ export {
 	getSystemTheme,
 	persistTheme,
 	toggleThemeValue,
-} from './theme-utils';
+} from "./theme-utils";
 
 // Type exports
-export type { Theme } from './types';
+export type { Theme } from "./types";
 // Hook export for external use
-export { useTheme } from './use-theme';
+export { useTheme } from "./use-theme";

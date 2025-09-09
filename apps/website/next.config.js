@@ -1,7 +1,7 @@
 //@ts-check
 
-const createNextIntlPlugin = require('next-intl/plugin');
-const { composePlugins, withNx } = require('@nx/next');
+const createNextIntlPlugin = require("next-intl/plugin");
+const { composePlugins, withNx } = require("@nx/next");
 
 const withNextIntl = createNextIntlPlugin();
 

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Textarea } from '@visionarai-one/ui';
-import type { Control, FieldPath, FieldValues } from 'react-hook-form';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Textarea } from "@visionarai-one/ui";
+import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
-export type TextareaFieldProps<T extends FieldValues> = React.ComponentProps<'textarea'> & {
+export type TextareaFieldProps<T extends FieldValues> = React.ComponentProps<"textarea"> & {
 	name: FieldPath<T>;
 	label: string;
 	formControl: Control<T>;

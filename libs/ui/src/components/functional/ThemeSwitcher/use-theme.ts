@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { applyTheme, getInitialTheme, getSystemTheme, persistTheme, toggleThemeValue } from './theme-utils';
-import type { Theme } from './types';
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { applyTheme, getInitialTheme, getSystemTheme, persistTheme, toggleThemeValue } from "./theme-utils";
+import type { Theme } from "./types";
 
 /**
  * Custom hook for managing theme state and persistence
@@ -12,10 +12,10 @@ export const useTheme = () => {
 
 	// Set theme from localStorage or system preference on mount (sync to avoid FOUC)
 	useLayoutEffect(() => {
-		if (typeof window === 'undefined') {
+		if (typeof window === "undefined") {
 			return;
 		}
-		const stored = localStorage.getItem('theme') as Theme | null;
+		const stored = localStorage.getItem("theme") as Theme | null;
 		const initialTheme = stored || getSystemTheme();
 		setTheme(initialTheme);
 	}, []);
@@ -28,23 +28,23 @@ export const useTheme = () => {
 
 	// Listen for system preference changes
 	useEffect(() => {
-		if (typeof window === 'undefined') {
+		if (typeof window === "undefined") {
 			return;
 		}
 
 		// Only listen if no stored preference exists
-		const stored = localStorage.getItem('theme');
+		const stored = localStorage.getItem("theme");
 		if (stored) {
 			return;
 		}
 
-		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+		const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 		const handleChange = (e: MediaQueryListEvent) => {
-			setTheme(e.matches ? 'dark' : 'light');
+			setTheme(e.matches ? "dark" : "light");
 		};
 
-		mediaQuery.addEventListener('change', handleChange);
-		return () => mediaQuery.removeEventListener('change', handleChange);
+		mediaQuery.addEventListener("change", handleChange);
+		return () => mediaQuery.removeEventListener("change", handleChange);
 	}, []);
 
 	const toggleTheme = useCallback(() => {

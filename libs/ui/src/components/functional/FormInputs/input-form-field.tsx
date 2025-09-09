@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from '@visionarai-one/ui';
-import type { Control, FieldPath, FieldValues } from 'react-hook-form';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from "@visionarai-one/ui";
+import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
-export type InputFieldProps<T extends FieldValues> = React.ComponentProps<'input'> & {
+export type InputFieldProps<T extends FieldValues> = React.ComponentProps<"input"> & {
 	name: FieldPath<T>;
 	label: string;
 	formControl: Control<T>;
@@ -11,7 +11,7 @@ export type InputFieldProps<T extends FieldValues> = React.ComponentProps<'input
 	description?: string;
 };
 
-export function InputFormField<T extends FieldValues>({ name, label, formControl, type = 'text', placeholder, description, ...props }: InputFieldProps<T>) {
+export function InputFormField<T extends FieldValues>({ name, label, formControl, type = "text", placeholder, description, ...props }: InputFieldProps<T>) {
 	return (
 		<FormField
 			control={formControl}

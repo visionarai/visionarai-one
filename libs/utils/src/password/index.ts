@@ -1,6 +1,6 @@
-import { z } from 'zod/v4';
+import { z } from "zod/v4";
 
-type MessageKey = 'minLength' | 'maxLength' | 'hasNumber' | 'hasSpecialChar' | 'hasUpperCase';
+type MessageKey = "minLength" | "maxLength" | "hasNumber" | "hasSpecialChar" | "hasUpperCase";
 
 export type PasswordRequirement = {
 	key: string;
@@ -14,28 +14,28 @@ const numberRegex = /\d/;
 
 export const passwordRequirements: PasswordRequirement[] = [
 	{
-		key: 'minLength',
-		messageKey: 'minLength', // e.g. "Password must be at least 6 characters long"
+		key: "minLength",
+		messageKey: "minLength", // e.g. "Password must be at least 6 characters long"
 		test: (value) => value?.length >= 6,
 	},
 	{
-		key: 'maxLength',
-		messageKey: 'maxLength', // e.g. "Password must be at most 100 characters long"
+		key: "maxLength",
+		messageKey: "maxLength", // e.g. "Password must be at most 100 characters long"
 		test: (value) => value?.length <= 100,
 	},
 	{
-		key: 'hasNumber',
-		messageKey: 'hasNumber', // e.g. "Password must contain at least one number"
+		key: "hasNumber",
+		messageKey: "hasNumber", // e.g. "Password must contain at least one number"
 		test: (value) => numberRegex.test(value),
 	},
 	{
-		key: 'hasSpecialChar',
-		messageKey: 'hasSpecialChar', // e.g. "Password must contain at least one special character"
+		key: "hasSpecialChar",
+		messageKey: "hasSpecialChar", // e.g. "Password must contain at least one special character"
 		test: (value) => specialCharRegex.test(value),
 	},
 	{
-		key: 'hasUpperCase',
-		messageKey: 'hasUpperCase', // e.g. "Password must contain at least one uppercase letter"
+		key: "hasUpperCase",
+		messageKey: "hasUpperCase", // e.g. "Password must contain at least one uppercase letter"
 		test: (value) => uppercaseRegex.test(value),
 	},
 ];
@@ -49,5 +49,5 @@ export const getPasswordRequirements = (t: (key: MessageKey) => string) => {
 
 // Helper to generate a Zod schema from requirements
 export const passwordZod = z.string().refine((value) => passwordRequirements.every((req) => req.test(value)), {
-	message: 'Password must be at least 6 characters long, contain at least one number, one uppercase letter, and one special character.',
+	message: "Password must be at least 6 characters long, contain at least one number, one uppercase letter, and one special character.",
 });

@@ -135,7 +135,9 @@
 
 .dark {
 	/* Brand Colors - dark mode */
-	--primary: oklch(0.7686 0.1647 70.0804); /* Midnight black, slightly lighter for dark mode */
+	--primary: oklch(
+		0.7686 0.1647 70.0804
+	); /* Midnight black, slightly lighter for dark mode */
 	--primary-foreground: oklch(0 0 0);
 	--accent: oklch(0.4732 0.1247 46.2007); /* Teal */
 	--accent-foreground: oklch(0.9243 0.1151 95.7459);

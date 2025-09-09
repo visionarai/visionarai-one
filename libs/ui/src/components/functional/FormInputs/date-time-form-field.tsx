@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
 	Button,
@@ -13,16 +13,16 @@ import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from '@visionarai-one/ui';
-import { cn } from '@visionarai-one/utils';
-import { CalendarIcon, ClockIcon } from 'lucide-react';
-import { useFormatter } from 'next-intl';
-import { useCallback } from 'react';
-import type { DayPicker } from 'react-day-picker';
-import type { Control, FieldPath, FieldValues } from 'react-hook-form';
+} from "@visionarai-one/ui";
+import { cn } from "@visionarai-one/utils";
+import { CalendarIcon, ClockIcon } from "lucide-react";
+import { useFormatter } from "next-intl";
+import { useCallback } from "react";
+import type { DayPicker } from "react-day-picker";
+import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
-export type DateTimeFormFieldProps<T extends FieldValues> = Omit<React.ComponentProps<typeof DayPicker>, 'mode' | 'selected' | 'onSelect'> & {
-	buttonVariant?: React.ComponentProps<typeof Button>['variant'];
+export type DateTimeFormFieldProps<T extends FieldValues> = Omit<React.ComponentProps<typeof DayPicker>, "mode" | "selected" | "onSelect"> & {
+	buttonVariant?: React.ComponentProps<typeof Button>["variant"];
 } & {
 	name: FieldPath<T>;
 	label: string;
@@ -44,7 +44,7 @@ export const DateTimeFormField = <T extends FieldValues>({
 	formControl,
 	description,
 	placeholder,
-	disableDate = (date) => date > new Date('2025-12-12') || date < new Date('1900-01-01'),
+	disableDate = (date) => date > new Date("2025-12-12") || date < new Date("1900-01-01"),
 	enableTimePicker = false,
 	showSeconds = false,
 	defaultTime = { hours: 0, minutes: 0, seconds: 0 },
@@ -72,9 +72,9 @@ export const DateTimeFormField = <T extends FieldValues>({
 	// Format time for display in input
 	const formatTimeForInput = useCallback(
 		(time: { hours: number; minutes: number; seconds: number }) => {
-			const hours = time.hours.toString().padStart(2, '0');
-			const minutes = time.minutes.toString().padStart(2, '0');
-			const seconds = time.seconds.toString().padStart(2, '0');
+			const hours = time.hours.toString().padStart(2, "0");
+			const minutes = time.minutes.toString().padStart(2, "0");
+			const seconds = time.seconds.toString().padStart(2, "0");
 			return showSeconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
 		},
 		[showSeconds]
@@ -83,12 +83,12 @@ export const DateTimeFormField = <T extends FieldValues>({
 	// Parse time from input string
 	const parseTimeFromInput = useCallback(
 		(timeString: string) => {
-			const parts = timeString.split(':');
+			const parts = timeString.split(":");
 
 			return {
-				hours: Number.parseInt(parts[0] || '0', 10),
-				minutes: Number.parseInt(parts[1] || '0', 10),
-				seconds: showSeconds ? Number.parseInt(parts[2] || '0', 10) : 0,
+				hours: Number.parseInt(parts[0] || "0", 10),
+				minutes: Number.parseInt(parts[1] || "0", 10),
+				seconds: showSeconds ? Number.parseInt(parts[2] || "0", 10) : 0,
 			};
 		},
 		[showSeconds]
@@ -140,15 +140,15 @@ export const DateTimeFormField = <T extends FieldValues>({
 						<Popover>
 							<PopoverTrigger asChild>
 								<FormControl>
-									<Button className={cn('min-w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')} variant={'outline'}>
+									<Button className={cn("min-w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")} variant={"outline"}>
 										{field.value ? (
 											enableTimePicker ? (
 												format.dateTime(field.value, {
-													dateStyle: 'medium',
-													timeStyle: 'short',
+													dateStyle: "medium",
+													timeStyle: "short",
 												})
 											) : (
-												format.dateTime(field.value, { dateStyle: 'medium' })
+												format.dateTime(field.value, { dateStyle: "medium" })
 											)
 										) : (
 											<span>{placeholder}</span>

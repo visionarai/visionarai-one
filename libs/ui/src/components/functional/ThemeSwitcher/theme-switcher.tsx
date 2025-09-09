@@ -1,7 +1,7 @@
-'use client';
-import { Moon, Sun } from 'lucide-react';
-import { memo } from 'react';
-import { useTheme } from './use-theme';
+"use client";
+import { Moon, Sun } from "lucide-react";
+import { memo } from "react";
+import { useTheme } from "./use-theme";
 
 /**
  * Theme switcher button component
@@ -16,9 +16,9 @@ export const ThemeSwitcher = memo(() => {
 			onClick={toggleTheme}
 			type="button"
 		>
-			{theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+			{theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
 		</button>
 	);
 });
 
-ThemeSwitcher.displayName = 'ThemeSwitcher';
+ThemeSwitcher.displayName = "ThemeSwitcher";

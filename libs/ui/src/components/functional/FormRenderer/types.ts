@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/suspicious/noConsole: TODO: remove */
-import { z } from 'zod/v4';
-import type { PasswordRequirementProps, SelectOption } from '../FormInputs';
+import { z } from "zod/v4";
+import type { PasswordRequirementProps, SelectOption } from "../FormInputs";
 
 type CommonFieldMetadata = {
 	name: string;
@@ -21,32 +21,32 @@ export type FieldMetadata = Prettify<
 	CommonFieldMetadata &
 		(
 			| {
-					type: 'text' | 'number' | 'email' | 'password-no';
-					inputMode?: 'numeric' | 'text' | 'email';
+					type: "text" | "number" | "email" | "password-no";
+					inputMode?: "numeric" | "text" | "email";
 					autoComplete?: string;
 			  }
-			| { type: 'textarea' }
-			| { type: 'password'; passwordRequirements?: PasswordRequirementProps[] }
-			| { type: 'switch' }
+			| { type: "textarea" }
+			| { type: "password"; passwordRequirements?: PasswordRequirementProps[] }
+			| { type: "switch" }
 			| {
-					type: 'datetime';
+					type: "datetime";
 					disableDate?: (date: Date) => boolean;
 					enableTimePicker?: boolean;
 					showSeconds?: boolean;
 					defaultTime?: { hours: number; minutes: number; seconds: number };
 			  }
 			| {
-					type: 'dateRange';
+					type: "dateRange";
 					disableDate?: (date: Date) => boolean;
 			  }
 			| {
-					type: 'choice';
+					type: "choice";
 					multiple?: boolean;
 					options: SelectOption[];
 			  }
 		)
 >;
-export type FieldType = FieldMetadata['type'];
+export type FieldType = FieldMetadata["type"];
 
 export const stringifyFieldMetadata = (fieldMetadata: FieldMetadata): string => {
 	return JSON.stringify(fieldMetadata);
@@ -55,20 +55,20 @@ export const stringifyFieldMetadata = (fieldMetadata: FieldMetadata): string => 
 export const parseFieldMetadata = (fieldMetadataString: string): FieldMetadata => {
 	try {
 		const parsed = JSON.parse(fieldMetadataString);
-		if (typeof parsed !== 'object' || parsed === null) {
-			throw new Error('Parsed metadata is not an object');
+		if (typeof parsed !== "object" || parsed === null) {
+			throw new Error("Parsed metadata is not an object");
 		}
 		return parsed as FieldMetadata;
 	} catch (error) {
-		console.error('Failed to parse field metadata:', error);
-		throw new Error('Invalid field metadata format');
+		console.error("Failed to parse field metadata:", error);
+		throw new Error("Invalid field metadata format");
 	}
 };
 
 const CAMEL_TO_TITLE_REGEX = /([A-Z])/g;
 const FIRST_CHAR_REGEX = /^./;
 
-export const extractFieldConfigsFromSchema = (schema: z.ZodType, path = ''): FieldMetadata[] => {
+export const extractFieldConfigsFromSchema = (schema: z.ZodType, path = ""): FieldMetadata[] => {
 	// For objects, process each property
 	if (schema instanceof z.ZodObject) {
 		const shape = schema.shape;
@@ -87,9 +87,9 @@ export const extractFieldConfigsFromSchema = (schema: z.ZodType, path = ''): Fie
 	const metadata: FieldMetadata = schema.description ? parseFieldMetadata(schema.description) : ({} as FieldMetadata);
 
 	// Default label is required in FieldConfig
-	const label = metadata.label || path.split('.').pop() || path;
+	const label = metadata.label || path.split(".").pop() || path;
 	// Convert camelCase to Title Case
-	const formattedLabel = label.replace(CAMEL_TO_TITLE_REGEX, ' $1').replace(FIRST_CHAR_REGEX, (str) => str.toUpperCase());
+	const formattedLabel = label.replace(CAMEL_TO_TITLE_REGEX, " $1").replace(FIRST_CHAR_REGEX, (str) => str.toUpperCase());
 
 	return [
 		{

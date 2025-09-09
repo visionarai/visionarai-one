@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { Button, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from '@visionarai-one/ui';
-import { cn } from '@visionarai-one/utils';
-import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from 'lucide-react';
-import { useState } from 'react';
-import type { Control, FieldPath, FieldValues } from 'react-hook-form';
-export type PasswordFormFieldProps<T extends FieldValues> = React.ComponentProps<'input'> & {
+import { Button, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from "@visionarai-one/ui";
+import { cn } from "@visionarai-one/utils";
+import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
+import { useState } from "react";
+import type { Control, FieldPath, FieldValues } from "react-hook-form";
+export type PasswordFormFieldProps<T extends FieldValues> = React.ComponentProps<"input"> & {
 	name: FieldPath<T>;
 	label: string;
 	formControl: Control<T>;
@@ -28,7 +28,7 @@ export function PasswordFormField<T extends FieldValues>({
 	passwordRequirements,
 	...props
 }: PasswordFormFieldProps<T>) {
-	const [type, setType] = useState<'password' | 'text'>('password');
+	const [type, setType] = useState<"password" | "text">("password");
 
 	return (
 		<FormField
@@ -52,20 +52,20 @@ export function PasswordFormField<T extends FieldValues>({
 									{...props}
 								/>
 								<Button
-									aria-label={type === 'password' ? 'Show password' : 'Hide password'}
+									aria-label={type === "password" ? "Show password" : "Hide password"}
 									className="-translate-y-1/2 absolute top-1/2 right-2 px-0"
-									onClick={() => setType(type === 'password' ? 'text' : 'password')}
+									onClick={() => setType(type === "password" ? "text" : "password")}
 									size="icon"
 									variant="link"
 								>
-									{type === 'password' ? <EyeOffIcon /> : <EyeIcon />}
+									{type === "password" ? <EyeOffIcon /> : <EyeIcon />}
 								</Button>
 							</div>
 						</FormControl>
 
 						{passwordRequirements?.map((req, idx) => (
 							<FormDescription className="text-sm" key={req.key}>
-								<span className={cn('mr-2 inline-block', metRequirements[idx] ? 'text-green-600' : 'text-destructive')}>
+								<span className={cn("mr-2 inline-block", metRequirements[idx] ? "text-green-600" : "text-destructive")}>
 									{metRequirements[idx] ? <CheckIcon className="inline" /> : <XIcon className="inline" />} {req.message}
 								</span>
 							</FormDescription>
