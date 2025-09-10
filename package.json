@@ -14,8 +14,8 @@
     "clean:install": "rm -rf node_modules yarn.lock && yarn install",
     "clean:project": "./.scripts/clean.sh -y",
     "dep-graph": "nx graph",
-    "format": "ultracite format",
-    "lint": "ultracite lint",
+    "format": "ultracite fix",
+    "lint": "ultracite check",
     "sync:project": "nx sync"
   },
   "dependencies": {
@@ -38,7 +38,7 @@
     "mongoose": "^8.18.1",
     "next": "~15.5.2",
     "next-intl": "^4.3.7",
-    "pino": "^9.9.4",
+    "pino": "^9.9.5",
     "react": "19.1.1",
     "react-day-picker": "^9.9.0",
     "react-dom": "19.1.1",
@@ -49,7 +49,7 @@
   "devDependencies": {
     "@babel/core": "^7.28.4",
     "@babel/preset-react": "^7.27.1",
-    "@biomejs/biome": "2.2.3",
+    "@biomejs/biome": "2.2.4",
     "@nx/js": "21.5.1",
     "@nx/next": "21.5.1",
     "@nx/node": "21.5.1",
