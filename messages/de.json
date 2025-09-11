@@ -48,7 +48,8 @@
     "features": "Funktionen",
     "login": "Anmelden",
     "logo": "Visionar.Ai",
-    "pricing": "Preise"
+    "pricing": "Preise",
+    "admin": "Admin"
   },
   "NotFound": {
     "backButton": "Zurück",

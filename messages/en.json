@@ -55,7 +55,8 @@
     "features": "Features",
     "login": "Login",
     "logo": "Visionar.Ai",
-    "pricing": "Pricing"
+    "pricing": "Pricing",
+    "admin": "Admin"
   },
   "NotFound": {
     "backButton": "Go Back",

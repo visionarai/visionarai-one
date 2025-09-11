@@ -77,7 +77,7 @@ const getInputType = (numberOfOptions: number, multiple: boolean): "MultiSelect"
 	if (numberOfOptions >= 10) {
 		return "Combobox";
 	}
-	return numberOfOptions >= 5 ? "Select" : "RadioGroup";
+	return numberOfOptions >= 2 ? "Select" : "RadioGroup";
 };
 
 /**

@@ -30,6 +30,12 @@ export default async function PublicLayout({
 			path: "/about",
 			title: t("about"),
 		},
+		{
+			icon: <Star size={16} />,
+			iconSelected: <StarSolid size={16} />,
+			path: "/admin",
+			title: t("admin"),
+		},
 	];
 	const pathname = typeof window !== "undefined" ? window.location.pathname : "";
 	return (

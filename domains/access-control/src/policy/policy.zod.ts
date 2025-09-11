@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { OPERATION_TYPES } from "./operators.js";
-
 // Subject schema
 export const SubjectSchema = z.object({
 	_id: z.string(),
@@ -12,11 +11,12 @@ const subjectFields = ["subject._id", "subject.currentWorkspaceId"] as const;
 export const SubjectFieldSchema = z.enum(subjectFields);
 
 // typeOfValue options
-const typeOfValueOptions = ["string", "number", "boolean", "Date", "string[]", "number[]", "boolean[]", "Date[]"] as const;
+// const typeOfValueOptions = ["string", "number", "boolean", "Date", "string[]", "number[]", "boolean[]", "Date[]"] as const;
+const typeOfValueOptions = ["string", "number", "boolean", "Date"] as const;
 export const TypeOfValueSchema = z.enum(typeOfValueOptions);
 
 // Operation options (flattened for Zod, can be improved for stricter typing)
-const allOperations = [...OPERATION_TYPES.string, ...OPERATION_TYPES.number, ...OPERATION_TYPES.Date, ...OPERATION_TYPES.boolean] as const;
+const allOperations = [...new Set(Object.values(OPERATION_TYPES).flat())];
 export const OperationSchema = z.enum(allOperations);
 
 // Condition schema
@@ -69,3 +69,44 @@ export type Condition = z.infer<typeof ConditionSchema>;
 export type ConditionGroup = z.infer<typeof ConditionGroupSchema>;
 export type PolicyType = z.infer<typeof PolicyTypeSchema>;
 export type Subject = z.infer<typeof SubjectSchema>;
+
+export const nullPolicy: PolicyType = {
+	_id: "",
+	createdAt: new Date(),
+	createdBy: "",
+	description: "",
+	globalConditions: {
+		field: "subject._id",
+		operation: "equals",
+		typeOfValue: "string",
+		value: "Sanyam Arya",
+	},
+	name: "",
+	permissions: {},
+	updatedAt: new Date(),
+};
+
+export const nullCondition: Condition = {
+	field: "subject._id",
+	operation: "equals",
+	typeOfValue: "string",
+	value: "",
+};
+
+// Regex constants for performance (compiled once)
+const camelCaseRegex = /([a-z])([A-Z])/g;
+const firstCharRegex = /^./;
+
+// Helper function to convert camelCase to Title Case
+const toTitleCase = (str: string): string => {
+	return str
+		.replace(camelCaseRegex, "$1 $2") // Insert space before capital letters
+		.replace(firstCharRegex, (char) => char.toUpperCase()); // Capitalize first letter
+};
+
+export const ALL_OPERATIONS_OPTIONS: Array<{ label: string; value: string }> = allOperations.map((op) => ({ label: toTitleCase(op), value: op }));
+
+export const ALL_TYPE_OF_VALUE_OPTIONS: Array<{ label: string; value: string }> = TypeOfValueSchema.options.map((type) => ({
+	label: toTitleCase(type),
+	value: type,
+}));
