@@ -1,5 +1,6 @@
 import { ALL_TYPE_OF_VALUE_OPTIONS, OPERATION_TYPES } from "@visionarai-one/access-control";
-import { ChoiceFormField, FormLabel, InputFormField } from "@visionarai-one/ui";
+import { Button, ChoiceFormField, FormLabel, InputFormField } from "@visionarai-one/ui";
+import { X } from "lucide-react";
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
 import { useWatch } from "react-hook-form";
 
@@ -18,9 +19,10 @@ export type RenderConditionFieldsProps<T extends FieldValues> = React.ComponentP
 	formControl: Control<T>;
 	name: FieldPath<T>;
 	label?: string;
+	onRemove?: () => void;
 };
 
-export function RenderConditionFields<T extends FieldValues>({ formControl, name, label, ...props }: RenderConditionFieldsProps<T>) {
+export function RenderConditionFields<T extends FieldValues>({ formControl, name, label, onRemove, ...props }: RenderConditionFieldsProps<T>) {
 	// Reactively watch the current typeOfValue so the operations list updates when it changes
 	const typeOfValue = useWatch({ control: formControl, name: `${name}.typeOfValue` as FieldPath<T> }) as keyof typeof OPERATION_TYPES | undefined;
 
@@ -31,7 +33,7 @@ export function RenderConditionFields<T extends FieldValues>({ formControl, name
 	return (
 		<div className="space-y-2">
 			<FormLabel>{label ?? "Condition"}</FormLabel>
-			<div className="flex gap-2 border-2 px-4 pt-4 pb-2 [&>*]:flex-1" {...props}>
+			<div className="flex gap-2 border-2 px-4 pt-4 pb-2 [&>:not(:last-child)]:flex-1" {...props}>
 				<ChoiceFormField
 					assumeMoreOptions
 					formControl={formControl}
@@ -57,8 +59,19 @@ export function RenderConditionFields<T extends FieldValues>({ formControl, name
 					options={operationOptions}
 					placeholder="Select operation"
 				/>
-
 				<InputFormField formControl={formControl} label="Value" name={`${name}.value` as FieldPath<T>} placeholder="Enter value" />
+
+				<Button
+					className="mt-6 ml-2 self-start"
+					onClick={(e) => {
+						e.preventDefault();
+						onRemove?.();
+					}}
+					size="icon"
+					variant="destructive"
+				>
+					<X />
+				</Button>
 			</div>
 		</div>
 	);
