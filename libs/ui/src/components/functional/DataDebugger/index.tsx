@@ -33,7 +33,7 @@ const placementToStyle: Record<Placement, CSSProperties> = {
  * Intentionally client-only; keep logic self‑contained and side‑effect free
  * beyond transient DOM event listeners for drag / resize interactions.
  */
-export function DataDebugger({ data, placement = "top-right", initialOpen = false, className, children }: DataDebuggerProps) {
+export function DataDebugger({ data, placement = "bottom-left", initialOpen = false, className, children }: DataDebuggerProps) {
 	const [open, setOpen] = useState(initialOpen);
 	const [view, setView] = useState<"raw" | "tree">("raw");
 	const [wrap, setWrap] = useState(true);
