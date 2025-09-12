@@ -1,7 +1,3 @@
-<p align="center">
-	<img src="apps/website/public/favicon.ico" alt="Visionarai logo" width="64" height="64" />
-</p>
-
 # Visionarai-one
 
 AI for Visionaries — this repository is the monorepo powering the visionar.ai ecosystem. It uses Nx with Yarn v4 to manage one Next.js application and multiple shared libraries/domains in a clean, scalable architecture.
