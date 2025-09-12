@@ -5,6 +5,7 @@ import { nullPolicy, type PolicyType, PolicyTypeSchema } from "@visionarai-one/a
 import { Button, Form, InputFormField } from "@visionarai-one/ui";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { RenderConditionFields } from "./condition-input";
+import { DataDebugger } from "./data-debugger";
 export default function PolicyForm() {
 	const form = useForm({
 		defaultValues: nullPolicy,
@@ -18,9 +19,7 @@ export default function PolicyForm() {
 
 	return (
 		<>
-			<pre className="p-4 text-sm">
-				<code>{JSON.stringify({ error: form.getValues() }, null, 2)}</code>
-			</pre>
+			<DataDebugger className="mb-4" form={form} title="Policy Form Debug" />
 			<Form {...form}>
 				<form className="space-y-4 p-4" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<PolicyType>)}>
 					<InputFormField formControl={form.control} label="Name" name="name" placeholder="Enter policy name" />
