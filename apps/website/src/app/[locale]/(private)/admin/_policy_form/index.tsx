@@ -6,6 +6,7 @@ import { Button, Form, InputFormField } from "@visionarai-one/ui";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { RenderConditionFields } from "./condition-input";
 import { DataDebugger } from "./data-debugger";
+import { createAlertSubmitHandler } from "./form-submit-handler";
 export default function PolicyForm() {
 	const form = useForm({
 		defaultValues: nullPolicy,
@@ -13,9 +14,7 @@ export default function PolicyForm() {
 		resolver: zodResolver(PolicyTypeSchema),
 	});
 
-	const onSubmit = (data: unknown) => {
-		alert(JSON.stringify(data, null, 2));
-	};
+	const onSubmit = createAlertSubmitHandler();
 
 	return (
 		<>

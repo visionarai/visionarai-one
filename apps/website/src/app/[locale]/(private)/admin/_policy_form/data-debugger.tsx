@@ -4,13 +4,20 @@ type DataDebuggerProps<T extends FieldValues> = {
 	form: UseFormReturn<T>;
 	title?: string;
 	className?: string;
+	showInProduction?: boolean;
 };
 
 /**
  * A reusable component for debugging form data during development.
  * Displays the current form values in a formatted JSON structure.
+ * By default, only shows in development environment unless showInProduction is true.
  */
-export function DataDebugger<T extends FieldValues>({ form, title = "Form Debug Data", className = "" }: DataDebuggerProps<T>) {
+export function DataDebugger<T extends FieldValues>({ form, title = "Form Debug Data", className = "", showInProduction = false }: DataDebuggerProps<T>) {
+	// Hide in production unless explicitly enabled
+	if (process.env.NODE_ENV === "production" && !showInProduction) {
+		return null;
+	}
+
 	const formData = form.getValues();
 
 	return (
