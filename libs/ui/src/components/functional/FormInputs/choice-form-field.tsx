@@ -59,6 +59,7 @@ export type ChoiceFormFieldProps<T extends FieldValues> = {
 	description?: string;
 	multiple?: boolean;
 	emptyText?: string; // Optional prop for empty state text
+	assumeMoreOptions?: boolean; // If true, assumes there are more options not listed (for performance with large datasets)
 };
 
 /**
@@ -77,7 +78,7 @@ const getInputType = (numberOfOptions: number, multiple: boolean): "MultiSelect"
 	if (numberOfOptions >= 10) {
 		return "Combobox";
 	}
-	return numberOfOptions >= 2 ? "Select" : "RadioGroup";
+	return numberOfOptions >= 5 ? "Select" : "RadioGroup";
 };
 
 /**
@@ -92,8 +93,9 @@ export function ChoiceFormField<T extends FieldValues>({
 	description,
 	multiple = false,
 	emptyText,
+	assumeMoreOptions = false,
 }: ChoiceFormFieldProps<T>) {
-	const numberOfOptions = options.length;
+	const numberOfOptions = assumeMoreOptions ? 11 : options.length;
 	const inputType = useMemo(() => getInputType(numberOfOptions, multiple), [multiple, numberOfOptions]);
 
 	return (
