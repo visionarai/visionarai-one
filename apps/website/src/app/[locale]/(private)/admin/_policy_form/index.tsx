@@ -2,13 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { nullPolicy, type PolicyType, PolicyTypeSchema } from "@visionarai-one/access-control";
-import { Button, Form, InputFormField } from "@visionarai-one/ui";
+import { Button, DataDebugger, Form, InputFormField } from "@visionarai-one/ui";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { RenderConditionFields } from "./condition-input";
 export default function PolicyForm() {
 	const form = useForm({
 		defaultValues: nullPolicy,
-		mode: "onChange",
+		// mode: "onBlur",
 		resolver: zodResolver(PolicyTypeSchema),
 	});
 
@@ -18,9 +18,7 @@ export default function PolicyForm() {
 
 	return (
 		<>
-			<pre className="p-4 text-sm">
-				<code>{JSON.stringify({ error: form.getValues() }, null, 2)}</code>
-			</pre>
+			<DataDebugger data={{ form: form.watch() }} />
 			<Form {...form}>
 				<form className="space-y-4 p-4" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<PolicyType>)}>
 					<InputFormField formControl={form.control} label="Name" name="name" placeholder="Enter policy name" />
