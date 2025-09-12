@@ -50,6 +50,18 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 			path: "/admin",
 			title: t("admin"),
 		},
+		{
+			icon: <Star size={16} />,
+			iconSelected: <StarSolid size={16} />,
+			path: "/policy",
+			title: "Policy",
+		},
+		{
+			icon: <Star size={16} />,
+			iconSelected: <StarSolid size={16} />,
+			path: "/master",
+			title: "Master",
+		},
 	];
 	const pathname = typeof window !== "undefined" ? window.location.pathname : "";
 	return (

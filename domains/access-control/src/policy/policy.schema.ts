@@ -1,10 +1,10 @@
 import { type Document, type Model, Schema } from "mongoose";
-import { type PolicyType, PolicyTypeSchema, type Subject } from "./policy.zod.js";
-import { evaluatePolicy } from "./policy-evaluator.js";
+import { type EvaluationContext, evaluateNormalizedPolicy } from "./normalized-evaluator.js";
+import { type NormalizedPolicy, PersistedPolicySchema } from "./normalized-policy.zod.js";
 
-// Instance methods type
+// Instance methods type (normalized)
 type PolicyMethodsType = {
-	evaluate: (resourceType: string, action: string, subject: Subject) => boolean;
+	evaluate: (ctx: Omit<EvaluationContext, "resourceType" | "action"> & { resourceType: string; action: string }) => boolean;
 };
 
 // Statics type
@@ -12,34 +12,32 @@ type PolicyStaticsType = {
 	findByName: (name: string) => Promise<PolicyDocument | null>;
 };
 
-// Document type
-export type PolicyDocument = Omit<PolicyType, "_id"> & Document<string> & PolicyMethodsType & { _id: string };
+// Document type (normalized PersistedPolicy without _id field duplication)
+export type PolicyDocument = Omit<NormalizedPolicy, "_id"> & Document<string> & PolicyMethodsType & { _id: string };
 
 // Model type
 export type PolicyModelType = Model<PolicyDocument> & PolicyStaticsType;
 
-// Mongoose schema for Policy
+// Mongoose schema for normalized policy
 export const PolicySchema = new Schema<PolicyDocument, PolicyModelType, PolicyMethodsType>(
 	{
 		_id: { required: true, type: String },
 		createdAt: { required: true, type: Date },
 		createdBy: { required: true, type: String },
 		description: { type: String },
-		globalConditions: { type: Object }, // Use Object for structured data, validated by Zod
+		global: { type: Object }, // { root: string | null }
 		name: { required: true, type: String, unique: true },
-		permissions: { required: true, type: Object }, // Use Object for structured data, validated by Zod
+		nodes: { required: true, type: Object }, // Record<string, ConditionNode>
+		permissions: { required: true, type: Object }, // Record<resource, Record<action, decision>>
 		updatedAt: { required: true, type: Date },
+		updatedBy: { required: true, type: String },
+		version: { required: true, type: Number },
 	},
 	{
 		methods: {
-			evaluate(resourceType: string, action: string, subject: Subject): boolean {
-				const policy = this.toObject() as PolicyType;
-				return evaluatePolicy({
-					action,
-					policy,
-					resourceType,
-					subject,
-				});
+			evaluate(ctx): boolean {
+				const policy = this.toObject() as unknown as NormalizedPolicy;
+				return evaluateNormalizedPolicy(policy, ctx);
 			},
 		},
 		statics: {
@@ -51,9 +49,9 @@ export const PolicySchema = new Schema<PolicyDocument, PolicyModelType, PolicyMe
 	}
 );
 
-// Validate with Zod before saving
+// Zod validation hook for normalized policy shape
 PolicySchema.pre("save", function (next) {
-	const parsed = PolicyTypeSchema.safeParse(this.toObject());
+	const parsed = PersistedPolicySchema.safeParse(this.toObject());
 	if (!parsed.success) {
 		return next(new Error(`Policy validation failed: ${JSON.stringify(parsed.error.format())}`));
 	}
