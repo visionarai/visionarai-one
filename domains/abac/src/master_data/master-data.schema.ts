@@ -22,7 +22,7 @@ export const MasterDataSchema = new Schema<MasterDataDocument>(
 						],
 					},
 					name: { required: true, type: String },
-					permissions: { type: String },
+					permissions: { type: [String] },
 				},
 			],
 		},

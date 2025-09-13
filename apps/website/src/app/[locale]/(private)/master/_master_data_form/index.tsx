@@ -6,6 +6,7 @@ import { Button, Form, InputFormField } from "@visionarai-one/ui";
 import { PlusIcon, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { orpcRouterClient } from "@/lib/orpc";
 import { AttributeInput } from "./attribute-input";
 import { PermissionsInput } from "./permissions-input";
 
@@ -22,9 +23,8 @@ export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
 		resolver: zodResolver(MasterDataZodSchema),
 	});
 
-	const onSubmit = (data: MasterDataType) => {
-		// In real impl replace with mutation call
-		alert(`${t("page.submit")}\n${JSON.stringify(data, null, 2)}`);
+	const onSubmit = async (data: MasterDataType) => {
+		await orpcRouterClient.masterData.update(data);
 	};
 
 	const { fields, append, remove } = useFieldArray({

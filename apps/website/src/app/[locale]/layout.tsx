@@ -5,9 +5,9 @@ import { Home, Home as HomeSolid, Info, Info as InfoSolid, Star, Star as StarSol
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
 import { routing } from "@/i18n/routing";
 import { LanguageSwitcher } from "./_language-switcher";
-
 export function generateStaticParams() {
 	return routing.locales.map((locale) => ({ locale }));
 }
@@ -88,7 +88,9 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 				<NextIntlClientProvider>
 					<header className="flex min-h-screen flex-col bg-background text-foreground">
 						<NavBar items={navItems} loginText={t("login")} logoText={t("logo")} selectedPath={pathname}>
-							<LanguageSwitcher />
+							<Suspense fallback={<div>Loading...</div>}>
+								<LanguageSwitcher />
+							</Suspense>
 						</NavBar>
 						<main>{children}</main>
 						<Footer />

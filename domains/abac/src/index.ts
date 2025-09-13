@@ -7,26 +7,33 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 	const MasterDataModel: Model<MasterDataDocument, MasterDataType> =
 		(models.MasterData as Model<MasterDataDocument, MasterDataType>) ||
 		mongooseConnection.model<MasterDataDocument, MasterDataType>("MasterData", MasterDataSchema);
-	let recentMasterData: MasterDataType["resources"] | null = null;
+	let recentMasterData: MasterDataType | null;
 
 	const ensureMasterDataLoaded = async () => {
 		if (recentMasterData) {
 			return;
 		}
 		const masterData = await MasterDataModel.findOne().lean();
-		if (!masterData?.resources) {
-			throw new Error("Master data not found");
+		if (masterData) {
+			masterData._id = masterData._id.toString();
 		}
-		recentMasterData = masterData.resources;
+
+		if (!masterData?.resources) {
+			return;
+		}
+		recentMasterData = masterData;
 	};
 
 	await ensureMasterDataLoaded();
 
 	return {
-		recentMasterData,
+		recentMasterData: () => recentMasterData as MasterDataType | null,
 		updateMasterData: async (newMasterData: MasterDataType["resources"]) => {
 			await MasterDataModel.updateOne({}, { resources: newMasterData }, { upsert: true });
-			recentMasterData = newMasterData;
+			await ensureMasterDataLoaded();
+			return recentMasterData;
 		},
 	};
 };
+
+export type PolicyRepository = Awaited<ReturnType<typeof createPolicyRepository>>;

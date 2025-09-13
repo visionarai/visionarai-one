@@ -138,3 +138,9 @@ export const examplePolicy: NormalizedPolicy = {
 };
 
 // Example usage of the schema validation
+export const ALL_TYPE_OF_VALUE_OPTIONS = [
+	{ label: "String", value: "string" },
+	{ label: "Number", value: "number" },
+	{ label: "Boolean", value: "boolean" },
+	{ label: "Date", value: "date" },
+];
