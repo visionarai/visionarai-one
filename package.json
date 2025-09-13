@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "docker:up": "bash ./.scripts/all-docker.sh up",
+    "docker:down": "bash ./.scripts/all-docker.sh down",
     "clean:all": "yarn clean:project && yarn clean:install",
     "clean:install": "rm -rf node_modules yarn.lock && yarn install",
     "clean:project": "./.scripts/clean.sh -y",
