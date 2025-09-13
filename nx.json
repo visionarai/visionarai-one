@@ -27,7 +27,8 @@
       "exclude": [
         "libs/utils/*",
         "domains/access-control/*",
-        "packages/connectors/*"
+        "packages/connectors/*",
+        "domains/abac/*"
       ]
     },
     {
@@ -57,7 +58,8 @@
       "include": [
         "libs/utils/*",
         "domains/access-control/*",
-        "packages/connectors/*"
+        "packages/connectors/*",
+        "domains/abac/*"
       ],
       "options": {
         "typecheck": {

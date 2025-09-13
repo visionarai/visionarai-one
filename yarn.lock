@@ -6575,6 +6575,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@visionarai-one/abac@workspace:domains/abac":
+  version: 0.0.0-use.local
+  resolution: "@visionarai-one/abac@workspace:domains/abac"
+  languageName: unknown
+  linkType: soft
+
 "@visionarai-one/access-control@workspace:domains/access-control":
   version: 0.0.0-use.local
   resolution: "@visionarai-one/access-control@workspace:domains/access-control"
