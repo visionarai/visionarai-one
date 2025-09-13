@@ -66,5 +66,16 @@
       "primaryCta": "Plattform erkunden",
       "secondaryCta": "Kostenloses Strategiegespräch buchen"
     }
+  },
+  "MasterData": {
+    "attributes": {
+      "heading": "Attribute",
+      "addAttribute": "Attribut hinzufügen",
+      "emptyHint": "Noch keine Attribute hinzugefügt.",
+      "keyLabel": "Attribut-Schlüssel",
+      "keyPlaceholder": "Schlüssel (z.B. ownerId)",
+      "typeLabel": "Typ",
+      "removeAttribute": "Attribut entfernen"
+    }
   }
 }

@@ -65,5 +65,16 @@
     "searchPlaceholder": "Search for something...",
     "subtitle": "404",
     "title": "Page Not Found"
+  },
+  "MasterData": {
+    "attributes": {
+      "heading": "Attributes",
+      "addAttribute": "Add attribute",
+      "emptyHint": "No attributes added yet.",
+      "keyLabel": "Attribute key",
+      "keyPlaceholder": "Key (e.g. ownerId)",
+      "typeLabel": "Type",
+      "removeAttribute": "Remove attribute"
+    }
   }
 }
