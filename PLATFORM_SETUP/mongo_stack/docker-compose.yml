@@ -1,0 +1,35 @@
+services:
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - ./data/db:/data/db
+      - ./data/log:/var/log
+      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ADMIN_PASSWORD}
+      MONGO_USER_PASSWORD: ${MONGO_USER_PASSWORD}
+    networks:
+      - mongo-network
+
+  mongo-express:
+    restart: always
+    image: mongo-express
+    ports:
+      - 27018:8081
+    environment:
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_MONGODB_URL: ${MONGODB_CONNECTION_STRING}
+      ME_CONFIG_BASICAUTH_USERNAME: mongoweb
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_WEB_PASSWORD}
+    depends_on:
+      - mongo
+    networks:
+      - mongo-network
+
+networks:
+  mongo-network:
+    driver: bridge
