@@ -67,6 +67,19 @@
     "title": "Page Not Found"
   },
   "MasterData": {
+    "page": {
+      "title": "Master Data",
+      "resources": "Resources",
+      "subtitle": "Define resources, their attributes and available permissions.",
+      "addResource": "Add resource",
+      "resourceNameLabel": "Resource name",
+      "resourceNamePlaceholder": "e.g. documents",
+      "removeResource": "Remove resource",
+      "submit": "Save changes",
+      "debugToggleShow": "Show debug",
+      "debugToggleHide": "Hide debug",
+      "noResources": "No resources configured yet."
+    },
     "attributes": {
       "heading": "Attributes",
       "addAttribute": "Add attribute",
@@ -75,6 +88,14 @@
       "keyPlaceholder": "Key (e.g. ownerId)",
       "typeLabel": "Type",
       "removeAttribute": "Remove attribute"
+    },
+    "permissions": {
+      "heading": "Permissions",
+      "addPermission": "Add permission",
+      "removePermission": "Remove",
+      "permissionLabel": "Permission",
+      "permissionPlaceholder": "Enter permission",
+      "emptyHint": "No permissions added yet."
     }
   }
 }

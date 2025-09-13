@@ -68,6 +68,19 @@
     }
   },
   "MasterData": {
+    "page": {
+      "title": "Stammdaten",
+      "resources": "Ressourcen",
+      "subtitle": "Definieren Sie Ressourcen, deren Attribute und verfügbare Berechtigungen.",
+      "addResource": "Ressource hinzufügen",
+      "resourceNameLabel": "Ressourcenname",
+      "resourceNamePlaceholder": "z.B. dokumente",
+      "removeResource": "Ressource entfernen",
+      "submit": "Änderungen speichern",
+      "debugToggleShow": "Debug anzeigen",
+      "debugToggleHide": "Debug ausblenden",
+      "noResources": "Noch keine Ressourcen konfiguriert."
+    },
     "attributes": {
       "heading": "Attribute",
       "addAttribute": "Attribut hinzufügen",
@@ -76,6 +89,14 @@
       "keyPlaceholder": "Schlüssel (z.B. ownerId)",
       "typeLabel": "Typ",
       "removeAttribute": "Attribut entfernen"
+    },
+    "permissions": {
+      "heading": "Berechtigungen",
+      "addPermission": "Berechtigung hinzufügen",
+      "removePermission": "Entfernen",
+      "permissionLabel": "Berechtigung",
+      "permissionPlaceholder": "Berechtigung eingeben",
+      "emptyHint": "Noch keine Berechtigungen hinzugefügt."
     }
   }
 }
