@@ -1,11 +1,11 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type MasterDataType, MasterDataZodSchema } from "@visionarai-one/abac";
 import { Button, Form, InputFormField } from "@visionarai-one/ui";
 import { PlusIcon, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { orpcRouterClient } from "@/lib/orpc";
 import { AttributeInput } from "./attribute-input";
 import { PermissionsInput } from "./permissions-input";
@@ -25,6 +25,7 @@ export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
 
 	const onSubmit = async (data: MasterDataType) => {
 		await orpcRouterClient.masterData.update(data);
+		toast.success(t("page.updateSuccess"));
 	};
 
 	const { fields, append, remove } = useFieldArray({

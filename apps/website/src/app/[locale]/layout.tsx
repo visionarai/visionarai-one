@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: We need this for dev tools */
 
-import { Footer, NavBar } from "@visionarai-one/ui";
+import { Footer, NavBar, Toaster } from "@visionarai-one/ui";
 import { Home, Home as HomeSolid, Info, Info as InfoSolid, Star, Star as StarSolid } from "lucide-react";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -93,6 +93,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 							</Suspense>
 						</NavBar>
 						<main>{children}</main>
+						<Toaster />
 						<Footer />
 					</header>
 				</NextIntlClientProvider>
