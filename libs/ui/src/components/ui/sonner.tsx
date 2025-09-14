@@ -1,5 +1,6 @@
 "use client"
 
+import { Check, CircleOff, EyeClosed, Info, LoaderCircle, TriangleAlert } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, ToasterProps } from "sonner"
 
@@ -8,6 +9,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
 
   return (
     <Sonner
+      position="top-right"
+      richColors
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
       style={
@@ -17,6 +20,14 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--normal-border": "var(--border)",
         } as React.CSSProperties
       }
+      icons={{
+        success: <Check/>,
+        error: <CircleOff/>,
+        loading: <LoaderCircle className="animate-spin"/>,
+        info: <Info/>,
+        warning: <TriangleAlert/>,
+
+      }}
       {...props}
     />
   )
