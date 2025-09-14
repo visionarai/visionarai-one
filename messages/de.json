@@ -42,7 +42,6 @@
     "percentage": "Als Prozentsatz angezeigt: {value, number, percent}",
     "title": "Hallo Welt!"
   },
-
   "Navigation": {
     "about": "Über uns",
     "features": "Funktionen",
@@ -79,7 +78,8 @@
       "submit": "Änderungen speichern",
       "debugToggleShow": "Debug anzeigen",
       "debugToggleHide": "Debug ausblenden",
-      "noResources": "Noch keine Ressourcen konfiguriert."
+      "noResources": "Noch keine Ressourcen konfiguriert.",
+      "unsaved-changes": "Nicht gespeicherte Änderungen"
     },
     "attributes": {
       "heading": "Attribute",

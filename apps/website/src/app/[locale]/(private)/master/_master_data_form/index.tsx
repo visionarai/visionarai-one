@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type MasterDataType, MasterDataZodSchema } from "@visionarai-one/abac";
-import { Button, Form, InputFormField, useAsyncFunction } from "@visionarai-one/ui";
+import { Badge, Button, Form, InputFormField, useAsyncFunction } from "@visionarai-one/ui";
 import { PlusIcon, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type SubmitHandler, useFieldArray, useForm } from "react-hook-form";
@@ -37,7 +37,10 @@ export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
 	return (
 		<div className="space-y-6">
 			<header className="flex flex-wrap items-center justify-between gap-3">
-				<h2 className="font-semibold text-base tracking-tight">{t("page.resources")}</h2>
+				<h2 className="-2 font-semibold text-base tracking-tight">
+					{t("page.resources")}
+					{form.formState.isDirty && <Badge variant="destructive">Unsaved changes</Badge>}
+				</h2>
 				<Button onClick={() => append({ name: "" })} size="sm" type="button">
 					<PlusIcon className="mr-1 size-4" />
 					{t("page.addResource")}

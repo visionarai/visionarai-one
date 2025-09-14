@@ -78,7 +78,8 @@
       "submit": "Save changes",
       "debugToggleShow": "Show debug",
       "debugToggleHide": "Hide debug",
-      "noResources": "No resources configured yet."
+      "noResources": "No resources configured yet.",
+      "unsaved-changes": "Unsaved Changes"
     },
     "attributes": {
       "heading": "Attributes",
