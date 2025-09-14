@@ -1,64 +1,68 @@
-## Visionarai-one: Focused Coding Guide for AI Agents
+## Visionarai-one: High-Signal Guide for AI Coding Agents
 
-Concise project intelligence so you can contribute immediately. Keep edits minimal, type-safe, and aligned with existing patterns.
+Deliver changes that fit existing patterns. Keep diffs small, typed, and localized. Prefer enhancing existing modules over new abstractions.
 
-### 1. Architecture Snapshot
+### 1. Architecture (Orient Fast)
 
-- Nx (v21) + Yarn 4 workspaces. Core Next.js 15 App Router app: `apps/website`.
-- Shared concerns: `libs/ui` (shadcn wrappers + form system), `libs/utils` (DOM + password helpers), domain logic in `domains/access-control` (ABAC), integrations in `packages/connectors` (connector factory + MongoDB).
-- i18n via `next-intl`: locale segment `[locale]` in `apps/website/src/app/[locale]/...`; messages in `messages/*.json`.
-- Styling: Tailwind v4. Global CSS chain: `libs/ui/src/globals.css` -> imported by `apps/website/src/app/global.css`.
+- Monorepo: Nx 21 + Yarn 4 (strict). Core Next.js 15 App Router app `apps/website` consumes shared libs.
+- Shared libs: `libs/ui` (shadcn + metadata-driven form system), `libs/utils` (DOM + password helpers), `domains/access-control` (ABAC evaluator), `packages/connectors` (connector factory + MongoDB/Mongoose).
+- i18n: `next-intl` with required `[locale]` segment: `apps/website/src/app/[locale]/...`; messages in `messages/*.json`.
+- Styling: Tailwind v4; only global entry is `libs/ui/src/globals.css` imported once by `apps/website/src/app/global.css`.
 
-### 2. Essential Workflows
+### 2. Core Workflows
 
-- Dev server: `yarn nx run @visionarai-one/website:dev` (App Router).
-- Build / static preview: `yarn nx run @visionarai-one/website:build` then `...:serve-static`.
-- Lint / format (Ultracite): `yarn lint` / `yarn format` (auto-run via lefthook pre-commit).
-- Sync Nx metadata: `yarn sync:project`; visualize deps: `yarn dep-graph`.
-- Clean (destructive): `yarn clean:all` (reinstalls). Use sparingly.
+- Dev: `yarn nx run @visionarai-one/website:dev`.
+- Build + static preview: `yarn nx run @visionarai-one/website:build` then `yarn nx run @visionarai-one/website:serve-static`.
+- Lint / format: `yarn lint` / `yarn format` (lefthook enforces on commit).
+- Project sync / graph: `yarn sync:project`, `yarn dep-graph`.
+- Tests (where defined): `yarn nx run <project>:test` (e.g. `access-control:test`).
+- Avoid `yarn clean:all` unless cache or deps corrupt (destructive reinstall).
 
-### 3. TypeScript & Code Style Conventions
+### 3. TypeScript & Conventions
 
-- Strict TS; avoid enums -> use unions or `as const`. Do not add loose `any`.
-- Cross-package imports rely on path aliases from `tsconfig.base.json` (e.g., `import { FormRenderer } from '@visionarai-one/ui'`).
-- Prefer functional, stateless components; keep side-effects at boundaries (API routes, connector factories).
-- No direct `<img>`/`<head>`; use `next/image` + metadata APIs.
+- Strict TS; avoid `any`, avoid enums (use union literals + `as const`).
+- Cross-package imports via path aliases (`tsconfig.base.json`), e.g.: `import { FormRenderer } from '@visionarai-one/ui'`.
+- UI components functional + side-effect free; confine side-effects to API routes, connector factories, or explicit server modules.
+- Use `next/image` & metadata API instead of raw `<img>` or `<head>`.
 
-### 4. UI & Form System (libs/ui)
+### 4. UI & Form System
 
-- Primitives: thin wrappers under `components/ui/*` (match shadcn API names).
-- Functional components under `components/functional/*` (e.g., NavBar, Footer, ThemeSwitcher, FormRenderer, field-level inputs).
-- Form rendering contract: embed JSON field metadata via `schema.describe(stringifyFieldMetadata({...}))`; `FormRenderer` inspects schema and auto-picks widgets.
-- Choice heuristics (single): <5 RadioGroup, 5–9 Select, >=10 Combobox. (multiple): <10 Checkbox group, >=10 MultiSelect.
-- Password field: localized requirements provided by helpers in `@visionarai-one/utils` (`getPasswordRequirements`, `passwordZod`).
+- Primitives: `libs/ui/src/components/ui/*`—mirrors shadcn API (thin wrappers, keep behavior minimal).
+- Functional: `components/functional/*` (NavBar, Footer, ThemeSwitcher, FormRenderer, field-level form inputs).
+- Form contract: embed field metadata via `schema.describe(stringifyFieldMetadata({...}))`; `FormRenderer` auto-selects widget.
+- Choice heuristics: single (<5 RadioGroup, 5–9 Select, >=10 Combobox); multiple (<10 Checkbox group, >=10 MultiSelect).
+- Password helpers from `@visionarai-one/utils` (`getPasswordRequirements`, `passwordZod`). Don’t reimplement complexity rules.
 
-### 5. ABAC Domain (domains/access-control)
+### 5. Access Control (ABAC)
 
-- Policy evaluation in `policy-evaluator.ts` using operation handlers in `policy/operators.ts`.
-- `createPolicyRepository(connection)` -> `getPolicyById(id).isPermissionGranted(subject, resourceType, action)`; guards allowed resource types.
-- Subject attributes support dot-paths (see `policy.zod.ts`). Extend by updating master data & schema together.
+- Core logic: `domains/access-control/src/policy/*` (evaluator, operators, schemas).
+- Repository: `createPolicyRepository(connection)` → `getPolicyById(id).isPermissionGranted(subject, resourceType, action)`.
+- Extend operators: add in `operators.ts` + update related schema/types; include targeted tests.
+- Subject/resource attributes use dot-paths—keep schema + master data aligned.
 
-### 6. Connectors (packages/connectors)
+### 6. Connectors
 
-- Factory pattern: create connector -> `connect()` returns info with `healthCheck()`; `disconnect()` for cleanup.
-- MongoDB connector wraps Mongoose lifecycle; ensure proper teardown in tests or server shutdown.
+- Pattern: factory returns connector with `connect()`, `disconnect()`, and `healthCheck()` via returned info object.
+- MongoDB: Mongoose wrapper; ensure proper teardown (avoid leaking connections in tests or dev).
+- New connector: implement in `src/lib/`, export in package `index.ts`, supply health details (`status`, `connected`, optional diagnostics).
 
-### 7. File/Directory Landmarks
+### 7. File Landmarks
 
-- App routes & layouts: `apps/website/src/app/[locale]/(public|private)`.
-- API routes: `apps/website/src/api/*`.
+- Routes (localized): `apps/website/src/app/[locale]/(public|private)`.
 - i18n helpers: `apps/website/src/i18n/{routing,navigation}.ts`.
-- UI exports: `libs/ui/src/index.ts` (re-export primitives + functional components).
-- ABAC internals: `domains/access-control/src/policy/*`, master data in `master_data/*`.
+- API / RPC: `apps/website/src/app/api/*`, `src/app/rpc/*` (if present) – keep server boundaries clear.
+- ABAC: `domains/access-control/src/policy/` & `.../master_data/`.
+- UI exports: `libs/ui/src/index.ts` re-exports all primitives + functional components.
 
-### 8. Safe Change Guidelines
+### 8. Safe Change Playbook
 
-- When adding form fields: update Zod schema + metadata; let `FormRenderer` choose component—avoid hardcoding field components unless customizing.
-- When extending ABAC: add operator in `operators.ts` + tests; update schema typings if new subject/resource attributes.
-- When adding a connector: implement factory, expose in `src/lib`, export via package `index.ts`; include health check.
-- Avoid introducing new global styles—extend existing utility classes or component styles.
+- Add form field: update Zod schema + metadata; let `FormRenderer` pick control (only override if necessary).
+- New operator (ABAC): implement in `operators.ts`, update schema/types, add minimal test; avoid breaking existing operator contracts.
+- New connector: follow existing factory shape; include `healthCheck` returning stable shape.
+- Styling: extend via component-level classes; do not add new global CSS files.
+- Localization: add `messages/<locale>.json` and ensure new routes live under `[locale]` segment.
 
-### 9. Quick Example (Form Field Metadata)
+### 9. Example (Field Metadata)
 
 ```ts
 email: z.string()
@@ -73,10 +77,10 @@ email: z.string()
   );
 ```
 
-### 10. Ask / Iterate
+### 10. Collaboration Protocol
 
-If intent is ambiguous (new operator? new field type?), emit a short assumption note before coding. Keep edits narrow and reference impacted files explicitly.
+- If intent is ambiguous (e.g., “add policy condition”), state 1–2 assumptions before edits.
+- Keep diffs minimal: only touched regions; no broad reformatting.
+- Reference impacted files explicitly in summaries.
 
----
-
-Need more detail (e.g., policy operator contract, connector health shape, or adding a new choice heuristic)? Reply with the section name and I’ll expand it.
+Need deeper detail (operator contract, password requirement integration, connector health schema)? Ask with the section title.
