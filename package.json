@@ -21,7 +21,7 @@
     "sync:project": "nx sync"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.2.1",
+    "@hookform/resolvers": "^5.2.2",
     "@orpc/client": "^1.8.8",
     "@orpc/server": "^1.8.8",
     "@orpc/zod": "^1.8.8",
@@ -67,8 +67,8 @@
     "@swc/cli": "~0.7.8",
     "@swc/core": "~1.13.5",
     "@swc/helpers": "~0.5.17",
-    "@types/node": "^24.3.1",
-    "@types/react": "19.1.12",
+    "@types/node": "^24.4.0",
+    "@types/react": "19.1.13",
     "@types/react-dom": "19.1.9",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
