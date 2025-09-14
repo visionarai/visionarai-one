@@ -39,7 +39,7 @@ export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
 			<header className="flex flex-wrap items-center justify-between gap-3">
 				<h2 className="-2 font-semibold text-base tracking-tight">
 					{t("page.resources")}
-					{form.formState.isDirty && <Badge variant="destructive">Unsaved changes</Badge>}
+					{form.formState.isDirty && <Badge variant="destructive">{t("page.unsaved-changes")}</Badge>}
 				</h2>
 				<Button onClick={() => append({ name: "" })} size="sm" type="button">
 					<PlusIcon className="mr-1 size-4" />
