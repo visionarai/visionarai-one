@@ -5,3 +5,4 @@ export * from "./components/functional/footer";
 export * from "./components/functional/nav-bar";
 export * from "./components/functional/ThemeSwitcher";
 export * from "./components/ui";
+export * from "./hooks/use-async-function";
