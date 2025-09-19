@@ -2,6 +2,7 @@ import { type Connection, type Model, models } from "mongoose";
 import { type MasterDataDocument, MasterDataSchema, type MasterDataType } from "./master_data";
 
 export * from "./master_data";
+export * from "./policy";
 
 export const createPolicyRepository = async (mongooseConnection: Connection) => {
 	const MasterDataModel: Model<MasterDataDocument, MasterDataType> =

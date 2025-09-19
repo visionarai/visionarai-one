@@ -44,7 +44,7 @@ export const DateTimeFormField = <T extends FieldValues>({
 	formControl,
 	description,
 	placeholder,
-	disableDate = (date) => date > new Date("2025-12-12") || date < new Date("1900-01-01"),
+	disableDate = (date) => date < new Date("1900-01-01"),
 	enableTimePicker = false,
 	showSeconds = false,
 	defaultTime = { hours: 0, minutes: 0, seconds: 0 },
