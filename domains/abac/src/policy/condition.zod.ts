@@ -70,52 +70,43 @@ export const ConditionNodeSchema = z.object({
 });
 export type ConditionNode = z.infer<typeof ConditionNodeSchema>;
 
-export type ConditionsType =
-	| {
-			logic: "AND";
-			conditions: Array<ConditionNode | ConditionsType>;
-	  }
-	| {
-			logic: "OR";
-			conditions: Array<ConditionNode | ConditionsType>;
-	  }
-	| {
-			logic: "NOT";
-			condition: ConditionsType;
-	  }
-	| {
-			logic: "NONE";
-			condition: ConditionNode;
-	  };
+export const CONDITIONS_LOGIC = ["AND", "OR", "NOT"] as const;
+
+export type ConditionsType = {
+	logic: (typeof CONDITIONS_LOGIC)[number];
+	conditions: Array<ConditionNode | ConditionsType>;
+};
+// | {
+// 		logic: "NONE";
+// 		condition: ConditionNode;
+//   };
 
 export const ConditionsSchema: z.ZodType<ConditionsType> = z.lazy(() =>
-	z.union([
-		z.object({
-			conditions: z.array(z.union([ConditionNodeSchema, ConditionsSchema])).min(1),
-			logic: z.literal("AND"),
-		}),
-		z.object({
-			conditions: z.array(z.union([ConditionNodeSchema, ConditionsSchema])).min(1),
-			logic: z.literal("OR"),
-		}),
-		z.object({
-			condition: ConditionsSchema,
-			logic: z.literal("NOT"),
-		}),
-		z.object({
-			condition: ConditionNodeSchema,
-			logic: z.literal("NONE"),
-		}),
-	])
+	z.object({
+		conditions: z.array(z.union([ConditionNodeSchema, ConditionsSchema])).min(1),
+		logic: z.enum(CONDITIONS_LOGIC),
+	})
 );
 
-export const CONDITIONS_LOGIC = ["AND", "OR", "NOT", "NONE"] as const;
+export type ConditionsInputType = z.input<typeof ConditionsSchema>;
+
+// export const CONDITIONS_LOGIC = ["AND", "OR", "NOT", "NONE"] as const;
 
 export const exampleCondition: ConditionNode = {
 	field: { name: "currentWorkspace", scope: "user", type: "string" },
 	operation: "equals",
 	value: { cardinality: "one", name: "workspaceId", scope: "resource", value: "" },
 };
+
+// export const conditionExample: ConditionsType = {
+// 	condition: {
+// 		field: { name: "id", scope: "user", type: "string" },
+// 		operation: "equals",
+// 		value: { cardinality: "one", scope: "literal", value: "user-123" },
+// 	},
+
+// 	logic: "NONE",
+// };
 
 export const conditionExample: ConditionsType = {
 	conditions: [
@@ -129,6 +120,21 @@ export const conditionExample: ConditionsType = {
 			operation: "equals",
 			value: { cardinality: "one", name: "workspaceId", scope: "resource", value: "workspace-456" },
 		},
+		{
+			conditions: [
+				{
+					field: { name: "ip", scope: "environment", type: "string" },
+					operation: "startsWith",
+					value: { cardinality: "one", scope: "literal", value: "192.168." },
+				},
+				{
+					field: { name: "location", scope: "environment", type: "string" },
+					operation: "equals",
+					value: { cardinality: "one", scope: "literal", value: "USA" },
+				},
+			],
+			logic: "OR",
+		},
 	],
 	logic: "AND",
 };
@@ -137,10 +143,39 @@ export const PermissionSchema = z.object({
 	conditions: ConditionsSchema,
 	name: z.string().min(1, "Permission name is required"),
 });
+export type PermissionInputType = z.input<typeof PermissionSchema>;
+export type PermissionType = z.infer<typeof PermissionSchema>;
 
-export type Permission = z.infer<typeof PermissionSchema>;
-
-export const permissionExample: Permission = {
-	conditions: conditionExample,
+export const permissionExample: PermissionType = {
+	conditions: {
+		conditions: [
+			{
+				field: { name: "id", scope: "user", type: "string" },
+				operation: "equals",
+				value: { cardinality: "one", scope: "literal", value: "user-123" },
+			},
+			{
+				field: { name: "currentWorkspace", scope: "user", type: "string" },
+				operation: "equals",
+				value: { cardinality: "one", name: "workspaceId", scope: "resource", value: "workspace-456" },
+			},
+			{
+				conditions: [
+					{
+						field: { name: "ip", scope: "environment", type: "string" },
+						operation: "startsWith",
+						value: { cardinality: "one", scope: "literal", value: "192.168." },
+					},
+					{
+						field: { name: "location", scope: "environment", type: "string" },
+						operation: "equals",
+						value: { cardinality: "one", scope: "literal", value: "USA" },
+					},
+				],
+				logic: "OR",
+			},
+		],
+		logic: "AND",
+	},
 	name: "Example Permission",
 };
