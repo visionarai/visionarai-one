@@ -1,13 +1,10 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: We need this for dev tools */
 
-import { Footer, NavBar, Toaster } from "@visionarai-one/ui";
-import { Home, Home as HomeSolid, Info, Info as InfoSolid, Star, Star as StarSolid } from "lucide-react";
+import { Toaster } from "@visionarai-one/ui";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Suspense } from "react";
+import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { LanguageSwitcher } from "./_language-switcher";
 export function generateStaticParams() {
 	return routing.locales.map((locale) => ({ locale }));
 }
@@ -23,47 +20,6 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 	// Enable static rendering
 	setRequestLocale(locale);
 
-	const t = await getTranslations("Navigation");
-
-	const navItems = [
-		{
-			icon: <Star size={16} />,
-			iconSelected: <StarSolid size={16} />,
-			path: "/#features",
-			title: t("features"),
-		},
-		{
-			icon: <Home size={16} />,
-			iconSelected: <HomeSolid size={16} />,
-			path: "/#pricing",
-			title: t("pricing"),
-		},
-		{
-			icon: <Info size={16} />,
-			iconSelected: <InfoSolid size={16} />,
-			path: "/about",
-			title: t("about"),
-		},
-		{
-			icon: <Star size={16} />,
-			iconSelected: <StarSolid size={16} />,
-			path: "/admin",
-			title: t("admin"),
-		},
-		{
-			icon: <Star size={16} />,
-			iconSelected: <StarSolid size={16} />,
-			path: "/policy",
-			title: "Policy",
-		},
-		{
-			icon: <Star size={16} />,
-			iconSelected: <StarSolid size={16} />,
-			path: "/master",
-			title: "Master",
-		},
-	];
-	const pathname = typeof window !== "undefined" ? window.location.pathname : "";
 	return (
 		<html lang={locale}>
 			{isDev && (
@@ -85,17 +41,10 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 						}}
 					/>
 				)}
+				{/* className="flex min-h-screen flex-col bg-background text-foreground" */}
 				<NextIntlClientProvider>
-					<header className="flex min-h-screen flex-col bg-background text-foreground">
-						<NavBar items={navItems} loginText={t("login")} logoText={t("logo")} selectedPath={pathname}>
-							<Suspense fallback={<div>Loading...</div>}>
-								<LanguageSwitcher />
-							</Suspense>
-						</NavBar>
-						<main>{children}</main>
-						<Toaster />
-						<Footer />
-					</header>
+					{children}
+					<Toaster />
 				</NextIntlClientProvider>
 			</body>
 		</html>
