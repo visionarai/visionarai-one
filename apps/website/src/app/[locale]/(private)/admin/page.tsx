@@ -1,4 +1,4 @@
-import { ConditionSection } from "./_condition_section";
+import { ConditionSection } from "./_form";
 export default function AdminPage() {
 	return (
 		<div>
