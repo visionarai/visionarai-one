@@ -1,4 +1,4 @@
-import z from "zod";
+import { z } from "zod";
 import { PermissionDecisionSchema } from "./permission.schema";
 
 export const PersistedPolicySchema = z.object({

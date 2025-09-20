@@ -8,5 +8,11 @@ export const PermissionDecisionSchema = z.discriminatedUnion("type", [
 ]);
 
 export type PermissionDecision = z.infer<typeof PermissionDecisionSchema>;
+/**
+ * Stable list of permission decision types.
+ */
 export const PERMISSION_DECISION_TYPES = ["ALLOW", "DENY", "CONDITIONAL"] as const;
-export const permissionTypes = PermissionDecisionSchema.options.map((schema) => schema.shape.type.value);
+/**
+ * Convenience alias for decision type literals; mirrors PERMISSION_DECISION_TYPES.
+ */
+export const permissionTypes = PERMISSION_DECISION_TYPES;
