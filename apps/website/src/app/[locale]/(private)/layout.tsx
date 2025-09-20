@@ -37,6 +37,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 					<LanguageSwitcher />
 				</Suspense>
 			</NavBar>
+
 			<main>{children}</main>
 			<Footer />
 		</>
