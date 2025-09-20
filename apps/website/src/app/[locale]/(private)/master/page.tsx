@@ -11,28 +11,26 @@ export default async function MasterPage() {
 	const defaultValues = await orpcRouterClient.masterData.get();
 
 	return (
-		<div className="px-4 py-8 md:py-12">
-			<section className="space-y-8">
-				<header className="space-y-3">
-					<h1 className="font-semibold text-3xl tracking-tight">{t("title")}</h1>
-					<p className="max-w-2xl text-lg text-muted-foreground">{t("subtitle")}</p>
-				</header>
-				<MasterDataForm defaultValues={defaultValues} />
+		<section className="space-y-8">
+			<header className="space-y-3">
+				<h1 className="font-semibold text-3xl tracking-tight">{t("title")}</h1>
+				<p className="max-w-2xl text-lg text-muted-foreground">{t("subtitle")}</p>
+			</header>
+			<MasterDataForm defaultValues={defaultValues} />
 
-				{defaultValues?.resources?.length && (
-					<section className="space-y-6">
-						<h3 className="font-medium text-muted-foreground text-sm uppercase tracking-wide">Snapshot</h3>
-						<ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-							{defaultValues?.resources?.map((res) => (
-								<li key={res.name}>
-									<ResourceRow resource={res} />
-								</li>
-							))}
-						</ul>
-					</section>
-				)}
-			</section>
-		</div>
+			{defaultValues?.resources?.length && (
+				<section className="space-y-6">
+					<h3 className="font-medium text-muted-foreground text-sm uppercase tracking-wide">Snapshot</h3>
+					<ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+						{defaultValues?.resources?.map((res) => (
+							<li key={res.name}>
+								<ResourceRow resource={res} />
+							</li>
+						))}
+					</ul>
+				</section>
+			)}
+		</section>
 	);
 }
 

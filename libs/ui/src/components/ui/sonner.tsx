@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, CircleOff, EyeClosed, Info, LoaderCircle, TriangleAlert } from "lucide-react"
+import { Check, CircleOff, Info, LoaderCircle, TriangleAlert } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, ToasterProps } from "sonner"
 

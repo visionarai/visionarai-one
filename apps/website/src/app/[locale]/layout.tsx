@@ -27,7 +27,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 					<script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />
 				</head>
 			)}
-			<body className="flex min-h-screen flex-col bg-background text-foreground">
+			<body className="bg-background text-foreground">
 				{isDev && (
 					<script
 						dangerouslySetInnerHTML={{

@@ -15,3 +15,8 @@ export * from './select';
 export * from './switch';
 export * from './textarea';
 export * from './sonner';
+export * from './tooltip';
+export * from './skeleton';
+export * from './sidebar';
+export * from './sheet';
+export * from './separator';
