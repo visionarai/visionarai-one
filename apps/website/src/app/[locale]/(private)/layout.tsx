@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: We need this for dev tools */
 
 import { Separator, Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarInset, SidebarProvider, SidebarTrigger } from "@visionarai-one/ui";
-import { BrickWall, ShieldUser, Star } from "lucide-react";
+import { BrickWall, Presentation, ShieldUser, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { NavUser } from "./_nav-user";
@@ -45,6 +45,12 @@ export async function AppSidebar() {
 			iconSelected: <Star strokeWidth={3} />,
 			path: "/policy",
 			title: "Policy",
+		},
+		{
+			icon: <Presentation />,
+			iconSelected: <Presentation strokeWidth={3} />,
+			path: "/policies",
+			title: "Policies",
 		},
 		{
 			icon: <BrickWall />,
