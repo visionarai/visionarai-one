@@ -39,7 +39,8 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 
 				<div className="mt-2 flex flex-row gap-2">
 					<Button
-						onClick={() => {
+						onClick={(e) => {
+							e.preventDefault();
 							append({ conditions: [], logic: "AND" } as ConditionsType);
 						}}
 						variant="outline"
@@ -48,7 +49,8 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 					</Button>
 
 					<Button
-						onClick={() => {
+						onClick={(e) => {
+							e.preventDefault();
 							append({
 								field: { name: "id", scope: "user", type: "string" },
 								operation: "equals",
