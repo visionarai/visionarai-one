@@ -3,6 +3,7 @@
 import { Separator, Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarInset, SidebarProvider, SidebarTrigger } from "@visionarai-one/ui";
 import { BrickWall, ShieldUser, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { NavUser } from "./_nav-user";
 import { AppSidebarNavigation } from "./_side-bar-navigation";
 
@@ -54,9 +55,13 @@ export async function AppSidebar() {
 	];
 	return (
 		<Sidebar collapsible="icon">
-			<SidebarHeader />
+			<SidebarHeader>
+				<Link className="flex items-center gap-2" href="/">
+					{t("logo")}
+				</Link>
+			</SidebarHeader>
 			<SidebarContent>
-				<AppSidebarNavigation groupTitle="Platform" navItems={adminRoutes} />
+				<AppSidebarNavigation groupTitle="Admin Area" navItems={adminRoutes} />
 			</SidebarContent>
 
 			<SidebarFooter>
