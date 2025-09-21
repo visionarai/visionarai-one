@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { ConditionsSchema } from "./condition.schema";
 
-export const PermissionDecisionSchema = z.discriminatedUnion("type", [
-	z.object({ type: z.literal("ALLOW") }),
-	z.object({ type: z.literal("DENY") }),
-	z.object({ condition: ConditionsSchema, type: z.literal("CONDITIONAL") }),
+export const PermissionDecisionSchema = z.discriminatedUnion("decision", [
+	z.object({ decision: z.literal("ALLOW") }),
+	z.object({ decision: z.literal("DENY") }),
+	z.object({ condition: ConditionsSchema, decision: z.literal("CONDITIONAL") }),
 ]);
 
 export type PermissionDecision = z.infer<typeof PermissionDecisionSchema>;

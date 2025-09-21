@@ -63,6 +63,8 @@ export const FieldTypeSchema = z
 
 export const ValueTypeSchema = ValueScopeSchema.and(ValueTypeCardinalitySchema);
 
+export type ValueType = z.infer<typeof ValueTypeSchema>;
+
 export const ConditionNodeSchema = z.object({
 	field: FieldTypeSchema,
 	operation: z.string(),

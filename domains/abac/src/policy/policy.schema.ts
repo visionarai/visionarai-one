@@ -22,9 +22,9 @@ export const examplePolicy: PersistedPolicy = {
 	description: "An example policy",
 	name: "Example Policy",
 	permissions: {
-		document: {
-			delete: { type: "DENY" },
-			read: { type: "ALLOW" },
+		documents: {
+			delete: { decision: "DENY" },
+			read: { decision: "ALLOW" },
 			write: {
 				condition: {
 					conditions: [
@@ -43,7 +43,7 @@ export const examplePolicy: PersistedPolicy = {
 								{
 									field: { name: "createdAt", scope: "resource", type: "Date" },
 									operation: "after",
-									value: { cardinality: "one", scope: "literal", value: new Date("2023-01-01") },
+									value: { cardinality: "one", name: "timeOfDay", scope: "environment", value: new Date("2024-01-01") },
 								},
 							],
 							logic: "OR",
@@ -51,8 +51,12 @@ export const examplePolicy: PersistedPolicy = {
 					],
 					logic: "AND",
 				},
-				type: "CONDITIONAL",
+				decision: "CONDITIONAL",
 			},
+		},
+		users: {
+			invite: { decision: "DENY" },
+			read: { decision: "ALLOW" },
 		},
 	},
 	updatedAt: new Date(),
