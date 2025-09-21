@@ -42,12 +42,16 @@ export default async function PoliciesPage() {
 									return (
 										<Table className="mb-4" key={resource}>
 											<TableHeader>
-												<TableHead>Resource - {resource}</TableHead>
+												<TableRow>
+													<TableHead className="bg-muted/50 font-semibold" colSpan={4}>
+														Resource — {resource}
+													</TableHead>
+												</TableRow>
 												<TableRow>
 													<TableHead className="font-bold">Action</TableHead>
 													<TableHead className="font-bold">Decision</TableHead>
 													<TableHead className="font-bold">Condition</TableHead>
-													<TableHead className="font-bold">Edit</TableHead>
+													<TableHead className="sticky right-0 z-10 text-right font-bold">Actions</TableHead>
 												</TableRow>
 											</TableHeader>
 											<TableBody>
@@ -58,8 +62,8 @@ export default async function PoliciesPage() {
 															<Badge variant="outline">{permission.decision}</Badge>
 														</TableCell>
 														<TableCell>{permission.decision === "CONDITIONAL" ? <ConditionTree conditions={permission.condition} /> : "-"}</TableCell>
-														<TableCell>
-															<Button size="icon" variant="outline">
+														<TableCell className="sticky right-0 z-10 text-right">
+															<Button aria-label={`Edit ${action}`} size="icon" variant="outline">
 																<Pencil />
 															</Button>
 														</TableCell>
