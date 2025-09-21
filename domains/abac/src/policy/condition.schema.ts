@@ -92,3 +92,32 @@ export const PermissionSchema = z.object({
 });
 export type PermissionInputType = z.input<typeof PermissionSchema>;
 export type PermissionType = z.infer<typeof PermissionSchema>;
+
+export const permissionExample: PermissionType = {
+	conditions: {
+		conditions: [
+			{
+				field: { name: "id", scope: "user", type: "string" },
+				operation: "equals",
+				value: { cardinality: "one", scope: "literal", value: "userId" },
+			},
+			{
+				conditions: [
+					{
+						field: { name: "currentWorkspace", scope: "user", type: "string" },
+						operation: "in",
+						value: { cardinality: "many", scope: "literal", values: ["tenant-1", "tenant-2"] },
+					},
+					{
+						field: { name: "createdAt", scope: "resource", type: "Date" },
+						operation: "after",
+						value: { cardinality: "one", scope: "literal", value: new Date("2023-01-01") },
+					},
+				],
+				logic: "OR",
+			},
+		],
+		logic: "AND",
+	},
+	name: "Example Permission",
+};

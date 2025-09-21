@@ -1,27 +1,10 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: We need this for dev tools */
 
-import {
-	Separator,
-	Sidebar,
-	SidebarContent,
-	SidebarFooter,
-	SidebarGroup,
-	SidebarGroupContent,
-	SidebarGroupLabel,
-	SidebarHeader,
-	SidebarInset,
-	SidebarMenu,
-	SidebarMenuButton,
-	SidebarMenuItem,
-	SidebarProvider,
-	SidebarTrigger,
-	ThemeSwitcher,
-} from "@visionarai-one/ui";
-import { Star, Star as StarSolid } from "lucide-react";
-import Link from "next/link";
+import { Separator, Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarInset, SidebarProvider, SidebarTrigger } from "@visionarai-one/ui";
+import { BrickWall, ShieldUser, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
-import { LanguageSwitcher } from "@/widgets/language-switcher";
+import { NavUser } from "./_nav-user";
+import { AppSidebarNavigation } from "./_side-bar-navigation";
 
 export default function LocaleLayout({ children }: { children: React.ReactNode }) {
 	return (
@@ -40,26 +23,31 @@ export default function LocaleLayout({ children }: { children: React.ReactNode }
 		</SidebarProvider>
 	);
 }
-
+const user = {
+	avatar:
+		"https://media.licdn.com/dms/image/v2/D4D03AQG_k9G0Ia1xhA/profile-displayphoto-scale_400_400/B4DZkFJLWxHYAo-/0/1756727941441?e=2147483647&v=beta&t=TUqS2oh0Kq4CysIBa2NbKSPdenKJzEB69juOCBtKOfM",
+	email: "er.sanyam.arya@gmail.com",
+	name: "Sanyam Arya",
+};
 export async function AppSidebar() {
 	const t = await getTranslations("Navigation");
-	const pathname = typeof window !== "undefined" ? window.location.pathname : "";
-	const navItems = [
+
+	const adminRoutes = [
 		{
-			icon: <Star size={16} />,
-			iconSelected: <StarSolid size={16} />,
+			icon: <ShieldUser />,
+			iconSelected: <ShieldUser strokeWidth={3} />,
 			path: "/admin",
 			title: t("admin"),
 		},
 		{
-			icon: <Star size={16} />,
-			iconSelected: <StarSolid size={16} />,
+			icon: <Star />,
+			iconSelected: <Star strokeWidth={3} />,
 			path: "/policy",
 			title: "Policy",
 		},
 		{
-			icon: <Star size={16} />,
-			iconSelected: <StarSolid size={16} />,
+			icon: <BrickWall />,
+			iconSelected: <BrickWall strokeWidth={3} />,
 			path: "/master",
 			title: "Master",
 		},
@@ -68,39 +56,11 @@ export async function AppSidebar() {
 		<Sidebar collapsible="icon">
 			<SidebarHeader />
 			<SidebarContent>
-				<SidebarGroup>
-					<SidebarGroupLabel>Platform</SidebarGroupLabel>
-					<SidebarGroupContent>
-						<SidebarMenu>
-							{navItems.map((item) => {
-								const selected = pathname === item.path;
-								return (
-									<SidebarMenuItem key={item.path}>
-										<SidebarMenuButton asChild>
-											<Link
-												aria-current={selected ? "page" : undefined}
-												className={`flex items-center gap-1 font-medium text-sm hover:underline ${selected ? "text-primary" : ""}`}
-												href={item.path}
-												key={item.path}
-											>
-												{selected ? item.iconSelected : item.icon}
-												<span>{item.title}</span>
-											</Link>
-										</SidebarMenuButton>
-									</SidebarMenuItem>
-								);
-							})}
-						</SidebarMenu>
-					</SidebarGroupContent>
-				</SidebarGroup>
+				<AppSidebarNavigation groupTitle="Platform" navItems={adminRoutes} />
 			</SidebarContent>
-			<SidebarFooter>
-				<div className="p-4 text-muted-foreground text-xs">© 2024 VisionAI</div>
 
-				<Suspense fallback={<div>Loading...</div>}>
-					<LanguageSwitcher />
-				</Suspense>
-				<ThemeSwitcher />
+			<SidebarFooter>
+				<NavUser user={user} />
 			</SidebarFooter>
 		</Sidebar>
 	);

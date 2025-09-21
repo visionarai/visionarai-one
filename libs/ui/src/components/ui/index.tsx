@@ -20,3 +20,5 @@ export * from './skeleton';
 export * from './sidebar';
 export * from './sheet';
 export * from './separator';
+export * from './avatar';
+export * from"./dropdown-menu";
