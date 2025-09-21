@@ -25,19 +25,11 @@ export const AttributeInput = ({ formControl, resourceIndex, ...props }: Attribu
 
 	return (
 		<div className="space-y-3" data-testid="attribute-input" {...props}>
-			<div className="flex items-center gap-1">
-				<h4 className="font-medium text-[11px] text-muted-foreground/80 uppercase tracking-wide">{t("heading")}</h4>
-				<Button
-					aria-label={t("addAttribute")}
-					className="h-6 w-6"
-					onClick={() => append({ key: "", type: "string" })}
-					size="icon"
-					type="button"
-					variant="ghost"
-				>
-					<PlusIcon className="size-3.5" />
-				</Button>
-			</div>
+			<Button aria-label={t("addAttribute")} onClick={() => append({ key: "", type: "string" })} variant="secondary">
+				{t("heading")}
+				<PlusIcon className="size-3.5" />
+			</Button>
+
 			<div className="space-y-2">
 				{fields.length === 0 && (
 					<p className="text-muted-foreground text-xs" data-testid="attribute-empty-hint">

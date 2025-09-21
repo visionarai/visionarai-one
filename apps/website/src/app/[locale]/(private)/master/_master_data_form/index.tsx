@@ -74,20 +74,18 @@ export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
 										<Trash2 className="size-4" />
 									</Button>
 								</div>
-								<div className="grid gap-6 md:grid-cols-3">
-									<div className="flex flex-col gap-2 md:col-span-1">
-										<p className="font-medium text-[11px] text-muted-foreground/80 uppercase tracking-wide">{t("page.resourceNameLabel")}</p>
+
+								<div className="space-y-8">
+									<div className="flex flex-col gap-2">
 										<InputFormField
 											formControl={form.control}
-											label={undefined}
+											label={t("page.resourceNameLabel")}
 											name={`resources.${index}.name`}
 											placeholder={t("page.resourceNamePlaceholder")}
 										/>
 									</div>
-									<div className="md:col-span-1">
+									<div className="flex flex-row gap-8 [&>*]:flex-1">
 										<AttributeInput formControl={form.control} resourceIndex={index} />
-									</div>
-									<div className="md:col-span-1">
 										<PermissionsInput formControl={form.control} resourceIndex={index} />
 									</div>
 								</div>

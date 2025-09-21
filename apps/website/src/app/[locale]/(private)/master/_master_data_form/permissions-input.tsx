@@ -27,22 +27,19 @@ export const PermissionsInput = ({ formControl, resourceIndex }: PermissionsInpu
 			render={({ field }) => {
 				return (
 					<div className="space-y-2">
-						<div className="flex items-center gap-1">
-							<h3 className="font-medium text-[11px] text-muted-foreground/80 uppercase tracking-wide">{t("heading")}</h3>
-							<Button
-								aria-label={t("addPermission")}
-								className="h-6 w-6"
-								onClick={() => {
-									const newPermissions = [...(field.value || []), ""];
-									field.onChange(newPermissions);
-								}}
-								size="icon"
-								type="button"
-								variant="ghost"
-							>
-								<PlusIcon className="size-3.5" />
-							</Button>
-						</div>
+						<Button
+							aria-label={t("addPermission")}
+							onClick={() => {
+								const newPermissions = [...(field.value || []), ""];
+								field.onChange(newPermissions);
+							}}
+							type="button"
+							variant="secondary"
+						>
+							{t("heading")}
+							<PlusIcon className="size-3.5" />
+						</Button>
+
 						{field.value?.map((permission, index) => (
 							// eslint-disable-next-line react/no-array-index-key
 							<div className="flex items-center gap-3 [&>:not(:last-child)]:flex-1" key={`${permission || "perm"}-${index}`}>
