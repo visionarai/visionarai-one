@@ -76,50 +76,55 @@ export const CONDITIONS_LOGIC = ["AND", "OR", "NOT"] as const;
 
 export type ConditionsType = {
 	logic: (typeof CONDITIONS_LOGIC)[number];
-	conditions: Array<ConditionNode | ConditionsType>;
+	expressions: Array<ConditionNode | ConditionsType>;
 };
 
 export const ConditionsSchema: z.ZodType<ConditionsType> = z.lazy(() =>
 	z.object({
-		conditions: z.array(z.union([ConditionNodeSchema, ConditionsSchema])).min(1),
+		expressions: z.array(z.union([ConditionNodeSchema, ConditionsSchema])).min(1),
 		logic: z.enum(CONDITIONS_LOGIC),
 	})
 );
 
-export type ConditionsInputType = z.input<typeof ConditionsSchema>;
+export type ConditionsOutputType = z.output<typeof ConditionsSchema>;
 
-export const PermissionSchema = z.object({
-	conditions: ConditionsSchema,
-	name: z.string().min(1, "Permission name is required"),
-});
-export type PermissionInputType = z.input<typeof PermissionSchema>;
-export type PermissionType = z.infer<typeof PermissionSchema>;
+export const BlankConditionalPermissionDecision: ConditionsOutputType = {
+	expressions: [],
+	logic: "AND",
+} as const;
 
-export const permissionExample: PermissionType = {
-	conditions: {
-		conditions: [
-			{
-				field: { name: "id", scope: "user", type: "string" },
-				operation: "equals",
-				value: { cardinality: "one", scope: "literal", value: "userId" },
-			},
-			{
-				conditions: [
-					{
-						field: { name: "currentWorkspace", scope: "user", type: "string" },
-						operation: "in",
-						value: { cardinality: "many", scope: "literal", values: ["tenant-1", "tenant-2"] },
-					},
-					{
-						field: { name: "createdAt", scope: "resource", type: "Date" },
-						operation: "after",
-						value: { cardinality: "one", scope: "literal", value: new Date("2023-01-01") },
-					},
-				],
-				logic: "OR",
-			},
-		],
-		logic: "AND",
-	},
-	name: "Example Permission",
-};
+// export const PermissionSchema = z.object({
+// 	conditions: ConditionsSchema,
+// 	name: z.string().min(1, "Permission name is required"),
+// });
+// export type PermissionInputType = z.input<typeof PermissionSchema>;
+// export type PermissionType = z.infer<typeof PermissionSchema>;
+
+// export const permissionExample: PermissionType = {
+// 	conditions: {
+// 		conditions: [
+// 			{
+// 				field: { name: "id", scope: "user", type: "string" },
+// 				operation: "equals",
+// 				value: { cardinality: "one", scope: "literal", value: "userId" },
+// 			},
+// 			{
+// 				conditions: [
+// 					{
+// 						field: { name: "currentWorkspace", scope: "user", type: "string" },
+// 						operation: "in",
+// 						value: { cardinality: "many", scope: "literal", values: ["tenant-1", "tenant-2"] },
+// 					},
+// 					{
+// 						field: { name: "createdAt", scope: "resource", type: "Date" },
+// 						operation: "after",
+// 						value: { cardinality: "one", scope: "literal", value: new Date("2023-01-01") },
+// 					},
+// 				],
+// 				logic: "OR",
+// 			},
+// 		],
+// 		logic: "AND",
+// 	},
+// 	name: "Example Permission",
+// };

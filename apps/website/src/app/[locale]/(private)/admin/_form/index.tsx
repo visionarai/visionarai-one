@@ -24,11 +24,14 @@ export function ConditionSection() {
 					<ConditionGroupNode
 						name="conditions"
 						onRemove={() => {
-							const current = form.getValues();
-							form.reset({ ...current, conditions: { conditions: [], logic: "AND" } });
+							form.setValue("conditions", { conditions: [], logic: "AND" });
 						}}
 					/>
-
+					{/* <ConditionBuilder
+						onChange={(next) => form.setValue("conditions", next, { shouldDirty: true, shouldValidate: true })}
+						title="Conditions"
+						value={form.getValues("conditions") as PermissionType["conditions"]}
+					/> */}
 					<Button type="submit">Submit</Button>
 				</form>
 			</Form>

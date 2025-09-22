@@ -7,7 +7,8 @@ export const PermissionDecisionSchema = z.discriminatedUnion("decision", [
 	z.object({ condition: ConditionsSchema, decision: z.literal("CONDITIONAL") }),
 ]);
 
-export type PermissionDecision = z.infer<typeof PermissionDecisionSchema>;
+export type PermissionType = z.infer<typeof PermissionDecisionSchema>;
+export type PermissionInputType = z.input<typeof PermissionDecisionSchema>;
 /**
  * Stable list of permission decision types.
  */

@@ -11,7 +11,14 @@ import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
-	DataDebugger,
+	Sheet,
+	SheetClose,
+	SheetContent,
+	SheetDescription,
+	SheetFooter,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
 	Table,
 	TableBody,
 	TableCell,
@@ -22,6 +29,7 @@ import {
 import { Maximize2, UnfoldVertical } from "lucide-react";
 import { orpcRouterClient } from "@/lib/orpc";
 import { ConditionTree } from "./_condition-tree";
+import { ConditionSection } from "./_form";
 
 export default async function PoliciesPage() {
 	await orpcRouterClient.masterData.get();
@@ -29,7 +37,7 @@ export default async function PoliciesPage() {
 
 	return (
 		<div>
-			<DataDebugger data={{ policies }} />
+			{/* <DataDebugger data={{ policies }} /> */}
 			{policies.map((policy, index) => {
 				const resources = Object.keys(policy.permissions);
 				return (
@@ -79,9 +87,29 @@ export default async function PoliciesPage() {
 																</TableCell>
 																<TableCell>{permission.decision === "CONDITIONAL" ? <ConditionTree conditions={permission.condition} /> : "-"}</TableCell>
 																<TableCell className="sticky right-0 z-10 text-right">
-																	<Button aria-label={`Edit ${action}`} size="icon" variant="outline">
-																		<Maximize2 />
-																	</Button>
+																	<Sheet>
+																		<SheetTrigger asChild>
+																			<Button aria-label={`Edit ${action}`} size="icon" variant="outline">
+																				<Maximize2 />
+																			</Button>
+																		</SheetTrigger>
+																		<SheetContent className="w-[calc(100vw-60px)] p-4" side="right">
+																			<SheetHeader>
+																				<SheetTitle>Edit profile</SheetTitle>
+																				<SheetDescription>Make changes to your profile here. Click save when you&apos;re done.</SheetDescription>
+																			</SheetHeader>
+																			<div>
+																				<h1 className="font-semibold text-lg">Edit Permission - {action}</h1>
+																				<ConditionSection defaultValues={permission} />
+																			</div>
+																			<SheetFooter>
+																				<Button type="submit">Save changes</Button>
+																				<SheetClose asChild>
+																					<Button variant="outline">Close</Button>
+																				</SheetClose>
+																			</SheetFooter>
+																		</SheetContent>
+																	</Sheet>
 																</TableCell>
 															</TableRow>
 														))}

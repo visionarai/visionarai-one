@@ -41,7 +41,7 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 					<Button
 						onClick={(e) => {
 							e.preventDefault();
-							append({ expressions: [], logic: "AND" } as ConditionsType);
+							append({ conditions: [], logic: "AND" } as ConditionsType);
 						}}
 						variant="outline"
 					>

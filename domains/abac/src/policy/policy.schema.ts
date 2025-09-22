@@ -27,14 +27,14 @@ export const examplePolicy: PersistedPolicy = {
 			read: { decision: "ALLOW" },
 			write: {
 				condition: {
-					conditions: [
+					expressions: [
 						{
 							field: { name: "id", scope: "user", type: "string" },
 							operation: "equals",
 							value: { cardinality: "one", scope: "literal", value: "userId" },
 						},
 						{
-							conditions: [
+							expressions: [
 								{
 									field: { name: "currentWorkspace", scope: "user", type: "string" },
 									operation: "in",
