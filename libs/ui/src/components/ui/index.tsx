@@ -23,3 +23,4 @@ export * from "./separator";
 export * from "./avatar";
 export * from "./dropdown-menu";
 export * from "./table";
+export * from "./collapsible";
