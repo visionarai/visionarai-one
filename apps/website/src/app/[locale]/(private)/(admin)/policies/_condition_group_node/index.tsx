@@ -14,7 +14,7 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 	// name = name ? `${name}.conditions` : "conditions";
 	const { fields, append, remove, insert } = useFieldArray<PermissionType, FieldArrayPath<PermissionType>>({
 		control: formContext.control,
-		name: `${name}.conditions` as FieldArrayPath<PermissionType>,
+		name: `${name}.expressions` as FieldArrayPath<PermissionType>,
 	});
 
 	const conditionBorderColor = cn(
@@ -41,7 +41,7 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 					<Button
 						onClick={(e) => {
 							e.preventDefault();
-							append({ conditions: [], logic: "AND" } as ConditionsType);
+							append({ expressions: [], logic: "AND" } as ConditionsType);
 						}}
 						variant="outline"
 					>
@@ -76,7 +76,7 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 			</div>
 
 			{fields.map((field, index) => {
-				const fieldName = `${name}.conditions.${index}` as FieldPath<PermissionType>;
+				const fieldName = `${name}.expressions.${index}` as FieldPath<PermissionType>;
 				const itemLogic = formContext.getValues(`${fieldName}.logic` as FieldPath<PermissionType>);
 				const isGroup = typeof itemLogic === "string";
 				if (!isGroup) {

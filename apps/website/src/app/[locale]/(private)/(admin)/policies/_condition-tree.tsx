@@ -73,7 +73,7 @@ const FieldItem = ({ node }: { node: ConditionNode }) => {
 
 const isGroup = (n: ConditionNode | ConditionsType): n is ConditionsType => {
 	const candidate = n as ConditionsType;
-	return Array.isArray(candidate.conditions) && typeof candidate.logic !== "undefined";
+	return Array.isArray(candidate.expressions) && typeof candidate.logic !== "undefined";
 };
 
 const GroupHeader = ({ logic, count }: { logic: ConditionsType["logic"]; count: number }) => (
@@ -85,7 +85,7 @@ const GroupHeader = ({ logic, count }: { logic: ConditionsType["logic"]; count: 
 
 const keyForNode = (n: ConditionNode | ConditionsType, fallbackIndex: number): string => {
 	if (isGroup(n)) {
-		return `group:${n.logic}:${n.conditions.length}:${fallbackIndex}`;
+		return `group:${n.logic}:${n.expressions.length}:${fallbackIndex}`;
 	}
 	const { field, operation, value } = n;
 	const idPart = `${field.scope}:${field.name}:${operation}:${value.scope}:${value.cardinality}`;
@@ -105,10 +105,10 @@ export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => 
 		return (
 			<div>
 				<div className="mb-1">
-					<GroupHeader count={g.conditions.length} logic={g.logic} />
+					<GroupHeader count={g.expressions.length} logic={g.logic} />
 				</div>
 				<div className={conditionBorderColor}>
-					{g.conditions.map((c, idx) => (
+					{g.expressions.map((c, idx) => (
 						<div className="py-1" key={keyForNode(c, idx)}>
 							{isGroup(c) ? renderGroup(c) : <FieldItem node={c} />}
 						</div>
