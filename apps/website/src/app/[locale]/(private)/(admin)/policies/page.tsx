@@ -3,6 +3,7 @@ import {
 	Badge,
 	Button,
 	Card,
+	CardAction,
 	CardContent,
 	CardDescription,
 	CardHeader,
@@ -18,19 +19,27 @@ import {
 import { Pencil } from "lucide-react";
 import { orpcRouterClient } from "@/lib/orpc";
 import { ConditionTree } from "./_condition-tree";
+
 export default async function PoliciesPage() {
 	await orpcRouterClient.masterData.get();
 	const policies = [examplePolicy];
+
 	return (
 		<div>
-			<h1>Policies</h1>
 			<DataDebugger data={{ policies }} />
-			{policies.map((policy) => {
+			{policies.map((policy, index) => {
 				const resources = Object.keys(policy.permissions);
 				return (
 					<Card className="mb-4" key={policy._id}>
 						<CardHeader>
-							<CardTitle>{policy.name}</CardTitle>
+							<CardTitle>
+								{index + 1}. {policy.name} - v{policy.version}
+							</CardTitle>
+							<CardAction>
+								<Button aria-label={`Edit ${policy.name}`} size="icon" variant="outline">
+									<Pencil />
+								</Button>
+							</CardAction>
 							<CardDescription>{policy.description}</CardDescription>
 						</CardHeader>
 						<CardContent>

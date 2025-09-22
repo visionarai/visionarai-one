@@ -2,11 +2,9 @@
 
 import type { CSSProperties, MouseEvent, ReactNode, TouchEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { PanelHeader } from "./components/panel-header";
 import { RawView } from "./components/raw-view";
 import { ResizeGrip } from "./components/resize-grip";
 import { ToggleButton } from "./components/toggle-button";
-import { TreeView } from "./components/tree-view";
 import { useDrag } from "./hooks/use-drag";
 import { useResize } from "./hooks/use-resize";
 import { safeStringify } from "./utils/json-highlighting";
@@ -35,8 +33,8 @@ const placementToStyle: Record<Placement, CSSProperties> = {
  */
 export function DataDebugger({ data, placement = "top-right", initialOpen = false, className, children }: DataDebuggerProps) {
 	const [open, setOpen] = useState(initialOpen);
-	const [view, setView] = useState<"raw" | "tree">("raw");
-	const [wrap, setWrap] = useState(true);
+	// Minimal mode: raw JSON view only, with wrapping enabled by default
+	const wrap = true;
 
 	const panelRef = useRef<HTMLDivElement>(null);
 
@@ -94,18 +92,13 @@ export function DataDebugger({ data, placement = "top-right", initialOpen = fals
 	};
 
 	// Wrapper functions to handle both mouse and touch events
-	const handleDragStart = useCallback(
-		(e: MouseEvent | TouchEvent) => {
-			if ("clientX" in e) {
-				dragProps.onMouseDown(e as MouseEvent);
-			}
-		},
-		[dragProps]
-	);
+	// Drag handled via dedicated button in header using dragProps
 
 	const handleResizeStart = useCallback(
 		(e: MouseEvent | TouchEvent) => {
-			if ("clientX" in e) {
+			if ("touches" in e) {
+				resizeProps.onTouchStart(e);
+			} else {
 				resizeProps.onMouseDown(e as MouseEvent);
 			}
 		},
@@ -120,26 +113,54 @@ export function DataDebugger({ data, placement = "top-right", initialOpen = fals
 	return (
 		<div
 			aria-label="Data Debugger Panel"
-			className={`fixed z-1000 flex select-none flex-col overflow-hidden rounded-md border border-border bg-[#1e1f22] text-[13px] shadow-2xl transition-all ${className || ""}`}
+			className={`fixed z-1000 flex select-none flex-col overflow-hidden rounded-md border border-border bg-[#1e1f22] text-[13px] shadow-lg transition-all ${className || ""}`}
 			ref={panelRef}
 			role="dialog"
 			style={style}
 			tabIndex={-1}
 		>
-			<PanelHeader
-				isDragging={isDragging}
-				onClose={() => setOpen(false)}
-				onCopy={handleCopy}
-				onDragStart={handleDragStart}
-				onViewChange={setView}
-				onWrapToggle={() => setWrap((w) => !w)}
-				view={view}
-				wrap={wrap}
-			/>
+			{/* Minimal header with drag handle + actions */}
+			<div
+				aria-label="Debugger controls"
+				className="flex h-8 items-center justify-between gap-2 border-border border-b bg-[#17181a] px-2 text-slate-300"
+				role="toolbar"
+			>
+				<button
+					aria-label="Drag debugger"
+					className="flex cursor-move items-center gap-2 rounded px-1 py-1 hover:bg-[#1f2023]"
+					onMouseDown={dragProps.onMouseDown}
+					onTouchStart={dragProps.onTouchStart}
+					title="Drag"
+					type="button"
+				>
+					<span aria-hidden="true" className="inline-block h-3 w-3 rounded-full bg-[#2a2b2e]" />
+					<span className="text-[12px] text-slate-400">Debug</span>
+				</button>
+				<div className="flex items-center gap-1">
+					<button
+						aria-label="Copy JSON"
+						className="rounded px-2 py-1 text-[12px] text-slate-300 hover:bg-[#1f2023] hover:text-white active:bg-[#242528]"
+						onClick={handleCopy}
+						title="Copy"
+						type="button"
+					>
+						Copy
+					</button>
+					<button
+						aria-label="Close debugger"
+						className="rounded px-2 py-1 text-[12px] text-slate-300 hover:bg-[#1f2023] hover:text-white active:bg-[#242528]"
+						onClick={() => setOpen(false)}
+						title="Close"
+						type="button"
+					>
+						×
+					</button>
+				</div>
+			</div>
 
 			{/* Content */}
 			<div className="flex-1 select-text overflow-auto bg-[#1e1f22] p-2 font-mono text-slate-200 text-xs">
-				{view === "raw" ? <RawView json={json} wrap={wrap} /> : <TreeView data={data} />}
+				<RawView json={json} wrap={wrap} />
 				{children}
 			</div>
 

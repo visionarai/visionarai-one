@@ -15,7 +15,6 @@ export type NavigationItem = {
 
 type NavBarProps = {
 	items: NavigationItem[];
-
 	selectedPath?: string;
 	loginText?: string;
 	logoText?: string;

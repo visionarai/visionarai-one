@@ -23,7 +23,7 @@ const PANEL_MIN_HEIGHT = 380;
 const getClientPoint = (e: MouseEvent | TouchEvent) => ("touches" in e ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY });
 
 export const useResize = (options: UseResizeOptions = {}): UseResizeReturn => {
-	const { initialSize = { height: 500, width: 400 }, minWidth = PANEL_MIN_WIDTH, minHeight = PANEL_MIN_HEIGHT } = options;
+	const { initialSize = { height: 500, width: 500 }, minWidth = PANEL_MIN_WIDTH, minHeight = PANEL_MIN_HEIGHT } = options;
 
 	const [size, setSize] = useState(initialSize);
 	const [isResizing, setIsResizing] = useState(false);

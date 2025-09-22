@@ -20,8 +20,9 @@ export const ToggleButton = ({ placement, onClick, className }: ToggleButtonProp
 	return (
 		<Button
 			aria-label="Open Data Debugger"
-			className={`fixed z-999 h-6 w-32 bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 font-medium text-white text-xs shadow-lg ring-1 ring-white/10 ring-inset transition-all ${className || ""}`}
+			className={`fixed z-999 bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 font-medium text-white text-xs shadow-lg ring-1 ring-white/10 ring-inset transition-all ${className || ""}`}
 			onClick={onClick}
+			size="sm"
 			style={placementToStyle[placement]}
 			type="button"
 		>

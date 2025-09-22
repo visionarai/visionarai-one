@@ -1,36 +1,22 @@
-/** biome-ignore-all lint/security/noDangerouslySetInnerHtml: We need this for dev tools */
-
-import { Separator, Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarInset, SidebarProvider, SidebarTrigger } from "@visionarai-one/ui";
-import { BrickWall, Presentation, ShieldUser } from "lucide-react";
+import {
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarHeader,
+	SidebarInset,
+	SidebarMenu,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	SidebarProvider,
+} from "@visionarai-one/ui";
+import { BrickWall, EyeIcon, Presentation, ShieldUser } from "lucide-react";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
-import { NavUser } from "./_nav-user";
-import { AppSidebarNavigation } from "./_side-bar-navigation";
+import { MainAreaTitle } from "./_navigation/main-area-title";
+import { NavUser } from "./_navigation/nav-user";
+import { AppSidebarNavigation } from "./_navigation/side-bar-navigation";
 
-export default function LocaleLayout({ children }: { children: React.ReactNode }) {
-	return (
-		<SidebarProvider>
-			<AppSidebar />
-			<SidebarInset>
-				<header className="flex h-16 shrink-0 items-center gap-2 transition-all ease-linear">
-					<div className="flex items-center gap-2 px-4">
-						<SidebarTrigger className="-ml-1" />
-						<Separator className="mr-2 data-[orientation=vertical]:h-4" orientation="vertical" />
-						<main className="flex-1 font-medium">VisionAI</main>
-					</div>
-				</header>
-				<main className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</main>
-			</SidebarInset>
-		</SidebarProvider>
-	);
-}
-const user = {
-	avatar:
-		"https://media.licdn.com/dms/image/v2/D4D03AQG_k9G0Ia1xhA/profile-displayphoto-scale_400_400/B4DZkFJLWxHYAo-/0/1756727941441?e=2147483647&v=beta&t=TUqS2oh0Kq4CysIBa2NbKSPdenKJzEB69juOCBtKOfM",
-	email: "er.sanyam.arya@gmail.com",
-	name: "Sanyam Arya",
-};
-export async function AppSidebar() {
+export default async function LocaleLayout({ children }: { children: React.ReactNode }) {
 	const t = await getTranslations("Navigation");
 
 	const adminRoutes = [
@@ -53,20 +39,54 @@ export async function AppSidebar() {
 			title: "Master",
 		},
 	];
-	return (
-		<Sidebar collapsible="icon">
-			<SidebarHeader>
-				<Link className="flex items-center gap-2" href="/">
-					{t("logo")}
-				</Link>
-			</SidebarHeader>
-			<SidebarContent>
-				<AppSidebarNavigation groupTitle="Admin Area" navItems={adminRoutes} />
-			</SidebarContent>
 
-			<SidebarFooter>
-				<NavUser user={user} />
-			</SidebarFooter>
-		</Sidebar>
+	const allRoutes = [...adminRoutes].reduce(
+		(acc, route) => {
+			acc[route.path] = route.title;
+			return acc;
+		},
+		{} as Record<string, string>
+	);
+	return (
+		<SidebarProvider>
+			<Sidebar collapsible="icon">
+				<SidebarHeader>
+					<SidebarMenu>
+						<SidebarMenuItem>
+							<SidebarMenuButton asChild size="lg">
+								<Link className="flex items-center gap-2" href="/">
+									<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+										<EyeIcon className="size-4" />
+									</div>
+									<div className="grid flex-1 text-left text-sm leading-tight">
+										<span className="truncate font-medium">{t("logo")}</span>
+										<span className="truncate text-xs">Enterprise</span>
+									</div>
+								</Link>
+							</SidebarMenuButton>
+						</SidebarMenuItem>
+					</SidebarMenu>
+				</SidebarHeader>
+				<SidebarContent>
+					<AppSidebarNavigation groupTitle="Admin Area" navItems={adminRoutes} />
+				</SidebarContent>
+
+				<SidebarFooter>
+					<NavUser user={user} />
+				</SidebarFooter>
+			</Sidebar>
+			<SidebarInset>
+				<header className="flex h-16 shrink-0 items-center gap-2 transition-all ease-linear">
+					<MainAreaTitle allRoutes={allRoutes} />
+				</header>
+				<section className="px-8">{children}</section>
+			</SidebarInset>
+		</SidebarProvider>
 	);
 }
+const user = {
+	avatar:
+		"https://media.licdn.com/dms/image/v2/D4D03AQG_k9G0Ia1xhA/profile-displayphoto-scale_400_400/B4DZkFJLWxHYAo-/0/1756727941441?e=2147483647&v=beta&t=TUqS2oh0Kq4CysIBa2NbKSPdenKJzEB69juOCBtKOfM",
+	email: "er.sanyam.arya@gmail.com",
+	name: "Sanyam Arya",
+};
