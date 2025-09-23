@@ -1,0 +1,10 @@
+{
+  "nx-console": {
+    "initialGitRef": {
+      "ref": "1251d1c8d45f9e8b02ddab1639a803a81201f7f2",
+      "subject": "refactor(website/policies): extract color helpers and simplify condition tree"
+    },
+    "targetVersion": "latest",
+    "confirmedPackageUpdates": true
+  }
+}
