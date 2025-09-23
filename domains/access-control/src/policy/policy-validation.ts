@@ -20,12 +20,11 @@ export type SemanticValidatorConfig = {
 	maxNodes?: number;
 };
 
-const fieldMapFromRegistry = (registry: FieldDescriptor[]): Record<string, FieldDescriptor> => {
-	return registry.reduce<Record<string, FieldDescriptor>>((acc, f) => {
+const fieldMapFromRegistry = (registry: FieldDescriptor[]): Record<string, FieldDescriptor> =>
+	registry.reduce<Record<string, FieldDescriptor>>((acc, f) => {
 		acc[f.id] = f;
 		return acc;
 	}, {});
-};
 
 // Helper: operator field compatibility
 const validateOperatorCompatibility = (

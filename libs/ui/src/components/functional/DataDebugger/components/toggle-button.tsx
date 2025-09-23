@@ -16,17 +16,15 @@ const placementToStyle: Record<Placement, CSSProperties> = {
 	"top-right": { right: 24, top: 24 },
 };
 
-export const ToggleButton = ({ placement, onClick, className }: ToggleButtonProps) => {
-	return (
-		<Button
-			aria-label="Open Data Debugger"
-			className={`fixed z-999 bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 font-medium text-white text-xs shadow-lg ring-1 ring-white/10 ring-inset transition-all ${className || ""}`}
-			onClick={onClick}
-			size="sm"
-			style={placementToStyle[placement]}
-			type="button"
-		>
-			DevTools
-		</Button>
-	);
-};
+export const ToggleButton = ({ placement, onClick, className }: ToggleButtonProps) => (
+	<Button
+		aria-label="Open Data Debugger"
+		className={`fixed z-999 bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 font-medium text-white text-xs shadow-lg ring-1 ring-white/10 ring-inset transition-all ${className || ""}`}
+		onClick={onClick}
+		size="sm"
+		style={placementToStyle[placement]}
+		type="button"
+	>
+		DevTools
+	</Button>
+);

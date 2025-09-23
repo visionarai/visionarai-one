@@ -43,13 +43,11 @@ const ScopePill = React.memo(({ label }: { label: string }) => (
 	</Badge>
 ));
 
-const LogicPill = React.memo(({ logic }: { logic: ConditionsType["logic"] }) => {
-	return (
-		<Badge className={conditionBorderColor(logic)} title="Logic group" variant="outline">
-			{logic}
-		</Badge>
-	);
-});
+const LogicPill = React.memo(({ logic }: { logic: ConditionsType["logic"] }) => (
+	<Badge className={conditionBorderColor(logic)} title="Logic group" variant="outline">
+		{logic}
+	</Badge>
+));
 
 const FieldItem = React.memo(({ node }: { node: ConditionNode }) => {
 	const { field, operation, value } = node;
@@ -84,8 +82,8 @@ const keyForNode = (n: ConditionNode | ConditionsType, fallbackIndex: number): s
 };
 
 export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => {
-	const renderGroup = useCallback((g: ConditionsType) => {
-		return (
+	const renderGroup = useCallback(
+		(g: ConditionsType) => (
 			<div>
 				<div className="mb-1">
 					<GroupHeader count={g.expressions.length} logic={g.logic} />
@@ -98,8 +96,9 @@ export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => 
 					))}
 				</div>
 			</div>
-		);
-	}, []);
+		),
+		[]
+	);
 
 	const tree = useMemo(() => renderGroup(conditions), [conditions, renderGroup]);
 	return <div className={className ? `text-sm ${className}` : "text-sm"}>{tree}</div>;

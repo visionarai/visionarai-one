@@ -1,4 +1,4 @@
-import type { ConditionLogicType, permissionTypes } from "@visionarai-one/abac";
+import type { ConditionLogicType, PermissionTypes } from "@visionarai-one/abac";
 import { cn } from "@visionarai-one/utils";
 
 export const conditionBorderColor = (logic: ConditionLogicType, className?: string) =>
@@ -21,7 +21,7 @@ export const conditionGroupLeftBorderColor = (logic: ConditionLogicType, classNa
 		className
 	);
 
-export const decisionBorderColor = (decision: permissionTypes, className?: string) =>
+export const decisionBorderColor = (decision: PermissionTypes, className?: string) =>
 	cn(
 		{
 			"border-emerald-300 text-emerald-700": decision === "ALLOW",

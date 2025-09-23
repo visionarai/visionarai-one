@@ -59,9 +59,9 @@ export function SingleConditionNode({ name, onRemove, onCopy, className, ...prop
 		if (!isFieldScope(valueScope)) {
 			return [];
 		}
-		return Object.keys(SCOPE_TYPE_ATTRIBUTE_MAP[valueScope]).filter((attributes) => {
-			return SCOPE_TYPE_ATTRIBUTE_MAP[valueScope][attributes as keyof (typeof SCOPE_TYPE_ATTRIBUTE_MAP)[typeof valueScope]] === fieldType;
-		});
+		return Object.keys(SCOPE_TYPE_ATTRIBUTE_MAP[valueScope]).filter(
+			(attributes) => SCOPE_TYPE_ATTRIBUTE_MAP[valueScope][attributes as keyof (typeof SCOPE_TYPE_ATTRIBUTE_MAP)[typeof valueScope]] === fieldType
+		);
 	}, [valueScope, fieldType]);
 
 	return (

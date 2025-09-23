@@ -22,9 +22,8 @@ export type OperationTypeToTSType<T extends OperationDataType> = T extends "stri
 
 export type AllPossibleOperations = OperationTypeForDataType<OperationDataType>;
 
-export const isValidOperation = (operation: string, dataType: OperationDataType): operation is OperationTypeForDataType<OperationDataType> => {
-	return (OPERATION_TYPES[dataType] as readonly string[]).includes(operation);
-};
+export const isValidOperation = (operation: string, dataType: OperationDataType): operation is OperationTypeForDataType<OperationDataType> =>
+	(OPERATION_TYPES[dataType] as readonly string[]).includes(operation);
 
 // Operation handler lookup
 const operationHandlers: Record<string, (value: unknown, compareValue: unknown) => boolean> = {

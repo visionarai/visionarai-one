@@ -54,15 +54,13 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 	return (
 		<Form {...(form as any)}>
 			<form className="space-y-8" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<TFieldValues>)}>
-				{extractedFields.map((fieldMetadata) => {
-					return (
-						<FieldRenderer
-							fieldMetadata={fieldMetadata.type === "password" ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}
-							formControl={form.control as unknown as Control<TFieldValues>}
-							key={fieldMetadata.name}
-						/>
-					);
-				})}
+				{extractedFields.map((fieldMetadata) => (
+					<FieldRenderer
+						fieldMetadata={fieldMetadata.type === "password" ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}
+						formControl={form.control as unknown as Control<TFieldValues>}
+						key={fieldMetadata.name}
+					/>
+				))}
 				<div className="flex w-full gap-4">
 					<Button className="flex items-center justify-center gap-2" type="submit" variant="default">
 						{submitButtonIcon}

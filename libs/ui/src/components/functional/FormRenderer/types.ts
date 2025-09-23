@@ -48,9 +48,7 @@ export type FieldMetadata = Prettify<
 >;
 export type FieldType = FieldMetadata["type"];
 
-export const stringifyFieldMetadata = (fieldMetadata: FieldMetadata): string => {
-	return JSON.stringify(fieldMetadata);
-};
+export const stringifyFieldMetadata = (fieldMetadata: FieldMetadata): string => JSON.stringify(fieldMetadata);
 
 export const parseFieldMetadata = (fieldMetadataString: string): FieldMetadata => {
 	try {

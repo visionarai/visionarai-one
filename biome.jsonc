@@ -18,10 +18,12 @@
         "noBarrelFile": "off"
       },
       "suspicious": {
-        "noUnknownAtRules": "off"
+        "noUnknownAtRules": "off",
+        "noAlert": "off"
       },
       "style": {
-        "noMagicNumbers": "off"
+        "noMagicNumbers": "off",
+        "useNamingConvention": "off"
       }
     }
   },
