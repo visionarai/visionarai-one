@@ -4000,7 +4000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orpc/client@npm:1.9.0, @orpc/client@npm:^1.8.8":
+"@orpc/client@npm:1.9.0, @orpc/client@npm:^1.9.0":
   version: 1.9.0
   resolution: "@orpc/client@npm:1.9.0"
   dependencies:
@@ -4072,7 +4072,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orpc/server@npm:1.9.0, @orpc/server@npm:^1.8.8":
+"@orpc/server@npm:1.9.0, @orpc/server@npm:^1.9.0":
   version: 1.9.0
   resolution: "@orpc/server@npm:1.9.0"
   dependencies:
@@ -4165,7 +4165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orpc/zod@npm:^1.8.8":
+"@orpc/zod@npm:^1.9.0":
   version: 1.9.0
   resolution: "@orpc/zod@npm:1.9.0"
   dependencies:
@@ -6347,7 +6347,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^11.1.1":
+"@trpc/server@npm:^11.5.1":
   version: 11.5.1
   resolution: "@trpc/server@npm:11.5.1"
   peerDependencies:
@@ -6647,19 +6647,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^24.4.0":
+"@types/node@npm:*, @types/node@npm:^24.5.2":
   version: 24.5.2
   resolution: "@types/node@npm:24.5.2"
   dependencies:
     undici-types: "npm:~7.12.0"
   checksum: 10c0/96baaca6564d39c6f7f6eddd73ce41e2a7594ef37225cd52df3be36fad31712af8ae178387a72d0b80f2e2799e7fd30c014bc0ae9eb9f962d9079b691be00c48
-  languageName: node
-  linkType: hard
-
-"@types/omelette@npm:^0.4.4":
-  version: 0.4.5
-  resolution: "@types/omelette@npm:0.4.5"
-  checksum: 10c0/691e00ebb73bfe698fc52477040666318ac7c582ac07ba439f0af05ec19d27abb22cd6699e1a3db7ca8907f9ff5cb9a9e92e844e32f83df20325e0b79377532f
   languageName: node
   linkType: hard
 
@@ -6984,9 +6977,9 @@ __metadata:
     "@nx/react": "npm:21.5.3"
     "@nx/vite": "npm:21.5.3"
     "@nx/web": "npm:21.5.3"
-    "@orpc/client": "npm:^1.8.8"
-    "@orpc/server": "npm:^1.8.8"
-    "@orpc/zod": "npm:^1.8.8"
+    "@orpc/client": "npm:^1.9.0"
+    "@orpc/server": "npm:^1.9.0"
+    "@orpc/zod": "npm:^1.9.0"
     "@radix-ui/react-avatar": "npm:^1.1.10"
     "@radix-ui/react-checkbox": "npm:^1.3.3"
     "@radix-ui/react-collapsible": "npm:^1.1.12"
@@ -7005,7 +6998,7 @@ __metadata:
     "@swc/core": "npm:~1.13.5"
     "@swc/helpers": "npm:~0.5.17"
     "@tailwindcss/postcss": "npm:^4.1.13"
-    "@types/node": "npm:^24.4.0"
+    "@types/node": "npm:^24.5.2"
     "@types/react": "npm:19.1.13"
     "@types/react-dom": "npm:19.1.9"
     "@vitest/coverage-v8": "npm:^3.2.4"
@@ -7015,31 +7008,31 @@ __metadata:
     cmdk: "npm:^1.1.1"
     date-fns: "npm:^4.1.0"
     http-status-codes: "npm:^2.3.0"
-    jiti: "npm:2.5.1"
-    lefthook: "npm:^1.13.0"
+    jiti: "npm:2.6.0"
+    lefthook: "npm:^1.13.4"
     lucide-react: "npm:^0.544.0"
-    mongoose: "npm:^8.18.1"
-    next: "npm:~15.5.3"
-    next-intl: "npm:^4.3.8"
+    mongoose: "npm:^8.18.2"
+    next: "npm:~15.5.4"
+    next-intl: "npm:^4.3.9"
     next-themes: "npm:^0.4.6"
     nuqs: "npm:^2.6.0"
     nx: "npm:21.5.3"
-    pino: "npm:^9.9.5"
+    pino: "npm:^9.11.0"
     postcss: "npm:8.5.6"
     react: "npm:19.1.1"
-    react-day-picker: "npm:^9.9.0"
+    react-day-picker: "npm:^9.11.0"
     react-dom: "npm:19.1.1"
-    react-hook-form: "npm:^7.62.0"
+    react-hook-form: "npm:^7.63.0"
     sonner: "npm:^2.0.7"
     tailwind-merge: "npm:^3.3.1"
     tailwindcss: "npm:^4.1.13"
     tslib: "npm:^2.8.1"
     tw-animate-css: "npm:^1.3.8"
     typescript: "npm:5.9.2"
-    ultracite: "npm:5.3.4"
-    vite: "npm:7.1.5"
+    ultracite: "npm:5.4.5"
+    vite: "npm:7.1.7"
     vitest: "npm:^3.2.4"
-    zod: "npm:^4.1.8"
+    zod: "npm:^4.1.11"
   languageName: unknown
   linkType: soft
 
@@ -7059,7 +7052,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@visionarai-one/website@workspace:apps/website"
   dependencies:
-    next: "npm:~15.5.3"
+    next: "npm:~15.5.4"
     react: "npm:19.1.1"
     react-dom: "npm:19.1.1"
   languageName: unknown
@@ -12127,16 +12120,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jiti@npm:2.5.1":
-  version: 2.5.1
-  resolution: "jiti@npm:2.5.1"
-  bin:
-    jiti: lib/jiti-cli.mjs
-  checksum: 10c0/f0a38d7d8842cb35ffe883038166aa2d52ffd21f1a4fc839ae4076ea7301c22a1f11373f8fc52e2667de7acde8f3e092835620dd6f72a0fbe9296b268b0874bb
-  languageName: node
-  linkType: hard
-
-"jiti@npm:^2.5.1":
+"jiti@npm:2.6.0, jiti@npm:^2.5.1":
   version: 2.6.0
   resolution: "jiti@npm:2.6.0"
   bin:
@@ -12431,7 +12415,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lefthook@npm:^1.13.0":
+"lefthook@npm:^1.13.4":
   version: 1.13.4
   resolution: "lefthook@npm:1.13.4"
   dependencies:
@@ -13284,7 +13268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^8.18.1":
+"mongoose@npm:^8.18.2":
   version: 8.18.2
   resolution: "mongoose@npm:8.18.2"
   dependencies:
@@ -13420,7 +13404,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-intl@npm:^4.3.8":
+"next-intl@npm:^4.3.9":
   version: 4.3.9
   resolution: "next-intl@npm:4.3.9"
   dependencies:
@@ -13448,7 +13432,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:~15.5.3":
+"next@npm:~15.5.4":
   version: 15.5.4
   resolution: "next@npm:15.5.4"
   dependencies:
@@ -13787,7 +13771,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nypm@npm:^0.6.1":
+"nypm@npm:^0.6.2":
   version: 0.6.2
   resolution: "nypm@npm:0.6.2"
   dependencies:
@@ -14218,7 +14202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picocolors@npm:^1.0.0, picocolors@npm:^1.0.1, picocolors@npm:^1.1.0, picocolors@npm:^1.1.1":
+"picocolors@npm:^1.0.0, picocolors@npm:^1.1.0, picocolors@npm:^1.1.1":
   version: 1.1.1
   resolution: "picocolors@npm:1.1.1"
   checksum: 10c0/e2e3e8170ab9d7c7421969adaa7e1b31434f789afb9b3f115f6b96d91945041ac3ceb02e9ec6fe6510ff036bcc0bf91e69a1772edc0b707e12b19c0f2d6bcf58
@@ -14283,7 +14267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^9.9.5":
+"pino@npm:^9.11.0":
   version: 9.11.0
   resolution: "pino@npm:9.11.0"
   dependencies:
@@ -15302,7 +15286,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-day-picker@npm:^9.9.0":
+"react-day-picker@npm:^9.11.0":
   version: 9.11.0
   resolution: "react-day-picker@npm:9.11.0"
   dependencies:
@@ -15326,7 +15310,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.62.0":
+"react-hook-form@npm:^7.63.0":
   version: 7.63.0
   resolution: "react-hook-form@npm:7.63.0"
   peerDependencies:
@@ -17421,27 +17405,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"trpc-cli@npm:^0.10.2":
-  version: 0.10.2
-  resolution: "trpc-cli@npm:0.10.2"
+"trpc-cli@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "trpc-cli@npm:0.11.0"
   dependencies:
-    "@trpc/server": "npm:^11.1.1"
-    "@types/omelette": "npm:^0.4.4"
     commander: "npm:^14.0.0"
-    picocolors: "npm:^1.0.1"
-    zod: "npm:^3.25.3"
-    zod-to-json-schema: "npm:^3.23.0"
   peerDependencies:
-    "@inquirer/prompts": "*"
-    omelette: "*"
+    "@orpc/server": ^1.0.0
+    "@trpc/server": ^10.45.2 || ^11.0.1
+    "@valibot/to-json-schema": ^1.1.0
+    effect: ^3.14.2 || ^4.0.0
+    valibot: ^1.1.0
+    zod: ^3.24.0 || ^4.0.0
   peerDependenciesMeta:
-    "@inquirer/prompts":
+    "@orpc/server":
       optional: true
-    omelette:
+    "@trpc/server":
+      optional: true
+    "@valibot/to-json-schema":
+      optional: true
+    effect:
+      optional: true
+    valibot:
+      optional: true
+    zod:
       optional: true
   bin:
     trpc-cli: dist/bin.js
-  checksum: 10c0/467e90896c56873832cd4307524469801ffde53daff59bb184d90ceda110a1bf75cba81387f1d345b5aac2147421b8937a0e8c7e1be0ee79d00626e95682fbc1
+  checksum: 10c0/0f0e2084c6a567ca8173d9b9b226800e4ae0e367710e98217b47c673aeab61809e61241dcb318eb841a388264a9120a6d1e2e6195f6c99b52095575908df81fa
   languageName: node
   linkType: hard
 
@@ -17583,20 +17574,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ultracite@npm:5.3.4":
-  version: 5.3.4
-  resolution: "ultracite@npm:5.3.4"
+"ultracite@npm:5.4.5":
+  version: 5.4.5
+  resolution: "ultracite@npm:5.4.5"
   dependencies:
     "@clack/prompts": "npm:^0.11.0"
+    "@trpc/server": "npm:^11.5.1"
     deepmerge: "npm:^4.3.1"
     jsonc-parser: "npm:^3.3.1"
-    nypm: "npm:^0.6.1"
-    trpc-cli: "npm:^0.10.2"
+    nypm: "npm:^0.6.2"
+    trpc-cli: "npm:^0.11.0"
     vitest: "npm:^3.2.4"
-    zod: "npm:^4.1.5"
+    zod: "npm:^4.1.11"
   bin:
     ultracite: dist/index.js
-  checksum: 10c0/8f2b53564f92f0e82b35c1cd2d682c36d58fd60a9c5deab19acb438d0606508b79d888c15a2251f51b493c66597a1ea203a88cf30c26cdb101edc92c4f3921b4
+  checksum: 10c0/d68feee605562bbe73514b1f8951667379e0826ac78de023d48fe9f466fc9d4befc80c0c38dd21b5dfa9af72288cb556d8285ef71ed22f30a4718e784ee08081
   languageName: node
   linkType: hard
 
@@ -17923,62 +17915,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:7.1.5":
-  version: 7.1.5
-  resolution: "vite@npm:7.1.5"
-  dependencies:
-    esbuild: "npm:^0.25.0"
-    fdir: "npm:^6.5.0"
-    fsevents: "npm:~2.3.3"
-    picomatch: "npm:^4.0.3"
-    postcss: "npm:^8.5.6"
-    rollup: "npm:^4.43.0"
-    tinyglobby: "npm:^0.2.15"
-  peerDependencies:
-    "@types/node": ^20.19.0 || >=22.12.0
-    jiti: ">=1.21.0"
-    less: ^4.0.0
-    lightningcss: ^1.21.0
-    sass: ^1.70.0
-    sass-embedded: ^1.70.0
-    stylus: ">=0.54.8"
-    sugarss: ^5.0.0
-    terser: ^5.16.0
-    tsx: ^4.8.1
-    yaml: ^2.4.2
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  peerDependenciesMeta:
-    "@types/node":
-      optional: true
-    jiti:
-      optional: true
-    less:
-      optional: true
-    lightningcss:
-      optional: true
-    sass:
-      optional: true
-    sass-embedded:
-      optional: true
-    stylus:
-      optional: true
-    sugarss:
-      optional: true
-    terser:
-      optional: true
-    tsx:
-      optional: true
-    yaml:
-      optional: true
-  bin:
-    vite: bin/vite.js
-  checksum: 10c0/782d2f20c25541b26d1fb39bef5f194149caff39dc25b7836e25f049ca919f2e2ce186bddb21f3f20f6195354b3579ec637a8ca08d65b117f8b6f81e3e730a9c
-  languageName: node
-  linkType: hard
-
-"vite@npm:^5.0.0 || ^6.0.0 || ^7.0.0-0":
+"vite@npm:7.1.7, vite@npm:^5.0.0 || ^6.0.0 || ^7.0.0-0":
   version: 7.1.7
   resolution: "vite@npm:7.1.7"
   dependencies:
@@ -18556,23 +18493,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod-to-json-schema@npm:^3.23.0":
-  version: 3.24.6
-  resolution: "zod-to-json-schema@npm:3.24.6"
-  peerDependencies:
-    zod: ^3.24.1
-  checksum: 10c0/b907ab6d057100bd25a37e5545bf5f0efa5902cd84d3c3ec05c2e51541431a47bd9bf1e5e151a244273409b45f5986d55b26e5d207f98abc5200702f733eb368
-  languageName: node
-  linkType: hard
-
-"zod@npm:^3.25.3":
-  version: 3.25.76
-  resolution: "zod@npm:3.25.76"
-  checksum: 10c0/5718ec35e3c40b600316c5b4c5e4976f7fee68151bc8f8d90ec18a469be9571f072e1bbaace10f1e85cf8892ea12d90821b200e980ab46916a6166a4260a983c
-  languageName: node
-  linkType: hard
-
-"zod@npm:^4.1.5, zod@npm:^4.1.8":
+"zod@npm:^4.1.11":
   version: 4.1.11
   resolution: "zod@npm:4.1.11"
   checksum: 10c0/ce6a4c4acfbf51d7dd0f2669c82f207d62a1f00264eef608994b94eb99d86a74c99f59b0dd3e61ef82909ee136631378b709e0908f0a02a2d5c21d0c497de5db
