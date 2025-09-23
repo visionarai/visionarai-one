@@ -31,8 +31,8 @@ export default async function LocaleLayout({ children }: { children: React.React
 		{
 			icon: <PersonStanding size={16} />,
 			iconSelected: <PersonStanding size={16} />,
-			path: "/admin",
-			title: "Admin",
+			path: "/policies",
+			title: "Policies",
 		},
 	];
 	const pathname = typeof window !== "undefined" ? window.location.pathname : "";

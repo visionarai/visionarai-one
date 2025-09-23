@@ -29,6 +29,7 @@ import {
 } from "@visionarai-one/ui";
 import { ChevronLeft, Maximize2, Minus, UnfoldVertical } from "lucide-react";
 import { orpcRouterClient } from "@/lib/orpc";
+import { decisionBorderColor } from "./_colors";
 import { ConditionTree } from "./_condition-tree";
 import { PermissionForm } from "./_permission_form";
 
@@ -90,7 +91,9 @@ function PermissionRow({ action, permission, resource, id }: PermissionRowSheetP
 		<TableRow key={action}>
 			<TableCell className="font-medium">{action}</TableCell>
 			<TableCell>
-				<Badge variant="outline">{permission.decision}</Badge>
+				<Badge className={decisionBorderColor(permission.decision)} variant="outline">
+					{permission.decision}
+				</Badge>
 			</TableCell>
 			<TableCell>{permission.decision === "CONDITIONAL" ? <ConditionTree conditions={permission.condition} /> : "-"}</TableCell>
 			<TableCell className="sticky right-0 z-10 text-right">

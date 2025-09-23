@@ -1,8 +1,8 @@
 import { CONDITIONS_LOGIC, type ConditionsType, type PermissionType } from "@visionarai-one/abac";
 import { Button, ChoiceFormField } from "@visionarai-one/ui";
-import { cn } from "@visionarai-one/utils";
 import { Trash2 } from "lucide-react";
 import { type FieldArrayPath, type FieldPath, type FieldPathByValue, useFieldArray, useFormContext } from "react-hook-form";
+import { conditionGroupLeftBorderColor } from "../../_colors";
 import { SingleConditionNode } from "./single-condition-node";
 
 type ConditionGroupNodeProps = React.ComponentPropsWithoutRef<"div"> & {
@@ -17,14 +17,7 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 	});
 
 	const logicValue = formContext.getValues(`${name}.logic`);
-	const conditionBorderColor = cn(
-		{
-			"border-green-400": logicValue === "AND",
-			"border-red-400": logicValue === "NOT",
-			"border-yellow-400": logicValue === "OR",
-		},
-		"ml-8 border-l-2 p-4 pl-8"
-	);
+	const conditionBorderColor = conditionGroupLeftBorderColor(logicValue, "ml-8 border-l-2 p-4 pl-8");
 
 	const handleAddGroup = (e: React.MouseEvent) => {
 		e.preventDefault();

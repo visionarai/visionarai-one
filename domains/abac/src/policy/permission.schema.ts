@@ -16,4 +16,4 @@ export const PERMISSION_DECISION_TYPES = ["ALLOW", "DENY", "CONDITIONAL"] as con
 /**
  * Convenience alias for decision type literals; mirrors PERMISSION_DECISION_TYPES.
  */
-export const permissionTypes = PERMISSION_DECISION_TYPES;
+export type permissionTypes = (typeof PERMISSION_DECISION_TYPES)[number];

@@ -1,7 +1,7 @@
 import type { ConditionNode, ConditionsType, ValueType } from "@visionarai-one/abac";
 import { Badge } from "@visionarai-one/ui";
-import { cn } from "@visionarai-one/utils";
 import React, { useCallback, useMemo } from "react";
+import { conditionBorderColor, conditionGroupLeftBorderColor } from "./_colors";
 
 export type ConditionTreeProps = {
 	conditions: ConditionsType;
@@ -44,16 +44,8 @@ const ScopePill = React.memo(({ label }: { label: string }) => (
 ));
 
 const LogicPill = React.memo(({ logic }: { logic: ConditionsType["logic"] }) => {
-	const conditionColor = cn(
-		{
-			"border-green-400 text-green-600": logic === "AND",
-			"border-red-400 text-red-600": logic === "NOT",
-			"border-yellow-400 text-yellow-600": logic === "OR",
-		},
-		"px-1.5 py-0.5 text-[10px]"
-	);
 	return (
-		<Badge className={conditionColor} title="Logic group" variant="outline">
+		<Badge className={conditionBorderColor(logic)} title="Logic group" variant="outline">
 			{logic}
 		</Badge>
 	);
@@ -93,21 +85,12 @@ const keyForNode = (n: ConditionNode | ConditionsType, fallbackIndex: number): s
 
 export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => {
 	const renderGroup = useCallback((g: ConditionsType) => {
-		const conditionBorderColor = cn(
-			{
-				"border-green-400": g.logic === "AND",
-				"border-red-400": g.logic === "NOT",
-				"border-yellow-400": g.logic === "OR",
-			},
-			"border-l pl-3"
-		);
-
 		return (
 			<div>
 				<div className="mb-1">
 					<GroupHeader count={g.expressions.length} logic={g.logic} />
 				</div>
-				<div className={conditionBorderColor}>
+				<div className={conditionGroupLeftBorderColor(g.logic, "border-l pl-3")}>
 					{g.expressions.map((c, idx) => (
 						<div className="py-1" key={keyForNode(c, idx)}>
 							{isGroup(c) ? renderGroup(c) : <FieldItem node={c as ConditionNode} />}
