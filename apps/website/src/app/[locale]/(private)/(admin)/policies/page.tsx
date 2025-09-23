@@ -27,7 +27,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@visionarai-one/ui";
-import { ChevronLeft, Maximize2, UnfoldVertical } from "lucide-react";
+import { ChevronLeft, Maximize2, Minus, UnfoldVertical } from "lucide-react";
 import { orpcRouterClient } from "@/lib/orpc";
 import { ConditionTree } from "./_condition-tree";
 import { PermissionForm } from "./_permission_form";
@@ -51,23 +51,23 @@ function PermissionEditorSheet({ action, permission, resource, id }: PermissionR
 					<Maximize2 />
 				</Button>
 			</SheetTrigger>
-			<SheetContent className="w-screen p-4 md:w-[calc(100vw-160px)]" side="right">
+			<SheetContent className="w-screen md:w-[calc(100vw-160px)]" side="right">
 				<SheetHeader>
 					<SheetTitle className="mb-2 flex items-center gap-4">
 						<SheetClose asChild>
 							<ChevronLeft />
 						</SheetClose>
 						<span className="font-semibold text-lg">Edit Permission</span>
-						<div className="space-x-2">
+						<div className="flex items-center">
 							<Badge variant="secondary">{resource}</Badge>
-							{":"}
+							<Minus className="rotate-90 transform" />
 							<Badge variant="secondary">{action}</Badge>
 						</div>
 					</SheetTitle>
 					<SheetDescription>Make changes to the permission here. Click Submit when you&apos;re done.</SheetDescription>
 				</SheetHeader>
 
-				<div className="m-0 h-full w-full overflow-y-auto p-4">
+				<div className="h-full w-full overflow-y-auto px-8">
 					<PermissionForm action={action} id={id} permission={permission} resource={resource} />
 				</div>
 				<SheetFooter>
