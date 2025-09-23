@@ -1,6 +1,7 @@
 import type { ConditionNode, ConditionsType, ValueType } from "@visionarai-one/abac";
 import { Badge } from "@visionarai-one/ui";
 import { cn } from "@visionarai-one/utils";
+import React, { useCallback, useMemo } from "react";
 
 export type ConditionTreeProps = {
 	conditions: ConditionsType;
@@ -36,13 +37,13 @@ const renderValue = (value: ValueType): string => {
 	}
 };
 
-const ScopePill = ({ label }: { label: string }) => (
+const ScopePill = React.memo(({ label }: { label: string }) => (
 	<Badge className="px-1.5 py-0.5 text-[10px] leading-none" variant="outline">
 		{label}
 	</Badge>
-);
+));
 
-const LogicPill = ({ logic }: { logic: ConditionsType["logic"] }) => {
+const LogicPill = React.memo(({ logic }: { logic: ConditionsType["logic"] }) => {
 	const conditionColor = cn(
 		{
 			"border-green-400 text-green-600": logic === "AND",
@@ -56,9 +57,9 @@ const LogicPill = ({ logic }: { logic: ConditionsType["logic"] }) => {
 			{logic}
 		</Badge>
 	);
-};
+});
 
-const FieldItem = ({ node }: { node: ConditionNode }) => {
+const FieldItem = React.memo(({ node }: { node: ConditionNode }) => {
 	const { field, operation, value } = node;
 	return (
 		<div className="flex items-center gap-1 text-xs">
@@ -69,31 +70,29 @@ const FieldItem = ({ node }: { node: ConditionNode }) => {
 			<span className="truncate text-foreground">{renderValue(value)}</span>
 		</div>
 	);
-};
+});
 
-const isGroup = (n: ConditionNode | ConditionsType): n is ConditionsType => {
-	const candidate = n as ConditionsType;
-	return Array.isArray(candidate.expressions) && typeof candidate.logic !== "undefined";
-};
+const isGroup = (n: ConditionNode | ConditionsType): n is ConditionsType =>
+	Array.isArray((n as ConditionsType).expressions) && typeof (n as ConditionsType).logic !== "undefined";
 
-const GroupHeader = ({ logic, count }: { logic: ConditionsType["logic"]; count: number }) => (
+const GroupHeader = React.memo(({ logic, count }: { logic: ConditionsType["logic"]; count: number }) => (
 	<div className="flex items-center gap-2">
 		<LogicPill logic={logic} />
 		<span className="text-[11px] text-muted-foreground">{count}</span>
 	</div>
-);
+));
 
 const keyForNode = (n: ConditionNode | ConditionsType, fallbackIndex: number): string => {
 	if (isGroup(n)) {
 		return `group:${n.logic}:${n.expressions.length}:${fallbackIndex}`;
 	}
-	const { field, operation, value } = n;
+	const { field, operation, value } = n as ConditionNode;
 	const idPart = `${field.scope}:${field.name}:${operation}:${value.scope}:${value.cardinality}`;
 	return `node:${idPart}:${fallbackIndex}`;
 };
 
 export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => {
-	const renderGroup = (g: ConditionsType) => {
+	const renderGroup = useCallback((g: ConditionsType) => {
 		const conditionBorderColor = cn(
 			{
 				"border-green-400": g.logic === "AND",
@@ -102,6 +101,7 @@ export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => 
 			},
 			"border-l pl-3"
 		);
+
 		return (
 			<div>
 				<div className="mb-1">
@@ -110,15 +110,16 @@ export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => 
 				<div className={conditionBorderColor}>
 					{g.expressions.map((c, idx) => (
 						<div className="py-1" key={keyForNode(c, idx)}>
-							{isGroup(c) ? renderGroup(c) : <FieldItem node={c} />}
+							{isGroup(c) ? renderGroup(c) : <FieldItem node={c as ConditionNode} />}
 						</div>
 					))}
 				</div>
 			</div>
 		);
-	};
+	}, []);
 
-	return <div className={className ? `text-sm ${className}` : "text-sm"}>{renderGroup(conditions)}</div>;
+	const tree = useMemo(() => renderGroup(conditions), [conditions, renderGroup]);
+	return <div className={className ? `text-sm ${className}` : "text-sm"}>{tree}</div>;
 };
 
 export default ConditionTree;

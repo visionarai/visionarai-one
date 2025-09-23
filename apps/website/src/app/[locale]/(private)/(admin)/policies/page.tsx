@@ -1,3 +1,4 @@
+import type { PermissionType } from "@visionarai-one/abac";
 import { examplePolicy } from "@visionarai-one/abac";
 import {
 	Badge,
@@ -26,18 +27,85 @@ import {
 	TableHeader,
 	TableRow,
 } from "@visionarai-one/ui";
-import { Maximize2, UnfoldVertical } from "lucide-react";
+import { ChevronLeft, Maximize2, UnfoldVertical } from "lucide-react";
 import { orpcRouterClient } from "@/lib/orpc";
 import { ConditionTree } from "./_condition-tree";
-import { ConditionSection } from "./_form";
+import { PermissionForm } from "./_permission_form";
+
+async function loadMasterData() {
+	await orpcRouterClient.masterData.get();
+}
+
+type PermissionRowSheetProps = React.ComponentPropsWithoutRef<"div"> & {
+	id: string;
+	resource: string;
+	action: string;
+	permission: PermissionType;
+};
+
+function PermissionEditorSheet({ action, permission, resource, id }: PermissionRowSheetProps) {
+	return (
+		<Sheet>
+			<SheetTrigger asChild>
+				<Button aria-label={`Edit ${action}`} size="icon" variant="outline">
+					<Maximize2 />
+				</Button>
+			</SheetTrigger>
+			<SheetContent className="w-screen p-4 md:w-[calc(100vw-160px)]" side="right">
+				<SheetHeader>
+					<SheetTitle className="mb-2 flex items-center gap-4">
+						<SheetClose asChild>
+							<ChevronLeft />
+						</SheetClose>
+						<span className="font-semibold text-lg">Edit Permission</span>
+						<div className="space-x-2">
+							<Badge variant="secondary">{resource}</Badge>
+							{":"}
+							<Badge variant="secondary">{action}</Badge>
+						</div>
+					</SheetTitle>
+					<SheetDescription>Make changes to the permission here. Click Submit when you&apos;re done.</SheetDescription>
+				</SheetHeader>
+
+				<div className="m-0 h-full w-full overflow-y-auto p-4">
+					<PermissionForm action={action} id={id} permission={permission} resource={resource} />
+				</div>
+				<SheetFooter>
+					<SheetClose asChild>
+						<Button form="permission-form" type="submit">
+							Submit
+						</Button>
+					</SheetClose>
+					<SheetClose asChild>
+						<Button variant="outline">Close</Button>
+					</SheetClose>
+				</SheetFooter>
+			</SheetContent>
+		</Sheet>
+	);
+}
+
+function PermissionRow({ action, permission, resource, id }: PermissionRowSheetProps) {
+	return (
+		<TableRow key={action}>
+			<TableCell className="font-medium">{action}</TableCell>
+			<TableCell>
+				<Badge variant="outline">{permission.decision}</Badge>
+			</TableCell>
+			<TableCell>{permission.decision === "CONDITIONAL" ? <ConditionTree conditions={permission.condition} /> : "-"}</TableCell>
+			<TableCell className="sticky right-0 z-10 text-right">
+				<PermissionEditorSheet action={action} id={id} permission={permission} resource={resource} />
+			</TableCell>
+		</TableRow>
+	);
+}
 
 export default async function PoliciesPage() {
-	await orpcRouterClient.masterData.get();
+	await loadMasterData();
 	const policies = [examplePolicy];
 
 	return (
 		<div>
-			{/* <DataDebugger data={{ policies }} /> */}
 			{policies.map((policy, index) => {
 				const resources = Object.keys(policy.permissions);
 				return (
@@ -68,7 +136,7 @@ export default async function PoliciesPage() {
 													<TableHeader>
 														<TableRow>
 															<TableHead className="bg-muted/50 font-semibold" colSpan={4}>
-																Resource — {resource}
+																Resource  {resource}
 															</TableHead>
 														</TableRow>
 														<TableRow>
@@ -80,38 +148,7 @@ export default async function PoliciesPage() {
 													</TableHeader>
 													<TableBody>
 														{Object.entries(resourcePermissions).map(([action, permission]) => (
-															<TableRow key={action}>
-																<TableCell className="font-medium">{action}</TableCell>
-																<TableCell>
-																	<Badge variant="outline">{permission.decision}</Badge>
-																</TableCell>
-																<TableCell>{permission.decision === "CONDITIONAL" ? <ConditionTree conditions={permission.condition} /> : "-"}</TableCell>
-																<TableCell className="sticky right-0 z-10 text-right">
-																	<Sheet>
-																		<SheetTrigger asChild>
-																			<Button aria-label={`Edit ${action}`} size="icon" variant="outline">
-																				<Maximize2 />
-																			</Button>
-																		</SheetTrigger>
-																		<SheetContent className="w-[calc(100vw-60px)] p-4" side="right">
-																			<SheetHeader>
-																				<SheetTitle>Edit profile</SheetTitle>
-																				<SheetDescription>Make changes to your profile here. Click save when you&apos;re done.</SheetDescription>
-																			</SheetHeader>
-																			<div>
-																				<h1 className="font-semibold text-lg">Edit Permission - {action}</h1>
-																				<ConditionSection defaultValues={permission} />
-																			</div>
-																			<SheetFooter>
-																				<Button type="submit">Save changes</Button>
-																				<SheetClose asChild>
-																					<Button variant="outline">Close</Button>
-																				</SheetClose>
-																			</SheetFooter>
-																		</SheetContent>
-																	</Sheet>
-																</TableCell>
-															</TableRow>
+															<PermissionRow action={action} id={policy._id} key={action} permission={permission} resource={resource} />
 														))}
 													</TableBody>
 												</Table>
@@ -127,5 +164,3 @@ export default async function PoliciesPage() {
 		</div>
 	);
 }
-
-// Replaced inline tree view with shared UI component `ConditionTree`.

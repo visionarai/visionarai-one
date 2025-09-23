@@ -12,11 +12,11 @@ import {
 import { Button, ChoiceFormField, DateTimeFormField, InputFormField, SwitchFormField } from "@visionarai-one/ui";
 import { cn } from "@visionarai-one/utils";
 import { Copy, Trash2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { type Control, type FieldPath, type FieldValues, useFormContext } from "react-hook-form";
 
-const isFieldScope = (v: unknown): v is keyof ScopeTypeAttributeMap => typeof v === "string" && (FIELD_SCOPE_KINDS as readonly string[]).includes(v);
-const isScalarValueType = (v: unknown): v is ScalarValueType => typeof v === "string" && (SCALAR_VALUE_TYPES as readonly string[]).includes(v);
+const isFieldScope = (v: unknown): v is keyof ScopeTypeAttributeMap => typeof v === "string" && (FIELD_SCOPE_KINDS as readonly string[]).includes(v as string);
+const isScalarValueType = (v: unknown): v is ScalarValueType => typeof v === "string" && (SCALAR_VALUE_TYPES as readonly string[]).includes(v as string);
 
 type SingleConditionNodeProps = React.ComponentPropsWithoutRef<"div"> & {
 	name: FieldPath<PermissionType>;
@@ -32,11 +32,10 @@ export function SingleConditionNode({ name, onRemove, onCopy, className, ...prop
 	const fieldName = formContext.watch(`${name}.field.name` as FieldPath<PermissionType>);
 	const operation = formContext.watch(`${name}.operation` as FieldPath<PermissionType>);
 	const cardinality = formContext.watch(`${name}.value.cardinality` as FieldPath<PermissionType>);
-
 	const valueScope = formContext.watch(`${name}.value.scope` as FieldPath<PermissionType>);
 
+	// when scope->name changes, update inferred type
 	useEffect(() => {
-		// Update field.type whenever field.scope changes
 		if (isFieldScope(fieldScope) && fieldName) {
 			const typeMap = SCOPE_TYPE_ATTRIBUTE_MAP[fieldScope];
 			const nextType = typeMap[fieldName as keyof typeof typeMap];
@@ -46,8 +45,8 @@ export function SingleConditionNode({ name, onRemove, onCopy, className, ...prop
 		}
 	}, [fieldScope, fieldName, formContext.setValue, name]);
 
+	// infer cardinality from type+operation
 	useEffect(() => {
-		// Update value.cardinality whenever field.type or operation changes
 		let nextCardinality: Cardinality = "one";
 		if (isScalarValueType(fieldType)) {
 			const ops = OPERATION_FOR_TYPE[fieldType] as Array<{ name: string; cardinality: Cardinality }>;
@@ -55,6 +54,15 @@ export function SingleConditionNode({ name, onRemove, onCopy, className, ...prop
 		}
 		formContext.setValue(`${name}.value.cardinality` as FieldPath<PermissionType>, nextCardinality);
 	}, [fieldType, operation, formContext.setValue, name]);
+
+	const valueNameOptions = useMemo(() => {
+		if (!isFieldScope(valueScope)) {
+			return [];
+		}
+		return Object.keys(SCOPE_TYPE_ATTRIBUTE_MAP[valueScope]).filter((attributes) => {
+			return SCOPE_TYPE_ATTRIBUTE_MAP[valueScope][attributes as keyof (typeof SCOPE_TYPE_ATTRIBUTE_MAP)[typeof valueScope]] === fieldType;
+		});
+	}, [valueScope, fieldType]);
 
 	return (
 		<div className={cn("items-end-safe flex flex-wrap gap-6 p-4 [&>:not(:last-child)]:flex-1", className)} {...props}>
@@ -72,22 +80,18 @@ export function SingleConditionNode({ name, onRemove, onCopy, className, ...prop
 					formControl={formContext.control}
 					label="Field Name"
 					name={`${name}.field.name` as FieldPath<PermissionType>}
-					options={(isFieldScope(fieldScope) ? Object.keys(SCOPE_TYPE_ATTRIBUTE_MAP[fieldScope]) : []).map((type) => ({
-						label: type,
-						value: type,
-					}))}
+					options={(isFieldScope(fieldScope) ? Object.keys(SCOPE_TYPE_ATTRIBUTE_MAP[fieldScope]) : []).map((type) => ({ label: type, value: type }))}
 				/>
 			</div>
+
 			<ChoiceFormField
 				assumeMoreOptions
 				formControl={formContext.control}
 				label="Operation"
 				name={`${name}.operation` as FieldPath<PermissionType>}
-				options={(isScalarValueType(fieldType) ? OPERATION_FOR_TYPE[fieldType] : OPERATION_FOR_TYPE.string).map((op) => ({
-					label: op.name,
-					value: op.name,
-				}))}
+				options={(isScalarValueType(fieldType) ? OPERATION_FOR_TYPE[fieldType] : OPERATION_FOR_TYPE.string).map((op) => ({ label: op.name, value: op.name }))}
 			/>
+
 			<div className="flex items-center gap-6 [&>*]:flex-1">
 				{cardinality === "one" && (
 					<>
@@ -98,24 +102,16 @@ export function SingleConditionNode({ name, onRemove, onCopy, className, ...prop
 							name={`${name}.value.scope` as FieldPath<PermissionType>}
 							options={VALUE_SCOPE_KINDS.filter(
 								(kind) => kind === "literal" || Object.values(SCOPE_TYPE_ATTRIBUTE_MAP[kind as keyof ScopeTypeAttributeMap]).some((d) => d === fieldType)
-							) // Only show "literal" if fieldType is set
-								.map((type) => ({ label: type, value: type }))}
+							).map((type) => ({ label: type, value: type }))}
 						/>
+
 						{valueScope !== "literal" ? (
 							<ChoiceFormField
 								assumeMoreOptions
 								formControl={formContext.control}
 								label="Value Name"
 								name={`${name}.value.name` as FieldPath<PermissionType>}
-								options={
-									isFieldScope(valueScope)
-										? Object.keys(SCOPE_TYPE_ATTRIBUTE_MAP[valueScope])
-												.filter((attributes) => {
-													return SCOPE_TYPE_ATTRIBUTE_MAP[valueScope][attributes as keyof (typeof SCOPE_TYPE_ATTRIBUTE_MAP)[typeof valueScope]] === fieldType;
-												})
-												.map((attributes) => ({ label: attributes, value: attributes }))
-										: []
-								}
+								options={valueNameOptions.map((v) => ({ label: v, value: v }))}
 							/>
 						) : (
 							<LiteralInput
@@ -144,6 +140,7 @@ export function SingleConditionNode({ name, onRemove, onCopy, className, ...prop
 					</>
 				)}
 			</div>
+
 			<div className="flex h-full gap-2">
 				<Button
 					className="text-primary"

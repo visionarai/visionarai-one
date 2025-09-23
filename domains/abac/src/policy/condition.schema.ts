@@ -86,9 +86,7 @@ export const ConditionsSchema: z.ZodType<ConditionsType> = z.lazy(() =>
 	})
 );
 
-export type ConditionsOutputType = z.output<typeof ConditionsSchema>;
-
-export const BlankConditionalPermissionDecision: ConditionsOutputType = {
+export const BlankConditionalPermissionDecision: ConditionsType = {
 	expressions: [],
 	logic: "AND",
 } as const;

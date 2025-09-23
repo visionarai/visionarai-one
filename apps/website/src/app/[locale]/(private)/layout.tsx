@@ -9,7 +9,7 @@ import {
 	SidebarMenuItem,
 	SidebarProvider,
 } from "@visionarai-one/ui";
-import { BrickWall, EyeIcon, Presentation, ShieldUser } from "lucide-react";
+import { BrickWall, EyeIcon, Presentation } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { MainAreaTitle } from "./_navigation/main-area-title";
@@ -21,12 +21,6 @@ export default async function LocaleLayout({ children }: { children: React.React
 
 	const adminRoutes = [
 		{
-			icon: <ShieldUser />,
-			iconSelected: <ShieldUser strokeWidth={3} />,
-			path: "/admin",
-			title: t("admin"),
-		},
-		{
 			icon: <Presentation />,
 			iconSelected: <Presentation strokeWidth={3} />,
 			path: "/policies",
@@ -36,7 +30,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 			icon: <BrickWall />,
 			iconSelected: <BrickWall strokeWidth={3} />,
 			path: "/master",
-			title: "Master",
+			title: "Master Data",
 		},
 	];
 

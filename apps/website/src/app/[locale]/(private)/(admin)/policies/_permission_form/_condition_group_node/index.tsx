@@ -11,20 +11,35 @@ type ConditionGroupNodeProps = React.ComponentPropsWithoutRef<"div"> & {
 };
 export function ConditionGroupNode({ name, onRemove, className, ...props }: ConditionGroupNodeProps) {
 	const formContext = useFormContext<PermissionType>();
-	// name = name ? `${name}.conditions` : "conditions";
 	const { fields, append, remove, insert } = useFieldArray<PermissionType, FieldArrayPath<PermissionType>>({
 		control: formContext.control,
 		name: `${name}.expressions` as FieldArrayPath<PermissionType>,
 	});
 
+	const logicValue = formContext.getValues(`${name}.logic`);
 	const conditionBorderColor = cn(
 		{
-			"border-green-400": formContext.getValues(`${name}.logic`) === "AND",
-			"border-red-400": formContext.getValues(`${name}.logic`) === "NOT",
-			"border-yellow-400": formContext.getValues(`${name}.logic`) === "OR",
+			"border-green-400": logicValue === "AND",
+			"border-red-400": logicValue === "NOT",
+			"border-yellow-400": logicValue === "OR",
 		},
 		"ml-8 border-l-2 p-4 pl-8"
 	);
+
+	const handleAddGroup = (e: React.MouseEvent) => {
+		e.preventDefault();
+		append({ expressions: [], logic: "AND" } as ConditionsType);
+	};
+
+	const handleAddSingle = (e: React.MouseEvent) => {
+		e.preventDefault();
+		append({
+			field: { name: "id", scope: "user", type: "string" },
+			operation: "equals",
+			value: { cardinality: "one", scope: "literal", value: "" },
+		});
+	};
+
 	return (
 		<div className={className} {...props}>
 			<div className="items-end-safe mb-2 flex flex-row gap-4">
@@ -38,27 +53,11 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 				<span className="flex-1" />
 
 				<div className="mt-2 flex flex-row gap-2">
-					<Button
-						onClick={(e) => {
-							e.preventDefault();
-							append({ expressions: [], logic: "AND" } as ConditionsType);
-						}}
-						variant="outline"
-					>
+					<Button onClick={handleAddGroup} variant="outline">
 						+ <span>Add Condition Group</span>
 					</Button>
 
-					<Button
-						onClick={(e) => {
-							e.preventDefault();
-							append({
-								field: { name: "id", scope: "user", type: "string" },
-								operation: "equals",
-								value: { cardinality: "one", scope: "literal", value: "" },
-							});
-						}}
-						variant="outline"
-					>
+					<Button onClick={handleAddSingle} variant="outline">
 						+ <span>Add Single Condition</span>
 					</Button>
 
@@ -78,8 +77,9 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 			{fields.map((field, index) => {
 				const fieldName = `${name}.expressions.${index}` as FieldPath<PermissionType>;
 				const itemLogic = formContext.getValues(`${fieldName}.logic` as FieldPath<PermissionType>);
-				const isGroup = typeof itemLogic === "string";
-				if (!isGroup) {
+				const childIsGroup = typeof itemLogic === "string";
+
+				if (!childIsGroup) {
 					return (
 						<SingleConditionNode
 							className={conditionBorderColor}
