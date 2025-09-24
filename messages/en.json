@@ -76,15 +76,18 @@
       "resourceNamePlaceholder": "e.g. documents",
       "removeResource": "Remove resource",
       "submit": "Save changes",
-      "debugToggleShow": "Show debug",
-      "debugToggleHide": "Hide debug",
       "noResources": "No resources configured yet.",
-      "unsaved-changes": "Unsaved Changes"
+      "unsaved-changes": "Unsaved Changes",
+      "environmentAttributes": "Environment Attributes",
+      "addEnvironmentAttribute": "Add environment attribute",
+      "removeEnvironmentAttribute": "Remove environment attribute",
+      "updateSuccess": "Master data updated successfully",
+      "resourceItemAriaLabel": "Resource {index}",
+      "environmentAttributeItemAriaLabel": "Environment Attribute {index}"
     },
     "attributes": {
       "heading": "Attributes",
       "addAttribute": "Add attribute",
-      "emptyHint": "No attributes added yet.",
       "keyLabel": "Attribute key",
       "keyPlaceholder": "Key (e.g. ownerId)",
       "typeLabel": "Type",
@@ -93,10 +96,10 @@
     "permissions": {
       "heading": "Permissions",
       "addPermission": "Add permission",
-      "removePermission": "Remove",
-      "permissionLabel": "Permission",
-      "permissionPlaceholder": "Enter permission",
-      "emptyHint": "No permissions added yet."
+      "removePermission": "Remove"
+    },
+    "common": {
+      "emptyHint": "No items added yet."
     }
   }
 }

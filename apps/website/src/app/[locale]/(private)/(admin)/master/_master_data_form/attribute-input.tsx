@@ -15,8 +15,7 @@ export type AttributeInputProps = ComponentPropsWithoutRef<"div"> & {
 type AttributesArrayPath = `resources.${number}.attributes`;
 
 export const AttributeInput = ({ formControl, resourceIndex, ...props }: AttributeInputProps) => {
-	// NOTE: We keep the prop name (formControl) to avoid ripple changes; assumed to carry both control & register.
-	const t = useTranslations("MasterData.attributes");
+	const t = useTranslations("MasterData");
 	const name = `resources.${resourceIndex}.attributes` as AttributesArrayPath;
 	const { fields, append, remove } = useFieldArray<MasterDataType, AttributesArrayPath>({
 		control: formControl,
@@ -25,29 +24,29 @@ export const AttributeInput = ({ formControl, resourceIndex, ...props }: Attribu
 
 	return (
 		<div className="space-y-3" data-testid="attribute-input" {...props}>
-			<Button aria-label={t("addAttribute")} onClick={() => append({ key: "", type: "string" })} variant="secondary">
-				{t("heading")}
+			<Button aria-label={t("attributes.addAttribute")} onClick={() => append({ key: "", type: "string" })} variant="secondary">
+				{t("attributes.heading")}
 				<PlusIcon className="size-3.5" />
 			</Button>
 
 			<div className="space-y-2">
 				{fields.length === 0 && (
 					<p className="text-muted-foreground text-xs" data-testid="attribute-empty-hint">
-						{t("emptyHint")}
+						{t("common.emptyHint")}
 					</p>
 				)}
 				{fields.map((field: FieldArrayWithId<MasterDataType, AttributesArrayPath>, index) => (
 					<div className="flex items-center gap-3 [&>:not(:last-child)]:flex-1" key={field.id}>
 						<InputFormField
 							formControl={formControl}
-							label={t("keyLabel")}
+							label={t("attributes.keyLabel")}
 							name={`resources.${resourceIndex}.attributes.${index}.key`}
-							placeholder={t("keyPlaceholder")}
+							placeholder={t("attributes.keyPlaceholder")}
 						/>
 						<ChoiceFormField
 							assumeMoreOptions
 							formControl={formControl}
-							label={t("typeLabel")}
+							label={t("attributes.typeLabel")}
 							name={`resources.${resourceIndex}.attributes.${index}.type`}
 							options={ATTRIBUTE_TYPES.map((type) => ({
 								label: type,
@@ -55,7 +54,7 @@ export const AttributeInput = ({ formControl, resourceIndex, ...props }: Attribu
 							}))}
 						/>
 						<Button
-							aria-label={t("removeAttribute")}
+							aria-label={t("attributes.removeAttribute")}
 							className="h-6 w-6 text-muted-foreground hover:text-destructive"
 							onClick={() => remove(index)}
 							size="icon"

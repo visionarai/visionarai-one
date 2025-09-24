@@ -16,7 +16,7 @@ type PermissionsArrayPath = `resources.${number}.permissions`;
 export const PermissionsInput = ({ formControl, resourceIndex }: PermissionsInputProps) => {
 	// NOTE: We keep the prop name (formControl) to avoid ripple changes; assumed to carry both control & register.
 
-	const t = useTranslations("MasterData.permissions");
+	const t = useTranslations("MasterData");
 
 	const name = `resources.${resourceIndex}.permissions` as PermissionsArrayPath;
 
@@ -28,7 +28,7 @@ export const PermissionsInput = ({ formControl, resourceIndex }: PermissionsInpu
 				return (
 					<div className="space-y-2">
 						<Button
-							aria-label={t("addPermission")}
+							aria-label={t("permissions.addPermission")}
 							onClick={() => {
 								const newPermissions = [...(field.value || []), ""];
 								field.onChange(newPermissions);
@@ -36,7 +36,7 @@ export const PermissionsInput = ({ formControl, resourceIndex }: PermissionsInpu
 							type="button"
 							variant="secondary"
 						>
-							{t("heading")}
+							{t("permissions.heading")}
 							<PlusIcon className="size-3.5" />
 						</Button>
 
@@ -45,7 +45,7 @@ export const PermissionsInput = ({ formControl, resourceIndex }: PermissionsInpu
 							<div className="flex items-center gap-3 [&>:not(:last-child)]:flex-1" key={`${permission || "perm"}-${index}`}>
 								<Input className="flex-1" {...formControl.register(`${name}.${index}` as PermissionsArrayPath)} />
 								<Button
-									aria-label={t("removePermission")}
+									aria-label={t("permissions.removePermission")}
 									className="h-6 w-6 text-muted-foreground hover:text-destructive"
 									onClick={() => {
 										const newPermissions = [...(field.value || [])];
@@ -60,7 +60,7 @@ export const PermissionsInput = ({ formControl, resourceIndex }: PermissionsInpu
 								</Button>
 							</div>
 						))}
-						{(!field.value || field.value.length === 0) && <p className="text-muted-foreground text-xs">{t("emptyHint")}</p>}
+						{(!field.value || field.value.length === 0) && <p className="text-muted-foreground text-xs">{t("common.emptyHint")}</p>}
 					</div>
 				);
 			}}

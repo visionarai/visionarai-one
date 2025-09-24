@@ -14,10 +14,10 @@ type MasterDataFormProps = {
 };
 
 export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
-	const { execute } = useAsyncFunction(orpcClient.masterData.update, {
-		successMessage: "Master data updated successfully",
-	});
 	const t = useTranslations("MasterData");
+	const { execute } = useAsyncFunction(orpcClient.masterData.update, {
+		successMessage: t("page.updateSuccess"),
+	});
 	const form = useForm<MasterDataType>({
 		defaultValues: defaultValues || {
 			resources: [],
@@ -71,7 +71,7 @@ export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
 					<ul className="space-y-4">
 						{resourceFields.map((field, index) => (
 							<li
-								aria-label={`Resource ${index + 1}`}
+								aria-label={t("page.resourceItemAriaLabel", { index: index + 1 })}
 								className="group relative rounded-xl border border-border/40 bg-card/60 p-5 shadow-sm ring-1 ring-transparent transition-colors focus-within:ring-ring/30 hover:bg-card"
 								key={field.id}
 							>
@@ -119,17 +119,21 @@ export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
 
 					<ul className="space-y-4">
 						{environmentAttributeFields.map((field, index) => (
-							<li aria-label={`Environment Attribute ${index + 1}`} className="flex items-center gap-3 [&>:not(:last-child)]:flex-1" key={field.id}>
+							<li
+								aria-label={t("page.environmentAttributeItemAriaLabel", { index: index + 1 })}
+								className="flex items-center gap-3 [&>:not(:last-child)]:flex-1"
+								key={field.id}
+							>
 								<InputFormField
 									formControl={form.control}
-									label={t("keyLabel")}
+									label={t("attributes.keyLabel")}
 									name={`environmentAttributes.${index}.key`}
-									placeholder={t("keyPlaceholder")}
+									placeholder={t("attributes.keyPlaceholder")}
 								/>
 								<ChoiceFormField
 									assumeMoreOptions
 									formControl={form.control}
-									label={t("typeLabel")}
+									label={t("attributes.typeLabel")}
 									name={`environmentAttributes.${index}.type`}
 									options={ATTRIBUTE_TYPES.map((type) => ({
 										label: type,

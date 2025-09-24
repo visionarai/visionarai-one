@@ -76,15 +76,18 @@
       "resourceNamePlaceholder": "z.B. dokumente",
       "removeResource": "Ressource entfernen",
       "submit": "Änderungen speichern",
-      "debugToggleShow": "Debug anzeigen",
-      "debugToggleHide": "Debug ausblenden",
       "noResources": "Noch keine Ressourcen konfiguriert.",
-      "unsaved-changes": "Nicht gespeicherte Änderungen"
+      "unsaved-changes": "Nicht gespeicherte Änderungen",
+      "environmentAttributes": "Umgebungsattribute",
+      "addEnvironmentAttribute": "Umgebungsattribut hinzufügen",
+      "removeEnvironmentAttribute": "Umgebungsattribut entfernen",
+      "updateSuccess": "Stammdaten erfolgreich aktualisiert",
+      "resourceItemAriaLabel": "Ressource {index}",
+      "environmentAttributeItemAriaLabel": "Umgebungsattribut {index}"
     },
     "attributes": {
       "heading": "Attribute",
       "addAttribute": "Attribut hinzufügen",
-      "emptyHint": "Noch keine Attribute hinzugefügt.",
       "keyLabel": "Attribut-Schlüssel",
       "keyPlaceholder": "Schlüssel (z.B. ownerId)",
       "typeLabel": "Typ",
@@ -93,10 +96,10 @@
     "permissions": {
       "heading": "Berechtigungen",
       "addPermission": "Berechtigung hinzufügen",
-      "removePermission": "Entfernen",
-      "permissionLabel": "Berechtigung",
-      "permissionPlaceholder": "Berechtigung eingeben",
-      "emptyHint": "Noch keine Berechtigungen hinzugefügt."
+      "removePermission": "Entfernen"
+    },
+    "common": {
+      "emptyHint": "Noch keine Einträge hinzugefügt."
     }
   }
 }
