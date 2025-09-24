@@ -5,7 +5,7 @@ import { Badge, Button, Form, InputFormField, useAsyncFunction } from "@visionar
 import { PlusIcon, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { orpcRouterClient } from "@/lib/orpc";
+import { orpcClient } from "@/lib/orpc";
 import { AttributeInput } from "./attribute-input";
 import { PermissionsInput } from "./permissions-input";
 
@@ -14,7 +14,7 @@ type MasterDataFormProps = {
 };
 
 export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
-	const { execute } = useAsyncFunction(orpcRouterClient.masterData.update, {
+	const { execute } = useAsyncFunction(orpcClient.masterData.update, {
 		successMessage: "Master data updated successfully",
 	});
 	const t = useTranslations("MasterData");

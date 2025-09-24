@@ -1,10 +1,9 @@
-import { os } from "@orpc/server";
+import { ORPCError, onError, os, ValidationError } from "@orpc/server";
 import { createPolicyRepository, type MasterDataType, MasterDataZodSchema, type PolicyRepository } from "@visionarai-one/abac";
 import { createMongoDBConnector } from "@visionarai-one/connectors";
 import type { Connection } from "mongoose";
-import { pino } from "pino";
-
-const logger = pino({ name: "orpc-server" });
+import z from "zod";
+import { appLogger } from "@/lib/logger";
 
 const dbProviderMiddleware = os
 	.$context<{
@@ -12,7 +11,7 @@ const dbProviderMiddleware = os
 		policyRepository?: PolicyRepository;
 	}>()
 	.middleware(async ({ context, next }) => {
-		const databaseConnector = createMongoDBConnector(logger, {
+		const databaseConnector = createMongoDBConnector(appLogger, {
 			uri: process.env.MONGODB_URI || "mongodb://localhost:27017/visionarai",
 		});
 		await databaseConnector.connect();
@@ -28,7 +27,33 @@ const dbProviderMiddleware = os
 		});
 	});
 
-const dbProcedures = os.use(dbProviderMiddleware);
+const dbProcedures = os.use(dbProviderMiddleware).use(
+	onError((error) => {
+		if (error instanceof ORPCError && error.cause instanceof ValidationError) {
+			// If you only use Zod you can safely cast to ZodIssue[]
+			const zodError = new z.ZodError(error.cause.issues as z.core.$ZodIssue[]);
+
+			const errorData = {
+				cause: error.cause,
+				code: error.code,
+				data: z.flattenError(zodError),
+				message: z.prettifyError(zodError),
+			};
+
+			if (error.code === "BAD_REQUEST") {
+				throw new ORPCError("INPUT_VALIDATION_FAILED", { ...errorData, status: 422 });
+			}
+			if (error.code === "INTERNAL_SERVER_ERROR") {
+				const message = z.prettifyError(zodError).replace("input", "output");
+				throw new ORPCError("OUTPUT_VALIDATION_FAILED", {
+					...errorData,
+					message,
+					status: 500,
+				});
+			}
+		}
+	})
+);
 
 const masterData: MasterDataType = {
 	_id: "64b8f3f4f1d2c4a5b6c7d8e9",
@@ -52,10 +77,12 @@ const masterData: MasterDataType = {
 		},
 	],
 	updatedAt: new Date("2024-07-20T10:00:00Z"),
+	updatedBy: "adminUserId",
 };
 
 const getMasterData = dbProcedures.output(MasterDataZodSchema).handler(({ context }) => {
 	const { policyRepository } = context;
+
 	const data = policyRepository.recentMasterData();
 	if (!data) {
 		return masterData;

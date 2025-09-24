@@ -1,7 +1,6 @@
-import { createORPCClient } from "@orpc/client";
+import { createORPCClient, createSafeClient } from "@orpc/client";
 import { RPCLink } from "@orpc/client/fetch";
 import type { RouterClient } from "@orpc/server";
-import { onError } from "@orpc/server";
 import type { AppRouter } from "@/router";
 
 declare global {
@@ -17,12 +16,6 @@ const link = new RPCLink({
 		const { headers } = await import("next/headers");
 		return await headers();
 	},
-	interceptors: [
-		onError((error) => {
-			// biome-ignore lint/suspicious/noConsole: Debugging
-			console.error(error);
-		}),
-	],
 	url: () => {
 		if (typeof window === "undefined") {
 			throw new Error("RPCLink is not allowed on the server side.");
@@ -35,4 +28,6 @@ const link = new RPCLink({
 /**
  * Fallback to client-side client if server-side client is not available.
  */
-export const orpcRouterClient: RouterClient<AppRouter> = globalThis.$client ?? createORPCClient(link);
+export const orpcClient: RouterClient<AppRouter> = globalThis.$client ?? createORPCClient(link);
+
+export const safeOrpcClient = createSafeClient(orpcClient);

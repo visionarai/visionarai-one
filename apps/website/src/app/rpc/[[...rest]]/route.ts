@@ -1,15 +1,8 @@
-import { onError } from "@orpc/server";
 import { RPCHandler } from "@orpc/server/fetch";
 import { BatchHandlerPlugin } from "@orpc/server/plugins";
 import { appRouter } from "@/router";
 
 const rpcHandler = new RPCHandler(appRouter, {
-	interceptors: [
-		onError((error) => {
-			// biome-ignore lint/suspicious/noConsole: Debugging
-			console.error(error);
-		}),
-	],
 	plugins: [new BatchHandlerPlugin()],
 });
 

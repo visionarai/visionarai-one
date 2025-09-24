@@ -2,13 +2,13 @@ import type { ResourceType } from "@visionarai-one/abac";
 import { Card, CardContent, CardHeader, CardTitle } from "@visionarai-one/ui";
 import { Database } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { orpcRouterClient } from "@/lib/orpc";
+import { orpcClient } from "@/lib/orpc";
 import MasterDataForm from "./_master_data_form";
 
 export default async function MasterPage() {
 	const t = await getTranslations("MasterData.page");
 
-	const defaultValues = await orpcRouterClient.masterData.get();
+	const defaultValues = await orpcClient.masterData.get();
 
 	return (
 		<section className="space-y-8">

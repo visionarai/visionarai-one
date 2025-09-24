@@ -4,6 +4,7 @@ import { Toaster } from "@visionarai-one/ui";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+import { ThemeProvider } from "next-themes";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { routing } from "@/i18n/routing";
 export function generateStaticParams() {
@@ -43,8 +44,10 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 					/>
 				)}
 				<NextIntlClientProvider>
-					<NuqsAdapter>{children}</NuqsAdapter>
-					<Toaster />
+					<ThemeProvider attribute="class" defaultTheme="system" disableTransitionOnChange enableSystem>
+						<NuqsAdapter>{children}</NuqsAdapter>
+						<Toaster />
+					</ThemeProvider>
 				</NextIntlClientProvider>
 			</body>
 		</html>

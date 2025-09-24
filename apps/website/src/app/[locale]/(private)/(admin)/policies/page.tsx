@@ -28,13 +28,13 @@ import {
 	TableRow,
 } from "@visionarai-one/ui";
 import { ChevronLeft, Maximize2, Minus, UnfoldVertical } from "lucide-react";
-import { orpcRouterClient } from "@/lib/orpc";
+import { safeOrpcClient } from "@/lib/orpc";
 import { decisionBorderColor } from "./_colors";
 import { ConditionTree } from "./_condition-tree";
 import { PermissionForm } from "./_permission_form";
 
 async function loadMasterData() {
-	await orpcRouterClient.masterData.get();
+	await safeOrpcClient.masterData.get();
 }
 
 type PermissionRowSheetProps = React.ComponentPropsWithoutRef<"div"> & {
