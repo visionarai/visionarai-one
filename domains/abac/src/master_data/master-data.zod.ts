@@ -18,8 +18,18 @@ export const ResourceZodSchema = z.object({
 export const MasterDataZodSchema = z.object({
 	_id: z.string(),
 	createdAt: z.date(),
+	environmentAttributes: z
+		.array(
+			z.object({
+				key: z.string(),
+				type: z.enum(ATTRIBUTE_TYPES),
+			})
+		)
+		.optional(),
 	resources: ResourceZodSchema.array().optional(),
 	updatedAt: z.date(),
+	updatedBy: z.string(),
+	version: z.number().int().nonnegative().optional(),
 });
 
 export type ResourceType = z.infer<typeof ResourceZodSchema>;

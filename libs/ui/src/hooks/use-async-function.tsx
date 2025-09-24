@@ -57,6 +57,12 @@ export function useAsyncFunction<Args extends unknown[], Return>(asyncFunction: 
 			options?.onSuccess?.(result);
 			return result;
 		} catch (err) {
+			if (!(err instanceof Error)) {
+				const e = new Error("An unknown error occurred");
+				setError(e);
+				options?.onError?.(e);
+				throw e; // rethrow so toast.promise can handle if active
+			}
 			const e = err as Error;
 			setError(e);
 			options?.onError?.(e);

@@ -14,7 +14,13 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 		if (recentMasterData) {
 			return;
 		}
-		const masterData = await MasterDataModel.findOne().lean();
+		const masterData = await MasterDataModel.findOne(
+			{},
+			{
+				__v: 0,
+				history: 0,
+			}
+		).lean();
 		if (masterData) {
 			masterData._id = masterData._id.toString();
 		}
