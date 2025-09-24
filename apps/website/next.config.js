@@ -9,9 +9,10 @@ const withNextIntl = createNextIntlPlugin();
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  */
 const nextConfig = {
+	nx: {},
 	// Use this to set Nx-specific options
 	// See: https://nx.dev/recipes/next/next-config-setup
-	nx: {},
+	serverExternalPackages: ["pino", "pino-pretty"],
 };
 
 const plugins = [
