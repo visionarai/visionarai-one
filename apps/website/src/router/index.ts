@@ -95,7 +95,7 @@ const updateMasterData = dbProcedures
 	.output(MasterDataZodSchema)
 	.handler(async ({ context, input }) => {
 		const { policyRepository } = context;
-		await policyRepository.updateMasterData(input.resources);
+		await policyRepository.updateMasterData(input);
 		const updatedData = policyRepository.recentMasterData();
 		if (!updatedData) {
 			throw new Error("Failed to update master data");

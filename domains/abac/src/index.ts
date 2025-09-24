@@ -35,8 +35,16 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 
 	return {
 		recentMasterData: () => recentMasterData as MasterDataType | null,
-		updateMasterData: async (newMasterData: MasterDataType["resources"]) => {
-			await MasterDataModel.updateOne({}, { resources: newMasterData }, { upsert: true });
+		updateMasterData: async (newMasterData: MasterDataType) => {
+			await MasterDataModel.updateOne(
+				{},
+				{
+					environmentAttributes: newMasterData.environmentAttributes,
+					resources: newMasterData.resources,
+					updatedAt: new Date(),
+				},
+				{ upsert: true }
+			);
 			await ensureMasterDataLoaded();
 			return recentMasterData;
 		},

@@ -60,14 +60,29 @@ export const MasterDataSchema = new Schema<MasterDataDocument>(
 		version: { default: 1, type: Number },
 	},
 	{ timestamps: true }
-);
-
-// Bump up the version on every update and history tracking
-MasterDataSchema.pre("save", function (next) {
-	if (this.isModified()) {
-		const historyEntry = historyEntryFromDocument(this.toObject());
-		this.version = (this.version ?? 0) + 1;
-		this.history = [...(this.history ?? []), historyEntry];
+).pre("updateOne", function (next) {
+	// Note: 'this' refers to the query, not the document
+	const update = this.getUpdate() as Partial<MasterDataDocument>;
+	if (update) {
+		// We need to fetch the current document to create a history entry
+		this.model
+			.findOne(this.getQuery())
+			.then((doc: MasterDataDocument | null) => {
+				if (doc) {
+					const historyEntry = historyEntryFromDocument(doc.toObject());
+					const newVersion = (doc.version ?? 0) + 1;
+					this.setUpdate({
+						...update,
+						history: [...(doc.history ?? []), historyEntry],
+						version: newVersion,
+					});
+				}
+				next();
+			})
+			.catch((err) => {
+				next(err);
+			});
+	} else {
+		next();
 	}
-	next();
 });

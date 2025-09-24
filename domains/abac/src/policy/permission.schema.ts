@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ConditionsSchema } from "./condition.schema";
+import { ConditionsSchema, SCOPE_TYPE_ATTRIBUTE_MAP } from "./condition.schema";
 
 export const PermissionDecisionSchema = z.discriminatedUnion("decision", [
 	z.object({ decision: z.literal("ALLOW") }),
@@ -17,3 +17,8 @@ export const PERMISSION_DECISION_TYPES = ["ALLOW", "DENY", "CONDITIONAL"] as con
  * Convenience alias for decision type literals; mirrors PERMISSION_DECISION_TYPES.
  */
 export type PermissionTypes = (typeof PERMISSION_DECISION_TYPES)[number];
+
+export const EvaluationContext = {
+	...SCOPE_TYPE_ATTRIBUTE_MAP,
+	action: "subject",
+};
