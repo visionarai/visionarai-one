@@ -1,8 +1,23 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ATTRIBUTE_TYPES, type MasterDataType, MasterDataZodSchema } from "@visionarai-one/abac";
-import { Badge, Button, ChoiceFormField, Form, InputFormField, useAsyncFunction } from "@visionarai-one/ui";
-import { PlusIcon, Trash2 } from "lucide-react";
+import {
+	Badge,
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+	ChoiceFormField,
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+	Form,
+	InputFormField,
+	Separator,
+	useAsyncFunction,
+} from "@visionarai-one/ui";
+import { ChevronDown, Database, PlusIcon, Settings, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { orpcClient } from "@/lib/orpc";
@@ -48,119 +63,171 @@ export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
 	});
 
 	return (
-		<div className="space-y-6">
-			<header className="flex flex-wrap items-center justify-between gap-3">
-				<h2 className="-2 font-semibold text-base tracking-tight">
-					{t("page.resources")}
-					{form.formState.isDirty && <Badge variant="destructive">{t("page.unsaved-changes")}</Badge>}
-				</h2>
-				<Button onClick={() => addResource({ name: "" })} size="sm" type="button">
-					<PlusIcon className="mr-1 size-4" />
-					{t("page.addResource")}
-				</Button>
-			</header>
-
-			{resourceFields.length === 0 && (
-				<p className="rounded-md bg-muted/30 px-4 py-6 text-center text-muted-foreground text-sm" data-testid="empty-resources-hint">
-					{t("page.noResources")}
-				</p>
-			)}
-
-			<Form {...form}>
-				<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<MasterDataType>)}>
-					<ul className="space-y-4">
-						{resourceFields.map((field, index) => (
-							<li
-								aria-label={t("page.resourceItemAriaLabel", { index: index + 1 })}
-								className="group relative rounded-xl border border-border/40 bg-card/60 p-5 shadow-sm ring-1 ring-transparent transition-colors focus-within:ring-ring/30 hover:bg-card"
-								key={field.id}
-							>
-								<div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
-									<Button
-										aria-label={t("page.removeResource")}
-										className="h-7 w-7 text-muted-foreground hover:text-destructive"
-										onClick={() => removeResourceField(index)}
-										size="icon"
-										type="button"
-										variant="ghost"
-									>
-										<Trash2 className="size-4" />
-									</Button>
+		<Form {...form}>
+			<form className="space-y-8" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<MasterDataType>)}>
+				{/* Resources Section */}
+				<Card>
+					<CardHeader className="pb-4">
+						<div className="flex items-center justify-between">
+							<div className="flex items-center gap-3">
+								<Database className="size-5 text-muted-foreground" />
+								<div>
+									<CardTitle className="text-lg">
+										{t("page.resources")}
+										{form.formState.isDirty && (
+											<Badge className="ml-2" variant="destructive">
+												{t("page.unsaved-changes")}
+											</Badge>
+										)}
+									</CardTitle>
+									<p className="mt-1 text-muted-foreground text-sm">{t("page.subtitle")}</p>
 								</div>
-
-								<div className="space-y-8">
-									<div className="flex flex-col gap-2">
-										<InputFormField
-											formControl={form.control}
-											label={t("page.resourceNameLabel")}
-											name={`resources.${index}.name`}
-											placeholder={t("page.resourceNamePlaceholder")}
-										/>
-									</div>
-									<div className="flex flex-row gap-8 [&>*]:flex-1">
-										<AttributeInput formControl={form.control} resourceIndex={index} />
-										<PermissionsInput formControl={form.control} resourceIndex={index} />
-									</div>
-								</div>
-							</li>
-						))}
-					</ul>
-
-					<header className="flex flex-wrap items-center justify-between gap-3">
-						<h2 className="-2 font-semibold text-base tracking-tight">
-							{t("page.environmentAttributes")}
-							{form.formState.isDirty && <Badge variant="destructive">{t("page.unsaved-changes")}</Badge>}
-						</h2>
-						<Button onClick={() => addEnvironmentAttribute({ key: "", type: "string" })} size="sm" type="button">
-							<PlusIcon className="mr-1 size-4" />
-							{t("page.addEnvironmentAttribute")}
-						</Button>
-					</header>
-
-					<ul className="space-y-4">
-						{environmentAttributeFields.map((field, index) => (
-							<li
-								aria-label={t("page.environmentAttributeItemAriaLabel", { index: index + 1 })}
-								className="flex items-center gap-3 [&>:not(:last-child)]:flex-1"
-								key={field.id}
-							>
-								<InputFormField
-									formControl={form.control}
-									label={t("attributes.keyLabel")}
-									name={`environmentAttributes.${index}.key`}
-									placeholder={t("attributes.keyPlaceholder")}
-								/>
-								<ChoiceFormField
-									assumeMoreOptions
-									formControl={form.control}
-									label={t("attributes.typeLabel")}
-									name={`environmentAttributes.${index}.type`}
-									options={ATTRIBUTE_TYPES.map((type) => ({
-										label: type,
-										value: type,
-									}))}
-								/>
-								<Button
-									aria-label={t("page.removeEnvironmentAttribute")}
-									className="mt-2 h-7 w-7 text-muted-foreground hover:text-destructive"
-									onClick={() => removeEnvironmentAttributeField(index)}
-									size="icon"
-									type="button"
-									variant="ghost"
-								>
-									<Trash2 className="size-4" />
+							</div>
+							<Button onClick={() => addResource({ name: "" })} size="sm" variant="outline">
+								<PlusIcon className="mr-2 size-4" />
+								{t("page.addResource")}
+							</Button>
+						</div>
+					</CardHeader>
+					<CardContent className="pt-0">
+						{resourceFields.length === 0 ? (
+							<div className="flex flex-col items-center justify-center rounded-lg border-2 border-muted-foreground/25 border-dashed bg-muted/10 py-12 text-center">
+								<Database className="mb-4 size-12 text-muted-foreground/50" />
+								<h3 className="mb-2 font-medium text-base">{t("page.noResources")}</h3>
+								<p className="mb-4 max-w-sm text-muted-foreground text-sm">{t("page.resourceEmptyDescription")}</p>
+								<Button onClick={() => addResource({ name: "" })} size="sm" variant="outline">
+									<PlusIcon className="mr-2 size-4" />
+									{t("page.addResource")}
 								</Button>
-							</li>
-						))}
-					</ul>
+							</div>
+						) : (
+							<div className="space-y-4">
+								{resourceFields.map((field, index) => (
+									<Collapsible defaultOpen={resourceFields.length === 1} key={field.id}>
+										<div className="group relative rounded-xl border border-border/40 bg-card/60 p-4 shadow-sm transition-colors hover:bg-card">
+											<div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+												<Button
+													aria-label={t("page.removeResource")}
+													className="h-7 w-7 text-muted-foreground hover:text-destructive"
+													onClick={() => removeResourceField(index)}
+													size="icon"
+													type="button"
+													variant="ghost"
+												>
+													<Trash2 className="size-4" />
+												</Button>
+											</div>
 
-					<div className="flex justify-end gap-2">
-						<Button disabled={form.formState.isSubmitting} size="sm" type="submit">
-							{t("page.submit")}
-						</Button>
-					</div>
-				</form>
-			</Form>
-		</div>
+											<div className="space-y-4">
+												<div className="pr-12">
+													<InputFormField
+														formControl={form.control}
+														label={t("page.resourceNameLabel")}
+														name={`resources.${index}.name`}
+														placeholder={t("page.resourceNamePlaceholder")}
+													/>
+												</div>
+
+												<CollapsibleTrigger asChild>
+													<Button className="w-full justify-between p-0 text-left font-normal" variant="ghost">
+														<span className="text-muted-foreground text-sm">{t("page.configureAttributesText")}</span>
+														<ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+													</Button>
+												</CollapsibleTrigger>
+
+												<CollapsibleContent className="space-y-6">
+													<Separator />
+													<div className="grid gap-6 md:grid-cols-2">
+														<AttributeInput formControl={form.control} resourceIndex={index} />
+														<PermissionsInput formControl={form.control} resourceIndex={index} />
+													</div>
+												</CollapsibleContent>
+											</div>
+										</div>
+									</Collapsible>
+								))}
+							</div>
+						)}
+					</CardContent>
+				</Card>
+
+				{/* Environment Attributes Section */}
+				<Card>
+					<CardHeader className="pb-4">
+						<div className="flex items-center justify-between">
+							<div className="flex items-center gap-3">
+								<Settings className="size-5 text-muted-foreground" />
+								<div>
+									<CardTitle className="text-lg">{t("page.environmentAttributes")}</CardTitle>
+									<p className="mt-1 text-muted-foreground text-sm">{t("page.environmentDescriptionText")}</p>
+								</div>
+							</div>
+							<Button onClick={() => addEnvironmentAttribute({ key: "", type: "string" })} size="sm" variant="outline">
+								<PlusIcon className="mr-2 size-4" />
+								{t("page.addEnvironmentAttribute")}
+							</Button>
+						</div>
+					</CardHeader>
+					<CardContent className="pt-0">
+						{environmentAttributeFields.length === 0 ? (
+							<div className="flex flex-col items-center justify-center rounded-lg border-2 border-muted-foreground/25 border-dashed bg-muted/10 py-12 text-center">
+								<Settings className="mb-4 size-12 text-muted-foreground/50" />
+								<h3 className="mb-2 font-medium text-base">{t("page.noEnvironmentAttributesTitle")}</h3>
+								<p className="mb-4 max-w-sm text-muted-foreground text-sm">{t("page.environmentEmptyDescription")}</p>
+								<Button onClick={() => addEnvironmentAttribute({ key: "", type: "string" })} size="sm" variant="outline">
+									<PlusIcon className="mr-2 size-4" />
+									{t("page.addEnvironmentAttribute")}
+								</Button>
+							</div>
+						) : (
+							<div className="space-y-4">
+								{environmentAttributeFields.map((field, index) => (
+									<fieldset className="flex items-end gap-3 rounded-lg border border-border/40 bg-card/30 p-4" key={field.id}>
+										<legend className="sr-only">{t("page.environmentAttributeItemAriaLabel", { index: index + 1 })}</legend>
+										<div className="flex-1">
+											<InputFormField
+												formControl={form.control}
+												label={t("attributes.keyLabel")}
+												name={`environmentAttributes.${index}.key`}
+												placeholder={t("attributes.keyPlaceholder")}
+											/>
+										</div>
+										<div className="flex-1">
+											<ChoiceFormField
+												assumeMoreOptions
+												formControl={form.control}
+												label={t("attributes.typeLabel")}
+												name={`environmentAttributes.${index}.type`}
+												options={ATTRIBUTE_TYPES.map((type) => ({
+													label: type,
+													value: type,
+												}))}
+											/>
+										</div>
+										<Button
+											aria-label={t("page.removeEnvironmentAttribute")}
+											className="h-10 w-10 text-muted-foreground hover:text-destructive"
+											onClick={() => removeEnvironmentAttributeField(index)}
+											size="icon"
+											type="button"
+											variant="ghost"
+										>
+											<Trash2 className="size-4" />
+										</Button>
+									</fieldset>
+								))}
+							</div>
+						)}
+					</CardContent>
+				</Card>
+
+				{/* Submit Button */}
+				<div className="flex justify-end">
+					<Button disabled={form.formState.isSubmitting} type="submit">
+						{form.formState.isSubmitting ? t("page.savingText") : t("page.submit")}
+					</Button>
+				</div>
+			</form>
+		</Form>
 	);
 }
