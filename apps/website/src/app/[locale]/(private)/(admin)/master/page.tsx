@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { orpcClient } from "@/lib/orpc";
 import MasterDataForm from "./_master_data_form";
-
 export default async function MasterPage() {
 	const t = await getTranslations("MasterData.page");
 
