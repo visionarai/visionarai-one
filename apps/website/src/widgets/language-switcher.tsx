@@ -9,9 +9,9 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 // Allowed locales for the language switcher
 export type AllowedLocales = "en" | "de";
 
-const LANGS: Array<{ code: AllowedLocales; label: string }> = [
-	{ code: "en", label: "EN" },
-	{ code: "de", label: "DE" },
+const LANGS: Array<{ code: AllowedLocales; label: string; longLabel: string }> = [
+	{ code: "en", label: "EN", longLabel: "English" },
+	{ code: "de", label: "DE", longLabel: "Deutsch" },
 ];
 
 type LanguageButtonProps = {
@@ -38,7 +38,11 @@ const LanguageButton = memo(function LanguageButtonA({ code, label, isActive, is
 	);
 });
 
-export function LanguageSwitcher() {
+type LanguageSwitcherProps = {
+	type?: "icon" | "extended";
+};
+
+export function LanguageSwitcher({ type }: LanguageSwitcherProps) {
 	const router = useRouter();
 	const currentPath = usePathname();
 	const localeActive = useLocale();
@@ -58,8 +62,15 @@ export function LanguageSwitcher() {
 
 	return (
 		<div className="flex items-center gap-1">
-			{LANGS.map(({ code, label }) => (
-				<LanguageButton code={code} isActive={selectedLocale.code === code} isPending={isPending} key={code} label={label} onSwitch={handleSwitch} />
+			{LANGS.map(({ code, label, longLabel }) => (
+				<LanguageButton
+					code={code}
+					isActive={selectedLocale.code === code}
+					isPending={isPending}
+					key={code}
+					label={type === "extended" ? longLabel : label}
+					onSwitch={handleSwitch}
+				/>
 			))}
 		</div>
 	);

@@ -87,12 +87,12 @@ export function NavUser({
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<ThemeSwitcher />
-						</DropdownMenuItem>{" "}
-						<DropdownMenuItem>
-							<LanguageSwitcher />
-						</DropdownMenuItem>
+						<div className="space-y-2 px-2 py-1">
+							<ThemeSwitcher type="extended" />
+							<LanguageSwitcher type="extended" />
+						</div>
+						<DropdownMenuSeparator />
+
 						<DropdownMenuItem>
 							<LogOut />
 							Log out

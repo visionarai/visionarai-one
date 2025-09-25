@@ -4,7 +4,11 @@ import { useTheme } from "next-themes";
 import { useState } from "react";
 import { Button } from "../../ui";
 
-export function ThemeSwitcher() {
+type ThemeSwitcherProps = {
+	type?: "icon" | "extended";
+};
+
+export function ThemeSwitcher({ type = "icon" }: ThemeSwitcherProps) {
 	const { setTheme, theme, themes } = useTheme();
 	const [currentIndex, setCurrentIndex] = useState(themes.indexOf(theme || "system"));
 
@@ -19,23 +23,23 @@ export function ThemeSwitcher() {
 
 	if (currentIndex === 0) {
 		return (
-			<Button aria-label="Switch to dark theme" onClick={onClick} size="icon" variant="outline">
-				<Moon />
+			<Button aria-label="Switch to dark theme" onClick={onClick} size={type === "icon" ? "icon" : "lg"} variant="outline">
+				<Moon /> {type === "extended" && "Dark"}
 			</Button>
 		);
 	}
 
 	if (currentIndex === 1) {
 		return (
-			<Button aria-label="Switch to light theme" onClick={onClick} size="icon" variant="outline">
-				<Sun />
+			<Button aria-label="Switch to light theme" onClick={onClick} size={type === "icon" ? "icon" : "lg"} variant="outline">
+				<Sun /> {type === "extended" && "Light"}
 			</Button>
 		);
 	}
 
 	return (
-		<Button aria-label="Switch to system theme" onClick={onClick} size="icon" variant="outline">
-			<MonitorCog />
+		<Button aria-label="Switch to system theme" onClick={onClick} size={type === "icon" ? "icon" : "lg"} variant="outline">
+			<MonitorCog /> {type === "extended" && "System"}
 		</Button>
 	);
 }
