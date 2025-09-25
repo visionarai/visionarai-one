@@ -18,6 +18,7 @@ export const conditionGroupLeftBorderColor = (logic: ConditionLogicType, classNa
 			"border-emerald-300": logic === "AND",
 			"border-rose-300": logic === "NOT",
 		},
+
 		className
 	);
 
@@ -28,5 +29,6 @@ export const decisionBorderColor = (decision: PermissionTypes, className?: strin
 			"border-rose-300 text-rose-700": decision === "DENY",
 			"border-sky-300 text-sky-700": decision === "CONDITIONAL",
 		},
+		"border-2",
 		className
 	);

@@ -27,7 +27,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@visionarai-one/ui";
-import { ChevronLeft, Maximize2, Minus, UnfoldVertical } from "lucide-react";
+import { ChevronLeft, Circle, Maximize2, Minus, UnfoldVertical } from "lucide-react";
 import { safeOrpcClient } from "@/lib/orpc";
 import { decisionBorderColor } from "./_colors";
 import { ConditionTree } from "./_condition-tree";
@@ -92,7 +92,7 @@ function PermissionRow({ action, permission, resource, id }: PermissionRowSheetP
 			<TableCell className="font-medium">{action}</TableCell>
 			<TableCell>
 				<Badge className={decisionBorderColor(permission.decision)} variant="outline">
-					{permission.decision}
+					<Circle /> {permission.decision}
 				</Badge>
 			</TableCell>
 			<TableCell>{permission.decision === "CONDITIONAL" ? <ConditionTree conditions={permission.condition} /> : "-"}</TableCell>
@@ -135,11 +135,11 @@ export default async function PoliciesPage() {
 										resources.map((resource) => {
 											const resourcePermissions = policy.permissions[resource as keyof typeof policy.permissions];
 											return (
-												<Table className="mb-4" key={resource}>
+												<Table className="my-4 rounded-2xl border-2" key={resource}>
 													<TableHeader>
 														<TableRow>
 															<TableHead className="bg-muted/50 font-semibold" colSpan={4}>
-																Resource  {resource}
+																Resource: {resource}
 															</TableHead>
 														</TableRow>
 														<TableRow>

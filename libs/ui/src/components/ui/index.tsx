@@ -24,3 +24,5 @@ export * from "./avatar";
 export * from "./dropdown-menu";
 export * from "./table";
 export * from "./collapsible";
+export * from "./tabs";
+export * from "./accordion";
