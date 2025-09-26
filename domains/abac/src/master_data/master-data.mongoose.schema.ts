@@ -1,27 +1,27 @@
-import { type Document, type FlatRecord, type Model, Schema } from "mongoose";
+// biome-ignore lint/style/useNodejsImportProtocol: This is a node built-in module
+import { createHash } from "crypto";
+import { type Document, type Model, Schema } from "mongoose";
 import type { MasterDataType } from "./master-data.zod";
 
 type MasterDataHistoryEntry = Omit<MasterDataType, "version" | "_id" | "updatedAt" | "createdAt">;
 
 export type MasterDataDocument = MasterDataType & {
-	history?: MasterDataHistoryEntry[];
+	history?: {
+		data: string;
+		updatedAt: Date;
+		hashedSnapshot: string;
+	}[];
 } & Document;
 export type MasterDataModelType = Model<MasterDataDocument>;
 
-function historyEntryFromDocument(
-	doc: FlatRecord<MasterDataDocument> &
-		Required<{
-			_id: string;
-		}> & {
-			__v: number;
-		}
-): MasterDataHistoryEntry {
-	return {
-		environmentAttributes: doc.environmentAttributes,
-		resources: doc.resources,
-		updatedBy: doc.updatedBy,
-	};
-}
+const HistoryEntrySchema = new Schema(
+	{
+		data: { required: true, type: String },
+		hashedSnapshot: { required: true, type: String },
+		updatedAt: { required: true, type: Date },
+	},
+	{ _id: false }
+);
 
 export const MasterDataSchema = new Schema<MasterDataDocument>(
 	{
@@ -35,7 +35,7 @@ export const MasterDataSchema = new Schema<MasterDataDocument>(
 				},
 			],
 		},
-		history: { required: false, type: Array<MasterDataHistoryEntry> },
+		history: { default: [], type: [HistoryEntrySchema] },
 		resources: {
 			_id: false,
 			default: [],
@@ -60,29 +60,42 @@ export const MasterDataSchema = new Schema<MasterDataDocument>(
 		version: { default: 1, type: Number },
 	},
 	{ timestamps: true }
-).pre("updateOne", function (next) {
-	// Note: 'this' refers to the query, not the document
-	const update = this.getUpdate() as Partial<MasterDataDocument>;
-	if (update) {
-		// We need to fetch the current document to create a history entry
-		this.model
-			.findOne(this.getQuery())
-			.then((doc: MasterDataDocument | null) => {
-				if (doc) {
-					const historyEntry = historyEntryFromDocument(doc.toObject());
-					const newVersion = (doc.version ?? 0) + 1;
-					this.setUpdate({
-						...update,
-						history: [...(doc.history ?? []), historyEntry],
-						version: newVersion,
-					});
-				}
-				next();
-			})
-			.catch((err) => {
-				next(err);
+).pre("updateOne", async function (next) {
+	const filter = this.getFilter();
+	const doc = await this.model.findOne(filter).exec();
+	if (doc) {
+		const currentUpdate = this.getUpdate();
+		// Create a copy of the document and apply the update to simulate new state
+		const newDoc = { ...doc.toObject(), ...currentUpdate };
+		const entry = historyEntryFromDocument(newDoc as MasterDataDocument);
+		const stringified = JSON.stringify(entry);
+		const hash = createHashedSnapshot(stringified);
+		const lastHash = doc.history?.[doc.history.length - 1]?.hashedSnapshot;
+		if (lastHash !== hash) {
+			const historyEntry = {
+				data: stringified,
+				hashedSnapshot: hash,
+				updatedAt: new Date(),
+			};
+			this.setUpdate({
+				...currentUpdate,
+				$push: { history: historyEntry },
 			});
-	} else {
-		next();
+		}
 	}
+	next();
 });
+
+export const createHashedSnapshot = (data: string): string => {
+	const hash = createHash("sha256");
+	hash.update(data);
+	return hash.digest("hex");
+};
+
+function historyEntryFromDocument(doc: MasterDataDocument): MasterDataHistoryEntry {
+	return {
+		environmentAttributes: doc.environmentAttributes,
+		resources: doc.resources,
+		updatedBy: doc.updatedBy,
+	};
+}
