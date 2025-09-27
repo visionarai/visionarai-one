@@ -122,6 +122,16 @@ const getAllPolicies = dbProcedures.handler(async ({ context }) => {
 	return await policyRepository.policiesListAll();
 });
 
+const removePolicyById = dbProcedures.input(z.string().min(1)).handler(async ({ context, input }) => {
+	const { policyRepository } = context;
+	return await policyRepository.policyRemoveById(input);
+});
+
+const duplicatedPolicyById = dbProcedures.input(z.string().min(1)).handler(async ({ context, input }) => {
+	const { policyRepository } = context;
+	return await policyRepository.policyDuplicateById(input);
+});
+
 export const appRouter = {
 	masterData: {
 		get: getMasterData,
@@ -130,7 +140,9 @@ export const appRouter = {
 	},
 	policies: {
 		createPlaceholderPolicy,
+		duplicateById: duplicatedPolicyById,
 		getAll: getAllPolicies,
+		removeById: removePolicyById,
 	},
 };
 

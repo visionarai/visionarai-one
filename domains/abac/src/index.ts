@@ -63,10 +63,39 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 					__v: 0,
 				}
 			).lean(),
+		policyDuplicateById: async (policyId: string) => {
+			const existingPolicy = await PolicyModel.findById(policyId).lean();
+			if (!existingPolicy) {
+				throw new Error("Policy not found");
+			}
+			const duplicatedPolicy = {
+				...existingPolicy,
+				_id: undefined,
+				createdAt: new Date(),
+				name: `${existingPolicy.name} (Copy)`,
+				updatedAt: new Date(),
+				version: 1,
+			};
+			return await PolicyModel.create(duplicatedPolicy);
+		},
 		policyRegisterNew: async (createNewPolicyInput: CreateNewPolicyInput) => {
 			const newPolicy = createPlaceholderPolicy(createNewPolicyInput, recentMasterData?.resources || []);
-
 			return await PolicyModel.create(newPolicy);
+		},
+		policyRemoveById: async (policyId: string) => {
+			const result = await PolicyModel.deleteOne({ _id: policyId }).exec();
+			return result.deletedCount === 1;
+		},
+		policyUpdateById: async (policyId: string, updatedFields: Partial<CreateNewPolicyInput & { permissions: PolicyDocument["permissions"] }>) => {
+			const updateData = {
+				...updatedFields,
+				updatedAt: new Date(),
+			};
+			const updatedPolicy = await PolicyModel.findByIdAndUpdate(policyId, updateData, { new: true }).lean();
+			if (updatedPolicy) {
+				updatedPolicy._id = updatedPolicy._id.toString();
+			}
+			return updatedPolicy;
 		},
 	};
 };
