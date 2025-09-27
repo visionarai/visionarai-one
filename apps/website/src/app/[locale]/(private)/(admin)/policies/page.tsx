@@ -18,6 +18,7 @@ import {
 } from "@visionarai-one/ui";
 import { Copy, UnfoldVertical } from "lucide-react";
 import { safeOrpcClient } from "@/lib/orpc";
+import { PageHeader } from "@/widgets/page-header";
 import { CreateNewPolicy } from "./_create-new-policy";
 import { PermissionRow } from "./_permission-row";
 
@@ -25,8 +26,10 @@ export default async function PoliciesPage() {
 	const [error, masterData] = await safeOrpcClient.masterData.get();
 	const [policiesError, policies] = await safeOrpcClient.policies.getAll();
 	return (
-		<div>
-			<CreateNewPolicy />
+		<section className="space-y-8">
+			<PageHeader subtitle="Manage your policies and their permissions" title="Policies">
+				<CreateNewPolicy />
+			</PageHeader>
 			{error && <p className="text-red-500">Error loading policies: {error.message}</p>}
 			{policiesError && <p className="text-red-500">Error loading policies: {policiesError.message}</p>}
 			{!masterData && <p className="text-muted-foreground">Loading master data...</p>}
@@ -89,6 +92,6 @@ export default async function PoliciesPage() {
 					</Card>
 				);
 			})}
-		</div>
+		</section>
 	);
 }

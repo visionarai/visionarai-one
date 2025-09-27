@@ -1,4 +1,4 @@
-import type { ResourceType } from "src/master_data";
+import type { ResourceType } from "./master-data.zod";
 
 export const resourceDataFromMasterData = (resources: ResourceType[]) =>
 	resources.reduce(

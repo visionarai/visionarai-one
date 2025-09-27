@@ -1,5 +1,5 @@
-import type { ResourceType } from "src/master_data/master-data.zod";
 import z from "zod";
+import type { ResourceType } from "../master_data/master-data.zod";
 import { PermissionDecisionSchema, type PermissionType } from "./permission.zod";
 
 export const PersistedPolicySchema = z.object({
