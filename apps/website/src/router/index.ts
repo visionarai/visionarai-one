@@ -83,7 +83,7 @@ const masterData: MasterDataType = {
 const getMasterData = dbProcedures.output(MasterDataZodSchema).handler(({ context }) => {
 	const { policyRepository } = context;
 
-	const data = policyRepository.recentMasterData();
+	const data = policyRepository.masterDataRetrieve();
 	if (!data) {
 		return masterData;
 	}
@@ -95,8 +95,8 @@ const updateMasterData = dbProcedures
 	.output(MasterDataZodSchema)
 	.handler(async ({ context, input }) => {
 		const { policyRepository } = context;
-		await policyRepository.updateMasterData(input);
-		const updatedData = policyRepository.recentMasterData();
+		await policyRepository.masterDataModify(input);
+		const updatedData = policyRepository.masterDataRetrieve();
 		if (!updatedData) {
 			throw new Error("Failed to update master data");
 		}
@@ -114,12 +114,12 @@ const masterDataResourcesAndEnvironmentAttributes = dbProcedures.handler(({ cont
 
 const createPlaceholderPolicy = dbProcedures.input(CreateNewPolicyInputSchema).handler(async ({ context, input }) => {
 	const { policyRepository } = context;
-	return await policyRepository.createNewPolicy(input);
+	return await policyRepository.policyRegisterNew(input);
 });
 
 const getAllPolicies = dbProcedures.handler(async ({ context }) => {
 	const { policyRepository } = context;
-	return await policyRepository.getAllPolicies();
+	return await policyRepository.policiesListAll();
 });
 
 export const appRouter = {

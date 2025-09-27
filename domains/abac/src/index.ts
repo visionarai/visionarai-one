@@ -37,25 +37,7 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 	await ensureMasterDataLoaded();
 
 	return {
-		createNewPolicy: async (createNewPolicyInput: CreateNewPolicyInput) => {
-			const newPolicy = createPlaceholderPolicy(createNewPolicyInput, recentMasterData?.resources || []);
-
-			return await PolicyModel.create(newPolicy);
-		},
-		getAllPolicies: async () =>
-			await PolicyModel.find(
-				{},
-				{
-					__v: 0,
-				}
-			).lean(),
-		masterDataResourcesAndEnvironmentAttributes: () => {
-			const resources = resourceDataFromMasterData(recentMasterData?.resources || []);
-			const environmentAttributes = recentMasterData?.environmentAttributes || [];
-			return { environmentAttributes, resources };
-		},
-		recentMasterData: () => recentMasterData as MasterDataType | null,
-		updateMasterData: async (newMasterData: MasterDataType) => {
+		masterDataModify: async (newMasterData: MasterDataType) => {
 			await MasterDataModel.updateOne(
 				{},
 				{
@@ -67,6 +49,24 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 			);
 			await ensureMasterDataLoaded();
 			return recentMasterData;
+		},
+		masterDataResourcesAndEnvironmentAttributes: () => {
+			const resources = resourceDataFromMasterData(recentMasterData?.resources || []);
+			const environmentAttributes = recentMasterData?.environmentAttributes || [];
+			return { environmentAttributes, resources };
+		},
+		masterDataRetrieve: () => recentMasterData as MasterDataType | null,
+		policiesListAll: async () =>
+			await PolicyModel.find(
+				{},
+				{
+					__v: 0,
+				}
+			).lean(),
+		policyRegisterNew: async (createNewPolicyInput: CreateNewPolicyInput) => {
+			const newPolicy = createPlaceholderPolicy(createNewPolicyInput, recentMasterData?.resources || []);
+
+			return await PolicyModel.create(newPolicy);
 		},
 	};
 };
