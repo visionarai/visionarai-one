@@ -1,7 +1,7 @@
 // biome-ignore lint/style/useNodejsImportProtocol: This is a node built-in module
 import { createHash } from "crypto";
 import { type Document, type Model, Schema } from "mongoose";
-import type { MasterDataType } from "./master-data.zod";
+import { ATTRIBUTE_TYPES, type MasterDataType } from "./master-data.zod";
 
 type MasterDataHistoryEntry = Omit<MasterDataType, "version" | "_id" | "updatedAt" | "createdAt">;
 
@@ -12,7 +12,7 @@ export type MasterDataDocument = MasterDataType & {
 		hashedSnapshot: string;
 	}[];
 } & Document;
-export type MasterDataModelType = Model<MasterDataDocument>;
+export type MasterDataModelType = Model<MasterDataDocument, MasterDataType>;
 
 const HistoryEntrySchema = new Schema(
 	{
@@ -31,7 +31,7 @@ export const MasterDataSchema = new Schema<MasterDataDocument>(
 			type: [
 				{
 					key: { required: true, type: String },
-					type: { enum: ["string", "number", "boolean", "Date"], required: true, type: String },
+					type: { enum: ATTRIBUTE_TYPES, required: true, type: String },
 				},
 			],
 		},
@@ -47,7 +47,7 @@ export const MasterDataSchema = new Schema<MasterDataDocument>(
 						type: [
 							{
 								key: { required: true, type: String },
-								type: { enum: ["string", "number", "boolean", "Date"], required: true, type: String },
+								type: { enum: ATTRIBUTE_TYPES, required: true, type: String },
 							},
 						],
 					},
@@ -59,7 +59,10 @@ export const MasterDataSchema = new Schema<MasterDataDocument>(
 		updatedBy: { required: true, type: String },
 		version: { default: 1, type: Number },
 	},
-	{ timestamps: true }
+	{
+		collection: "master_data",
+		timestamps: true,
+	}
 ).pre("updateOne", async function (next) {
 	const filter = this.getFilter();
 	const doc = await this.model.findOne(filter).exec();

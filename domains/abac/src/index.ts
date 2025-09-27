@@ -1,13 +1,12 @@
-import { type Connection, type Model, models } from "mongoose";
-import { type MasterDataDocument, MasterDataSchema, type MasterDataType } from "./master_data";
+import { type Connection, models } from "mongoose";
+import { type MasterDataDocument, type MasterDataModelType, MasterDataSchema, type MasterDataType } from "./master_data";
 
 export * from "./master_data";
 export * from "./policy";
 
 export const createPolicyRepository = async (mongooseConnection: Connection) => {
-	const MasterDataModel: Model<MasterDataDocument, MasterDataType> =
-		(models.MasterData as Model<MasterDataDocument, MasterDataType>) ||
-		mongooseConnection.model<MasterDataDocument, MasterDataType>("MasterData", MasterDataSchema);
+	const MasterDataModel: MasterDataModelType =
+		(models.MasterData as MasterDataModelType) || mongooseConnection.model<MasterDataDocument, MasterDataType>("MasterData", MasterDataSchema);
 	let recentMasterData: MasterDataType | null;
 
 	const ensureMasterDataLoaded = async () => {
