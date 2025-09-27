@@ -5,7 +5,7 @@ Deliver changes that fit existing patterns. Keep diffs small, typed, and localiz
 ### 1. Architecture (Orient Fast)
 
 - Monorepo: Nx 21 + Yarn 4 (strict). Core Next.js 15 App Router app `apps/website` consumes shared libs.
-- Shared libs: `libs/ui` (shadcn + metadata-driven form system), `libs/utils` (DOM + password helpers), `domains/access-control` (ABAC evaluator), `packages/connectors` (connector factory + MongoDB/Mongoose).
+- Shared libs: `libs/ui` (shadcn + metadata-driven form system), `libs/utils` (DOM + password helpers), `domains/abac` (ABAC evaluator), `packages/connectors` (connector factory + MongoDB/Mongoose).
 - i18n: `next-intl` with required `[locale]` segment: `apps/website/src/app/[locale]/...`; messages in `messages/*.json`.
 - Styling: Tailwind v4; only global entry is `libs/ui/src/globals.css` imported once by `apps/website/src/app/global.css`.
 
@@ -15,7 +15,7 @@ Deliver changes that fit existing patterns. Keep diffs small, typed, and localiz
 - Build + static preview: `yarn nx run @visionarai-one/website:build` then `yarn nx run @visionarai-one/website:serve-static`.
 - Lint / format: `yarn lint` / `yarn format` (lefthook enforces on commit).
 - Project sync / graph: `yarn sync:project`, `yarn dep-graph`.
-- Tests (where defined): `yarn nx run <project>:test` (e.g. `access-control:test`).
+- Tests (where defined): `yarn nx run <project>:test` (e.g. `abac:test`).
 - Avoid `yarn clean:all` unless cache or deps corrupt (destructive reinstall).
 
 ### 3. TypeScript & Conventions
@@ -35,7 +35,7 @@ Deliver changes that fit existing patterns. Keep diffs small, typed, and localiz
 
 ### 5. Access Control (ABAC)
 
-- Core logic: `domains/access-control/src/policy/*` (evaluator, operators, schemas).
+- Core logic: `domains/abac/src/policy/*` (evaluator, operators, schemas).
 - Repository: `createPolicyRepository(connection)` → `getPolicyById(id).isPermissionGranted(subject, resourceType, action)`.
 - Extend operators: add in `operators.ts` + update related schema/types; include targeted tests.
 - Subject/resource attributes use dot-paths—keep schema + master data aligned.
@@ -51,7 +51,7 @@ Deliver changes that fit existing patterns. Keep diffs small, typed, and localiz
 - Routes (localized): `apps/website/src/app/[locale]/(public|private)`.
 - i18n helpers: `apps/website/src/i18n/{routing,navigation}.ts`.
 - API / RPC: `apps/website/src/app/api/*`, `src/app/rpc/*` (if present) – keep server boundaries clear.
-- ABAC: `domains/access-control/src/policy/` & `.../master_data/`.
+- ABAC: `domains/abac/src/policy/` & `.../master_data/`.
 - UI exports: `libs/ui/src/index.ts` re-exports all primitives + functional components.
 
 ### 8. Safe Change Playbook

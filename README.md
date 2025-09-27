@@ -31,10 +31,10 @@ Use `yarn dep-graph` to open the interactive Nx project graph and explore depend
 
 ## Monorepo at a glance
 
-- apps/website — Next.js 15 App Router app (depends on libs/ui, libs/utils, domains/access-control)
+- apps/website — Next.js 15 App Router app (depends on libs/ui, libs/utils, domains/abac)
 - libs/ui — UI primitives (shadcn/ui wrappers) and functional components
 - libs/utils — framework-agnostic utilities (e.g., DOM helpers, password helpers)
-- domains/access-control — ABAC policy evaluation domain
+- domains/abac — ABAC policy evaluation domain
 - packages/connectors — integrations (e.g., MongoDB/Mongoose connector)
 
 Condensed tree:
@@ -48,7 +48,7 @@ libs/
 	ui/                           # shadcn wrappers + functional components
 	utils/                        # shared utilities (DOM, password)
 domains/
-	access-control/               # ABAC policies, operators, schemas
+	abac/               # ABAC policies, operators, schemas
 packages/
 	connectors/                   # connector factory + MongoDB connector
 messages/                       # i18n message catalogs (JSON per locale)
@@ -100,7 +100,7 @@ yarn clean:all
 Some libraries use Vite/Vitest. When a project exposes a `test` target, you can run it via Nx, for example:
 
 ```bash
-yarn nx run access-control:test
+yarn nx run abac:test
 ```
 
 ## Internationalization (next-intl)
@@ -121,7 +121,7 @@ Add new locales by creating `messages/<locale>.json` and wiring routes via the r
 
 ## Access Control (ABAC)
 
-- Policy evaluation: see `domains/access-control/src/policy/*.ts`.
+- Policy evaluation: see `domains/abac/src/policy/*.ts`.
 - `evaluatePolicy` checks global and per-action conditions using operation handlers in `operators.ts`.
 - Repository factory `createPolicyRepository(mongooseConnection)` loads master data and exposes:
 	`getPolicyById(id).isPermissionGranted(subject, resourceType, action)`.
@@ -152,7 +152,7 @@ If you add new pages, keep them under the locale segment (`src/app/[locale]/...`
 
 - Add features in `apps/website/src/app/[locale]/(public|private)`.
 - Extend UI primitives or functional components in `libs/ui`.
-- Add or refine ABAC policies and operators under `domains/access-control`.
+- Add or refine ABAC policies and operators under `domains/abac`.
 - Add new connectors under `packages/connectors`.
 
 [!TIP]

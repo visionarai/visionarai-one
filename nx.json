@@ -24,12 +24,7 @@
           "watchDepsName": "watch-deps"
         }
       },
-      "exclude": [
-        "libs/utils/*",
-        "domains/access-control/*",
-        "packages/connectors/*",
-        "domains/abac/*"
-      ]
+      "exclude": ["libs/utils/*", "packages/connectors/*", "domains/abac/*"]
     },
     {
       "plugin": "@nx/next/plugin",
@@ -55,12 +50,7 @@
     },
     {
       "plugin": "@nx/js/typescript",
-      "include": [
-        "libs/utils/*",
-        "domains/access-control/*",
-        "packages/connectors/*",
-        "domains/abac/*"
-      ],
+      "include": ["libs/utils/*", "packages/connectors/*", "domains/abac/*"],
       "options": {
         "typecheck": {
           "targetName": "typecheck"
