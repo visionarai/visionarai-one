@@ -67,7 +67,7 @@ export function CreateNewPolicy({ ...props }: CreateNewPolicyProps) {
 					Create New Policy
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Create New Policy</DialogTitle>
 					<DialogDescription>Fill in the details for the new policy.</DialogDescription>

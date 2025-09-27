@@ -1,4 +1,5 @@
 import {
+	ActionConfirmationButton,
 	Button,
 	Card,
 	CardAction,
@@ -15,7 +16,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@visionarai-one/ui";
-import { UnfoldVertical } from "lucide-react";
+import { Copy, UnfoldVertical } from "lucide-react";
 import { safeOrpcClient } from "@/lib/orpc";
 import { CreateNewPolicy } from "./_create-new-policy";
 import { PermissionRow } from "./_permission-row";
@@ -39,8 +40,12 @@ export default async function PoliciesPage() {
 									{index + 1}. {policy.name} - v{policy.version}
 								</CardTitle>
 								<CardAction>
+									<ActionConfirmationButton variant="destructive" />
+									<Button className="ml-2" size="icon" variant="ghost">
+										<Copy />
+									</Button>
 									<CollapsibleTrigger asChild>
-										<Button size="icon" variant="outline">
+										<Button size="icon" variant="ghost">
 											<UnfoldVertical />
 										</Button>
 									</CollapsibleTrigger>
