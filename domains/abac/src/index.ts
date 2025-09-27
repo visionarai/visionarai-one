@@ -1,5 +1,7 @@
 import { type Connection, models } from "mongoose";
-import { type MasterDataDocument, type MasterDataModelType, MasterDataSchema, type MasterDataType } from "./master_data";
+import { type MasterDataDocument, type MasterDataModelType, MasterDataSchema, type MasterDataType, resourceDataFromMasterData } from "./master_data";
+
+import { type CreateNewPolicyInput, createPlaceholderPolicy, type PolicyDocument, type PolicyModelType, PolicySchema } from "./policy";
 
 export * from "./master_data";
 export * from "./policy";
@@ -7,6 +9,8 @@ export * from "./policy";
 export const createPolicyRepository = async (mongooseConnection: Connection) => {
 	const MasterDataModel: MasterDataModelType =
 		(models.MasterData as MasterDataModelType) || mongooseConnection.model<MasterDataDocument, MasterDataType>("MasterData", MasterDataSchema);
+	const PolicyModel: PolicyModelType = (models.Policy as PolicyModelType) || mongooseConnection.model<PolicyDocument, PolicyModelType>("Policy", PolicySchema);
+
 	let recentMasterData: MasterDataType | null;
 
 	const ensureMasterDataLoaded = async () => {
@@ -33,6 +37,23 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 	await ensureMasterDataLoaded();
 
 	return {
+		createNewPolicy: async (createNewPolicyInput: CreateNewPolicyInput) => {
+			const newPolicy = createPlaceholderPolicy(createNewPolicyInput, recentMasterData?.resources || []);
+
+			return await PolicyModel.create(newPolicy);
+		},
+		getAllPolicies: async () =>
+			await PolicyModel.find(
+				{},
+				{
+					__v: 0,
+				}
+			).lean(),
+		masterDataResourcesAndEnvironmentAttributes: () => {
+			const resources = resourceDataFromMasterData(recentMasterData?.resources || []);
+			const environmentAttributes = recentMasterData?.environmentAttributes || [];
+			return { environmentAttributes, resources };
+		},
 		recentMasterData: () => recentMasterData as MasterDataType | null,
 		updateMasterData: async (newMasterData: MasterDataType) => {
 			await MasterDataModel.updateOne(

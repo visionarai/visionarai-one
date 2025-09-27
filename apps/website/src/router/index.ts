@@ -1,5 +1,5 @@
 import { ORPCError, onError, os, ValidationError } from "@orpc/server";
-import { createPolicyRepository, type MasterDataType, MasterDataZodSchema, type PolicyRepository } from "@visionarai-one/abac";
+import { CreateNewPolicyInputSchema, createPolicyRepository, type MasterDataType, MasterDataZodSchema, type PolicyRepository } from "@visionarai-one/abac";
 import { createMongoDBConnector } from "@visionarai-one/connectors";
 import type { Connection } from "mongoose";
 import z from "zod";
@@ -103,10 +103,34 @@ const updateMasterData = dbProcedures
 		return updatedData;
 	});
 
+const masterDataResourcesAndEnvironmentAttributes = dbProcedures.handler(({ context }) => {
+	const { policyRepository } = context;
+	const data = policyRepository.masterDataResourcesAndEnvironmentAttributes();
+	if (!data) {
+		return { environmentAttributes: [], resources: [] };
+	}
+	return data;
+});
+
+const createPlaceholderPolicy = dbProcedures.input(CreateNewPolicyInputSchema).handler(async ({ context, input }) => {
+	const { policyRepository } = context;
+	return await policyRepository.createNewPolicy(input);
+});
+
+const getAllPolicies = dbProcedures.handler(async ({ context }) => {
+	const { policyRepository } = context;
+	return await policyRepository.getAllPolicies();
+});
+
 export const appRouter = {
 	masterData: {
 		get: getMasterData,
+		resourcesAndEnvironmentAttributes: masterDataResourcesAndEnvironmentAttributes,
 		update: updateMasterData,
+	},
+	policies: {
+		createPlaceholderPolicy,
+		getAll: getAllPolicies,
 	},
 };
 

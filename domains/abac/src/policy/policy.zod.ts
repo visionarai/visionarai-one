@@ -1,5 +1,6 @@
-import { z } from "zod";
-import { PermissionDecisionSchema } from "./permission.schema";
+import type { ResourceType } from "src/master_data/master-data.zod";
+import z from "zod";
+import { PermissionDecisionSchema, type PermissionType } from "./permission.zod";
 
 export const PersistedPolicySchema = z.object({
 	_id: z.string().min(1),
@@ -9,11 +10,46 @@ export const PersistedPolicySchema = z.object({
 	name: z.string().min(1),
 	permissions: z.record(z.string(), z.record(z.string(), PermissionDecisionSchema)),
 	updatedAt: z.date(),
-	updatedBy: z.string().min(1),
 	version: z.number().int().nonnegative(),
 });
 
 export type PersistedPolicy = z.infer<typeof PersistedPolicySchema>;
+
+export type NewPolicy = Omit<PersistedPolicy, "_id" | "createdAt" | "updatedAt">;
+
+export const CreateNewPolicyInputSchema = z.object({
+	createdBy: z.string().min(1),
+	description: z.string().optional(),
+	name: z.string().min(1),
+});
+
+export type CreateNewPolicyInput = z.infer<typeof CreateNewPolicyInputSchema>;
+
+export const createPlaceholderPolicy = ({ name, description, createdBy }: CreateNewPolicyInput, resources: ResourceType[]): NewPolicy => ({
+	createdBy,
+	description,
+	name,
+	permissions: resources.reduce(
+		(acc, resource) => {
+			if (!(resource.name && resource.permissions)) {
+				return acc;
+			}
+			acc[resource.name] = resource.permissions.reduce(
+				(permAcc, permission) => {
+					if (permission) {
+						permAcc[permission] = { decision: "DENY" } as PermissionType;
+					}
+					return permAcc;
+				},
+				{} as Record<string, PermissionType>
+			);
+
+			return acc;
+		},
+		{} as PersistedPolicy["permissions"]
+	),
+	version: 1,
+});
 
 export const examplePolicy: PersistedPolicy = {
 	_id: "policyId",
@@ -60,6 +96,5 @@ export const examplePolicy: PersistedPolicy = {
 		},
 	},
 	updatedAt: new Date(),
-	updatedBy: "userId",
 	version: 1,
 };

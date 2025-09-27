@@ -15,23 +15,22 @@ export const ResourceZodSchema = z.object({
 	permissions: z.array(z.string()).optional(),
 });
 
+export const EnvironmentAttributeZodSchema = z.object({
+	key: z.string(),
+	type: z.enum(ATTRIBUTE_TYPES),
+});
+
 export const MasterDataZodSchema = z.object({
 	_id: z.string(),
 	createdAt: z.date(),
-	environmentAttributes: z
-		.array(
-			z.object({
-				key: z.string(),
-				type: z.enum(ATTRIBUTE_TYPES),
-			})
-		)
-		.optional(),
-	resources: ResourceZodSchema.array().optional(),
+	environmentAttributes: z.array(EnvironmentAttributeZodSchema).optional(),
+	resources: ResourceZodSchema.array(),
 	updatedAt: z.date(),
 	updatedBy: z.string(),
 	version: z.number().int().nonnegative().optional(),
 });
 
 export type ResourceType = z.infer<typeof ResourceZodSchema>;
+export type EnvironmentAttributeType = z.infer<typeof EnvironmentAttributeZodSchema>;
 export type MasterDataType = z.infer<typeof MasterDataZodSchema>;
 export type AttributeType = (typeof ATTRIBUTE_TYPES)[number];

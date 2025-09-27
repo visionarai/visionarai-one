@@ -24,6 +24,7 @@ type FormRendererProps<TFieldValues extends FieldValues = FieldValues> = {
 	submitButtonIcon?: React.ReactNode;
 	resetButtonText?: string;
 	resetButtonIcon?: React.ReactNode;
+	debugMode?: boolean; // when true, shows form state below the form for debugging
 };
 
 export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
@@ -37,6 +38,7 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 	submitButtonIcon,
 	resetButtonText = "Reset",
 	resetButtonIcon,
+	debugMode = false,
 }: FormRendererProps<TFieldValues>) {
 	const resolverToUse = (resolver ?? (formSchema ? (zodResolver(formSchema) as Resolver<TFieldValues>) : undefined)) as Resolver<TFieldValues> | undefined;
 	const form = useForm<TFieldValues>({
@@ -53,7 +55,15 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 
 	return (
 		<Form {...(form as any)}>
-			<form className="space-y-8" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<TFieldValues>)}>
+			{debugMode && (
+				// SHow error below the form for debugging
+				<div className="rounded-md border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-900/70">
+					<pre className="whitespace-pre-wrap break-all font-mono text-sm text-zinc-800 dark:text-zinc-100">
+						{JSON.stringify({ dirtyFields: form.formState.dirtyFields, errors: form.formState.errors, values: form.getValues() }, null, 2)}
+					</pre>
+				</div>
+			)}
+			<form className="space-y-4" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<TFieldValues>)}>
 				{extractedFields.map((fieldMetadata) => (
 					<FieldRenderer
 						fieldMetadata={fieldMetadata.type === "password" ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ConditionsSchema, SCOPE_TYPE_ATTRIBUTE_MAP } from "./condition.schema";
+import { ConditionsSchema, SCOPE_TYPE_ATTRIBUTE_MAP } from "./condition.zod";
 
 export const PermissionDecisionSchema = z.discriminatedUnion("decision", [
 	z.object({ decision: z.literal("ALLOW") }),

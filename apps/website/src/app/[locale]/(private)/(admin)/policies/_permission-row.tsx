@@ -1,0 +1,85 @@
+import type { PermissionType } from "@visionarai-one/abac";
+import {
+	Badge,
+	Button,
+	Sheet,
+	SheetClose,
+	SheetContent,
+	SheetDescription,
+	SheetFooter,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
+	TableCell,
+	TableRow,
+} from "@visionarai-one/ui";
+import { ChevronLeft, Circle, Maximize2, Minus } from "lucide-react";
+import { decisionBorderColor } from "./_colors";
+import { ConditionTree } from "./_condition-tree";
+import { PermissionForm } from "./_permission_form";
+
+type PermissionRowSheetProps = React.ComponentPropsWithoutRef<"div"> & {
+	id: string;
+	resource: string;
+	action: string;
+	permission: PermissionType;
+};
+
+function PermissionEditorSheet({ action, permission, resource, id }: PermissionRowSheetProps) {
+	return (
+		<Sheet>
+			<SheetTrigger asChild>
+				<Button aria-label={`Edit ${action}`} size="icon" variant="outline">
+					<Maximize2 />
+				</Button>
+			</SheetTrigger>
+			<SheetContent className="w-screen md:w-[calc(100vw-160px)]" side="right">
+				<SheetHeader>
+					<SheetTitle className="mb-2 flex items-center gap-4">
+						<SheetClose asChild>
+							<ChevronLeft />
+						</SheetClose>
+						<span className="font-semibold text-lg">Edit Permission</span>
+						<div className="flex items-center">
+							<Badge variant="secondary">{resource}</Badge>
+							<Minus className="rotate-90 transform" />
+							<Badge variant="secondary">{action}</Badge>
+						</div>
+					</SheetTitle>
+					<SheetDescription>Make changes to the permission here. Click Submit when you&apos;re done.</SheetDescription>
+				</SheetHeader>
+
+				<div className="h-full w-full overflow-y-auto px-8">
+					<PermissionForm action={action} id={id} permission={permission} resource={resource} />
+				</div>
+				<SheetFooter>
+					<SheetClose asChild>
+						<Button form="permission-form" type="submit">
+							Submit
+						</Button>
+					</SheetClose>
+					<SheetClose asChild>
+						<Button variant="outline">Close</Button>
+					</SheetClose>
+				</SheetFooter>
+			</SheetContent>
+		</Sheet>
+	);
+}
+
+export function PermissionRow({ action, permission, resource, id }: PermissionRowSheetProps) {
+	return (
+		<TableRow key={action}>
+			<TableCell className="font-medium">{action}</TableCell>
+			<TableCell>
+				<Badge className={decisionBorderColor(permission.decision)} variant="outline">
+					<Circle /> {permission.decision}
+				</Badge>
+			</TableCell>
+			<TableCell>{permission.decision === "CONDITIONAL" ? <ConditionTree conditions={permission.condition} /> : "-"}</TableCell>
+			<TableCell className="sticky right-0 z-10 text-right">
+				<PermissionEditorSheet action={action} id={id} permission={permission} resource={resource} />
+			</TableCell>
+		</TableRow>
+	);
+}
