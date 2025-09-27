@@ -1,7 +1,5 @@
-import { isAccessControlDomain } from "@visionarai-one/access-control";
-
 export function GET(request: Request) {
-	const data = isAccessControlDomain();
+	const data = { message: "Hello from VisionAri One!" };
 	return new Response(JSON.stringify(data, null, 2), {
 		headers: {
 			"Access-Control-Allow-Headers": "Content-Type, Authorization",
