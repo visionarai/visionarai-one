@@ -53,13 +53,10 @@
       "path": "../../libs/utils"
     },
     {
-      "path": "../../domains/abac"
-    },
-    {
       "path": "../../libs/ui"
     },
     {
-      "path": "../../domains/access-control"
+      "path": "../../domains/abac"
     }
   ]
 }
