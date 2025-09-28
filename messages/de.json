@@ -115,9 +115,9 @@
       "title": "Überblick",
       "caption": "{actions, plural, =0 {Noch keine Aktionen konfiguriert.} =1 {{actions} Aktion wird verfolgt.} other {{actions} Aktionen werden verfolgt.}}",
       "metrics": {
-        "resources": {
-          "label": "Ressourcen",
-          "description": "{count, plural, =0 {Keine Ressourcen in den Stammdaten.} =1 {Eine Ressource definiert.} other {{count} Ressourcen definiert.}}"
+        "policies": {
+          "label": "Richtlinien",
+          "description": "{count, plural, =0 {Noch keine Richtlinien vorhanden.} =1 {Eine Richtlinie aktiv.} other {{count} Richtlinien aktiv.}}"
         }
       }
     },

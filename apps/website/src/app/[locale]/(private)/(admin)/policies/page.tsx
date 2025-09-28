@@ -79,9 +79,7 @@ export default async function PoliciesPage() {
 				<Badge variant="outline">
 					{formatNumber(policiesCount)} {t("summary.metrics.policies.label")}
 				</Badge>
-				<Badge variant="outline">
-					{masterData?.resources.length ?? 0} {t("summary.metrics.resources.label")}
-				</Badge>
+				<Badge variant="outline">{masterData?.resources.length ?? 0}</Badge>
 				<CreateNewPolicy />
 			</PageHeader>
 

@@ -14,6 +14,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@visionarai-one/ui";
+import { cn } from "@visionarai-one/utils";
 import { Trash2, XIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -52,12 +53,16 @@ export function ActionConfirmationButton({
 	...props
 }: ActionConfirmationButtonProps) {
 	const [dialogOpen, setDialogOpenState] = useState(open);
+	// text-destructive for destructive variant of button
+	const actionButtonClassNames = cn({
+		"text-destructive hover:bg-destructive/10": variant === "destructive",
+	});
 	return (
 		<Dialog {...props} onOpenChange={setDialogOpenState} open={dialogOpen}>
 			<Tooltip>
 				<TooltipTrigger asChild>
 					<DialogTrigger asChild>
-						<Button aria-label={actionButtonText} size="icon" variant={actionButtonVariant}>
+						<Button aria-label={actionButtonText} className={actionButtonClassNames} size="icon" variant={actionButtonVariant}>
 							{actionButtonIcon}
 							<span className="sr-only">{actionButtonText}</span>
 						</Button>
