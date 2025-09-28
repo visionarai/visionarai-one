@@ -1,22 +1,8 @@
 "use client";
 
-import {
-	Button,
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@visionarai-one/ui";
-import { Copy, Trash2 } from "lucide-react";
+import { ActionConfirmationButton, Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@visionarai-one/ui";
+import { Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { toast } from "sonner";
 
 type PolicyActionsProps = {
@@ -26,7 +12,6 @@ type PolicyActionsProps = {
 
 export const PolicyActions = ({ policyId, policyName }: PolicyActionsProps) => {
 	const t = useTranslations("PoliciesPage");
-	const [dialogOpen, setDialogOpen] = useState(false);
 
 	const handleCopy = async () => {
 		try {
@@ -41,7 +26,6 @@ export const PolicyActions = ({ policyId, policyName }: PolicyActionsProps) => {
 	};
 
 	const handleDelete = () => {
-		setDialogOpen(false);
 		toast.info(t("actions.delete.pending"), { description: policyName });
 	};
 
@@ -57,33 +41,14 @@ export const PolicyActions = ({ policyId, policyName }: PolicyActionsProps) => {
 					</TooltipTrigger>
 					<TooltipContent side="bottom">{t("actions.copyId")}</TooltipContent>
 				</Tooltip>
-				<Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<DialogTrigger asChild>
-								<Button aria-label={t("actions.delete.aria")} size="icon" type="button" variant="ghost">
-									<Trash2 aria-hidden className="h-4 w-4" />
-									<span className="sr-only">{t("actions.delete.aria")}</span>
-								</Button>
-							</DialogTrigger>
-						</TooltipTrigger>
-						<TooltipContent side="bottom">{t("actions.delete.aria")}</TooltipContent>
-					</Tooltip>
-					<DialogContent>
-						<DialogHeader>
-							<DialogTitle>{t("actions.delete.title")}</DialogTitle>
-							<DialogDescription>{t("actions.delete.description")}</DialogDescription>
-						</DialogHeader>
-						<DialogFooter>
-							<Button onClick={() => setDialogOpen(false)} type="button" variant="outline">
-								{t("actions.delete.cancel")}
-							</Button>
-							<Button onClick={handleDelete} type="button" variant="destructive">
-								{t("actions.delete.confirm")}
-							</Button>
-						</DialogFooter>
-					</DialogContent>
-				</Dialog>
+				<ActionConfirmationButton
+					actionButtonText={t("actions.delete.aria")}
+					cancelButtonText={t("actions.delete.cancel")}
+					confirmButtonText={t("actions.delete.confirm")}
+					dialogDescription={t("actions.delete.description")}
+					dialogTitle={t("actions.delete.title")}
+					onConfirm={handleDelete}
+				/>
 			</div>
 		</TooltipProvider>
 	);

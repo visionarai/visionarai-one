@@ -1,8 +1,21 @@
 "use client";
 
-import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@visionarai-one/ui";
+import {
+	Button,
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@visionarai-one/ui";
 import { Trash2, XIcon } from "lucide-react";
-import { parseAsBoolean, useQueryState } from "nuqs";
+import { useState } from "react";
 
 type ButtonVariants = "default" | "secondary" | "destructive" | "outline" | "ghost" | "link";
 
@@ -22,7 +35,7 @@ type ActionConfirmationButtonProps = React.ComponentPropsWithoutRef<"div"> & {
 };
 
 export function ActionConfirmationButton({
-	actionButtonText,
+	actionButtonText = "Delete",
 	actionButtonIcon = <Trash2 />,
 	actionButtonVariant = "ghost",
 	dialogTitle = "Are you sure?",
@@ -34,18 +47,24 @@ export function ActionConfirmationButton({
 	onConfirm = () => {
 		alert("Confirmed");
 	},
-	dialogOpenDefault = false,
+	dialogOpenDefault: open = false,
 	variant = "destructive",
 	...props
 }: ActionConfirmationButtonProps) {
-	const [dialogOpen, setDialogOpenState] = useQueryState("actionConfirmationDialogOpen", parseAsBoolean.withDefault(dialogOpenDefault));
+	const [dialogOpen, setDialogOpenState] = useState(open);
 	return (
 		<Dialog {...props} onOpenChange={setDialogOpenState} open={dialogOpen}>
-			<DialogTrigger asChild>
-				<Button size="sm" variant={actionButtonVariant}>
-					{actionButtonIcon} {actionButtonText}
-				</Button>
-			</DialogTrigger>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<DialogTrigger asChild>
+						<Button aria-label={actionButtonText} size="icon" variant={actionButtonVariant}>
+							{actionButtonIcon}
+							<span className="sr-only">{actionButtonText}</span>
+						</Button>
+					</DialogTrigger>
+				</TooltipTrigger>
+				<TooltipContent side="bottom">{actionButtonText}</TooltipContent>
+			</Tooltip>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle> {dialogTitle} </DialogTitle>
