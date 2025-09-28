@@ -1,6 +1,7 @@
 import { CONDITIONS_LOGIC, type ConditionsType, type PermissionType } from "@visionarai-one/abac";
 import { Button, ChoiceFormField } from "@visionarai-one/ui";
-import { Trash2 } from "lucide-react";
+import { cn } from "@visionarai-one/utils";
+import { Plus, Trash2 } from "lucide-react";
 import { type FieldArrayPath, type FieldPath, type FieldPathByValue, useFieldArray, useFormContext } from "react-hook-form";
 import { conditionGroupLeftBorderColor } from "../../_colors";
 import { SingleConditionNode } from "./single-condition-node";
@@ -34,7 +35,7 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 	};
 
 	return (
-		<div className={className} {...props}>
+		<div className={cn(className)} {...props}>
 			<div className="items-end-safe mb-2 flex flex-row gap-4">
 				<ChoiceFormField
 					assumeMoreOptions
@@ -47,11 +48,13 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 
 				<div className="mt-2 flex flex-row gap-2">
 					<Button onClick={handleAddGroup} variant="outline">
-						+ <span>Add Condition Group</span>
+						<Plus />
+						<span>Add Condition Group</span>
 					</Button>
 
 					<Button onClick={handleAddSingle} variant="outline">
-						+ <span>Add Single Condition</span>
+						<Plus />
+						<span>Add Single Condition</span>
 					</Button>
 
 					<Button
@@ -60,12 +63,15 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 							e.preventDefault();
 							onRemove?.();
 						}}
-						variant="destructive"
+						variant="borderedDestructive"
 					>
 						<Trash2 className="h-4 w-4" /> Remove Group
 					</Button>
 				</div>
 			</div>
+
+			{/* ERROR */}
+			<pre>{JSON.stringify({ error: formContext.formState.errors }, null, 2)}</pre>
 
 			{fields.map((field, index) => {
 				const fieldName = `${name}.expressions.${index}` as FieldPath<PermissionType>;

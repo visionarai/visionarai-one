@@ -1,19 +1,22 @@
+"use client";
+
 import type { PermissionType } from "@visionarai-one/abac";
 import {
 	Badge,
 	Button,
+	Separator,
 	Sheet,
 	SheetClose,
 	SheetContent,
 	SheetDescription,
 	SheetFooter,
 	SheetHeader,
-	SheetTitle,
 	SheetTrigger,
 	TableCell,
 	TableRow,
 } from "@visionarai-one/ui";
-import { ChevronLeft, Circle, Maximize2, Minus } from "lucide-react";
+import { ChevronRight, Circle, Edit3, Settings } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { decisionBorderColor } from "./_colors";
 import { ConditionTree } from "./_condition-tree";
 import { PermissionForm } from "./_permission_form";
@@ -26,41 +29,51 @@ type PermissionRowSheetProps = React.ComponentPropsWithoutRef<"div"> & {
 };
 
 function PermissionEditorSheet({ action, permission, resource, id }: PermissionRowSheetProps) {
+	const t = useTranslations("PoliciesPage.permissionEditor");
+
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
-				<Button aria-label={`Edit ${action}`} size="icon" variant="outline">
-					<Maximize2 />
+				<Button aria-label={t("editButton", { action })} className="hover:bg-accent hover:text-accent-foreground" size="icon" variant="outline">
+					<Edit3 className="h-4 w-4" />
 				</Button>
 			</SheetTrigger>
-			<SheetContent className="w-screen md:w-[calc(100vw-160px)]" side="right">
-				<SheetHeader>
-					<SheetTitle className="mb-2 flex items-center gap-4">
-						<SheetClose asChild>
-							<ChevronLeft />
-						</SheetClose>
-						<span className="font-semibold text-lg">Edit Permission</span>
-						<div className="flex items-center">
-							<Badge variant="secondary">{resource}</Badge>
-							<Minus className="rotate-90 transform" />
-							<Badge variant="secondary">{action}</Badge>
-						</div>
-					</SheetTitle>
-					<SheetDescription>Make changes to the permission here. Click Submit when you&apos;re done.</SheetDescription>
+			<SheetContent className="w-screen lg:w-[calc(100vw-160px)]" side="right">
+				<SheetHeader className="border-2">
+					<div className="flex items-center gap-2">
+						<Settings className="h-5 w-5 text-muted-foreground" />
+						<h3 className="font-semibold text-lg">Permission Configuration</h3>
+					</div>
+					<div className="flex items-center gap-2 text-muted-foreground text-sm">
+						<span>Policy ID:</span>
+						<code className="rounded bg-muted px-2 py-1 font-mono text-xs">{id}</code>
+					</div>
+					<SheetDescription className="text-sm leading-relaxed">{t("description")}</SheetDescription>
+					<div className="flex items-center gap-2">
+						<Badge className="font-medium" variant="secondary">
+							{resource}
+						</Badge>
+						<ChevronRight className="h-3 w-3 text-muted-foreground" />
+						<Badge className="font-medium" variant="secondary">
+							{action}
+						</Badge>
+					</div>
 				</SheetHeader>
 
-				<div className="h-full w-full overflow-y-auto px-8">
+				<div className="h-full overflow-y-auto px-4 py-2">
 					<PermissionForm action={action} id={id} permission={permission} resource={resource} />
 				</div>
-				<SheetFooter>
+				<Separator />
+
+				<SheetFooter className="flex w-full flex-row gap-3">
 					<SheetClose asChild>
-						<Button form="permission-form" type="submit">
-							Submit
+						<Button className="flex-1" variant="outline">
+							{t("cancelButton")}
 						</Button>
 					</SheetClose>
-					<SheetClose asChild>
-						<Button variant="outline">Close</Button>
-					</SheetClose>
+					<Button className="flex-1" form="permission-form" type="submit">
+						{t("saveButton")}
+					</Button>
 				</SheetFooter>
 			</SheetContent>
 		</Sheet>

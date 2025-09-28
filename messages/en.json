@@ -111,6 +111,15 @@
   "PoliciesPage": {
     "title": "Policies",
     "subtitle": "Manage your policies and their permissions",
+    "permissionEditor": {
+      "title": "Edit Permission",
+      "description": "Configure the permission settings for this action. Changes will be applied to the policy.",
+      "breadcrumb": "Resource · Action",
+      "closeButton": "Close editor",
+      "editButton": "Edit permission for {action}",
+      "saveButton": "Save Changes",
+      "cancelButton": "Cancel"
+    },
     "summary": {
       "title": "Snapshot",
       "caption": "{actions, plural, =0 {No actions configured yet.} =1 {Tracking {actions} action across all policies.} other {Tracking {actions} actions across all policies.}}",

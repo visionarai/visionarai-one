@@ -111,6 +111,15 @@
   "PoliciesPage": {
     "title": "Richtlinien",
     "subtitle": "Verwalten Sie Ihre Richtlinien und deren Berechtigungen",
+    "permissionEditor": {
+      "title": "Berechtigung bearbeiten",
+      "description": "Konfigurieren Sie die Berechtigungseinstellungen für diese Aktion. Änderungen werden auf die Richtlinie angewendet.",
+      "breadcrumb": "Ressource · Aktion",
+      "closeButton": "Editor schließen",
+      "editButton": "Berechtigung für {action} bearbeiten",
+      "saveButton": "Änderungen speichern",
+      "cancelButton": "Abbrechen"
+    },
     "summary": {
       "title": "Überblick",
       "caption": "{actions, plural, =0 {Noch keine Aktionen konfiguriert.} =1 {{actions} Aktion wird verfolgt.} other {{actions} Aktionen werden verfolgt.}}",
