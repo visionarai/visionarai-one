@@ -107,5 +107,67 @@
     "common": {
       "emptyHint": "No items added yet."
     }
+  },
+  "PoliciesPage": {
+    "title": "Policies",
+    "subtitle": "Manage your policies and their permissions",
+    "summary": {
+      "title": "Snapshot",
+      "caption": "{actions, plural, =0 {No actions configured yet.} =1 {Tracking {actions} action across all policies.} other {Tracking {actions} actions across all policies.}}",
+      "metrics": {
+        "resources": {
+          "label": "Resources",
+          "description": "{count, plural, =0 {No resources in master data.} =1 {One resource defined.} other {{count} resources defined.}}"
+        }
+      }
+    },
+    "errors": {
+      "genericTitle": "We couldn't load everything",
+      "masterData": "Master data couldn't be loaded. Some information may be missing.",
+      "policies": "Policies couldn't be loaded right now."
+    },
+    "loading": {
+      "masterData": "Loading master data…",
+      "policies": "Loading policies…",
+      "hint": "Hang tight while we fetch the latest information."
+    },
+    "empty": {
+      "title": "You're ready to create your first policy",
+      "description": "Policies let you define what actions people can take on your resources. Start by creating your first policy.",
+      "action": "Create your first policy"
+    },
+    "policy": {
+      "missingDescription": "No description provided.",
+      "version": "Version {version}",
+      "updated": "Last updated {updatedAt}",
+      "meta": {
+        "resources": "{count, plural, =0 {No resources yet} =1 {# resource} other {# resources}}",
+        "actions": "{count, plural, =0 {No actions configured} =1 {# action configured} other {# actions configured}}"
+      }
+    },
+    "table": {
+      "headers": {
+        "action": "Action",
+        "decision": "Decision",
+        "condition": "Condition",
+        "actions": "Actions"
+      },
+      "noResources": "No resources defined in this policy yet.",
+      "actionsCount": "{count, plural, =0 {No actions} =1 {# action} other {# actions}}"
+    },
+    "actions": {
+      "toggleDetails": "Toggle policy details",
+      "copyId": "Copy policy ID",
+      "copySuccess": "Policy ID copied to your clipboard",
+      "copyError": "We couldn't copy the policy ID",
+      "delete": {
+        "aria": "Delete policy",
+        "title": "Delete this policy?",
+        "description": "Deleting a policy cannot be undone. Make sure it's no longer needed before continuing.",
+        "confirm": "Delete policy",
+        "cancel": "Keep policy",
+        "pending": "Policy deletion will be available soon."
+      }
+    }
   }
 }

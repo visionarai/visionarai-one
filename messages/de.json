@@ -107,5 +107,67 @@
     "common": {
       "emptyHint": "Noch keine Einträge hinzugefügt."
     }
+  },
+  "PoliciesPage": {
+    "title": "Richtlinien",
+    "subtitle": "Verwalten Sie Ihre Richtlinien und deren Berechtigungen",
+    "summary": {
+      "title": "Überblick",
+      "caption": "{actions, plural, =0 {Noch keine Aktionen konfiguriert.} =1 {{actions} Aktion wird verfolgt.} other {{actions} Aktionen werden verfolgt.}}",
+      "metrics": {
+        "resources": {
+          "label": "Ressourcen",
+          "description": "{count, plural, =0 {Keine Ressourcen in den Stammdaten.} =1 {Eine Ressource definiert.} other {{count} Ressourcen definiert.}}"
+        }
+      }
+    },
+    "errors": {
+      "genericTitle": "Daten konnten nicht vollständig geladen werden",
+      "masterData": "Die Stammdaten konnten nicht geladen werden. Einige Informationen fehlen eventuell.",
+      "policies": "Die Richtlinien konnten gerade nicht geladen werden."
+    },
+    "loading": {
+      "masterData": "Stammdaten werden geladen…",
+      "policies": "Richtlinien werden geladen…",
+      "hint": "Bitte warten Sie einen Moment, wir laden die aktuellen Informationen."
+    },
+    "empty": {
+      "title": "Erstellen Sie Ihre erste Richtlinie",
+      "description": "Mit Richtlinien legen Sie fest, welche Aktionen auf Ihren Ressourcen erlaubt sind. Starten Sie mit Ihrer ersten Richtlinie.",
+      "action": "Erste Richtlinie erstellen"
+    },
+    "policy": {
+      "missingDescription": "Keine Beschreibung hinterlegt.",
+      "version": "Version {version}",
+      "updated": "Zuletzt aktualisiert {updatedAt}",
+      "meta": {
+        "resources": "{count, plural, =0 {Keine Ressourcen} =1 {# Ressource} other {# Ressourcen}}",
+        "actions": "{count, plural, =0 {Keine Aktionen konfiguriert} =1 {# Aktion konfiguriert} other {# Aktionen konfiguriert}}"
+      }
+    },
+    "table": {
+      "headers": {
+        "action": "Aktion",
+        "decision": "Entscheidung",
+        "condition": "Bedingung",
+        "actions": "Aktionen"
+      },
+      "noResources": "In dieser Richtlinie sind noch keine Ressourcen definiert.",
+      "actionsCount": "{count, plural, =0 {Keine Aktionen} =1 {# Aktion} other {# Aktionen}}"
+    },
+    "actions": {
+      "toggleDetails": "Richtliniendetails ein- oder ausklappen",
+      "copyId": "Richtlinien-ID kopieren",
+      "copySuccess": "Richtlinien-ID wurde in die Zwischenablage kopiert",
+      "copyError": "Die Richtlinien-ID konnte nicht kopiert werden",
+      "delete": {
+        "aria": "Richtlinie löschen",
+        "title": "Richtlinie löschen?",
+        "description": "Das Löschen einer Richtlinie kann nicht rückgängig gemacht werden. Stellen Sie sicher, dass sie nicht mehr benötigt wird.",
+        "confirm": "Richtlinie löschen",
+        "cancel": "Richtlinie behalten",
+        "pending": "Das Löschen von Richtlinien wird in Kürze verfügbar sein."
+      }
+    }
   }
 }
