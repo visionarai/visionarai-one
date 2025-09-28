@@ -10,6 +10,7 @@ import {
 	SidebarProvider,
 } from "@visionarai-one/ui";
 import { BrickWall, EyeIcon, Presentation } from "lucide-react";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { MainAreaTitle } from "./_navigation/main-area-title";
@@ -18,6 +19,8 @@ import { AppSidebarNavigation } from "./_navigation/side-bar-navigation";
 
 export default async function LocaleLayout({ children }: { children: React.ReactNode }) {
 	const t = await getTranslations("Navigation");
+	const cookieStore = await cookies();
+	const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
 
 	const adminRoutes = [
 		{
@@ -42,7 +45,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 		{} as Record<string, string>
 	);
 	return (
-		<SidebarProvider>
+		<SidebarProvider defaultOpen={defaultOpen}>
 			<Sidebar collapsible="icon">
 				<SidebarHeader>
 					<SidebarMenu>

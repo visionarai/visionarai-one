@@ -2,9 +2,7 @@
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@visionarai-one/ui";
 import { cn } from "@visionarai-one/utils";
-import { useQueryStates } from "nuqs";
 import { Link, usePathname } from "@/i18n/navigation";
-import { searchParamParsers } from "./search-params";
 
 type NavItem = {
 	icon: React.ReactNode;
@@ -37,7 +35,6 @@ export function AppSidebarNavigation({ navItems, groupTitle }: AppSidebarProps) 
 }
 
 function SideBarLink({ navItem, isActive }: { navItem: NavItem; isActive: boolean }) {
-	const [{ sidebarOpen }] = useQueryStates(searchParamParsers);
 	return (
 		<SidebarMenuItem>
 			<SidebarMenuButton asChild>
@@ -47,7 +44,7 @@ function SideBarLink({ navItem, isActive }: { navItem: NavItem; isActive: boolea
 						"flex w-full items-center rounded-md px-2 py-1 font-medium text-sm transition-all",
 						isActive ? "bg-primary text-primary-foreground" : "text-foreground"
 					)}
-					href={`${navItem.path}?sidebarOpen=${sidebarOpen}`}
+					href={navItem.path}
 				>
 					{isActive ? navItem.iconSelected : navItem.icon}
 					<span>{navItem.title}</span>
