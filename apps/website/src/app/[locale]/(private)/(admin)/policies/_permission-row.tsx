@@ -17,6 +17,7 @@ import {
 } from "@visionarai-one/ui";
 import { ChevronRight, Circle, Edit3, Settings } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { decisionBorderColor } from "./_colors";
 import { ConditionTree } from "./_condition-tree";
 import { PermissionForm } from "./_permission_form";
@@ -29,10 +30,11 @@ type PermissionRowSheetProps = React.ComponentPropsWithoutRef<"div"> & {
 };
 
 function PermissionEditorSheet({ action, permission, resource, id }: PermissionRowSheetProps) {
+	const [sheetOpen, setSheetOpen] = useState(false);
 	const t = useTranslations("PoliciesPage.permissionEditor");
 
 	return (
-		<Sheet>
+		<Sheet onOpenChange={setSheetOpen} open={sheetOpen}>
 			<SheetTrigger asChild>
 				<Button aria-label={t("editButton", { action })} className="hover:bg-accent hover:text-accent-foreground" size="icon" variant="outline">
 					<Edit3 className="h-4 w-4" />
@@ -61,7 +63,7 @@ function PermissionEditorSheet({ action, permission, resource, id }: PermissionR
 				</SheetHeader>
 
 				<div className="h-full overflow-y-auto px-4 py-2">
-					<PermissionForm action={action} id={id} permission={permission} resource={resource} />
+					<PermissionForm action={action} id={id} onSuccess={() => setSheetOpen(false)} permission={permission} resource={resource} />
 				</div>
 				<Separator />
 
@@ -82,7 +84,7 @@ function PermissionEditorSheet({ action, permission, resource, id }: PermissionR
 
 export function PermissionRow({ action, permission, resource, id }: PermissionRowSheetProps) {
 	return (
-		<TableRow key={action}>
+		<TableRow className="[&_td]:py-4 [&_td]:align-top" key={action}>
 			<TableCell className="font-medium">{action}</TableCell>
 			<TableCell>
 				<Badge className={decisionBorderColor(permission.decision)} variant="outline">

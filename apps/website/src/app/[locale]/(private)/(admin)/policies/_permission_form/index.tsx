@@ -2,8 +2,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { PermissionInputType } from "@visionarai-one/abac";
 import { BlankConditionalPermissionDecision, PERMISSION_DECISION_TYPES, PermissionDecisionSchema } from "@visionarai-one/abac";
-import { ChoiceFormField, Form, Separator } from "@visionarai-one/ui";
+import { ChoiceFormField, Form, Separator, useAsyncFunction } from "@visionarai-one/ui";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { useRouter } from "@/i18n/navigation";
+import { orpcClient } from "@/lib/orpc";
 import { ConditionGroupNode } from "./_expression_group_node";
 
 type PermissionFormProps = React.ComponentPropsWithoutRef<"div"> & {
@@ -11,18 +13,38 @@ type PermissionFormProps = React.ComponentPropsWithoutRef<"div"> & {
 	resource: string;
 	action: string;
 	permission: PermissionInputType;
+	onSuccess?: () => void;
 };
 
-export function PermissionForm({ permission, id, resource, action }: PermissionFormProps) {
+export function PermissionForm({ permission, id, resource, action, onSuccess }: PermissionFormProps) {
+	const router = useRouter();
+
+	const { execute: updatePolicy } = useAsyncFunction(orpcClient.policies.updateById, {
+		onSuccess: () => {
+			router.refresh();
+			if (onSuccess) {
+				onSuccess();
+			}
+		},
+		successMessage: "Policy updated successfully",
+	});
+
 	const form = useForm<PermissionInputType>({
 		defaultValues: permission,
 		resolver: zodResolver(PermissionDecisionSchema),
 	});
 
 	const onSubmit = (data: PermissionInputType) => {
-		// keep original behavior (quick demo); memoized for stability
-		alert(`Form submitted successfully ${JSON.stringify({ action, data, id, resource }, null, 2)}`);
-		// close sheet on submit as well
+		updatePolicy({
+			policyId: id,
+			updatedFields: {
+				permissions: {
+					[resource]: {
+						[action]: data,
+					},
+				},
+			},
+		});
 	};
 
 	const current = form.watch();
@@ -45,6 +67,8 @@ export function PermissionForm({ permission, id, resource, action }: PermissionF
 							options={PERMISSION_DECISION_TYPES.map((opt) => ({ label: capitalize(opt), value: opt }))}
 						/>
 					</div>
+
+					{form.formState.errors && <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>}
 
 					{current.decision === "CONDITIONAL" && (
 						<div className="space-y-4">

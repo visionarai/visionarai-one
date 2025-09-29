@@ -1,7 +1,7 @@
 import { type Connection, models } from "mongoose";
 import { type MasterDataDocument, type MasterDataModelType, MasterDataSchema, type MasterDataType, resourceDataFromMasterData } from "./master_data";
 
-import { type CreateNewPolicyInput, createPlaceholderPolicy, type PolicyDocument, type PolicyModelType, PolicySchema } from "./policy";
+import { type CreateNewPolicyInput, createPlaceholderPolicy, type PolicyDocument, type PolicyModelType, PolicySchema, type UpdatePolicyInput } from "./policy";
 
 export * from "./master_data";
 export * from "./policy";
@@ -86,7 +86,7 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 			const result = await PolicyModel.deleteOne({ _id: policyId }).exec();
 			return result.deletedCount === 1;
 		},
-		policyUpdateById: async (policyId: string, updatedFields: Partial<CreateNewPolicyInput & { permissions: PolicyDocument["permissions"] }>) => {
+		policyUpdateById: async (policyId: string, updatedFields: UpdatePolicyInput) => {
 			const updateData = {
 				...updatedFields,
 				updatedAt: new Date(),

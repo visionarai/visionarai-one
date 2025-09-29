@@ -15,16 +15,17 @@ export const PersistedPolicySchema = z.object({
 
 export type PersistedPolicy = z.infer<typeof PersistedPolicySchema>;
 
-export type NewPolicy = Omit<PersistedPolicy, "_id" | "createdAt" | "updatedAt">;
-
 export const CreateNewPolicyInputSchema = z.object({
 	createdBy: z.string().min(1),
 	description: z.string().optional(),
 	name: z.string().min(1),
 });
-
 export type CreateNewPolicyInput = z.infer<typeof CreateNewPolicyInputSchema>;
 
+export const UpdatePolicyInputSchema = PersistedPolicySchema.partial().omit({ _id: true, createdAt: true, createdBy: true, updatedAt: true, version: true });
+export type UpdatePolicyInput = z.infer<typeof UpdatePolicyInputSchema>;
+
+export type NewPolicy = Omit<PersistedPolicy, "_id" | "createdAt" | "updatedAt">;
 export const createPlaceholderPolicy = ({ name, description, createdBy }: CreateNewPolicyInput, resources: ResourceType[]): NewPolicy => ({
 	createdBy,
 	description,

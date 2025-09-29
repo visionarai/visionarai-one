@@ -1,5 +1,12 @@
 import { ORPCError, onError, os, ValidationError } from "@orpc/server";
-import { CreateNewPolicyInputSchema, createPolicyRepository, type MasterDataType, MasterDataZodSchema, type PolicyRepository } from "@visionarai-one/abac";
+import {
+	CreateNewPolicyInputSchema,
+	createPolicyRepository,
+	type MasterDataType,
+	MasterDataZodSchema,
+	type PolicyRepository,
+	UpdatePolicyInputSchema,
+} from "@visionarai-one/abac";
 import { createMongoDBConnector } from "@visionarai-one/connectors";
 import type { Connection } from "mongoose";
 import z from "zod";
@@ -132,6 +139,12 @@ const duplicatedPolicyById = dbProcedures.input(z.string().min(1)).handler(async
 	return await policyRepository.policyDuplicateById(input);
 });
 
+const updatePolicyById = dbProcedures
+	.input(z.object({ policyId: z.string().min(1), updatedFields: UpdatePolicyInputSchema }))
+	.handler(async ({ context, input }) => {
+		const { policyRepository } = context;
+		return await policyRepository.policyUpdateById(input.policyId, input.updatedFields);
+	});
 export const appRouter = {
 	masterData: {
 		get: getMasterData,
@@ -143,6 +156,7 @@ export const appRouter = {
 		duplicateById: duplicatedPolicyById,
 		getAll: getAllPolicies,
 		removeById: removePolicyById,
+		updateById: updatePolicyById,
 	},
 };
 
