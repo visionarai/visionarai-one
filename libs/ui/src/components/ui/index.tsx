@@ -26,3 +26,4 @@ export * from "./table";
 export * from "./collapsible";
 export * from "./tabs";
 export * from "./accordion";
+export * from "./alert";

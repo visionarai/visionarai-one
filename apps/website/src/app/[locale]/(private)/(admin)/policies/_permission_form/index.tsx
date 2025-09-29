@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { PermissionInputType } from "@visionarai-one/abac";
 import { BlankConditionalPermissionDecision, PERMISSION_DECISION_TYPES, PermissionDecisionSchema } from "@visionarai-one/abac";
-import { ChoiceFormField, Form, Separator, useAsyncFunction } from "@visionarai-one/ui";
+import { ChoiceFormField, Form, FormErrorSummary, Separator, useAsyncFunction } from "@visionarai-one/ui";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "@/i18n/navigation";
 import { orpcClient } from "@/lib/orpc";
@@ -68,8 +68,7 @@ export function PermissionForm({ permission, id, resource, action, onSuccess }: 
 						/>
 					</div>
 
-					{form.formState.errors && <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>}
-
+					<FormErrorSummary />
 					{current.decision === "CONDITIONAL" && (
 						<div className="space-y-4">
 							<Separator />
