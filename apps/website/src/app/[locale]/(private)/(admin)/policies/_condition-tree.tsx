@@ -1,10 +1,10 @@
-import type { ConditionNode, ConditionsType, ValueType } from "@visionarai-one/abac";
+import type { ExpressionGroupType, ExpressionNodeType, ValueType } from "@visionarai-one/abac";
 import { Badge } from "@visionarai-one/ui";
 import React, { useCallback, useMemo } from "react";
 import { conditionBorderColor, conditionGroupLeftBorderColor } from "./_colors";
 
 export type ConditionTreeProps = {
-	conditions: ConditionsType;
+	conditions: ExpressionGroupType;
 	className?: string;
 };
 
@@ -43,13 +43,13 @@ const ScopePill = React.memo(({ label }: { label: string }) => (
 	</Badge>
 ));
 
-const LogicPill = React.memo(({ logic }: { logic: ConditionsType["logic"] }) => (
+const LogicPill = React.memo(({ logic }: { logic: ExpressionGroupType["logic"] }) => (
 	<Badge className={conditionBorderColor(logic)} title="Logic group" variant="outline">
 		{logic}
 	</Badge>
 ));
 
-const FieldItem = React.memo(({ node }: { node: ConditionNode }) => {
+const FieldItem = React.memo(({ node }: { node: ExpressionNodeType }) => {
 	const { field, operation, value } = node;
 	return (
 		<div className="flex items-center gap-1 text-xs">
@@ -62,28 +62,28 @@ const FieldItem = React.memo(({ node }: { node: ConditionNode }) => {
 	);
 });
 
-const isGroup = (n: ConditionNode | ConditionsType): n is ConditionsType =>
-	Array.isArray((n as ConditionsType).expressions) && typeof (n as ConditionsType).logic !== "undefined";
+const isGroup = (n: ExpressionNodeType | ExpressionGroupType): n is ExpressionGroupType =>
+	Array.isArray((n as ExpressionGroupType).expressions) && typeof (n as ExpressionGroupType).logic !== "undefined";
 
-const GroupHeader = React.memo(({ logic, count }: { logic: ConditionsType["logic"]; count: number }) => (
+const GroupHeader = React.memo(({ logic, count }: { logic: ExpressionGroupType["logic"]; count: number }) => (
 	<div className="flex items-center gap-2">
 		<LogicPill logic={logic} />
 		<span className="text-[11px] text-muted-foreground">{count}</span>
 	</div>
 ));
 
-const keyForNode = (n: ConditionNode | ConditionsType, fallbackIndex: number): string => {
+const keyForNode = (n: ExpressionNodeType | ExpressionGroupType, fallbackIndex: number): string => {
 	if (isGroup(n)) {
 		return `group:${n.logic}:${n.expressions.length}:${fallbackIndex}`;
 	}
-	const { field, operation, value } = n as ConditionNode;
+	const { field, operation, value } = n as ExpressionNodeType;
 	const idPart = `${field.scope}:${field.name}:${operation}:${value.scope}:${value.cardinality}`;
 	return `node:${idPart}:${fallbackIndex}`;
 };
 
 export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => {
 	const renderGroup = useCallback(
-		(g: ConditionsType) => (
+		(g: ExpressionGroupType) => (
 			<div>
 				<div className="mb-1">
 					<GroupHeader count={g.expressions.length} logic={g.logic} />
@@ -91,7 +91,7 @@ export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => 
 				<div className={conditionGroupLeftBorderColor(g.logic, "border-l pl-3")}>
 					{g.expressions.map((c, idx) => (
 						<div className="py-1" key={keyForNode(c, idx)}>
-							{isGroup(c) ? renderGroup(c) : <FieldItem node={c as ConditionNode} />}
+							{isGroup(c) ? renderGroup(c) : <FieldItem node={c as ExpressionNodeType} />}
 						</div>
 					))}
 				</div>

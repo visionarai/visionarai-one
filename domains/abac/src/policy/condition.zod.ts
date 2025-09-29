@@ -65,30 +65,30 @@ export const ValueTypeSchema = ValueScopeSchema.and(ValueTypeCardinalitySchema);
 
 export type ValueType = z.infer<typeof ValueTypeSchema>;
 
-export const ConditionNodeSchema = z.object({
+export const ExpressionSchema = z.object({
 	field: FieldTypeSchema,
 	operation: z.string(),
 	value: ValueTypeSchema,
 });
-export type ConditionNode = z.infer<typeof ConditionNodeSchema>;
+export type ExpressionNodeType = z.infer<typeof ExpressionSchema>;
 
 export const CONDITIONS_LOGIC = ["AND", "OR", "NOT"] as const;
 
-export type ConditionLogicType = (typeof CONDITIONS_LOGIC)[number];
+export type ExpressionGroupLogicType = (typeof CONDITIONS_LOGIC)[number];
 
-export type ConditionsType = {
-	logic: ConditionLogicType;
-	expressions: Array<ConditionNode | ConditionsType>;
+export type ExpressionGroupType = {
+	logic: ExpressionGroupLogicType;
+	expressions: Array<ExpressionNodeType | ExpressionGroupType>;
 };
 
-export const ConditionsSchema: z.ZodType<ConditionsType> = z.lazy(() =>
+export const ExpressionGroupSchema: z.ZodType<ExpressionGroupType> = z.lazy(() =>
 	z.object({
-		expressions: z.array(z.union([ConditionNodeSchema, ConditionsSchema])).min(1),
-		logic: z.enum(CONDITIONS_LOGIC),
+		expressions: z.array(z.union([ExpressionSchema, ExpressionGroupSchema])).min(1, "At least one expression is required"),
+		logic: z.enum(CONDITIONS_LOGIC, "Logic is required"),
 	})
 );
 
-export const BlankConditionalPermissionDecision: ConditionsType = {
+export const BlankConditionalPermissionDecision: ExpressionGroupType = {
 	expressions: [],
 	logic: "AND",
 } as const;

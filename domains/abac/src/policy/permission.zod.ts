@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { ConditionsSchema, SCOPE_TYPE_ATTRIBUTE_MAP } from "./condition.zod";
+import { ExpressionGroupSchema, SCOPE_TYPE_ATTRIBUTE_MAP } from "./condition.zod";
 
 export const PermissionDecisionSchema = z.discriminatedUnion("decision", [
 	z.object({ decision: z.literal("ALLOW") }),
 	z.object({ decision: z.literal("DENY") }),
-	z.object({ condition: ConditionsSchema, decision: z.literal("CONDITIONAL") }),
+	z.object({ condition: ExpressionGroupSchema, decision: z.literal("CONDITIONAL") }),
 ]);
 
 export type PermissionType = z.infer<typeof PermissionDecisionSchema>;

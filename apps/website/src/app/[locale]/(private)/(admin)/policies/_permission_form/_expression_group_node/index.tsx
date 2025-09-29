@@ -1,13 +1,13 @@
-import { CONDITIONS_LOGIC, type ConditionsType, type PermissionType } from "@visionarai-one/abac";
-import { Button, ChoiceFormField } from "@visionarai-one/ui";
+import { CONDITIONS_LOGIC, type ExpressionGroupType, type PermissionType } from "@visionarai-one/abac";
+import { Button, ChoiceFormField, FormControl, FormField, FormItem, FormMessage } from "@visionarai-one/ui";
 import { cn } from "@visionarai-one/utils";
 import { Plus, Trash2 } from "lucide-react";
 import { type FieldArrayPath, type FieldPath, type FieldPathByValue, useFieldArray, useFormContext } from "react-hook-form";
 import { conditionGroupLeftBorderColor } from "../../_colors";
-import { SingleConditionNode } from "./single-condition-node";
+import { SingleConditionNode } from "./expression-node";
 
 type ConditionGroupNodeProps = React.ComponentPropsWithoutRef<"div"> & {
-	name: FieldPathByValue<PermissionType, ConditionsType>;
+	name: FieldPathByValue<PermissionType, ExpressionGroupType>;
 	onRemove?: () => void;
 };
 export function ConditionGroupNode({ name, onRemove, className, ...props }: ConditionGroupNodeProps) {
@@ -22,7 +22,7 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 
 	const handleAddGroup = (e: React.MouseEvent) => {
 		e.preventDefault();
-		append({ expressions: [], logic: "AND" } as ConditionsType);
+		append({ expressions: [], logic: "AND" } as ExpressionGroupType);
 	};
 
 	const handleAddSingle = (e: React.MouseEvent) => {
@@ -35,7 +35,7 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 	};
 
 	return (
-		<div className={cn(className)} {...props}>
+		<div className={cn(className, "transition-all duration-200 ease-in-out")} {...props}>
 			<div className="items-end-safe mb-2 flex flex-row gap-4">
 				<ChoiceFormField
 					assumeMoreOptions
@@ -43,18 +43,19 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 					label={""}
 					name={`${name}.logic` as FieldPath<PermissionType>}
 					options={CONDITIONS_LOGIC.map((opt) => ({ label: opt, value: opt }))}
+					placeholder="Logic"
 				/>
 				<span className="flex-1" />
 
 				<div className="mt-2 flex flex-row gap-2">
 					<Button onClick={handleAddGroup} variant="outline">
 						<Plus />
-						<span>Add Condition Group</span>
+						<span>Add Group</span>
 					</Button>
 
 					<Button onClick={handleAddSingle} variant="outline">
 						<Plus />
-						<span>Add Single Condition</span>
+						<span>Add Expression</span>
 					</Button>
 
 					<Button
@@ -70,38 +71,48 @@ export function ConditionGroupNode({ name, onRemove, className, ...props }: Cond
 				</div>
 			</div>
 
-			{/* ERROR */}
-			<pre>{JSON.stringify({ error: formContext.formState.errors }, null, 2)}</pre>
+			<FormField
+				control={formContext.control}
+				name={`${name}.expressions`}
+				render={() => (
+					<FormItem>
+						<FormControl>
+							<div>
+								{fields.map((field, index) => {
+									const fieldName = `${name}.expressions.${index}` as FieldPath<PermissionType>;
+									const itemLogic = formContext.getValues(`${fieldName}.logic` as FieldPath<PermissionType>);
+									const childIsGroup = typeof itemLogic === "string";
 
-			{fields.map((field, index) => {
-				const fieldName = `${name}.expressions.${index}` as FieldPath<PermissionType>;
-				const itemLogic = formContext.getValues(`${fieldName}.logic` as FieldPath<PermissionType>);
-				const childIsGroup = typeof itemLogic === "string";
+									if (childIsGroup) {
+										return (
+											<ConditionGroupNode
+												className={conditionBorderColor}
+												key={field.id}
+												name={fieldName as FieldPathByValue<PermissionType, ExpressionGroupType>}
+												onRemove={() => remove(index)}
+											/>
+										);
+									}
 
-				if (!childIsGroup) {
-					return (
-						<SingleConditionNode
-							className={conditionBorderColor}
-							key={field.id}
-							name={fieldName as FieldPath<PermissionType>}
-							onCopy={() => {
-								const current = formContext.getValues(fieldName as FieldPath<PermissionType>) as ConditionsType;
-								insert(index + 1, current);
-							}}
-							onRemove={() => remove(index)}
-						/>
-					);
-				}
-
-				return (
-					<ConditionGroupNode
-						className={conditionBorderColor}
-						key={field.id}
-						name={fieldName as FieldPathByValue<PermissionType, ConditionsType>}
-						onRemove={() => remove(index)}
-					/>
-				);
-			})}
+									return (
+										<SingleConditionNode
+											className={conditionBorderColor}
+											key={field.id}
+											name={fieldName as FieldPath<PermissionType>}
+											onCopy={() => {
+												const current = formContext.getValues(fieldName as FieldPath<PermissionType>) as ExpressionGroupType;
+												insert(index + 1, current);
+											}}
+											onRemove={() => remove(index)}
+										/>
+									);
+								})}
+							</div>
+						</FormControl>
+						<FormMessage />
+					</FormItem>
+				)}
+			/>
 		</div>
 	);
 }

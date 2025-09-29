@@ -4,7 +4,7 @@ import type { PermissionInputType } from "@visionarai-one/abac";
 import { BlankConditionalPermissionDecision, PERMISSION_DECISION_TYPES, PermissionDecisionSchema } from "@visionarai-one/abac";
 import { ChoiceFormField, Form, Separator } from "@visionarai-one/ui";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { ConditionGroupNode } from "./_condition_group_node";
+import { ConditionGroupNode } from "./_expression_group_node";
 
 type PermissionFormProps = React.ComponentPropsWithoutRef<"div"> & {
 	id: string;

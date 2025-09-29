@@ -1,7 +1,7 @@
-import type { ConditionLogicType, PermissionTypes } from "@visionarai-one/abac";
+import type { ExpressionGroupLogicType, PermissionTypes } from "@visionarai-one/abac";
 import { cn } from "@visionarai-one/utils";
 
-export const conditionBorderColor = (logic: ConditionLogicType, className?: string) =>
+export const conditionBorderColor = (logic: ExpressionGroupLogicType, className?: string) =>
 	cn(
 		{
 			"border-amber-300 text-amber-700 dark:border-amber-400 dark:text-amber-300": logic === "OR",
@@ -11,7 +11,7 @@ export const conditionBorderColor = (logic: ConditionLogicType, className?: stri
 		className
 	);
 
-export const conditionGroupLeftBorderColor = (logic: ConditionLogicType, className?: string) =>
+export const conditionGroupLeftBorderColor = (logic: ExpressionGroupLogicType, className?: string) =>
 	cn(
 		{
 			"border-amber-300 dark:border-amber-400": logic === "OR",
