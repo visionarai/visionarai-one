@@ -23,7 +23,8 @@
       },
       "style": {
         "noMagicNumbers": "off",
-        "useNamingConvention": "off"
+        "useNamingConvention": "off",
+        "useBlockStatements": "off"
       }
     }
   },
