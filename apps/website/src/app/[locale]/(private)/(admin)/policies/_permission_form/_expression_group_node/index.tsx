@@ -3,7 +3,7 @@ import { Button, ChoiceFormField, FormControl, FormField, FormItem, FormMessage 
 import { cn } from "@visionarai-one/utils";
 import { Plus, Trash2 } from "lucide-react";
 import { type FieldArrayPath, type FieldPath, type FieldPathByValue, useFieldArray, useFormContext } from "react-hook-form";
-import { conditionGroupLeftBorderColor } from "../../_colors";
+import { conditionGroupLeftBorderColor } from "../../_components/utils";
 import { SingleConditionNode } from "./expression-node";
 
 type ConditionGroupNodeProps = React.ComponentPropsWithoutRef<"div"> & {

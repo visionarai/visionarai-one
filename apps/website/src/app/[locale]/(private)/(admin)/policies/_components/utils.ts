@@ -1,6 +1,19 @@
 import type { ExpressionGroupLogicType, PermissionTypes } from "@visionarai-one/abac";
 import { cn } from "@visionarai-one/utils";
 
+export const formatDateTime = (value: Date | string | undefined, locale: string) => {
+	if (!value) {
+		return "";
+	}
+	const date = value instanceof Date ? value : new Date(value);
+	if (Number.isNaN(date.getTime())) {
+		return "";
+	}
+	return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(date);
+};
+
+export const formatNumber = (value: number, locale: string) => new Intl.NumberFormat(locale).format(value);
+
 export const conditionBorderColor = (logic: ExpressionGroupLogicType, className?: string) =>
 	cn(
 		{
@@ -18,7 +31,6 @@ export const conditionGroupLeftBorderColor = (logic: ExpressionGroupLogicType, c
 			"border-emerald-300 dark:border-emerald-400": logic === "AND",
 			"border-rose-300 dark:border-rose-400": logic === "NOT",
 		},
-
 		className
 	);
 

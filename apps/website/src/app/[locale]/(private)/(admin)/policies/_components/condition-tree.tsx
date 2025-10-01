@@ -1,7 +1,7 @@
 import type { ExpressionGroupType, ExpressionNodeType, ValueType } from "@visionarai-one/abac";
 import { Badge, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@visionarai-one/ui";
 import React, { useCallback, useMemo } from "react";
-import { conditionBorderColor, conditionGroupLeftBorderColor } from "./_colors";
+import { conditionBorderColor, conditionGroupLeftBorderColor } from "./utils";
 
 export type ConditionTreeProps = {
 	conditions: ExpressionGroupType;
@@ -48,13 +48,13 @@ const renderValue = (value: ValueType): RenderedValue => {
 };
 
 const ScopePill = React.memo(({ label }: { label: string }) => (
-	<Badge className="px-1.5 py-0.5 font-medium text-[10px] leading-none" variant="secondary">
+	<Badge className="px-1 py-0 font-medium text-[10px] leading-none" variant="secondary">
 		{label}
 	</Badge>
 ));
 
 const LogicPill = React.memo(({ logic }: { logic: ExpressionGroupType["logic"] }) => (
-	<Badge className={conditionBorderColor(logic, "font-semibold text-[11px]")} title="Logic group" variant="outline">
+	<Badge className={conditionBorderColor(logic, "px-1.5 py-0.5 font-semibold text-[10px]")} title="Logic group" variant="outline">
 		{logic}
 	</Badge>
 ));
@@ -66,17 +66,17 @@ const FieldItem = React.memo(({ node }: { node: ExpressionNodeType }) => {
 	const content = (
 		<div
 			aria-label={ariaLabel}
-			className="group flex items-center gap-2 rounded-md border border-transparent px-2 py-1.5 transition-colors hover:border-border hover:bg-muted/50"
+			className="group flex items-center gap-1.5 rounded border border-transparent px-1.5 py-0.5 transition-colors hover:border-border hover:bg-muted/50"
 			role="treeitem"
 			tabIndex={0}
 		>
-			<div className="flex items-center gap-1.5">
+			<div className="flex items-center gap-1">
 				<ScopePill label={field.scope} />
-				<code className="rounded bg-background px-1.5 py-0.5 font-semibold text-[11px] text-foreground shadow-sm ring-1 ring-border">{field.name}</code>
-				<span className="text-[10px] text-muted-foreground">{field.type}</span>
+				<code className="rounded bg-background px-1 py-0.5 font-semibold text-[10px] text-foreground shadow-sm ring-1 ring-border">{field.name}</code>
+				<span className="text-[9px] text-muted-foreground">{field.type}</span>
 			</div>
-			<span className="font-medium font-mono text-[11px] text-muted-foreground">{operation}</span>
-			<span className="truncate font-mono text-[11px] text-foreground" title={rendered.full}>
+			<span className="font-medium font-mono text-[10px] text-muted-foreground">{operation}</span>
+			<span className="truncate font-mono text-[10px] text-foreground" title={rendered.full}>
 				{rendered.display}
 			</span>
 		</div>
@@ -102,9 +102,9 @@ const isGroup = (n: ExpressionNodeType | ExpressionGroupType): n is ExpressionGr
 	Array.isArray((n as ExpressionGroupType).expressions) && typeof (n as ExpressionGroupType).logic !== "undefined";
 
 const GroupHeader = React.memo(({ logic, count, depth }: { logic: ExpressionGroupType["logic"]; count: number; depth: number }) => (
-	<div className="mb-2 flex items-center gap-2" role={depth === 0 ? "tree" : "group"}>
+	<div className="mb-1 flex items-center gap-1.5" role={depth === 0 ? "tree" : "group"}>
 		<LogicPill logic={logic} />
-		<span className="text-[10px] text-muted-foreground">
+		<span className="text-[9px] text-muted-foreground">
 			{count} {count === 1 ? "condition" : "conditions"}
 		</span>
 	</div>
@@ -131,14 +131,14 @@ export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => 
 		}
 
 		return (
-			<div className="space-y-2">
+			<div className="space-y-1">
 				<GroupHeader count={g.expressions.length} depth={depth} logic={g.logic} />
-				<div className={conditionGroupLeftBorderColor(g.logic, "space-y-2 border-l-2 pl-4")}>
+				<div className={conditionGroupLeftBorderColor(g.logic, "space-y-1 border-l pl-2")}>
 					{g.expressions.map((c, idx) => {
 						const childKey = keyForNode(c, idx);
 						return (
 							<div key={childKey}>
-								{isGroup(c) ? <div className="pt-1">{renderGroup(c as ExpressionGroupType, depth + 1)}</div> : <FieldItem node={c as ExpressionNodeType} />}
+								{isGroup(c) ? <div className="pt-0.5">{renderGroup(c as ExpressionGroupType, depth + 1)}</div> : <FieldItem node={c as ExpressionNodeType} />}
 							</div>
 						);
 					})}

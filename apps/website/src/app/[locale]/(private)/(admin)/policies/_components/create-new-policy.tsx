@@ -1,4 +1,5 @@
 "use client";
+
 import {
 	Button,
 	Dialog,
@@ -16,8 +17,6 @@ import { parseAsBoolean, useQueryState } from "nuqs";
 import { z } from "zod";
 import { useRouter } from "@/i18n/navigation";
 import { orpcClient } from "@/lib/orpc";
-
-type CreateNewPolicyProps = React.ComponentPropsWithoutRef<"div"> & {};
 
 // biome-ignore assist/source/useSortedKeys: For proper order of fields
 const CreateNewPolicyInputSchema = z.object({
@@ -50,20 +49,22 @@ const CreateNewPolicyInputSchema = z.object({
 		),
 });
 
-export function CreateNewPolicy({ ...props }: CreateNewPolicyProps) {
+export const CreateNewPolicy = () => {
 	const router = useRouter();
 	const [createNewDialogOpen, setCreateNewDialogOpen] = useQueryState("createNewDialogOpen", parseAsBoolean.withDefault(false));
+
 	const { execute } = useAsyncFunction(orpcClient.policies.createPlaceholderPolicy, {
-		onSuccess: (_) => {
+		onSuccess: () => {
 			router.replace("/policies");
 		},
 		successMessage: "Policy created successfully",
 	});
+
 	return (
-		<Dialog {...props} onOpenChange={setCreateNewDialogOpen} open={createNewDialogOpen}>
+		<Dialog onOpenChange={setCreateNewDialogOpen} open={createNewDialogOpen}>
 			<DialogTrigger asChild>
-				<Button size="sm" variant="default">
-					<Plus />
+				<Button size="sm">
+					<Plus className="h-4 w-4" />
 					Create New Policy
 				</Button>
 			</DialogTrigger>
@@ -73,7 +74,6 @@ export function CreateNewPolicy({ ...props }: CreateNewPolicyProps) {
 					<DialogDescription>Fill in the details for the new policy.</DialogDescription>
 				</DialogHeader>
 				<FormRenderer
-					// debugMode
 					defaultValues={{ createdBy: "userId", description: "A new policy", name: "New Policy" }}
 					formSchema={CreateNewPolicyInputSchema}
 					onSubmit={async (data) => {
@@ -83,4 +83,4 @@ export function CreateNewPolicy({ ...props }: CreateNewPolicyProps) {
 			</DialogContent>
 		</Dialog>
 	);
-}
+};

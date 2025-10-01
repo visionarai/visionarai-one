@@ -1,7 +1,7 @@
 "use client";
 
 import { ActionConfirmationButton, Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, useAsyncFunction } from "@visionarai-one/ui";
-import { Clipboard, Copy } from "lucide-react";
+import { Clipboard, Copy, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/navigation";
@@ -14,7 +14,9 @@ type PolicyActionsProps = {
 
 export const PolicyActions = ({ policyId, policyName }: PolicyActionsProps) => {
 	const router = useRouter();
-	const { execute } = useAsyncFunction(orpcClient.policies.removeById, {
+	const t = useTranslations("PoliciesPage");
+
+	const { execute: deletePolicy } = useAsyncFunction(orpcClient.policies.removeById, {
 		onSuccess: () => {
 			router.refresh();
 		},
@@ -28,8 +30,6 @@ export const PolicyActions = ({ policyId, policyName }: PolicyActionsProps) => {
 		successMessage: "Policy duplicated successfully",
 	});
 
-	const t = useTranslations("PoliciesPage");
-
 	const handleCopy = async () => {
 		try {
 			if (typeof navigator === "undefined" || !navigator.clipboard) {
@@ -37,31 +37,30 @@ export const PolicyActions = ({ policyId, policyName }: PolicyActionsProps) => {
 			}
 			await navigator.clipboard.writeText(policyId);
 			toast.success(t("actions.copySuccess"), { description: policyName });
-		} catch (_error) {
+		} catch {
 			toast.error(t("actions.copyError"));
 		}
 	};
 
 	return (
 		<TooltipProvider delayDuration={150}>
-			<div>
+			<div className="flex items-center gap-1">
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<Button aria-label={t("actions.copyId")} onClick={handleCopy} size="icon" type="button" variant="ghost">
 							<Clipboard aria-hidden className="h-4 w-4" />
-							<span className="sr-only">{t("actions.copyId")}</span>
 						</Button>
 					</TooltipTrigger>
 					<TooltipContent side="bottom">{t("actions.copyId")}</TooltipContent>
 				</Tooltip>
+
 				<Tooltip>
 					<TooltipTrigger asChild>
-						<Button aria-label="Duplicate" onClick={() => duplicatePolicy(policyId)} size="icon" type="button" variant="ghost">
+						<Button aria-label="Duplicate policy" onClick={() => duplicatePolicy(policyId)} size="icon" type="button" variant="ghost">
 							<Copy aria-hidden className="h-4 w-4" />
-							<span className="sr-only">Duplicate</span>
 						</Button>
 					</TooltipTrigger>
-					<TooltipContent side="bottom">Duplicate</TooltipContent>
+					<TooltipContent side="bottom">Duplicate policy</TooltipContent>
 				</Tooltip>
 
 				<ActionConfirmationButton
@@ -70,8 +69,11 @@ export const PolicyActions = ({ policyId, policyName }: PolicyActionsProps) => {
 					confirmButtonText={t("actions.delete.confirm")}
 					dialogDescription={t("actions.delete.description")}
 					dialogTitle={t("actions.delete.title")}
-					onConfirm={() => execute(policyId)}
-				/>
+					onConfirm={() => deletePolicy(policyId)}
+					variant="destructive"
+				>
+					<Trash2 className="h-4 w-4" />
+				</ActionConfirmationButton>
 			</div>
 		</TooltipProvider>
 	);

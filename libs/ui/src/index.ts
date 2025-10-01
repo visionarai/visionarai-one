@@ -1,5 +1,6 @@
 export * from "./components/functional/ActionConfirmationButton";
 export * from "./components/functional/DataDebugger";
+export * from "./components/functional/error-alert";
 export * from "./components/functional/FormInputs";
 export * from "./components/functional/FormRenderer";
 export * from "./components/functional/footer";
