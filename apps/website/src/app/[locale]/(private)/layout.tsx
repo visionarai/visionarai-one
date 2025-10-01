@@ -13,11 +13,14 @@ import { BrickWall, EyeIcon, Presentation } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { getSession } from "@/lib/auth";
 import { MainAreaTitle } from "./_navigation/main-area-title";
 import { NavUser } from "./_navigation/nav-user";
 import { AppSidebarNavigation } from "./_navigation/side-bar-navigation";
 
 export default async function LocaleLayout({ children }: { children: React.ReactNode }) {
+	const session = getSession();
+
 	const t = await getTranslations("Navigation");
 	const cookieStore = await cookies();
 	const sidebarStateIsOpen = cookieStore.get("sidebar_state")?.value === "true";
@@ -65,6 +68,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 					</SidebarMenu>
 				</SidebarHeader>
 				<SidebarContent>
+					<pre>{JSON.stringify(session, null, 2)}</pre>
 					<AppSidebarNavigation groupTitle="Admin Area" navItems={adminRoutes} />
 				</SidebarContent>
 
