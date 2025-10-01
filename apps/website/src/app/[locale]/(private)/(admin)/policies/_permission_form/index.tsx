@@ -19,7 +19,7 @@ type PermissionFormProps = React.ComponentPropsWithoutRef<"div"> & {
 export function PermissionForm({ permission, id, resource, action, onSuccess }: PermissionFormProps) {
 	const router = useRouter();
 
-	const { execute: updatePolicy } = useAsyncFunction(orpcClient.policies.updateById, {
+	const { execute: updatePolicy } = useAsyncFunction(orpcClient.policies.updatePermissionsForResourceAction, {
 		onSuccess: () => {
 			router.refresh();
 			if (onSuccess) {
@@ -34,16 +34,12 @@ export function PermissionForm({ permission, id, resource, action, onSuccess }: 
 		resolver: zodResolver(PermissionDecisionSchema),
 	});
 
-	const onSubmit = (data: PermissionInputType) => {
+	const onSubmit = (permissions: PermissionInputType) => {
 		updatePolicy({
+			action,
+			permissions,
 			policyId: id,
-			updatedFields: {
-				permissions: {
-					[resource]: {
-						[action]: data,
-					},
-				},
-			},
+			resource,
 		});
 	};
 

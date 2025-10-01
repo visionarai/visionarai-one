@@ -1,7 +1,15 @@
 import { type Connection, models } from "mongoose";
 import { type MasterDataDocument, type MasterDataModelType, MasterDataSchema, type MasterDataType, resourceDataFromMasterData } from "./master_data";
 
-import { type CreateNewPolicyInput, createPlaceholderPolicy, type PolicyDocument, type PolicyModelType, PolicySchema, type UpdatePolicyInput } from "./policy";
+import {
+	type CreateNewPolicyInput,
+	createPlaceholderPolicy,
+	type PermissionType,
+	type PolicyDocument,
+	type PolicyModelType,
+	PolicySchema,
+	type UpdatePolicyInput,
+} from "./policy";
 
 export * from "./master_data";
 export * from "./policy";
@@ -95,6 +103,23 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 			if (updatedPolicy) {
 				updatedPolicy._id = updatedPolicy._id.toString();
 			}
+			return updatedPolicy;
+		},
+		policyUpdatePermissionForResourceAction: async (policyId: string, resource: string, action: string, permission: PermissionType) => {
+			const update = {
+				$inc: { __v: 1 },
+				$set: {
+					[`permissions.${resource}.${action}`]: permission,
+				},
+			};
+
+			const updatedPolicy = await PolicyModel.findByIdAndUpdate(policyId, update, { new: true }).lean();
+
+			if (!updatedPolicy) {
+				throw new Error("Policy not found or resource action not found within the policy");
+			}
+
+			updatedPolicy._id = updatedPolicy._id.toString();
 			return updatedPolicy;
 		},
 	};

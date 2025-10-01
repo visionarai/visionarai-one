@@ -4,6 +4,7 @@ import {
 	createPolicyRepository,
 	type MasterDataType,
 	MasterDataZodSchema,
+	PermissionDecisionSchema,
 	type PolicyRepository,
 	UpdatePolicyInputSchema,
 } from "@visionarai-one/abac";
@@ -145,6 +146,13 @@ const updatePolicyById = dbProcedures
 		const { policyRepository } = context;
 		return await policyRepository.policyUpdateById(input.policyId, input.updatedFields);
 	});
+
+const updatePermissionsForPolicy = dbProcedures
+	.input(z.object({ action: z.string().min(1), permissions: PermissionDecisionSchema, policyId: z.string().min(1), resource: z.string().min(1) }))
+	.handler(async ({ context, input }) => {
+		const { policyRepository } = context;
+		return await policyRepository.policyUpdatePermissionForResourceAction(input.policyId, input.resource, input.action, input.permissions);
+	});
 export const appRouter = {
 	masterData: {
 		get: getMasterData,
@@ -157,6 +165,7 @@ export const appRouter = {
 		getAll: getAllPolicies,
 		removeById: removePolicyById,
 		updateById: updatePolicyById,
+		updatePermissionsForResourceAction: updatePermissionsForPolicy,
 	},
 };
 
