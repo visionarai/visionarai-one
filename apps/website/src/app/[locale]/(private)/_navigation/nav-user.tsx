@@ -14,9 +14,12 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	ThemeSwitcher,
+	useBetterAuthFunction,
 	useSidebar,
 } from "@visionarai-one/ui";
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
+import { useRouter } from "@/i18n/navigation";
+import { authClient } from "@/lib/auth-client";
 import { LanguageSwitcher } from "@/widgets/language-switcher";
 
 export function NavUser({
@@ -29,6 +32,15 @@ export function NavUser({
 	};
 }) {
 	const { isMobile } = useSidebar();
+	const router = useRouter();
+
+	const [signOut] = useBetterAuthFunction(authClient.signOut, {
+		loadingMessage: "Signing out...",
+		onSuccess: () => {
+			router.push("/");
+		},
+		successMessage: "Logged out successfully",
+	});
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -98,7 +110,7 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 
-						<DropdownMenuItem>
+						<DropdownMenuItem onClick={() => signOut({})}>
 							<LogOut />
 							Log out
 						</DropdownMenuItem>

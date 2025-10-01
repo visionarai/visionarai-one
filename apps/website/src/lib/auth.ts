@@ -2,7 +2,6 @@ import { betterAuth, type Logger } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { nextCookies } from "better-auth/next-js";
 import { MongoClient } from "mongodb";
-import { headers } from "next/headers";
 import { appLogger } from "./logger";
 
 const client = new MongoClient(process.env.MONGODB_URI as string);
@@ -26,4 +25,3 @@ export const auth = betterAuth({
 });
 
 export type Session = typeof auth.$Infer.Session;
-export const getSession: () => Promise<Session | null> = async () => await auth.api.getSession({ headers: await headers() });

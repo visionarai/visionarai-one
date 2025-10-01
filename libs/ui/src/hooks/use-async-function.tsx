@@ -96,5 +96,5 @@ export function useAsyncFunction<Args extends unknown[], Return>(asyncFunction: 
 		}
 	};
 
-	return { error, execute, loading };
+	return [execute, { error, loading }] as const;
 }

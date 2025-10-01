@@ -10,20 +10,27 @@ import {
 	SidebarProvider,
 } from "@visionarai-one/ui";
 import { BrickWall, EyeIcon, Presentation } from "lucide-react";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { getSession } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { MainAreaTitle } from "./_navigation/main-area-title";
 import { NavUser } from "./_navigation/nav-user";
 import { AppSidebarNavigation } from "./_navigation/side-bar-navigation";
 
 export default async function LocaleLayout({ children }: { children: React.ReactNode }) {
-	const session = getSession();
+	const session = await auth.api.getSession({ headers: await headers() });
 
 	const t = await getTranslations("Navigation");
 	const cookieStore = await cookies();
 	const sidebarStateIsOpen = cookieStore.get("sidebar_state")?.value === "true";
+
+	const user = {
+		avatar:
+			"https://media.licdn.com/dms/image/v2/D4D03AQG_k9G0Ia1xhA/profile-displayphoto-scale_400_400/B4DZkFJLWxHYAo-/0/1756727941441?e=2147483647&v=beta&t=TUqS2oh0Kq4CysIBa2NbKSPdenKJzEB69juOCBtKOfM",
+		email: session?.user?.email || "<Email>",
+		name: session?.user?.name || "<Name>",
+	};
 
 	const adminRoutes = [
 		{
@@ -68,7 +75,6 @@ export default async function LocaleLayout({ children }: { children: React.React
 					</SidebarMenu>
 				</SidebarHeader>
 				<SidebarContent>
-					<pre>{JSON.stringify(session, null, 2)}</pre>
 					<AppSidebarNavigation groupTitle="Admin Area" navItems={adminRoutes} />
 				</SidebarContent>
 
@@ -77,17 +83,10 @@ export default async function LocaleLayout({ children }: { children: React.React
 				</SidebarFooter>
 			</Sidebar>
 			<SidebarInset>
-				<header className="flex h-16 shrink-0 items-center gap-2 transition-all ease-linear">
-					<MainAreaTitle allRoutes={allRoutes} />
-				</header>
+				<MainAreaTitle allRoutes={allRoutes} />
+
 				<section className="px-8">{children}</section>
 			</SidebarInset>
 		</SidebarProvider>
 	);
 }
-const user = {
-	avatar:
-		"https://media.licdn.com/dms/image/v2/D4D03AQG_k9G0Ia1xhA/profile-displayphoto-scale_400_400/B4DZkFJLWxHYAo-/0/1756727941441?e=2147483647&v=beta&t=TUqS2oh0Kq4CysIBa2NbKSPdenKJzEB69juOCBtKOfM",
-	email: "er.sanyam.arya@gmail.com",
-	name: "Sanyam Arya",
-};

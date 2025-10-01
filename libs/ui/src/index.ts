@@ -9,4 +9,5 @@ export * from "./components/functional/nav-bar";
 export * from "./components/functional/ThemeSwitcher";
 export * from "./components/ui";
 export * from "./hooks/use-async-function";
+export * from "./hooks/use-better-auth-functions";
 export * from "./hooks/use-mobile";

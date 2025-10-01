@@ -1,39 +1,29 @@
 "use client";
 
-import { FormRenderer, stringifyFieldMetadata } from "@visionarai-one/ui";
-import { getPasswordRequirements, passwordZod } from "@visionarai-one/utils";
+import { FormRenderer, stringifyFieldMetadata, useBetterAuthFunction } from "@visionarai-one/ui";
+import { passwordZod } from "@visionarai-one/utils";
 import { RotateCcw, SendHorizontal } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { z } from "zod/v4";
-
-// const AllTopics = [
-//   { value: 'technology', label: 'Technology' },
-//   { value: 'health', label: 'Health' },
-//   { value: 'finance', label: 'Finance' },
-//   { value: 'education', label: 'Education' },
-//   { value: 'science', label: 'Science' },
-//   { value: 'art', label: 'Art' },
-//   { value: 'sports', label: 'Sports' },
-//   { value: 'travel', label: 'Travel' },
-//   { value: 'food', label: 'Food' },
-//   { value: 'lifestyle', label: 'Lifestyle' },
-//   { value: 'entertainment', label: 'Entertainment' },
-//   { value: 'environment', label: 'Environment' },
-//   { value: 'politics', label: 'Politics' },
-//   { value: 'history', label: 'History' },
-// ];
+import { useRouter } from "@/i18n/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z
+	// biome-ignore assist/source/useSortedKeys: For order in form
 	.object({
-		confirmPassword: z.string().describe(
-			stringifyFieldMetadata({
-				description: "Please confirm your password.",
-				label: "Confirm Password",
-				name: "confirmPassword",
-				placeholder: "Re-enter your password",
-				type: "password-no",
-			})
-		),
+		name: z
+			.string()
+			.min(2)
+			.max(100)
+			.describe(
+				stringifyFieldMetadata({
+					description: "Your full name",
+					inputMode: "text",
+					label: "Full Name",
+					name: "name",
+					placeholder: "Enter your full name",
+					type: "text",
+				})
+			),
 		email: z.email("Invalid email address").describe(
 			stringifyFieldMetadata({
 				autoComplete: "email",
@@ -54,25 +44,27 @@ const formSchema = z
 				type: "password",
 			})
 		),
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		message: "Passwords do not match",
-		path: ["confirmPassword"],
 	});
 
 export function LoginForm() {
-	const passwordT = useTranslations("Auth.passwordRequirements");
+	const router = useRouter();
 
-	const passwordRequirements = getPasswordRequirements(passwordT);
+	const [signin, { isLoading }] = useBetterAuthFunction(authClient.signIn.email, {
+		loadingMessage: "Signing in...",
+		onSuccess: () => {
+			router.push("/policies");
+		},
+		successMessage: "Signed in successfully",
+	});
 
 	return (
 		<FormRenderer
+			defaultValues={{ email: "er.sanyam.arya@gmail.com", name: "Sanyam Arya", password: "SuperSecured@2025" }}
 			formSchema={formSchema}
-			onSubmit={(data) => {
-				// biome-ignore lint/suspicious/noConsole: Debugging purpose
-				console.log("Form submitted:", data);
+			isLoading={isLoading}
+			onSubmit={async (data) => {
+				await signin({ callbackURL: "/policies", email: data.email, password: data.password });
 			}}
-			passwordRequirements={passwordRequirements}
 			resetButtonIcon={<RotateCcw />}
 			submitButtonIcon={<SendHorizontal />}
 		/>

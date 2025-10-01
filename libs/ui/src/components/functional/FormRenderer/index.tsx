@@ -2,7 +2,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Form, type PasswordRequirementProps } from "@visionarai-one/ui";
+import { Button, Form, type PasswordRequirementProps, Skeleton } from "@visionarai-one/ui";
 import type { Control, DefaultValues, FieldValues, Resolver, SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import type { z } from "zod/v4";
@@ -25,6 +25,7 @@ type FormRendererProps<TFieldValues extends FieldValues = FieldValues> = {
 	resetButtonText?: string;
 	resetButtonIcon?: React.ReactNode;
 	debugMode?: boolean; // when true, shows form state below the form for debugging
+	isLoading?: boolean; // when true, disables the submit button
 };
 
 export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
@@ -39,6 +40,7 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 	resetButtonText = "Reset",
 	resetButtonIcon,
 	debugMode = false,
+	isLoading = false,
 }: FormRendererProps<TFieldValues>) {
 	const resolverToUse = (resolver ?? (formSchema ? (zodResolver(formSchema) as Resolver<TFieldValues>) : undefined)) as Resolver<TFieldValues> | undefined;
 	const form = useForm<TFieldValues>({
@@ -63,25 +65,46 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 					</pre>
 				</div>
 			)}
-			<form className="space-y-4" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<TFieldValues>)}>
-				{extractedFields.map((fieldMetadata) => (
-					<FieldRenderer
-						fieldMetadata={fieldMetadata.type === "password" ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}
-						formControl={form.control as unknown as Control<TFieldValues>}
-						key={fieldMetadata.name}
-					/>
-				))}
-				<div className="flex w-full gap-4">
-					<Button className="flex items-center justify-center gap-2" type="submit" variant="default">
-						{submitButtonIcon}
-						{submitButtonText}
-					</Button>
-					<Button className="flex items-center justify-center gap-2" onClick={() => form.reset()} type="button" variant="secondary">
-						{resetButtonIcon}
-						{resetButtonText}
-					</Button>
+			{isLoading ? (
+				<div className="space-y-4">
+					{extractedFields.map((fieldMetadata) => (
+						<div className="space-y-2" key={fieldMetadata.name}>
+							<Skeleton className="h-4 w-1/3" />
+							<Skeleton className="h-10 w-full" />
+						</div>
+					))}
+					<div className="flex w-full gap-4">
+						<Skeleton className="h-10 w-24" />
+						<Skeleton className="h-10 w-24" />
+					</div>
 				</div>
-			</form>
+			) : (
+				<form className="space-y-4" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<TFieldValues>)}>
+					{extractedFields.map((fieldMetadata) => (
+						<FieldRenderer
+							fieldMetadata={fieldMetadata.type === "password" ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}
+							formControl={form.control as unknown as Control<TFieldValues>}
+							key={fieldMetadata.name}
+						/>
+					))}
+					<div className="flex w-full gap-4">
+						<Button className="flex items-center justify-center gap-2" disabled={isLoading || form.formState.isSubmitting} type="submit" variant="default">
+							{submitButtonIcon}
+							{submitButtonText}
+						</Button>
+						<Button
+							className="flex items-center justify-center gap-2"
+							disabled={isLoading || form.formState.isSubmitting}
+							onClick={() => form.reset()}
+							type="button"
+							variant="secondary"
+						>
+							{resetButtonIcon}
+							{resetButtonText}
+						</Button>
+					</div>
+				</form>
+			)}
 		</Form>
 	);
 }

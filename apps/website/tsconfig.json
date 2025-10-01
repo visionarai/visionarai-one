@@ -34,8 +34,7 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    ".next/types/**/*.ts",
-    "../../libs/ui/src/components/functional/error-alert.tsx"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "out-tsc",

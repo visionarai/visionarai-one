@@ -11,10 +11,10 @@ export function MainAreaTitle({ allRoutes }: MainAreaTitleProps) {
 	const pathname = usePathname();
 	const title = allRoutes[pathname] || "Dashboard";
 	return (
-		<div className="flex items-center gap-2 px-4">
+		<header className="flex h-16 shrink-0 items-center gap-2 transition-all ease-linear">
 			<SidebarTrigger />
 			<Separator className="mr-2 data-[orientation=vertical]:h-4" orientation="vertical" />
 			<span className="font-semibold text-lg">{title}</span>
-		</div>
+		</header>
 	);
 }

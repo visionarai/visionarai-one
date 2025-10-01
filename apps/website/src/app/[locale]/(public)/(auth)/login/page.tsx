@@ -1,6 +1,9 @@
 // 'use client';
 // import { useTranslations } from 'next-intl';
 // import { FormEvent, useState } from 'react';
+
+import { Button } from "@visionarai-one/ui";
+import { Link } from "@/i18n/navigation";
 import { LoginForm } from "./_form";
 
 export default function LoginPage() {
@@ -14,5 +17,12 @@ export default function LoginPage() {
 	//   setTimeout(() => setLoading(false), 1000);
 	// };
 
-	return <LoginForm />;
+	return (
+		<div className="space-y-4">
+			<Button asChild>
+				<Link href="/register">Go to Register</Link>
+			</Button>
+			<LoginForm />
+		</div>
+	);
 }

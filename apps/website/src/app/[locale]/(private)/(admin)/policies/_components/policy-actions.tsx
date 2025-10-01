@@ -16,14 +16,14 @@ export const PolicyActions = ({ policyId, policyName }: PolicyActionsProps) => {
 	const router = useRouter();
 	const t = useTranslations("PoliciesPage");
 
-	const { execute: deletePolicy } = useAsyncFunction(orpcClient.policies.removeById, {
+	const [deletePolicy] = useAsyncFunction(orpcClient.policies.removeById, {
 		onSuccess: () => {
 			router.refresh();
 		},
 		successMessage: "Policy deleted successfully",
 	});
 
-	const { execute: duplicatePolicy } = useAsyncFunction(orpcClient.policies.duplicateById, {
+	const [duplicatePolicy] = useAsyncFunction(orpcClient.policies.duplicateById, {
 		onSuccess: () => {
 			router.refresh();
 		},

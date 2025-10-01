@@ -53,7 +53,7 @@ export const CreateNewPolicy = () => {
 	const router = useRouter();
 	const [createNewDialogOpen, setCreateNewDialogOpen] = useQueryState("createNewDialogOpen", parseAsBoolean.withDefault(false));
 
-	const { execute } = useAsyncFunction(orpcClient.policies.createPlaceholderPolicy, {
+	const [execute] = useAsyncFunction(orpcClient.policies.createPlaceholderPolicy, {
 		onSuccess: () => {
 			router.replace("/policies");
 		},
