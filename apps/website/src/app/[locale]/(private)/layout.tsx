@@ -20,7 +20,7 @@ import { AppSidebarNavigation } from "./_navigation/side-bar-navigation";
 export default async function LocaleLayout({ children }: { children: React.ReactNode }) {
 	const t = await getTranslations("Navigation");
 	const cookieStore = await cookies();
-	const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+	const sidebarStateIsOpen = cookieStore.get("sidebar_state")?.value === "true";
 
 	const adminRoutes = [
 		{
@@ -45,7 +45,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 		{} as Record<string, string>
 	);
 	return (
-		<SidebarProvider defaultOpen={defaultOpen}>
+		<SidebarProvider defaultOpen={sidebarStateIsOpen}>
 			<Sidebar collapsible="icon">
 				<SidebarHeader>
 					<SidebarMenu>

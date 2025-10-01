@@ -48,13 +48,13 @@ const renderValue = (value: ValueType): RenderedValue => {
 };
 
 const ScopePill = React.memo(({ label }: { label: string }) => (
-	<Badge className="px-1.5 py-0.5 text-[10px] leading-none" variant="outline">
+	<Badge className="px-1.5 py-0.5 font-medium text-[10px] leading-none" variant="secondary">
 		{label}
 	</Badge>
 ));
 
 const LogicPill = React.memo(({ logic }: { logic: ExpressionGroupType["logic"] }) => (
-	<Badge className={conditionBorderColor(logic)} title="Logic group" variant="outline">
+	<Badge className={conditionBorderColor(logic, "font-semibold text-[11px]")} title="Logic group" variant="outline">
 		{logic}
 	</Badge>
 ));
@@ -64,12 +64,19 @@ const FieldItem = React.memo(({ node }: { node: ExpressionNodeType }) => {
 	const rendered = renderValue(value);
 	const ariaLabel = `${field.scope} ${field.name} ${operation} ${rendered.full}`;
 	const content = (
-		<div aria-label={ariaLabel} className="flex items-center gap-1 text-xs" role="treeitem" tabIndex={0}>
-			<ScopePill label={field.scope} />
-			<code className="rounded bg-muted px-1 py-0.5 text-[11px]">{field.name}</code>
-			<span className="text-muted-foreground">:{field.type}</span>
-			<span className="mx-1 text-muted-foreground">{operation}</span>
-			<span className="truncate text-foreground" title={rendered.full}>
+		<div
+			aria-label={ariaLabel}
+			className="group flex items-center gap-2 rounded-md border border-transparent px-2 py-1.5 transition-colors hover:border-border hover:bg-muted/50"
+			role="treeitem"
+			tabIndex={0}
+		>
+			<div className="flex items-center gap-1.5">
+				<ScopePill label={field.scope} />
+				<code className="rounded bg-background px-1.5 py-0.5 font-semibold text-[11px] text-foreground shadow-sm ring-1 ring-border">{field.name}</code>
+				<span className="text-[10px] text-muted-foreground">{field.type}</span>
+			</div>
+			<span className="font-medium font-mono text-[11px] text-muted-foreground">{operation}</span>
+			<span className="truncate font-mono text-[11px] text-foreground" title={rendered.full}>
 				{rendered.display}
 			</span>
 		</div>
@@ -95,9 +102,11 @@ const isGroup = (n: ExpressionNodeType | ExpressionGroupType): n is ExpressionGr
 	Array.isArray((n as ExpressionGroupType).expressions) && typeof (n as ExpressionGroupType).logic !== "undefined";
 
 const GroupHeader = React.memo(({ logic, count, depth }: { logic: ExpressionGroupType["logic"]; count: number; depth: number }) => (
-	<div className="flex items-center gap-2" role={depth === 0 ? "tree" : "group"}>
+	<div className="mb-2 flex items-center gap-2" role={depth === 0 ? "tree" : "group"}>
 		<LogicPill logic={logic} />
-		<span className="text-[11px] text-muted-foreground">{count}</span>
+		<span className="text-[10px] text-muted-foreground">
+			{count} {count === 1 ? "condition" : "conditions"}
+		</span>
 	</div>
 ));
 
@@ -112,7 +121,7 @@ const keyForNode = (n: ExpressionNodeType | ExpressionGroupType, fallbackIndex: 
 
 export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => {
 	const renderGroup = useCallback((g: ExpressionGroupType, depth: number) => {
-		// Handle empty group (should not happen except for blank constant)
+		// Handle empty group
 		if (!g.expressions.length) {
 			return (
 				<div className="text-muted-foreground text-xs italic" key={`empty:${depth}`}>
@@ -121,35 +130,18 @@ export const ConditionTree = ({ conditions, className }: ConditionTreeProps) => 
 			);
 		}
 
-		const isNot = g.logic === "NOT";
 		return (
-			<div>
-				<div className="mb-1">
-					<GroupHeader count={g.expressions.length} depth={depth} logic={g.logic} />
-				</div>
-				<div className={conditionGroupLeftBorderColor(g.logic, "space-y-1 border-l pl-3")}>
+			<div className="space-y-2">
+				<GroupHeader count={g.expressions.length} depth={depth} logic={g.logic} />
+				<div className={conditionGroupLeftBorderColor(g.logic, "space-y-2 border-l-2 pl-4")}>
 					{g.expressions.map((c, idx) => {
 						const childKey = keyForNode(c, idx);
-						const showConnector = !isNot && idx > 0 && (g.logic === "AND" || g.logic === "OR");
 						return (
-							<div className="space-y-1" key={childKey}>
-								{showConnector && (
-									<div className="flex items-center gap-1 pl-0.5">
-										<LogicPill logic={g.logic} />
-									</div>
-								)}
-								{isGroup(c) ? <div className="pt-0.5">{renderGroup(c as ExpressionGroupType, depth + 1)}</div> : <FieldItem node={c as ExpressionNodeType} />}
+							<div key={childKey}>
+								{isGroup(c) ? <div className="pt-1">{renderGroup(c as ExpressionGroupType, depth + 1)}</div> : <FieldItem node={c as ExpressionNodeType} />}
 							</div>
 						);
 					})}
-					{isNot && g.expressions.length > 1 && (
-						<div
-							className="mt-1 rounded border border-dashed px-2 py-1 text-[10px] text-muted-foreground"
-							title="NOT groups ideally contain a single expression"
-						>
-							NOT group contains multiple expressions
-						</div>
-					)}
 				</div>
 			</div>
 		);

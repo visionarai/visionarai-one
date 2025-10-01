@@ -1,77 +1,80 @@
 "use client";
 
 import { Button } from "@visionarai-one/ui";
+import { Languages } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
-import { memo, useTransition } from "react";
+import { useTransition } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 
 // Allowed locales for the language switcher
 export type AllowedLocales = "en" | "de";
 
-const LANGS: Array<{ code: AllowedLocales; label: string; longLabel: string }> = [
-	{ code: "en", label: "EN", longLabel: "English" },
-	{ code: "de", label: "DE", longLabel: "Deutsch" },
-];
-
-type LanguageButtonProps = {
+type LanguageConfig = {
 	code: AllowedLocales;
 	label: string;
-	isActive: boolean;
-	isPending: boolean;
-	onSwitch: (locale: AllowedLocales) => void;
+	longLabel: string;
+	ariaLabel: string;
 };
 
-const LanguageButton = memo(function LanguageButtonA({ code, label, isActive, isPending, onSwitch }: LanguageButtonProps) {
-	return (
-		<Button
-			aria-pressed={isActive}
-			className="px-2 py-1 font-semibold text-xs"
-			disabled={isPending}
-			key={code}
-			onClick={() => onSwitch(code)}
-			size="sm"
-			variant={isActive ? "default" : "secondary"}
-		>
-			{label}
-		</Button>
-	);
-});
+const LANGUAGES: Record<AllowedLocales, LanguageConfig> = {
+	de: {
+		ariaLabel: "Switch to German",
+		code: "de",
+		label: "DE",
+		longLabel: "Deutsch",
+	},
+	en: {
+		ariaLabel: "Switch to English",
+		code: "en",
+		label: "EN",
+		longLabel: "English",
+	},
+};
 
 type LanguageSwitcherProps = {
 	type?: "icon" | "extended";
 };
 
-export function LanguageSwitcher({ type }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ type = "icon" }: LanguageSwitcherProps) {
 	const router = useRouter();
 	const currentPath = usePathname();
-	const localeActive = useLocale();
+	const localeActive = useLocale() as AllowedLocales;
 	const searchParams = useSearchParams();
-	const urlParams = new URLSearchParams(searchParams);
 	const [isPending, startTransition] = useTransition();
 
-	const selectedLocale = LANGS.find(({ code }) => code === localeActive) || LANGS[0];
+	// Get current language configuration, fallback to English
+	const currentLang = LANGUAGES[localeActive] || LANGUAGES.en;
 
-	const handleSwitch = (locale: AllowedLocales) => {
+	// Get all available languages as array for cycling
+	const availableLanguages = Object.values(LANGUAGES);
+
+	// Calculate next language in cycle
+	const currentIndex = availableLanguages.findIndex((lang) => lang.code === localeActive);
+	const nextIndex = (currentIndex + 1) % availableLanguages.length;
+	const nextLang = availableLanguages[nextIndex];
+
+	const handleLanguageToggle = () => {
+		const urlParams = new URLSearchParams(searchParams);
 		const searchParamString = urlParams.toString();
+		const targetPath = searchParamString ? `${currentPath}?${searchParamString}` : currentPath;
 
 		startTransition(() => {
-			router.push(`${currentPath}?${searchParamString}`, { locale });
+			router.push(targetPath, { locale: nextLang.code });
 		});
 	};
 
 	return (
-		<div className="flex items-center gap-1">
-			{LANGS.map(({ code, label, longLabel }) => (
-				<LanguageButton
-					code={code}
-					isActive={selectedLocale.code === code}
-					isPending={isPending}
-					key={code}
-					label={type === "extended" ? longLabel : label}
-					onSwitch={handleSwitch}
-				/>
-			))}
-		</div>
+		<Button
+			aria-label={nextLang.ariaLabel}
+			className="transition-all"
+			disabled={isPending}
+			onClick={handleLanguageToggle}
+			size={type === "icon" ? "icon" : "lg"}
+			variant="outline"
+		>
+			{type === "extended" && <Languages className="h-[1.2rem] w-[1.2rem]" />}
+			{type === "extended" ? currentLang.longLabel : currentLang.label}
+		</Button>
 	);
 }
