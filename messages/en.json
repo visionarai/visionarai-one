@@ -59,10 +59,76 @@
   },
   "LandingPage": {
     "hero": {
-      "headline": "AI is changing work forever - Everyone becomes an entrepreneur",
-      "subheadline": "Turn your boldest ideas into working AI products — with expert guidance and intelligent tools.",
-      "primaryCta": "Explore the Platform",
-      "secondaryCta": "Book a Free Strategy Call"
+      "headline": "AI for Visionaries",
+      "subheadline": "Turn tomorrow's ideas into today's products",
+      "primaryCta": "Start Your AI Journey",
+      "secondaryCta": "See Our Tools"
+    },
+    "consultancy": {
+      "title": "AI Consultancy",
+      "description": "From ideation to execution, we map AI to your business model, identifying the tools, agents and automations."
+    },
+    "tools": {
+      "title": "Tools Suite",
+      "description": "Our proprietary AI tools let you prototype, market, and scale—no coding required.",
+      "items": {
+        "validate-ideas": {
+          "title": "Validate Product Ideas",
+          "description": "Test your concept with AI-powered market analysis and user insights."
+        },
+        "conduct-research": {
+          "title": "Conduct Research",
+          "description": "Deep dive into market trends, competitors, and opportunities."
+        },
+        "prototype": {
+          "title": "Rapid Prototyping",
+          "description": "Build working prototypes in days, not months."
+        },
+        "market": {
+          "title": "Market & Scale",
+          "description": "Launch and grow with AI-driven marketing automation."
+        }
+      }
+    },
+    "customDev": {
+      "title": "Custom Development",
+      "description": "We build bespoke AI solutions that fit your vision, on time and on budget.",
+      "projects": {
+        "saas-platform": {
+          "title": "SaaS Platform",
+          "description": "End-to-end AI-powered SaaS solution"
+        },
+        "automation": {
+          "title": "Business Automation",
+          "description": "Intelligent workflow automation systems"
+        },
+        "chatbot": {
+          "title": "AI Chatbot",
+          "description": "Custom conversational AI for your business"
+        }
+      }
+    },
+    "why": {
+      "title": "Why Vision.ai?",
+      "benefits": {
+        "experience": {
+          "title": "Day to Day Experience First Hand",
+          "description": "We don't just consult—we build and iterate with you, daily."
+        },
+        "turnkey": {
+          "title": "Turnkey Consulting + Hands‑on Coaching",
+          "description": "Complete solutions with guidance every step of the way."
+        },
+        "speed": {
+          "title": "2‑week MVP Turnaround",
+          "description": "From concept to working prototype in just two weeks."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Build Tomorrow?",
+      "primaryCta": "Book a Free 30‑min Call",
+      "secondaryCta": "Start a Free Trial"
     }
   },
   "Navigation": {

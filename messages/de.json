@@ -90,10 +90,76 @@
   },
   "LandingPage": {
     "hero": {
-      "headline": "AI verändert die Arbeit für immer - Jeder wird zum Unternehmer",
-      "subheadline": "Verwandeln Sie Ihre kühnsten Ideen in funktionierende KI-Produkte — mit Expertenberatung und intelligenten Tools.",
-      "primaryCta": "Plattform erkunden",
-      "secondaryCta": "Kostenloses Strategiegespräch buchen"
+      "headline": "KI für Visionäre",
+      "subheadline": "Verwandeln Sie die Ideen von morgen in die Produkte von heute",
+      "primaryCta": "Starten Sie Ihre KI-Reise",
+      "secondaryCta": "Unsere Tools ansehen"
+    },
+    "consultancy": {
+      "title": "KI-Beratung",
+      "description": "Von der Ideenfindung bis zur Umsetzung ordnen wir KI Ihrem Geschäftsmodell zu und identifizieren die Tools, Agenten und Automatisierungen."
+    },
+    "tools": {
+      "title": "Tools-Suite",
+      "description": "Unsere proprietären KI-Tools ermöglichen es Ihnen, Prototypen zu erstellen, zu vermarkten und zu skalieren—ohne Programmierung.",
+      "items": {
+        "validate-ideas": {
+          "title": "Produktideen validieren",
+          "description": "Testen Sie Ihr Konzept mit KI-gestützter Marktanalyse und Nutzererkenntnissen."
+        },
+        "conduct-research": {
+          "title": "Recherche durchführen",
+          "description": "Tiefgehende Einblicke in Markttrends, Wettbewerber und Chancen."
+        },
+        "prototype": {
+          "title": "Schnelles Prototyping",
+          "description": "Erstellen Sie funktionsfähige Prototypen in Tagen, nicht Monaten."
+        },
+        "market": {
+          "title": "Vermarkten & Skalieren",
+          "description": "Starten und wachsen Sie mit KI-gestützter Marketing-Automatisierung."
+        }
+      }
+    },
+    "customDev": {
+      "title": "Individuelle Entwicklung",
+      "description": "Wir entwickeln maßgeschneiderte KI-Lösungen, die zu Ihrer Vision passen, pünktlich und im Budget.",
+      "projects": {
+        "saas-platform": {
+          "title": "SaaS-Plattform",
+          "description": "End-to-End KI-gestützte SaaS-Lösung"
+        },
+        "automation": {
+          "title": "Geschäftsautomatisierung",
+          "description": "Intelligente Workflow-Automatisierungssysteme"
+        },
+        "chatbot": {
+          "title": "KI-Chatbot",
+          "description": "Maßgeschneiderte konversationelle KI für Ihr Unternehmen"
+        }
+      }
+    },
+    "why": {
+      "title": "Warum Vision.ai?",
+      "benefits": {
+        "experience": {
+          "title": "Tägliche praktische Erfahrung",
+          "description": "Wir beraten nicht nur—wir entwickeln und iterieren täglich mit Ihnen."
+        },
+        "turnkey": {
+          "title": "Komplettberatung + Praktisches Coaching",
+          "description": "Komplettlösungen mit Anleitung in jedem Schritt."
+        },
+        "speed": {
+          "title": "2-Wochen MVP-Umsetzung",
+          "description": "Vom Konzept zum funktionierenden Prototyp in nur zwei Wochen."
+        }
+      }
+    },
+    "cta": {
+      "title": "Bereit, die Zukunft zu gestalten?",
+      "primaryCta": "Kostenloses 30-Min-Gespräch buchen",
+      "secondaryCta": "Kostenlose Testversion starten"
     }
   },
   "MasterData": {
