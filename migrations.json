@@ -1,0 +1,10 @@
+{
+  "nx-console": {
+    "initialGitRef": {
+      "ref": "ccde0fc96f7205613470172beec3b89747e4e9e7",
+      "subject": "✨ feat(layout): Update AuthLayout and LocaleLayout for improved branding"
+    },
+    "targetVersion": "latest",
+    "confirmedPackageUpdates": true
+  }
+}
