@@ -4,6 +4,7 @@ import Link from "next/link";
 import type React from "react";
 import type { JSX } from "react";
 import { Button } from "../ui/button";
+import { VisionaraiLogo } from "../visionarai-logo";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 
 export type NavigationItem = {
@@ -17,17 +18,15 @@ type NavBarProps = {
 	items: NavigationItem[];
 	appNavigationText?: string;
 	appNavigationPath?: string;
-	logoText?: string;
 	children?: JSX.Element;
 };
 
-export function NavBar({ items, appNavigationText: loginText = "Login", appNavigationPath = "/login", logoText = "Visionar.Ai", children }: NavBarProps) {
+export function NavBar({ items, appNavigationText: loginText = "Login", appNavigationPath = "/login", children }: NavBarProps) {
 	return (
 		<nav className="sticky top-0 z-50 flex w-full items-center justify-between border-border border-b bg-background/80 px-6 py-3 backdrop-blur">
 			{/* Logo */}
 			<Link className="flex items-center gap-2" href="/">
-				{/* Replace with your SVG or image logo */}
-				<span className="font-bold text-lg tracking-tight">{logoText}</span>
+				<VisionaraiLogo followCursor={false} size={24} />
 			</Link>
 			{/* Navigation Links & Switchers */}
 			<div className="flex items-center gap-4">

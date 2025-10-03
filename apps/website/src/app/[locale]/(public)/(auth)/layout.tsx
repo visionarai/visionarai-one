@@ -1,4 +1,4 @@
-import { Eye } from "lucide-react";
+import { VisionaraiLogo } from "@visionarai-one/ui";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
@@ -12,25 +12,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
 				<div className="flex flex-col justify-between p-8 lg:p-12">
 					{/* Logo */}
 					<Link className="group inline-flex items-center gap-2 font-bold text-2xl transition-opacity hover:opacity-80" href="/">
-						<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-transform group-hover:scale-105">
-							<svg
-								aria-label="Vision icon"
-								className="h-6 w-6"
-								fill="none"
-								role="img"
-								stroke="currentColor"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								viewBox="0 0 24 24"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<title>Vision icon</title>
-								<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-								<circle cx="12" cy="12" r="3" />
-							</svg>
-						</div>
-						<span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">{t("Navigation.logo")}</span>
+						<VisionaraiLogo size={58} />
 					</Link>
 
 					{/* Hero Content */}
@@ -64,15 +46,12 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
 			{/* Right Panel - Form Content */}
 			<main className="flex h-full w-full flex-col items-center justify-center bg-background p-4 md:w-1/2 md:p-8 lg:w-3/5">
 				{/* Mobile Logo */}
-				<Link className="mb-8 inline-flex items-center gap-2 font-bold text-foreground text-xl md:hidden" href="/">
-					<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-						<Eye />
-					</div>
-					<span>{t("Navigation.logo")}</span>
+				<Link className="my-16 inline-flex items-center gap-2 font-bold text-foreground text-xl md:hidden" href="/">
+					<VisionaraiLogo followCursor={false} size={64} />
 				</Link>
 
 				{/* Form Container */}
-				<div className="w-full max-w-md">{children}</div>
+				<div className="w-full max-w-md flex-1 md:flex-none">{children}</div>
 
 				{/* Footer Links */}
 				<footer className="mt-8 text-center text-muted-foreground text-sm">
