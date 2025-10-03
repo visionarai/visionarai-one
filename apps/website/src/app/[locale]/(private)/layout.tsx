@@ -20,12 +20,6 @@ import { AppSidebarNavigation } from "./_navigation/side-bar-navigation";
 
 export default async function LocaleLayout({ children }: { children: React.ReactNode }) {
 	const session = await auth.api.getSession({ headers: await headers() });
-	// if (!session?.user) {
-	// 	redirect({
-	// 		href: "/",
-	// 		locale: "en",
-	// 	});
-	// }
 
 	const t = await getTranslations("Navigation");
 	const tLayout = await getTranslations("PrivateLayout");
