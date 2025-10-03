@@ -99,6 +99,7 @@ CLEAN_DIRS=(
     "tmp"
     ".nx"
     ".docusaurus"
+    ".netlify"
 )
 
 # Find and delete directories, skipping node_modules, .git, and .yarn
