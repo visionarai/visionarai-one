@@ -1,26 +1,43 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 
 type TheyEyeOfVisionProps = {
 	size?: number;
 	className?: string;
+	followCursor?: boolean;
 };
 
-export const TheyEyeOfVision = ({ size = 150, className = "" }: TheyEyeOfVisionProps) => {
+const TheyEyeOfVisionComponent = ({ size = 150, className = "", followCursor = true }: TheyEyeOfVisionProps) => {
 	const eyeRef = useRef<HTMLDivElement>(null);
-	const outerCircleSize = size;
-	const eyeballSize = outerCircleSize * 0.7; // 70% of outer circle
-	const pupilSize = outerCircleSize * 0.32; // 32% of outer circle
-	const defaultPupilOffset = size * 0.2; // 20% of eye size for default offset
-	const mainBorderWidth = size * 0.03; // 3% of eye size for main border width
 
-	const [pupilPosition, setPupilPosition] = useState({ x: -defaultPupilOffset, y: -defaultPupilOffset });
+	// memoize derived sizes to avoid recomputing on every render
+	const outerCircleSize = useMemo(() => size, [size]);
+	const eyeballSize = useMemo(() => outerCircleSize * 0.7, [outerCircleSize]); // 70% of outer circle
+	const pupilSize = useMemo(() => outerCircleSize * 0.32, [outerCircleSize]); // 32% of outer circle
+	const defaultPupilOffset = useMemo(() => size * 0.2, [size]); // 20% of eye size for default offset
+	const mainBorderWidth = useMemo(() => size * 0.04, [size]); // 4% of eye size for main border width
+
+	const [pupilPosition, setPupilPosition] = useState(() => ({ x: -defaultPupilOffset, y: -defaultPupilOffset }));
+
 	useEffect(() => {
-		const handleMouseMove = (e: MouseEvent) => {
-			if (!eyeRef.current) return;
+		// If not following cursor, ensure pupil is at the static default position but avoid unnecessary state updates
+		if (!followCursor) {
+			setPupilPosition((prev) => {
+				const desired = { x: -defaultPupilOffset, y: -defaultPupilOffset };
+				if (prev.x === desired.x && prev.y === desired.y) return prev;
+				return desired;
+			});
 
-			const eye = eyeRef.current.getBoundingClientRect();
+			return;
+		}
+
+		// Only create the handler when following the cursor to avoid doing any DOM/math work otherwise
+		const handleMouseMove = (e: MouseEvent) => {
+			const el = eyeRef.current;
+			if (!el) return;
+
+			const eye = el.getBoundingClientRect();
 			const eyeCenterX = eye.left + eye.width / 2;
 			const eyeCenterY = eye.top + eye.height / 2;
 
@@ -28,7 +45,7 @@ export const TheyEyeOfVision = ({ size = 150, className = "" }: TheyEyeOfVisionP
 			const deltaX = e.clientX - eyeCenterX;
 			const deltaY = e.clientY - eyeCenterY;
 			const angle = Math.atan2(deltaY, deltaX);
-			const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+			const distance = Math.hypot(deltaX, deltaY);
 
 			// Maximum distance the pupil can move (allowing it to extend slightly outside the eyeball)
 			const maxDistance = size * 0.25; // 25% of eye size for extended movement
@@ -38,22 +55,26 @@ export const TheyEyeOfVision = ({ size = 150, className = "" }: TheyEyeOfVisionP
 			const pupilX = Math.cos(angle) * constrainedDistance;
 			const pupilY = Math.sin(angle) * constrainedDistance;
 
-			setPupilPosition({ x: pupilX, y: pupilY });
+			setPupilPosition((prev) => {
+				// Avoid updating state if position hasn't meaningfully changed
+				if (prev.x === pupilX && prev.y === pupilY) return prev;
+				return { x: pupilX, y: pupilY };
+			});
 		};
 
 		window.addEventListener("mousemove", handleMouseMove);
 		return () => window.removeEventListener("mousemove", handleMouseMove);
-	}, [size]);
+	}, [followCursor, size, defaultPupilOffset]);
 
 	return (
 		<div
-			className={`relative inline-flex items-center justify-center rounded-full border-neutral-800 bg-background dark:border-neutral-200 ${className}`}
+			className={`relative inline-flex items-center justify-center rounded-full border-foreground bg-background ${className}`}
 			ref={eyeRef}
 			style={{ borderWidth: mainBorderWidth, height: outerCircleSize, width: outerCircleSize }}
 		>
 			{/* Inner eyeball */}
 			<div
-				className="absolute rounded-full bg-gradient-to-b from-neutral-800 to-neutral-900 dark:from-neutral-200 dark:to-neutral-400"
+				className="absolute rounded-full bg-gradient-to-b from-primary to-primary/80"
 				style={{
 					height: eyeballSize,
 					width: eyeballSize,
@@ -72,3 +93,5 @@ export const TheyEyeOfVision = ({ size = 150, className = "" }: TheyEyeOfVisionP
 		</div>
 	);
 };
+
+export const TheyEyeOfVision = memo(TheyEyeOfVisionComponent);

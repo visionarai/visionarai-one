@@ -6,7 +6,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
 	const t = await getTranslations();
 
 	return (
-		<div className="flex h-full flex-col bg-blue-100 md:flex-row">
+		<div className="flex h-full flex-col md:flex-row">
 			{/* Left Panel - Branding */}
 			<aside className="relative hidden w-full bg-gradient-to-br from-primary/10 via-primary/5 to-background md:flex md:w-1/2 lg:w-2/5">
 				<div className="flex flex-col justify-between p-8 lg:p-12">
@@ -36,7 +36,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
 					{/* Hero Content */}
 					<div className="space-y-6">
 						<div className="space-y-4">
-							<h1 className="font-bold text-3xl leading-tight tracking-tight lg:text-4xl">{t("LandingPage.hero.headline")}</h1>
+							<h1 className="font-bold text-3xl text-foreground leading-tight tracking-tight lg:text-4xl">{t("LandingPage.hero.headline")}</h1>
 							<p className="text-base text-muted-foreground lg:text-lg">{t("LandingPage.hero.subheadline")}</p>
 						</div>
 
@@ -58,13 +58,13 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
 				</div>
 
 				{/* Background Pattern */}
-				<div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.02]" />
+				<div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.05]" />
 			</aside>
 
 			{/* Right Panel - Form Content */}
 			<main className="flex h-full w-full flex-col items-center justify-center bg-background p-4 md:w-1/2 md:p-8 lg:w-3/5">
 				{/* Mobile Logo */}
-				<Link className="mb-8 inline-flex items-center gap-2 font-bold text-xl md:hidden" href="/">
+				<Link className="mb-8 inline-flex items-center gap-2 font-bold text-foreground text-xl md:hidden" href="/">
 					<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
 						<Eye />
 					</div>
