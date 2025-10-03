@@ -50,6 +50,20 @@
     "pricing": "Preise",
     "admin": "Admin"
   },
+  "PrivateLayout": {
+    "enterprise": "Enterprise",
+    "privateArea": "Privater Bereich",
+    "adminArea": "Admin-Bereich",
+    "routes": {
+      "policies": "Richtlinien",
+      "masterData": "Stammdaten",
+      "dashboard": "Dashboard"
+    },
+    "userFallback": {
+      "email": "E-Mail",
+      "name": "Name"
+    }
+  },
   "NotFound": {
     "backButton": "Zurück",
     "description": "Die gesuchte Seite existiert nicht oder wurde verschoben.",

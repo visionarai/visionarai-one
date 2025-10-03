@@ -30,7 +30,7 @@ type MasterDataFormProps = {
 
 export default function MasterDataForm({ defaultValues }: MasterDataFormProps) {
 	const t = useTranslations("MasterData");
-	const { execute } = useAsyncFunction(orpcClient.masterData.update, {
+	const [execute] = useAsyncFunction(orpcClient.masterData.update, {
 		successMessage: t("page.updateSuccess"),
 	});
 	const form = useForm<MasterDataType>({

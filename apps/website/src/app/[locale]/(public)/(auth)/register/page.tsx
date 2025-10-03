@@ -69,7 +69,7 @@ export default function RegisterPage() {
 	const [signin, { isLoading }] = useBetterAuthFunction(authClient.signUp.email, {
 		loadingMessage: "Signing up...",
 		onSuccess: () => {
-			router.push("/policies");
+			router.push("/dashboard");
 		},
 		successMessage: "Policy updated successfully",
 	});
@@ -80,7 +80,7 @@ export default function RegisterPage() {
 			formSchema={formSchema}
 			isLoading={isLoading}
 			onSubmit={async (data) => {
-				await signin({ callbackURL: "/", email: data.email, name: data.name, password: data.password });
+				await signin({ callbackURL: "/dashboard", email: data.email, name: data.name, password: data.password });
 			}}
 			passwordRequirements={passwordRequirements}
 			resetButtonIcon={<RotateCcw />}

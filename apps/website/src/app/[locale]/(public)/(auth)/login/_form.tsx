@@ -52,7 +52,7 @@ export function LoginForm() {
 	const [signin, { isLoading }] = useBetterAuthFunction(authClient.signIn.email, {
 		loadingMessage: "Signing in...",
 		onSuccess: () => {
-			router.push("/policies");
+			router.push("/dashboard");
 		},
 		successMessage: "Signed in successfully",
 	});
@@ -63,7 +63,7 @@ export function LoginForm() {
 			formSchema={formSchema}
 			isLoading={isLoading}
 			onSubmit={async (data) => {
-				await signin({ callbackURL: "/policies", email: data.email, password: data.password });
+				await signin({ callbackURL: "/dashboard", email: data.email, password: data.password });
 			}}
 			resetButtonIcon={<RotateCcw />}
 			submitButtonIcon={<SendHorizontal />}

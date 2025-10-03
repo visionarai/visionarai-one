@@ -58,6 +58,20 @@
     "pricing": "Pricing",
     "admin": "Admin"
   },
+  "PrivateLayout": {
+    "enterprise": "Enterprise",
+    "privateArea": "Private Area",
+    "adminArea": "Admin Area",
+    "routes": {
+      "policies": "Policies",
+      "masterData": "Master Data",
+      "dashboard": "Dashboard"
+    },
+    "userFallback": {
+      "email": "Email",
+      "name": "Name"
+    }
+  },
   "NotFound": {
     "backButton": "Go Back",
     "description": "The page you're looking for doesn't exist or has been moved.",
