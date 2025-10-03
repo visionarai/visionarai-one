@@ -63,8 +63,14 @@
     "login": "Anmelden",
     "logo": "Visionar.Ai",
     "pricing": "Preise",
+    "blog": "Blog",
     "admin": "Admin",
     "dashboard": "Dashboard"
+  },
+
+  "BlogPage": {
+    "comingSoonTitle": "Blog bald verfügbar",
+    "comingSoonBody": "Wir arbeiten an hilfreichen Beiträgen, Tutorials und Neuigkeiten. Schau bald wieder vorbei!"
   },
   "PrivateLayout": {
     "enterprise": "Enterprise",

@@ -137,8 +137,14 @@
     "login": "Login",
     "logo": "Visionar.Ai",
     "pricing": "Pricing",
+    "blog": "Blog",
     "admin": "Admin",
     "dashboard": "Dashboard"
+  },
+
+  "BlogPage": {
+    "comingSoonTitle": "Blog coming soon",
+    "comingSoonBody": "We're building helpful posts, tutorials, and updates. Check back soon!"
   },
   "PrivateLayout": {
     "enterprise": "Enterprise",
