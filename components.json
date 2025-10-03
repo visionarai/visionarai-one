@@ -13,7 +13,9 @@
   "aliases": {
     "components": "@/libs/ui/src/components",
     "hooks": "@/libs/ui/src/hooks",
-    "utils": "@visionarai-one/utils"
+    "utils": "@visionarai-one/utils",
+    "ui": "@/libs/ui/src/components/ui",
+    "lib": "@/lib"
   },
   "iconLibrary": "lucide"
 }
