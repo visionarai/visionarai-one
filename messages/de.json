@@ -57,18 +57,14 @@
     },
     "rights": "Alle Rechte vorbehalten."
   },
-  "HomePage": {
-    "about": "Zur About-Seite",
-    "percentage": "Als Prozentsatz angezeigt: {value, number, percent}",
-    "title": "Hallo Welt!"
-  },
   "Navigation": {
     "about": "Über uns",
     "features": "Funktionen",
     "login": "Anmelden",
     "logo": "Visionar.Ai",
     "pricing": "Preise",
-    "admin": "Admin"
+    "admin": "Admin",
+    "dashboard": "Dashboard"
   },
   "PrivateLayout": {
     "enterprise": "Enterprise",

@@ -57,11 +57,6 @@
     },
     "rights": "All rights reserved."
   },
-  "HomePage": {
-    "about": "Go to the about page",
-    "percentage": "Displayed as a percentage: {value, number, percent}",
-    "title": "Hello world!"
-  },
   "LandingPage": {
     "hero": {
       "headline": "AI is changing work forever - Everyone becomes an entrepreneur",
@@ -76,7 +71,8 @@
     "login": "Login",
     "logo": "Visionar.Ai",
     "pricing": "Pricing",
-    "admin": "Admin"
+    "admin": "Admin",
+    "dashboard": "Dashboard"
   },
   "PrivateLayout": {
     "enterprise": "Enterprise",

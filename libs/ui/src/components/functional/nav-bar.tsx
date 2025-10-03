@@ -16,12 +16,20 @@ export type NavigationItem = {
 type NavBarProps = {
 	items: NavigationItem[];
 	selectedPath?: string;
-	loginText?: string;
+	appNavigationText?: string;
+	appNavigationPath?: string;
 	logoText?: string;
 	children?: JSX.Element;
 };
 
-export function NavBar({ items, selectedPath, loginText = "Login", logoText = "Visionar.Ai", children }: NavBarProps) {
+export function NavBar({
+	items,
+	selectedPath,
+	appNavigationText: loginText = "Login",
+	appNavigationPath = "/login",
+	logoText = "Visionar.Ai",
+	children,
+}: NavBarProps) {
 	return (
 		<nav className="sticky top-0 z-50 flex w-full items-center justify-between border-border border-b bg-background/80 px-6 py-3 backdrop-blur">
 			{/* Logo */}
@@ -46,7 +54,7 @@ export function NavBar({ items, selectedPath, loginText = "Login", logoText = "V
 					);
 				})}
 				<Button asChild variant="secondary">
-					<Link href="/login">{loginText}</Link>
+					<Link href={appNavigationPath}>{loginText}</Link>
 				</Button>
 				{children}
 				<ThemeSwitcher />
