@@ -54,7 +54,10 @@ export function PasswordFormField<T extends FieldValues>({
 								<Button
 									aria-label={type === "password" ? "Show password" : "Hide password"}
 									className="-translate-y-1/2 absolute top-1/2 right-2 px-0"
-									onClick={() => setType(type === "password" ? "text" : "password")}
+									onClick={(e) => {
+										e.preventDefault();
+										setType(type === "password" ? "text" : "password");
+									}}
 									size="icon"
 									variant="link"
 								>
