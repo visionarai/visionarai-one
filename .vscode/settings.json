@@ -15,7 +15,16 @@
   "i18n-ally.localesPaths": ["messages", "apps/website/src/i18n"],
   "nxConsole.generateAiAgentRules": true,
   "nxConsole.projectViewingStyle": "tree",
-  "cSpell.words": ["iiot", "lefthook", "orpc", "ultracite", "visionarai"],
+  "cSpell.words": [
+    "iiot",
+    "lefthook",
+    "Nuqs",
+    "orpc",
+    "ultracite",
+    "visi",
+    "visionar",
+    "visionarai"
+  ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"

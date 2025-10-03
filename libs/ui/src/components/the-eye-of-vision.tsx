@@ -16,7 +16,7 @@ const TheyEyeOfVisionComponent = ({ size = 150, className = "", followCursor = t
 	const eyeballSize = useMemo(() => outerCircleSize * 0.7, [outerCircleSize]); // 70% of outer circle
 	const pupilSize = useMemo(() => outerCircleSize * 0.32, [outerCircleSize]); // 32% of outer circle
 	const defaultPupilOffset = useMemo(() => size * 0.2, [size]); // 20% of eye size for default offset
-	const mainBorderWidth = useMemo(() => size * 0.04, [size]); // 4% of eye size for main border width
+	const mainBorderWidth = useMemo(() => size * 0.035, [size]); // 3.5% of eye size for main border width
 
 	const [pupilPosition, setPupilPosition] = useState(() => ({ x: -defaultPupilOffset, y: -defaultPupilOffset }));
 

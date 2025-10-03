@@ -66,7 +66,7 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 				</div>
 			)}
 			{isLoading ? (
-				<div className="space-y-4">
+				<div className="space-y-8">
 					{extractedFields.map((fieldMetadata) => (
 						<div className="space-y-2" key={fieldMetadata.name}>
 							<Skeleton className="h-4 w-1/3" />
@@ -79,7 +79,7 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 					</div>
 				</div>
 			) : (
-				<form className="space-y-4" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<TFieldValues>)}>
+				<form className="space-y-8" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<TFieldValues>)}>
 					{extractedFields.map((fieldMetadata) => (
 						<FieldRenderer
 							fieldMetadata={fieldMetadata.type === "password" ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}

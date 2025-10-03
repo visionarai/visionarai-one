@@ -95,6 +95,8 @@
 	--secondary-900: oklch(0.3906 0.0594 203.06);
 	--secondary-950: oklch(0.2871 0.0452 205.42);
 	--secondary-1000: oklch(0.2198 0.036 206.01);
+
+	scroll-behavior: smooth;
 }
 
 .dark {
