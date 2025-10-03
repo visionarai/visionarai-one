@@ -37,7 +37,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 	return (
 		<div className="flex h-screen flex-col">
 			<NavBar appNavigationPath={appNavigationPath} appNavigationText={loginText} items={navItems}>
-				<Suspense fallback={<Spinner />}>
+				<Suspense fallback={<Spinner size={32} />}>
 					<LanguageSwitcher />
 				</Suspense>
 			</NavBar>

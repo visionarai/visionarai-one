@@ -8,6 +8,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarProvider,
+	TheyEyeOfVision,
 } from "@visionarai-one/ui";
 import { BrickWall, EyeIcon, Presentation } from "lucide-react";
 import { cookies, headers } from "next/headers";
@@ -25,13 +26,6 @@ export default async function LocaleLayout({ children }: { children: React.React
 	const tLayout = await getTranslations("PrivateLayout");
 	const cookieStore = await cookies();
 	const sidebarStateIsOpen = cookieStore.get("sidebar_state")?.value === "true";
-
-	const user = {
-		avatar:
-			"https://media.licdn.com/dms/image/v2/D4D03AQG_k9G0Ia1xhA/profile-displayphoto-scale_400_400/B4DZkFJLWxHYAo-/0/1756727941441?e=2147483647&v=beta&t=TUqS2oh0Kq4CysIBa2NbKSPdenKJzEB69juOCBtKOfM",
-		email: session?.user?.email || tLayout("userFallback.email"),
-		name: session?.user?.name || tLayout("userFallback.name"),
-	};
 
 	const adminRoutes = [
 		{
@@ -72,9 +66,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 						<SidebarMenuItem>
 							<SidebarMenuButton asChild size="lg">
 								<Link className="flex items-center gap-2" href="/">
-									<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-										<EyeIcon className="size-4" />
-									</div>
+									<TheyEyeOfVision className="!border-2" followCursor={false} size={24} />
 									<div className="grid flex-1 text-left text-sm leading-tight">
 										<span className="truncate font-medium">{t("logo")}</span>
 										<span className="truncate text-xs">{tLayout("enterprise")}</span>
@@ -90,7 +82,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 				</SidebarContent>
 
 				<SidebarFooter>
-					<NavUser user={user} />
+					<NavUser session={session} />
 				</SidebarFooter>
 			</Sidebar>
 			<SidebarInset>
