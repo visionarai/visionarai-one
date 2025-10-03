@@ -1,22 +1,42 @@
 {
   "Auth": {
     "login": {
-      "emailLabel": "E-Mail-Adresse",
+      "title": "Willkommen zurück",
+      "subtitle": "Melden Sie sich an, um fortzufahren",
+      "emailLabel": "E-Mail",
       "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
-      "noAccount": "Noch kein Konto?",
+      "emailDescription": "Wir werden Ihre E-Mail-Adresse niemals mit Dritten teilen.",
+      "emailError": "Ungültige E-Mail-Adresse",
       "passwordLabel": "Passwort",
       "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
-      "registerLink": "Registrieren",
-      "submit": "Anmelden"
+      "passwordDescription": "Ihr Passwort muss mindestens 6 Zeichen lang sein.",
+      "forgotPassword": "Passwort vergessen?",
+      "submit": "Anmelden",
+      "noAccount": "Noch kein Konto?",
+      "registerLink": "Jetzt erstellen",
+      "loadingMessage": "Anmeldung läuft...",
+      "successMessage": "Willkommen zurück!"
     },
     "register": {
-      "emailLabel": "E-Mail-Adresse",
-      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+      "title": "Konto erstellen",
+      "subtitle": "Starten Sie noch heute Ihre KI-Reise",
+      "nameLabel": "Vollständiger Name",
+      "namePlaceholder": "Max Mustermann",
+      "nameMinError": "Der Name muss mindestens 2 Zeichen lang sein",
+      "nameMaxError": "Der Name darf maximal 100 Zeichen lang sein",
+      "emailLabel": "E-Mail",
+      "emailPlaceholder": "name@beispiel.de",
+      "emailError": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "passwordLabel": "Passwort",
+      "passwordPlaceholder": "Erstellen Sie ein sicheres Passwort",
+      "confirmPasswordLabel": "Passwort bestätigen",
+      "confirmPasswordPlaceholder": "Geben Sie Ihr Passwort erneut ein",
+      "passwordMismatchError": "Passwörter stimmen nicht überein",
+      "submit": "Konto erstellen",
       "haveAccount": "Bereits ein Konto?",
       "loginLink": "Anmelden",
-      "passwordLabel": "Passwort",
-      "passwordPlaceholder": "Erstellen Sie ein Passwort",
-      "submit": "Registrieren"
+      "loadingMessage": "Konto wird erstellt...",
+      "successMessage": "Konto erfolgreich erstellt!"
     },
     "passwordRequirements": {
       "minLength": "Das Passwort muss mindestens 6 Zeichen lang sein",

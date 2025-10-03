@@ -1,28 +1,83 @@
-// 'use client';
-// import { useTranslations } from 'next-intl';
-// import { FormEvent, useState } from 'react';
+"use client";
 
-import { Button } from "@visionarai-one/ui";
-import { Link } from "@/i18n/navigation";
-import { LoginForm } from "./_form";
+import { FormRenderer, stringifyFieldMetadata, useBetterAuthFunction } from "@visionarai-one/ui";
+import { passwordZod } from "@visionarai-one/utils";
+import { LogIn } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { z } from "zod/v4";
+import { Link, useRouter } from "@/i18n/navigation";
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
-	// const t = useTranslations('Auth');
-	// const [loading, setLoading] = useState(false);
+	const router = useRouter();
+	const t = useTranslations("Auth.login");
 
-	// const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-	//   e.preventDefault();
-	//   setLoading(true);
-	//   // TODO: Implement authentication logic
-	//   setTimeout(() => setLoading(false), 1000);
-	// };
+	const formSchema = z.object({
+		email: z.email(t("emailError")).describe(
+			stringifyFieldMetadata({
+				autoComplete: "email",
+				description: t("emailDescription"),
+				inputMode: "email",
+				label: t("emailLabel"),
+				name: "email",
+				placeholder: t("emailPlaceholder"),
+				type: "email",
+			})
+		),
+		password: passwordZod.describe(
+			stringifyFieldMetadata({
+				description: t("passwordDescription"),
+				label: t("passwordLabel"),
+				name: "password",
+				placeholder: t("passwordPlaceholder"),
+				type: "password",
+			})
+		),
+	});
+
+	const [signin, { isLoading }] = useBetterAuthFunction(authClient.signIn.email, {
+		loadingMessage: t("loadingMessage"),
+		onSuccess: () => {
+			router.push("/dashboard");
+		},
+		successMessage: t("successMessage"),
+	});
 
 	return (
-		<div className="space-y-4">
-			<Button asChild>
-				<Link href="/register">Go to Register</Link>
-			</Button>
-			<LoginForm />
+		<div className="space-y-6">
+			{/* Header */}
+			<div className="space-y-2 text-center">
+				<h1 className="font-bold text-3xl tracking-tight">{t("title")}</h1>
+				<p className="text-muted-foreground text-sm">{t("subtitle")}</p>
+			</div>
+
+			{/* Form */}
+			<div className="space-y-4">
+				<FormRenderer
+					formSchema={formSchema}
+					isLoading={isLoading}
+					onSubmit={async (data) => {
+						await signin({ callbackURL: "/dashboard", email: data.email, password: data.password });
+					}}
+					submitButtonIcon={<LogIn />}
+					submitButtonText={t("submit")}
+				/>
+
+				{/* Forgot Password Link */}
+				<div className="text-center">
+					<Link className="text-muted-foreground text-sm underline-offset-4 hover:text-foreground hover:underline" href="/forgot-password">
+						{t("forgotPassword")}
+					</Link>
+				</div>
+			</div>
+
+			{/* Register CTA */}
+			<div className="pt-4 text-center text-sm">
+				<span className="text-muted-foreground">{t("noAccount")} </span>
+				<Link className="font-medium text-primary underline-offset-4 hover:underline" href="/register">
+					{t("registerLink")}
+				</Link>
+			</div>
 		</div>
 	);
 }

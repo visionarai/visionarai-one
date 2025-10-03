@@ -1,22 +1,42 @@
 {
   "Auth": {
     "login": {
-      "emailLabel": "Email address",
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account to continue",
+      "emailLabel": "Email",
       "emailPlaceholder": "Enter your email",
-      "noAccount": "Don't have an account?",
+      "emailDescription": "We will never share your email with anyone else.",
+      "emailError": "Invalid email address",
       "passwordLabel": "Password",
       "passwordPlaceholder": "Enter your password",
-      "registerLink": "Register",
-      "submit": "Log In"
+      "passwordDescription": "Your password must be at least 6 characters long.",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Create one now",
+      "loadingMessage": "Signing in...",
+      "successMessage": "Welcome back!"
     },
     "register": {
-      "emailLabel": "Email address",
-      "emailPlaceholder": "Enter your email",
-      "haveAccount": "Already have an account?",
-      "loginLink": "Log In",
+      "title": "Create your account",
+      "subtitle": "Get started with your AI journey today",
+      "nameLabel": "Full Name",
+      "namePlaceholder": "John Doe",
+      "nameMinError": "Name must be at least 2 characters",
+      "nameMaxError": "Name must be less than 100 characters",
+      "emailLabel": "Email",
+      "emailPlaceholder": "name@example.com",
+      "emailError": "Please enter a valid email address",
       "passwordLabel": "Password",
-      "passwordPlaceholder": "Create a password",
-      "submit": "Register"
+      "passwordPlaceholder": "Create a strong password",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Re-enter your password",
+      "passwordMismatchError": "Passwords do not match",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "loadingMessage": "Creating your account...",
+      "successMessage": "Account created successfully!"
     },
     "passwordRequirements": {
       "minLength": "Password must be at least 6 characters long",
