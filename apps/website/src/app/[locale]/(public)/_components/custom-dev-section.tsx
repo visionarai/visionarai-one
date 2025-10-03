@@ -32,8 +32,8 @@ export const CustomDevSection = () => {
 		<section className="py-16 sm:py-24" id="custom-dev">
 			<div className="container mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="mb-12 text-center">
-					<h2 className="mb-4 bg-gradient-to-r from-teal-400 to-lime-400 bg-clip-text font-bold text-3xl text-transparent sm:text-4xl">{t("title")}</h2>
-					<p className="mx-auto max-w-2xl text-lg text-slate-300 leading-relaxed">{t("description")}</p>
+					<h2 className="mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text font-bold text-3xl text-transparent sm:text-4xl">{t("title")}</h2>
+					<p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">{t("description")}</p>
 				</div>
 
 				<Carousel
@@ -46,15 +46,15 @@ export const CustomDevSection = () => {
 					<CarouselContent>
 						{projectsConfig.map((project) => (
 							<CarouselItem className="md:basis-1/2 lg:basis-1/3" key={project.id}>
-								<Card className="h-full border-slate-700 bg-slate-900/50 backdrop-blur transition-colors hover:border-lime-500/50">
+								<Card className="h-full border-border bg-card backdrop-blur transition-colors hover:border-secondary/50">
 									<CardHeader>
-										<CardTitle className="text-white text-xl">{t(`projects.${project.id}.title`)}</CardTitle>
-										<CardDescription className="text-slate-400">{t(`projects.${project.id}.description`)}</CardDescription>
+										<CardTitle className="text-card-foreground text-xl">{t(`projects.${project.id}.title`)}</CardTitle>
+										<CardDescription className="text-muted-foreground">{t(`projects.${project.id}.description`)}</CardDescription>
 									</CardHeader>
 									<CardContent>
 										<div className="flex flex-wrap gap-2">
 											{project.tech.map((tech) => (
-												<Badge className="bg-teal-500/10 text-teal-400" key={tech} variant="secondary">
+												<Badge className="bg-primary/10 text-primary" key={tech} variant="secondary">
 													{tech}
 												</Badge>
 											))}

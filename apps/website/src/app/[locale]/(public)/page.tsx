@@ -3,7 +3,7 @@ import { ConsultancySection, CtaSection, CustomDevSection, HeroSection, ToolsSec
 
 export default function LandingPage() {
 	return (
-		<div className="min-h-screen">
+		<div className="min-h-screen bg-background">
 			<HeroSection />
 			<ConsultancySection />
 			<ToolsSection />
