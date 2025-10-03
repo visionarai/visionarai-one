@@ -1,7 +1,110 @@
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+
+export default async function AuthLayout({ children }: { children: React.ReactNode }) {
+	const t = await getTranslations();
+	const brandName = t("Navigation.logo");
+	const headline = t("LandingPage.hero.headline");
+	const subheadline = t("LandingPage.hero.subheadline");
+
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-center bg-background">
-			<section className="w-full max-w-1/2 rounded-lg bg-card p-8 shadow-md">{children}</section>
+		<div className="flex min-h-screen flex-col md:flex-row">
+			{/* Left Panel - Branding */}
+			<aside className="relative hidden w-full bg-gradient-to-br from-primary/10 via-primary/5 to-background md:flex md:w-1/2 lg:w-2/5">
+				<div className="flex flex-col justify-between p-8 lg:p-12">
+					{/* Logo */}
+					<Link className="group inline-flex items-center gap-2 font-bold text-2xl transition-opacity hover:opacity-80" href="/">
+						<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-transform group-hover:scale-105">
+							<svg
+								aria-label="Vision icon"
+								className="h-6 w-6"
+								fill="none"
+								role="img"
+								stroke="currentColor"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth="2"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<title>Vision icon</title>
+								<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+								<circle cx="12" cy="12" r="3" />
+							</svg>
+						</div>
+						<span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">{brandName}</span>
+					</Link>
+
+					{/* Hero Content */}
+					<div className="space-y-6">
+						<div className="space-y-4">
+							<h1 className="font-bold text-3xl leading-tight tracking-tight lg:text-4xl">{headline}</h1>
+							<p className="text-base text-muted-foreground lg:text-lg">{subheadline}</p>
+						</div>
+
+						{/* Decorative Elements */}
+						<div className="flex items-center gap-4 pt-8">
+							<div className="-space-x-2 flex">
+								<div className="h-10 w-10 rounded-full border-2 border-background bg-primary/20" />
+								<div className="h-10 w-10 rounded-full border-2 border-background bg-primary/40" />
+								<div className="h-10 w-10 rounded-full border-2 border-background bg-primary/60" />
+							</div>
+							<p className="text-muted-foreground text-sm">Join innovators building the future</p>
+						</div>
+					</div>
+
+					{/* Footer Quote */}
+					<div className="border-primary/30 border-l-2 pl-4">
+						<p className="text-muted-foreground text-sm italic">"Transform your ideas into AI-powered reality"</p>
+					</div>
+				</div>
+
+				{/* Background Pattern */}
+				<div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.02]" />
+			</aside>
+
+			{/* Right Panel - Form Content */}
+			<main className="flex w-full flex-col items-center justify-center bg-background p-4 md:w-1/2 md:p-8 lg:w-3/5">
+				{/* Mobile Logo */}
+				<Link className="mb-8 inline-flex items-center gap-2 font-bold text-xl md:hidden" href="/">
+					<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+						<svg
+							aria-label="Vision icon"
+							className="h-5 w-5"
+							fill="none"
+							role="img"
+							stroke="currentColor"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth="2"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<title>Vision icon</title>
+							<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+							<circle cx="12" cy="12" r="3" />
+						</svg>
+					</div>
+					<span>{brandName}</span>
+				</Link>
+
+				{/* Form Container */}
+				<div className="w-full max-w-md space-y-6">{children}</div>
+
+				{/* Footer Links */}
+				<footer className="mt-8 text-center text-muted-foreground text-sm">
+					<p>
+						By continuing, you agree to our{" "}
+						<Link className="underline hover:text-foreground" href="/terms">
+							Terms of Service
+						</Link>{" "}
+						and{" "}
+						<Link className="underline hover:text-foreground" href="/privacy">
+							Privacy Policy
+						</Link>
+					</p>
+				</footer>
+			</main>
 		</div>
 	);
 }
