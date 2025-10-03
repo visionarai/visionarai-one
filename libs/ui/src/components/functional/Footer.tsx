@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 export async function Footer() {
 	const t = await getTranslations("Footer");
 	return (
-		<footer className="mt-auto flex w-full flex-col items-center gap-2 border-border border-t bg-background/80 px-6 py-6 backdrop-blur">
+		<footer className="flex w-full flex-col items-center gap-2 border-border border-t bg-background/80 px-6 py-6 backdrop-blur">
 			<Link
 				className="rounded bg-primary px-4 py-2 font-semibold text-primary-foreground text-sm transition-colors hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 				href="/#contact"

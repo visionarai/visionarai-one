@@ -30,19 +30,6 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 				</head>
 			)}
 			<body className="bg-background text-foreground">
-				{isDev && (
-					<script
-						dangerouslySetInnerHTML={{
-							__html: `
-              window.__NEXT_INTL_DEV_TOOLS = {
-                enabled: true,
-                locales: ${JSON.stringify(routing.locales)},
-                defaultLocale: ${JSON.stringify(routing.defaultLocale)},
-              };
-            `,
-						}}
-					/>
-				)}
 				<NextIntlClientProvider>
 					<ThemeProvider attribute="class" defaultTheme="system" disableTransitionOnChange enableSystem>
 						<NuqsAdapter>{children}</NuqsAdapter>

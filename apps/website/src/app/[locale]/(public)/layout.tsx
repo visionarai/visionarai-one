@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: We need this for dev tools */
 
-import { Footer, NavBar, Spinner } from "@visionarai-one/ui";
+import { NavBar, Spinner } from "@visionarai-one/ui";
 import { Home, Home as HomeSolid, Info, Info as InfoSolid, Star, Star as StarSolid } from "lucide-react";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
@@ -33,16 +33,15 @@ export default async function LocaleLayout({ children }: { children: React.React
 			title: t("about"),
 		},
 	];
-	const pathname = typeof window !== "undefined" ? window.location.pathname : "";
+
 	return (
-		<>
-			<NavBar appNavigationPath={appNavigationPath} appNavigationText={loginText} items={navItems} logoText={t("logo")} selectedPath={pathname}>
+		<div className="flex h-screen flex-col">
+			<NavBar appNavigationPath={appNavigationPath} appNavigationText={loginText} items={navItems} logoText={t("logo")}>
 				<Suspense fallback={<Spinner />}>
 					<LanguageSwitcher />
 				</Suspense>
 			</NavBar>
-			<main>{children}</main>
-			<Footer />
-		</>
+			<main className="flex-1">{children}</main>
+		</div>
 	);
 }

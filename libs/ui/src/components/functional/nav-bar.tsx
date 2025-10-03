@@ -15,21 +15,13 @@ export type NavigationItem = {
 
 type NavBarProps = {
 	items: NavigationItem[];
-	selectedPath?: string;
 	appNavigationText?: string;
 	appNavigationPath?: string;
 	logoText?: string;
 	children?: JSX.Element;
 };
 
-export function NavBar({
-	items,
-	selectedPath,
-	appNavigationText: loginText = "Login",
-	appNavigationPath = "/login",
-	logoText = "Visionar.Ai",
-	children,
-}: NavBarProps) {
+export function NavBar({ items, appNavigationText: loginText = "Login", appNavigationPath = "/login", logoText = "Visionar.Ai", children }: NavBarProps) {
 	return (
 		<nav className="sticky top-0 z-50 flex w-full items-center justify-between border-border border-b bg-background/80 px-6 py-3 backdrop-blur">
 			{/* Logo */}
@@ -40,7 +32,7 @@ export function NavBar({
 			{/* Navigation Links & Switchers */}
 			<div className="flex items-center gap-4">
 				{items.map((item) => {
-					const selected = selectedPath === item.path;
+					const selected = typeof window !== "undefined" && window.location.pathname === item.path;
 					return (
 						<Link
 							aria-current={selected ? "page" : undefined}

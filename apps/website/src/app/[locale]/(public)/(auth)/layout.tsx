@@ -1,14 +1,12 @@
+import { Eye } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
 	const t = await getTranslations();
-	const brandName = t("Navigation.logo");
-	const headline = t("LandingPage.hero.headline");
-	const subheadline = t("LandingPage.hero.subheadline");
 
 	return (
-		<div className="flex min-h-screen flex-col md:flex-row">
+		<div className="flex h-full flex-col bg-blue-100 md:flex-row">
 			{/* Left Panel - Branding */}
 			<aside className="relative hidden w-full bg-gradient-to-br from-primary/10 via-primary/5 to-background md:flex md:w-1/2 lg:w-2/5">
 				<div className="flex flex-col justify-between p-8 lg:p-12">
@@ -32,14 +30,14 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
 								<circle cx="12" cy="12" r="3" />
 							</svg>
 						</div>
-						<span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">{brandName}</span>
+						<span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">{t("Navigation.logo")}</span>
 					</Link>
 
 					{/* Hero Content */}
 					<div className="space-y-6">
 						<div className="space-y-4">
-							<h1 className="font-bold text-3xl leading-tight tracking-tight lg:text-4xl">{headline}</h1>
-							<p className="text-base text-muted-foreground lg:text-lg">{subheadline}</p>
+							<h1 className="font-bold text-3xl leading-tight tracking-tight lg:text-4xl">{t("LandingPage.hero.headline")}</h1>
+							<p className="text-base text-muted-foreground lg:text-lg">{t("LandingPage.hero.subheadline")}</p>
 						</div>
 
 						{/* Decorative Elements */}
@@ -64,32 +62,17 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
 			</aside>
 
 			{/* Right Panel - Form Content */}
-			<main className="flex w-full flex-col items-center justify-center bg-background p-4 md:w-1/2 md:p-8 lg:w-3/5">
+			<main className="flex h-full w-full flex-col items-center justify-center bg-background p-4 md:w-1/2 md:p-8 lg:w-3/5">
 				{/* Mobile Logo */}
 				<Link className="mb-8 inline-flex items-center gap-2 font-bold text-xl md:hidden" href="/">
 					<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-						<svg
-							aria-label="Vision icon"
-							className="h-5 w-5"
-							fill="none"
-							role="img"
-							stroke="currentColor"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth="2"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<title>Vision icon</title>
-							<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-							<circle cx="12" cy="12" r="3" />
-						</svg>
+						<Eye />
 					</div>
-					<span>{brandName}</span>
+					<span>{t("Navigation.logo")}</span>
 				</Link>
 
 				{/* Form Container */}
-				<div className="w-full max-w-md space-y-6">{children}</div>
+				<div className="w-full max-w-md">{children}</div>
 
 				{/* Footer Links */}
 				<footer className="mt-8 text-center text-muted-foreground text-sm">
