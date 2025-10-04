@@ -10,7 +10,7 @@ const withNextIntl = createNextIntlPlugin();
  */
 const nextConfig = {
 	nx: {},
-	output: "standalone",
+	// output: "standalone",
 	serverExternalPackages: ["pino", "pino-pretty"],
 };
 
