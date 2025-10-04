@@ -1,4 +1,4 @@
-// import { Footer } from "@visionarai-one/ui";
+import { Footer } from "@visionarai-one/ui";
 import { ConsultancySection, CtaSection, CustomDevSection, HeroSection, ToolsSection, WhyVisionSection } from "./_components";
 
 export default function LandingPage() {
@@ -10,7 +10,7 @@ export default function LandingPage() {
 			<CustomDevSection />
 			<WhyVisionSection />
 			<CtaSection />
-			{/* <Footer /> */}
+			<Footer />
 		</div>
 	);
 }
