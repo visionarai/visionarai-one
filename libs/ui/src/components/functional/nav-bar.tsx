@@ -22,9 +22,10 @@ type NavBarProps = {
 	appNavigationText?: string;
 	appNavigationPath?: string;
 	children?: JSX.Element;
+	hideAppNavigation?: boolean;
 };
 
-export function NavBar({ items, appNavigationText: loginText = "Login", appNavigationPath = "/login", children }: NavBarProps) {
+export function NavBar({ items, appNavigationText: loginText = "Login", appNavigationPath = "/login", children, hideAppNavigation = true }: NavBarProps) {
 	const pathname = usePathname();
 
 	return (
@@ -54,9 +55,11 @@ export function NavBar({ items, appNavigationText: loginText = "Login", appNavig
 
 			{/* Desktop Actions */}
 			<div className="hidden items-center gap-4 md:flex">
-				<Button asChild variant="secondary">
-					<Link href={appNavigationPath}>{loginText}</Link>
-				</Button>
+				{!hideAppNavigation && (
+					<Button asChild variant="secondary">
+						<Link href={appNavigationPath}>{loginText}</Link>
+					</Button>
+				)}
 				{children}
 				<ThemeSwitcher />
 			</div>
@@ -87,9 +90,11 @@ export function NavBar({ items, appNavigationText: loginText = "Login", appNavig
 								</DropdownMenuItem>
 							);
 						})}
-						<DropdownMenuItem asChild>
-							<Link href={appNavigationPath}>{loginText}</Link>
-						</DropdownMenuItem>
+						{!hideAppNavigation && (
+							<DropdownMenuItem asChild>
+								<Link href={appNavigationPath}>{loginText}</Link>
+							</DropdownMenuItem>
+						)}
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>

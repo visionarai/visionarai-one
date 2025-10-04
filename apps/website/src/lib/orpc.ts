@@ -3,6 +3,8 @@ import { RPCLink } from "@orpc/client/fetch";
 import type { RouterClient } from "@orpc/server";
 import type { AppRouter } from "@/router";
 
+const AUTH_FALLBACK_URL = process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
+
 const link = new RPCLink({
 	headers: async () => {
 		if (typeof window !== "undefined") {
@@ -12,7 +14,7 @@ const link = new RPCLink({
 		const { headers } = await import("next/headers");
 		return await headers();
 	},
-	url: `${typeof window !== "undefined" ? window.location.origin : "http://localhost:3000"}/rpc`,
+	url: `${typeof window !== "undefined" ? window.location.origin : AUTH_FALLBACK_URL}/rpc`,
 });
 
 /**

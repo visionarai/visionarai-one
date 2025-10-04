@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: We need this for dev tools */
 
 import { NavBar, Spinner } from "@visionarai-one/ui";
-import { BookOpen, Home, Info, Star } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
@@ -14,24 +14,6 @@ export default async function LocaleLayout({ children }: { children: React.React
 	const loginText = session?.user ? t("dashboard") : t("login");
 	const appNavigationPath = session?.user ? "/dashboard" : "/login";
 	const navItems = [
-		{
-			icon: <Star className="text-muted-foreground" size={16} />,
-			iconSelected: <Star className="text-primary-600" size={16} />,
-			path: "/",
-			title: t("features"),
-		},
-		{
-			icon: <Home className="text-muted-foreground" size={16} />,
-			iconSelected: <Home className="text-primary-600" size={16} />,
-			path: "/#pricing",
-			title: t("pricing"),
-		},
-		{
-			icon: <Info className="text-muted-foreground" size={16} />,
-			iconSelected: <Info className="text-primary-600" size={16} />,
-			path: "/about",
-			title: t("about"),
-		},
 		{
 			icon: <BookOpen className="text-muted-foreground" size={16} />,
 			iconSelected: <BookOpen className="text-primary-600" size={16} />,
