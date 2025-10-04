@@ -13,7 +13,7 @@
   "scripts": {
     "build:website": "nx run @visionarai-one/website:build",
     "run:website:prod": "node ./apps/website/.next/standalone/apps/website/server.js",
-    "serve": "yarn run build:website && yarn run run:website:prod",
+    "serve": "yarn run build:website && cp .env ./apps/website/.next/standalone/apps/website/.env && cp -rf ./apps/website/.next/static ./apps/website/.next/standalone/apps/website/.next/static && yarn run run:website:prod",
     "docker:up": "bash ./.scripts/all-docker.sh up",
     "docker:down": "bash ./.scripts/all-docker.sh down",
     "clean:all": "yarn clean:project && yarn clean:install",
