@@ -3,9 +3,10 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
+import { runtimeConfig } from "@/lib/runtime-conf";
 import { appLogger } from "./logger";
 
-const client = new MongoClient(process.env.MONGODB_URI as string);
+const client = new MongoClient(runtimeConfig.MONGODB_URI);
 const db = client.db();
 export const auth = betterAuth({
 	database: mongodbAdapter(db, {

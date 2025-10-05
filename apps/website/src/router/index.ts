@@ -12,6 +12,7 @@ import { createMongoDBConnector } from "@visionarai-one/connectors";
 import type { Connection } from "mongoose";
 import z from "zod";
 import { appLogger } from "@/lib/logger";
+import { runtimeConfig } from "@/lib/runtime-conf";
 
 const dbProviderMiddleware = os
 	.$context<{
@@ -20,7 +21,7 @@ const dbProviderMiddleware = os
 	}>()
 	.middleware(async ({ context, next }) => {
 		const databaseConnector = createMongoDBConnector(appLogger, {
-			uri: process.env.MONGODB_URI || "mongodb://localhost:27017/visionarai",
+			uri: runtimeConfig.MONGODB_URI,
 		});
 		await databaseConnector.connect();
 

@@ -7,6 +7,7 @@ import { setRequestLocale } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { routing } from "@/i18n/routing";
+import { runtimeConfig } from "@/lib/runtime-conf";
 export function generateStaticParams() {
 	return routing.locales.map((locale) => ({ locale }));
 }
@@ -18,13 +19,12 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 		notFound();
 	}
 
-	const isDev = process.env.NODE_ENV === "development";
 	// Enable static rendering
 	setRequestLocale(locale);
 
 	return (
 		<html lang={locale}>
-			{isDev && (
+			{runtimeConfig.isDev && (
 				<head>
 					<script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />
 				</head>
