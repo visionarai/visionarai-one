@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { auth } from "@/lib/auth";
+import { runtimeConfig } from "@/lib/runtime-conf";
 import { LanguageSwitcher } from "@/widgets/language-switcher";
 
 export default async function LocaleLayout({ children }: { children: React.ReactNode }) {
@@ -24,7 +25,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 
 	return (
 		<div className="flex h-screen flex-col">
-			<NavBar appNavigationPath={appNavigationPath} appNavigationText={loginText} items={navItems}>
+			<NavBar appNavigationPath={appNavigationPath} appNavigationText={loginText} hideAppNavigation={!runtimeConfig.DASHBOARD_FEATURE_ENABLED} items={navItems}>
 				<Suspense fallback={<Spinner size={32} />}>
 					<LanguageSwitcher />
 				</Suspense>

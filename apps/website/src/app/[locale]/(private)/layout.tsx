@@ -78,7 +78,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 				</SidebarHeader>
 				<SidebarContent>
 					<AppSidebarNavigation groupTitle={tLayout("privateArea")} navItems={privateRoutes} />
-					<AppSidebarNavigation groupTitle={tLayout("adminArea")} navItems={adminRoutes} />
+					{session?.user.role === "admin" && <AppSidebarNavigation groupTitle={tLayout("adminArea")} navItems={adminRoutes} />}
 				</SidebarContent>
 
 				<SidebarFooter>
