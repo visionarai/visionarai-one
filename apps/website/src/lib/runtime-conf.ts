@@ -1,4 +1,3 @@
-// Load config from environment variables using zod schemas and provide typesafe access to them with export runtimeConfig and log the missing variables on server start
 import { z } from "zod";
 
 const EnvSchema = z.object({
@@ -10,9 +9,11 @@ const EnvSchema = z.object({
 
 export type RuntimeConfig = z.infer<typeof EnvSchema> & {
 	isDev: boolean;
+	orpcUrl: string;
 };
 export function loadEnv(): RuntimeConfig {
 	const parsed = EnvSchema.safeParse(process.env);
+
 	if (!parsed.success) {
 		const errorMessages = formatValidationErrors(parsed.error);
 		throw new Error(errorMessages);
@@ -20,6 +21,7 @@ export function loadEnv(): RuntimeConfig {
 	return {
 		...parsed.data,
 		isDev: process.env.NODE_ENV === "development",
+		orpcUrl: `${parsed.data.BASE_URL}/rpc`,
 	};
 }
 

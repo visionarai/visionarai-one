@@ -2,7 +2,8 @@ import { createORPCClient, createSafeClient } from "@orpc/client";
 import { RPCLink } from "@orpc/client/fetch";
 import type { RouterClient } from "@orpc/server";
 import type { AppRouter } from "@/router";
-import { runtimeConfig } from "./runtime-conf";
+
+// import { runtimeConfig } from "./runtime-conf";
 
 const link = new RPCLink({
 	headers: async () => {
@@ -13,7 +14,13 @@ const link = new RPCLink({
 		const { headers } = await import("next/headers");
 		return await headers();
 	},
-	url: `${typeof window !== "undefined" ? window.location.origin : runtimeConfig.BASE_URL}/rpc`,
+	url: async () => {
+		if (typeof window !== "undefined") {
+			return `${window.location.origin}/rpc`;
+		}
+		const { runtimeConfig } = (await import("./runtime-conf")) as unknown as { runtimeConfig: { orpcUrl: string } };
+		return runtimeConfig.orpcUrl;
+	},
 });
 
 /**
