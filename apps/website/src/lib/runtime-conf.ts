@@ -36,6 +36,8 @@ export const booleanTransformSchema = z
 const EnvSchema = z.object({
 	BASE_URL: z.url().default("http://localhost:3000"),
 	DASHBOARD_FEATURE_ENABLED: booleanTransformSchema.default(false),
+	GITHUB_CLIENT_ID: z.string().min(1, "GITHUB_CLIENT_ID is required"),
+	GITHUB_CLIENT_SECRET: z.string().min(1, "GITHUB_CLIENT_SECRET is required"),
 	LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
 	MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
 	NODE_ENV: z.enum(["development", "production", "test"]).default("development"),

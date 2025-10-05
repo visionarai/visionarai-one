@@ -88,17 +88,11 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 						/>
 					))}
 					<div className="flex w-full gap-4">
-						<Button className="flex items-center justify-center gap-2" disabled={isLoading || form.formState.isSubmitting} type="submit" variant="default">
+						<Button className="flex-1" disabled={isLoading || form.formState.isSubmitting} type="submit" variant="default">
 							{submitButtonIcon}
 							{submitButtonText}
 						</Button>
-						<Button
-							className="flex items-center justify-center gap-2"
-							disabled={isLoading || form.formState.isSubmitting}
-							onClick={() => form.reset()}
-							type="button"
-							variant="secondary"
-						>
+						<Button className="flex-1" disabled={isLoading || form.formState.isSubmitting} onClick={() => form.reset()} type="button" variant="secondary">
 							{resetButtonIcon}
 							{resetButtonText}
 						</Button>

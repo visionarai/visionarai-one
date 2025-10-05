@@ -9,6 +9,9 @@ const withNextIntl = createNextIntlPlugin();
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  */
 const nextConfig = {
+	images: {
+		dangerouslyAllowSVG: true,
+	},
 	nx: {},
 	// output: "standalone",
 	serverExternalPackages: ["pino", "pino-pretty"],
