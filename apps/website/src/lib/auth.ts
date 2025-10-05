@@ -4,8 +4,9 @@ import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
 import { appLogger } from "./logger";
+import { runtimeConfig } from "./runtime-conf";
 
-const client = new MongoClient(process.env.MONGODB_URI as string);
+const client = new MongoClient(runtimeConfig.MONGODB_URI);
 const db = client.db();
 export const auth = betterAuth({
 	database: mongodbAdapter(db, {
@@ -22,6 +23,12 @@ export const auth = betterAuth({
 			// Include user.role in the cookie cache for middleware access
 			include: ["user.id", "user.email", "user.name", "user.role"],
 			maxAge: 60, // 1 minute
+		},
+	},
+	socialProviders: {
+		github: {
+			clientId: runtimeConfig.GITHUB_CLIENT_ID,
+			clientSecret: runtimeConfig.GITHUB_CLIENT_SECRET,
 		},
 	},
 });

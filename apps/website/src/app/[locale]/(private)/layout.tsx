@@ -10,7 +10,7 @@ import {
 	SidebarProvider,
 	TheyEyeOfVision,
 } from "@visionarai-one/ui";
-import { BrickWall, EyeIcon, Presentation } from "lucide-react";
+import { BrickWall, Database, EyeIcon, Presentation } from "lucide-react";
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
@@ -39,6 +39,12 @@ export default async function LocaleLayout({ children }: { children: React.React
 			iconSelected: <BrickWall strokeWidth={3} />,
 			path: "/master",
 			title: tLayout("routes.masterData"),
+		},
+		{
+			icon: <Database />,
+			iconSelected: <Database strokeWidth={3} />,
+			path: "/user-management",
+			title: tLayout("routes.userManagement"),
 		},
 	];
 

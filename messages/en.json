@@ -10,6 +10,8 @@
       "passwordLabel": "Password",
       "passwordPlaceholder": "Enter your password",
       "passwordDescription": "Your password must be at least 6 characters long.",
+      "signInWithGitHub": "Sign in with GitHub",
+      "signInWithGmail": "Sign in with Gmail",
       "forgotPassword": "Forgot password?",
       "submit": "Sign in",
       "noAccount": "Don't have an account?",
