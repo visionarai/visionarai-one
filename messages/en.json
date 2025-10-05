@@ -1,52 +1,56 @@
 {
   "Auth": {
     "login": {
-      "title": "Welcome back",
-      "subtitle": "Sign in to your account to continue",
-      "emailLabel": "Email",
-      "emailPlaceholder": "Enter your email",
       "emailDescription": "We will never share your email with anyone else.",
       "emailError": "Invalid email address",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter your email",
+      "forgotPassword": "Forgot password?",
+      "loadingMessage": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "passwordDescription": "Your password must be at least 6 characters long.",
       "passwordLabel": "Password",
       "passwordPlaceholder": "Enter your password",
-      "passwordDescription": "Your password must be at least 6 characters long.",
+      "registerLink": "Create one now",
       "signInWithGitHub": "Sign in with GitHub",
       "signInWithGmail": "Sign in with Gmail",
-      "forgotPassword": "Forgot password?",
       "submit": "Sign in",
-      "noAccount": "Don't have an account?",
-      "registerLink": "Create one now",
-      "loadingMessage": "Signing in...",
-      "successMessage": "Welcome back!"
-    },
-    "register": {
-      "title": "Create your account",
-      "subtitle": "Get started with your AI journey today",
-      "nameLabel": "Full Name",
-      "namePlaceholder": "John Doe",
-      "nameMinError": "Name must be at least 2 characters",
-      "nameMaxError": "Name must be less than 100 characters",
-      "emailLabel": "Email",
-      "emailPlaceholder": "name@example.com",
-      "emailError": "Please enter a valid email address",
-      "passwordLabel": "Password",
-      "passwordPlaceholder": "Create a strong password",
-      "confirmPasswordLabel": "Confirm Password",
-      "confirmPasswordPlaceholder": "Re-enter your password",
-      "passwordMismatchError": "Passwords do not match",
-      "submit": "Create account",
-      "haveAccount": "Already have an account?",
-      "loginLink": "Sign in",
-      "loadingMessage": "Creating your account...",
-      "successMessage": "Account created successfully!"
+      "subtitle": "Sign in to your account to continue",
+      "successMessage": "Welcome back!",
+      "title": "Welcome back"
     },
     "passwordRequirements": {
-      "minLength": "Password must be at least 6 characters long",
-      "maxLength": "Password must be at most 100 characters long",
       "hasNumber": "Password must contain at least one number",
       "hasSpecialChar": "Password must contain at least one special character (e.g. !@#$%^&*)",
-      "hasUpperCase": "Password must contain at least one uppercase letter"
+      "hasUpperCase": "Password must contain at least one uppercase letter",
+      "maxLength": "Password must be at most 100 characters long",
+      "minLength": "Password must be at least 6 characters long"
+    },
+    "register": {
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Re-enter your password",
+      "emailError": "Please enter a valid email address",
+      "emailLabel": "Email",
+      "emailPlaceholder": "name@example.com",
+      "haveAccount": "Already have an account?",
+      "loadingMessage": "Creating your account...",
+      "loginLink": "Sign in",
+      "nameLabel": "Full Name",
+      "nameMaxError": "Name must be less than 100 characters",
+      "nameMinError": "Name must be at least 2 characters",
+      "namePlaceholder": "John Doe",
+      "passwordLabel": "Password",
+      "passwordMismatchError": "Passwords do not match",
+      "passwordPlaceholder": "Create a strong password",
+      "submit": "Create account",
+      "subtitle": "Get started with your AI journey today",
+      "successMessage": "Account created successfully!",
+      "title": "Create your account"
     }
+  },
+  "BlogPage": {
+    "comingSoonBody": "We're building helpful posts, tutorials, and updates. Check back soon!",
+    "comingSoonTitle": "Blog coming soon"
   },
   "Footer": {
     "company": "Vision One",
@@ -60,107 +64,130 @@
     "rights": "All rights reserved."
   },
   "LandingPage": {
-    "hero": {
-      "headline": "AI for Visionaries",
-      "subheadline": "Turn tomorrow's ideas into today's products",
-      "primaryCta": "Start Your AI Journey",
-      "secondaryCta": "See Our Tools"
-    },
     "consultancy": {
-      "title": "AI Consultancy",
-      "description": "From ideation to execution, we map AI to your business model, identifying the tools, agents and automations."
-    },
-    "tools": {
-      "title": "Tools Suite",
-      "description": "Our proprietary AI tools let you prototype, market, and scale—no coding required.",
-      "items": {
-        "validate-ideas": {
-          "title": "Validate Product Ideas",
-          "description": "Test your concept with AI-powered market analysis and user insights."
-        },
-        "conduct-research": {
-          "title": "Conduct Research",
-          "description": "Deep dive into market trends, competitors, and opportunities."
-        },
-        "prototype": {
-          "title": "Rapid Prototyping",
-          "description": "Build working prototypes in days, not months."
-        },
-        "market": {
-          "title": "Market & Scale",
-          "description": "Launch and grow with AI-driven marketing automation."
-        }
-      }
-    },
-    "customDev": {
-      "title": "Custom Development",
-      "description": "We build bespoke AI solutions that fit your vision, on time and on budget.",
-      "projects": {
-        "saas-platform": {
-          "title": "SaaS Platform",
-          "description": "End-to-end AI-powered SaaS solution"
-        },
-        "automation": {
-          "title": "Business Automation",
-          "description": "Intelligent workflow automation systems"
-        },
-        "chatbot": {
-          "title": "AI Chatbot",
-          "description": "Custom conversational AI for your business"
-        }
-      }
-    },
-    "why": {
-      "title": "Why Vision.ai?",
-      "benefits": {
-        "experience": {
-          "title": "Day to Day Experience First Hand",
-          "description": "We don't just consult—we build and iterate with you, daily."
-        },
-        "turnkey": {
-          "title": "Turnkey Consulting + Hands‑on Coaching",
-          "description": "Complete solutions with guidance every step of the way."
-        },
-        "speed": {
-          "title": "2‑week MVP Turnaround",
-          "description": "From concept to working prototype in just two weeks."
-        }
-      }
+      "description": "From ideation to execution, we map AI to your business model, identifying the tools, agents and automations.",
+      "title": "AI Consultancy"
     },
     "cta": {
-      "title": "Ready to Build Tomorrow?",
       "primaryCta": "Book a Free 30‑min Call",
-      "secondaryCta": "Start a Free Trial"
+      "secondaryCta": "Start a Free Trial",
+      "title": "Ready to Build Tomorrow?"
+    },
+    "customDev": {
+      "description": "We build bespoke AI solutions that fit your vision, on time and on budget.",
+      "projects": {
+        "automation": {
+          "description": "Intelligent workflow automation systems",
+          "title": "Business Automation"
+        },
+        "chatbot": {
+          "description": "Custom conversational AI for your business",
+          "title": "AI Chatbot"
+        },
+        "saas-platform": {
+          "description": "End-to-end AI-powered SaaS solution",
+          "title": "SaaS Platform"
+        }
+      },
+      "title": "Custom Development"
+    },
+    "hero": {
+      "headline": "AI for Visionaries",
+      "primaryCta": "Start Your AI Journey",
+      "secondaryCta": "See Our Tools",
+      "subheadline": "Turn tomorrow's ideas into today's products"
+    },
+    "tools": {
+      "description": "Our proprietary AI tools let you prototype, market, and scale—no coding required.",
+      "items": {
+        "conduct-research": {
+          "description": "Deep dive into market trends, competitors, and opportunities.",
+          "title": "Conduct Research"
+        },
+        "market": {
+          "description": "Launch and grow with AI-driven marketing automation.",
+          "title": "Market & Scale"
+        },
+        "prototype": {
+          "description": "Build working prototypes in days, not months.",
+          "title": "Rapid Prototyping"
+        },
+        "validate-ideas": {
+          "description": "Test your concept with AI-powered market analysis and user insights.",
+          "title": "Validate Product Ideas"
+        }
+      },
+      "title": "Tools Suite"
+    },
+    "why": {
+      "benefits": {
+        "experience": {
+          "description": "We don't just consult—we build and iterate with you, daily.",
+          "title": "Day to Day Experience First Hand"
+        },
+        "speed": {
+          "description": "From concept to working prototype in just two weeks.",
+          "title": "2‑week MVP Turnaround"
+        },
+        "turnkey": {
+          "description": "Complete solutions with guidance every step of the way.",
+          "title": "Turnkey Consulting + Hands‑on Coaching"
+        }
+      },
+      "title": "Why Vision.ai?"
+    }
+  },
+  "MasterData": {
+    "attributes": {
+      "addAttribute": "Add attribute",
+      "heading": "Attributes",
+      "keyLabel": "Attribute key",
+      "keyPlaceholder": "Key (e.g. ownerId)",
+      "removeAttribute": "Remove attribute",
+      "typeLabel": "Type"
+    },
+    "common": {
+      "emptyHint": "No items added yet."
+    },
+    "page": {
+      "addEnvironmentAttribute": "Add environment attribute",
+      "addResource": "Add resource",
+      "configureAttributesText": "Configure attributes and permissions",
+      "environmentAttributeItemAriaLabel": "Environment Attribute {index}",
+      "environmentAttributes": "Environment Attributes",
+      "environmentDescriptionText": "Global attributes available across all resources",
+      "environmentEmptyDescription": "Environment attributes are global settings that apply across your entire system.",
+      "noEnvironmentAttributesTitle": "No environment attributes",
+      "noResources": "No resources configured yet.",
+      "removeEnvironmentAttribute": "Remove environment attribute",
+      "removeResource": "Remove resource",
+      "resourceEmptyDescription": "Resources define the data types in your system. Start by adding your first resource.",
+      "resourceItemAriaLabel": "Resource {index}",
+      "resourceNameLabel": "Resource name",
+      "resourceNamePlaceholder": "e.g. documents",
+      "resources": "Resources",
+      "savingText": "Saving...",
+      "submit": "Save changes",
+      "subtitle": "Define resources, their attributes and available permissions.",
+      "title": "Master Data",
+      "unsaved-changes": "Unsaved Changes",
+      "updateSuccess": "Master data updated successfully"
+    },
+    "permissions": {
+      "addPermission": "Add permission",
+      "heading": "Permissions",
+      "removePermission": "Remove"
     }
   },
   "Navigation": {
     "about": "About",
+    "admin": "Admin",
+    "blog": "Blog",
+    "dashboard": "Dashboard",
     "features": "Features",
     "login": "Login",
     "logo": "Visionar.Ai",
-    "pricing": "Pricing",
-    "blog": "Blog",
-    "admin": "Admin",
-    "dashboard": "Dashboard"
-  },
-
-  "BlogPage": {
-    "comingSoonTitle": "Blog coming soon",
-    "comingSoonBody": "We're building helpful posts, tutorials, and updates. Check back soon!"
-  },
-  "PrivateLayout": {
-    "enterprise": "Enterprise",
-    "privateArea": "Private Area",
-    "adminArea": "Admin Area",
-    "routes": {
-      "policies": "Policies",
-      "masterData": "Master Data",
-      "dashboard": "Dashboard"
-    },
-    "userFallback": {
-      "email": "Email",
-      "name": "Name"
-    }
+    "pricing": "Pricing"
   },
   "NotFound": {
     "backButton": "Go Back",
@@ -170,69 +197,25 @@
     "subtitle": "404",
     "title": "Page Not Found"
   },
-  "MasterData": {
-    "page": {
-      "title": "Master Data",
-      "resources": "Resources",
-      "subtitle": "Define resources, their attributes and available permissions.",
-      "addResource": "Add resource",
-      "resourceNameLabel": "Resource name",
-      "resourceNamePlaceholder": "e.g. documents",
-      "removeResource": "Remove resource",
-      "submit": "Save changes",
-      "noResources": "No resources configured yet.",
-      "resourceEmptyDescription": "Resources define the data types in your system. Start by adding your first resource.",
-      "configureAttributesText": "Configure attributes and permissions",
-      "unsaved-changes": "Unsaved Changes",
-      "environmentAttributes": "Environment Attributes",
-      "environmentDescriptionText": "Global attributes available across all resources",
-      "addEnvironmentAttribute": "Add environment attribute",
-      "removeEnvironmentAttribute": "Remove environment attribute",
-      "noEnvironmentAttributesTitle": "No environment attributes",
-      "environmentEmptyDescription": "Environment attributes are global settings that apply across your entire system.",
-      "savingText": "Saving...",
-      "updateSuccess": "Master data updated successfully",
-      "resourceItemAriaLabel": "Resource {index}",
-      "environmentAttributeItemAriaLabel": "Environment Attribute {index}"
-    },
-    "attributes": {
-      "heading": "Attributes",
-      "addAttribute": "Add attribute",
-      "keyLabel": "Attribute key",
-      "keyPlaceholder": "Key (e.g. ownerId)",
-      "typeLabel": "Type",
-      "removeAttribute": "Remove attribute"
-    },
-    "permissions": {
-      "heading": "Permissions",
-      "addPermission": "Add permission",
-      "removePermission": "Remove"
-    },
-    "common": {
-      "emptyHint": "No items added yet."
-    }
-  },
   "PoliciesPage": {
-    "title": "Policies",
-    "subtitle": "Manage your policies and their permissions",
-    "permissionEditor": {
-      "title": "Edit Permission",
-      "description": "Configure the permission settings for this action. Changes will be applied to the policy.",
-      "breadcrumb": "Resource · Action",
-      "closeButton": "Close editor",
-      "editButton": "Edit permission for {action}",
-      "saveButton": "Save Changes",
-      "cancelButton": "Cancel"
+    "actions": {
+      "copyError": "We couldn't copy the policy ID",
+      "copyId": "Copy policy ID",
+      "copySuccess": "Policy ID copied to your clipboard",
+      "delete": {
+        "aria": "Delete policy",
+        "cancel": "Keep policy",
+        "confirm": "Delete policy",
+        "description": "Deleting a policy cannot be undone. Make sure it's no longer needed before continuing.",
+        "pending": "Policy deletion will be available soon.",
+        "title": "Delete this policy?"
+      },
+      "toggleDetails": "Toggle policy details"
     },
-    "summary": {
-      "title": "Snapshot",
-      "caption": "{actions, plural, =0 {No actions configured yet.} =1 {Tracking {actions} action across all policies.} other {Tracking {actions} actions across all policies.}}",
-      "metrics": {
-        "policies": {
-          "label": "Policies",
-          "description": "{count, plural, =0 {No policies created yet.} =1 {One policy in place.} other {{count} policies in place.}}"
-        }
-      }
+    "empty": {
+      "action": "Create your first policy",
+      "description": "Policies let you define what actions people can take on your resources. Start by creating your first policy.",
+      "title": "You're ready to create your first policy"
     },
     "errors": {
       "genericTitle": "We couldn't load everything",
@@ -240,47 +223,64 @@
       "policies": "Policies couldn't be loaded right now."
     },
     "loading": {
+      "hint": "Hang tight while we fetch the latest information.",
       "masterData": "Loading master data…",
-      "policies": "Loading policies…",
-      "hint": "Hang tight while we fetch the latest information."
+      "policies": "Loading policies…"
     },
-    "empty": {
-      "title": "You're ready to create your first policy",
-      "description": "Policies let you define what actions people can take on your resources. Start by creating your first policy.",
-      "action": "Create your first policy"
+    "permissionEditor": {
+      "breadcrumb": "Resource · Action",
+      "cancelButton": "Cancel",
+      "closeButton": "Close editor",
+      "description": "Configure the permission settings for this action. Changes will be applied to the policy.",
+      "editButton": "Edit permission for {action}",
+      "saveButton": "Save Changes",
+      "title": "Edit Permission"
     },
     "policy": {
-      "missingDescription": "No description provided.",
-      "version": "Version {version}",
-      "updated": "Last updated {updatedAt}",
       "meta": {
-        "resources": "{count, plural, =0 {No resources yet} =1 {# resource} other {# resources}}",
-        "actions": "{count, plural, =0 {No actions configured} =1 {# action configured} other {# actions configured}}"
-      }
+        "actions": "{count, plural, =0 {No actions configured} =1 {# action configured} other {# actions configured}}",
+        "resources": "{count, plural, =0 {No resources yet} =1 {# resource} other {# resources}}"
+      },
+      "missingDescription": "No description provided.",
+      "updated": "Last updated {updatedAt}",
+      "version": "Version {version}"
+    },
+    "subtitle": "Manage your policies and their permissions",
+    "summary": {
+      "caption": "{actions, plural, =0 {No actions configured yet.} =1 {Tracking {actions} action across all policies.} other {Tracking {actions} actions across all policies.}}",
+      "metrics": {
+        "policies": {
+          "description": "{count, plural, =0 {No policies created yet.} =1 {One policy in place.} other {{count} policies in place.}}",
+          "label": "Policies"
+        }
+      },
+      "title": "Snapshot"
     },
     "table": {
+      "actionsCount": "{count, plural, =0 {No actions} =1 {# action} other {# actions}}",
       "headers": {
         "action": "Action",
-        "decision": "Decision",
+        "actions": "Actions",
         "condition": "Condition",
-        "actions": "Actions"
+        "decision": "Decision"
       },
-      "noResources": "No resources defined in this policy yet.",
-      "actionsCount": "{count, plural, =0 {No actions} =1 {# action} other {# actions}}"
+      "noResources": "No resources defined in this policy yet."
     },
-    "actions": {
-      "toggleDetails": "Toggle policy details",
-      "copyId": "Copy policy ID",
-      "copySuccess": "Policy ID copied to your clipboard",
-      "copyError": "We couldn't copy the policy ID",
-      "delete": {
-        "aria": "Delete policy",
-        "title": "Delete this policy?",
-        "description": "Deleting a policy cannot be undone. Make sure it's no longer needed before continuing.",
-        "confirm": "Delete policy",
-        "cancel": "Keep policy",
-        "pending": "Policy deletion will be available soon."
-      }
+    "title": "Policies"
+  },
+  "PrivateLayout": {
+    "adminArea": "Admin Area",
+    "enterprise": "Enterprise",
+    "privateArea": "Private Area",
+    "routes": {
+      "dashboard": "Dashboard",
+      "masterData": "Master Data",
+      "policies": "Policies",
+      "userManagement": "User Management"
+    },
+    "userFallback": {
+      "email": "Email",
+      "name": "Name"
     }
   }
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
 import { cn } from "@visionarai-one/utils";
 import type * as React from "react";

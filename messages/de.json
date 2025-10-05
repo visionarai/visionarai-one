@@ -1,52 +1,56 @@
 {
   "Auth": {
     "login": {
-      "title": "Willkommen zurück",
-      "subtitle": "Melden Sie sich an, um fortzufahren",
-      "emailLabel": "E-Mail",
-      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
       "emailDescription": "Wir werden Ihre E-Mail-Adresse niemals mit Dritten teilen.",
       "emailError": "Ungültige E-Mail-Adresse",
+      "emailLabel": "E-Mail",
+      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+      "forgotPassword": "Passwort vergessen?",
+      "loadingMessage": "Anmeldung läuft...",
+      "noAccount": "Noch kein Konto?",
+      "passwordDescription": "Ihr Passwort muss mindestens 6 Zeichen lang sein.",
       "passwordLabel": "Passwort",
       "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
-      "passwordDescription": "Ihr Passwort muss mindestens 6 Zeichen lang sein.",
+      "registerLink": "Jetzt erstellen",
       "signInWithGitHub": "Mit GitHub anmelden",
       "signInWithGmail": "Mit Gmail anmelden",
-      "forgotPassword": "Passwort vergessen?",
       "submit": "Anmelden",
-      "noAccount": "Noch kein Konto?",
-      "registerLink": "Jetzt erstellen",
-      "loadingMessage": "Anmeldung läuft...",
-      "successMessage": "Willkommen zurück!"
-    },
-    "register": {
-      "title": "Konto erstellen",
-      "subtitle": "Starten Sie noch heute Ihre KI-Reise",
-      "nameLabel": "Vollständiger Name",
-      "namePlaceholder": "Max Mustermann",
-      "nameMinError": "Der Name muss mindestens 2 Zeichen lang sein",
-      "nameMaxError": "Der Name darf maximal 100 Zeichen lang sein",
-      "emailLabel": "E-Mail",
-      "emailPlaceholder": "name@beispiel.de",
-      "emailError": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
-      "passwordLabel": "Passwort",
-      "passwordPlaceholder": "Erstellen Sie ein sicheres Passwort",
-      "confirmPasswordLabel": "Passwort bestätigen",
-      "confirmPasswordPlaceholder": "Geben Sie Ihr Passwort erneut ein",
-      "passwordMismatchError": "Passwörter stimmen nicht überein",
-      "submit": "Konto erstellen",
-      "haveAccount": "Bereits ein Konto?",
-      "loginLink": "Anmelden",
-      "loadingMessage": "Konto wird erstellt...",
-      "successMessage": "Konto erfolgreich erstellt!"
+      "subtitle": "Melden Sie sich an, um fortzufahren",
+      "successMessage": "Willkommen zurück!",
+      "title": "Willkommen zurück"
     },
     "passwordRequirements": {
-      "minLength": "Das Passwort muss mindestens 6 Zeichen lang sein",
-      "maxLength": "Das Passwort darf höchstens 100 Zeichen lang sein",
       "hasNumber": "Das Passwort muss mindestens eine Zahl enthalten",
       "hasSpecialChar": "Das Passwort muss mindestens ein Sonderzeichen enthalten (e.g. !@#$%^&*)",
-      "hasUpperCase": "Das Passwort muss mindestens einen Großbuchstaben enthalten"
+      "hasUpperCase": "Das Passwort muss mindestens einen Großbuchstaben enthalten",
+      "maxLength": "Das Passwort darf höchstens 100 Zeichen lang sein",
+      "minLength": "Das Passwort muss mindestens 6 Zeichen lang sein"
+    },
+    "register": {
+      "confirmPasswordLabel": "Passwort bestätigen",
+      "confirmPasswordPlaceholder": "Geben Sie Ihr Passwort erneut ein",
+      "emailError": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "emailLabel": "E-Mail",
+      "emailPlaceholder": "name@beispiel.de",
+      "haveAccount": "Bereits ein Konto?",
+      "loadingMessage": "Konto wird erstellt...",
+      "loginLink": "Anmelden",
+      "nameLabel": "Vollständiger Name",
+      "nameMaxError": "Der Name darf maximal 100 Zeichen lang sein",
+      "nameMinError": "Der Name muss mindestens 2 Zeichen lang sein",
+      "namePlaceholder": "Max Mustermann",
+      "passwordLabel": "Passwort",
+      "passwordMismatchError": "Passwörter stimmen nicht überein",
+      "passwordPlaceholder": "Erstellen Sie ein sicheres Passwort",
+      "submit": "Konto erstellen",
+      "subtitle": "Starten Sie noch heute Ihre KI-Reise",
+      "successMessage": "Konto erfolgreich erstellt!",
+      "title": "Konto erstellen"
     }
+  },
+  "BlogPage": {
+    "comingSoonBody": "Wir arbeiten an hilfreichen Beiträgen, Tutorials und Neuigkeiten. Schau bald wieder vorbei!",
+    "comingSoonTitle": "Blog bald verfügbar"
   },
   "Footer": {
     "company": "Vision One",
@@ -59,34 +63,131 @@
     },
     "rights": "Alle Rechte vorbehalten."
   },
+  "LandingPage": {
+    "consultancy": {
+      "description": "Von der Ideenfindung bis zur Umsetzung ordnen wir KI Ihrem Geschäftsmodell zu und identifizieren die Tools, Agenten und Automatisierungen.",
+      "title": "KI-Beratung"
+    },
+    "cta": {
+      "primaryCta": "Kostenloses 30-Min-Gespräch buchen",
+      "secondaryCta": "Kostenlose Testversion starten",
+      "title": "Bereit, die Zukunft zu gestalten?"
+    },
+    "customDev": {
+      "description": "Wir entwickeln maßgeschneiderte KI-Lösungen, die zu Ihrer Vision passen, pünktlich und im Budget.",
+      "projects": {
+        "automation": {
+          "description": "Intelligente Workflow-Automatisierungssysteme",
+          "title": "Geschäftsautomatisierung"
+        },
+        "chatbot": {
+          "description": "Maßgeschneiderte konversationelle KI für Ihr Unternehmen",
+          "title": "KI-Chatbot"
+        },
+        "saas-platform": {
+          "description": "End-to-End KI-gestützte SaaS-Lösung",
+          "title": "SaaS-Plattform"
+        }
+      },
+      "title": "Individuelle Entwicklung"
+    },
+    "hero": {
+      "headline": "KI für Visionäre",
+      "primaryCta": "Starten Sie Ihre KI-Reise",
+      "secondaryCta": "Unsere Tools ansehen",
+      "subheadline": "Verwandeln Sie die Ideen von morgen in die Produkte von heute"
+    },
+    "tools": {
+      "description": "Unsere proprietären KI-Tools ermöglichen es Ihnen, Prototypen zu erstellen, zu vermarkten und zu skalieren—ohne Programmierung.",
+      "items": {
+        "conduct-research": {
+          "description": "Tiefgehende Einblicke in Markttrends, Wettbewerber und Chancen.",
+          "title": "Recherche durchführen"
+        },
+        "market": {
+          "description": "Starten und wachsen Sie mit KI-gestützter Marketing-Automatisierung.",
+          "title": "Vermarkten & Skalieren"
+        },
+        "prototype": {
+          "description": "Erstellen Sie funktionsfähige Prototypen in Tagen, nicht Monaten.",
+          "title": "Schnelles Prototyping"
+        },
+        "validate-ideas": {
+          "description": "Testen Sie Ihr Konzept mit KI-gestützter Marktanalyse und Nutzererkenntnissen.",
+          "title": "Produktideen validieren"
+        }
+      },
+      "title": "Tools-Suite"
+    },
+    "why": {
+      "benefits": {
+        "experience": {
+          "description": "Wir beraten nicht nur—wir entwickeln und iterieren täglich mit Ihnen.",
+          "title": "Tägliche praktische Erfahrung"
+        },
+        "speed": {
+          "description": "Vom Konzept zum funktionierenden Prototyp in nur zwei Wochen.",
+          "title": "2-Wochen MVP-Umsetzung"
+        },
+        "turnkey": {
+          "description": "Komplettlösungen mit Anleitung in jedem Schritt.",
+          "title": "Komplettberatung + Praktisches Coaching"
+        }
+      },
+      "title": "Warum Vision.ai?"
+    }
+  },
+  "MasterData": {
+    "attributes": {
+      "addAttribute": "Attribut hinzufügen",
+      "heading": "Attribute",
+      "keyLabel": "Attribut-Schlüssel",
+      "keyPlaceholder": "Schlüssel (z.B. ownerId)",
+      "removeAttribute": "Attribut entfernen",
+      "typeLabel": "Typ"
+    },
+    "common": {
+      "emptyHint": "Noch keine Einträge hinzugefügt."
+    },
+    "page": {
+      "addEnvironmentAttribute": "Umgebungsattribut hinzufügen",
+      "addResource": "Ressource hinzufügen",
+      "configureAttributesText": "Attribute und Berechtigungen konfigurieren",
+      "environmentAttributeItemAriaLabel": "Umgebungsattribut {index}",
+      "environmentAttributes": "Umgebungsattribute",
+      "environmentDescriptionText": "Globale Attribute, die für alle Ressourcen verfügbar sind",
+      "environmentEmptyDescription": "Umgebungsattribute sind globale Einstellungen, die für Ihr gesamtes System gelten.",
+      "noEnvironmentAttributesTitle": "Keine Umgebungsattribute",
+      "noResources": "Noch keine Ressourcen konfiguriert.",
+      "removeEnvironmentAttribute": "Umgebungsattribut entfernen",
+      "removeResource": "Ressource entfernen",
+      "resourceEmptyDescription": "Ressourcen definieren die Datentypen in Ihrem System. Fügen Sie zunächst Ihre erste Ressource hinzu.",
+      "resourceItemAriaLabel": "Ressource {index}",
+      "resourceNameLabel": "Ressourcenname",
+      "resourceNamePlaceholder": "z.B. dokumente",
+      "resources": "Ressourcen",
+      "savingText": "Speichern...",
+      "submit": "Änderungen speichern",
+      "subtitle": "Definieren Sie Ressourcen, deren Attribute und verfügbare Berechtigungen.",
+      "title": "Stammdaten",
+      "unsaved-changes": "Nicht gespeicherte Änderungen",
+      "updateSuccess": "Stammdaten erfolgreich aktualisiert"
+    },
+    "permissions": {
+      "addPermission": "Berechtigung hinzufügen",
+      "heading": "Berechtigungen",
+      "removePermission": "Entfernen"
+    }
+  },
   "Navigation": {
     "about": "Über uns",
+    "admin": "Admin",
+    "blog": "Blog",
+    "dashboard": "Dashboard",
     "features": "Funktionen",
     "login": "Anmelden",
     "logo": "Visionar.Ai",
-    "pricing": "Preise",
-    "blog": "Blog",
-    "admin": "Admin",
-    "dashboard": "Dashboard"
-  },
-
-  "BlogPage": {
-    "comingSoonTitle": "Blog bald verfügbar",
-    "comingSoonBody": "Wir arbeiten an hilfreichen Beiträgen, Tutorials und Neuigkeiten. Schau bald wieder vorbei!"
-  },
-  "PrivateLayout": {
-    "enterprise": "Enterprise",
-    "privateArea": "Privater Bereich",
-    "adminArea": "Admin-Bereich",
-    "routes": {
-      "policies": "Richtlinien",
-      "masterData": "Stammdaten",
-      "dashboard": "Dashboard"
-    },
-    "userFallback": {
-      "email": "E-Mail",
-      "name": "Name"
-    }
+    "pricing": "Preise"
   },
   "NotFound": {
     "backButton": "Zurück",
@@ -96,143 +197,25 @@
     "subtitle": "404",
     "title": "Seite nicht gefunden"
   },
-  "LandingPage": {
-    "hero": {
-      "headline": "KI für Visionäre",
-      "subheadline": "Verwandeln Sie die Ideen von morgen in die Produkte von heute",
-      "primaryCta": "Starten Sie Ihre KI-Reise",
-      "secondaryCta": "Unsere Tools ansehen"
-    },
-    "consultancy": {
-      "title": "KI-Beratung",
-      "description": "Von der Ideenfindung bis zur Umsetzung ordnen wir KI Ihrem Geschäftsmodell zu und identifizieren die Tools, Agenten und Automatisierungen."
-    },
-    "tools": {
-      "title": "Tools-Suite",
-      "description": "Unsere proprietären KI-Tools ermöglichen es Ihnen, Prototypen zu erstellen, zu vermarkten und zu skalieren—ohne Programmierung.",
-      "items": {
-        "validate-ideas": {
-          "title": "Produktideen validieren",
-          "description": "Testen Sie Ihr Konzept mit KI-gestützter Marktanalyse und Nutzererkenntnissen."
-        },
-        "conduct-research": {
-          "title": "Recherche durchführen",
-          "description": "Tiefgehende Einblicke in Markttrends, Wettbewerber und Chancen."
-        },
-        "prototype": {
-          "title": "Schnelles Prototyping",
-          "description": "Erstellen Sie funktionsfähige Prototypen in Tagen, nicht Monaten."
-        },
-        "market": {
-          "title": "Vermarkten & Skalieren",
-          "description": "Starten und wachsen Sie mit KI-gestützter Marketing-Automatisierung."
-        }
-      }
-    },
-    "customDev": {
-      "title": "Individuelle Entwicklung",
-      "description": "Wir entwickeln maßgeschneiderte KI-Lösungen, die zu Ihrer Vision passen, pünktlich und im Budget.",
-      "projects": {
-        "saas-platform": {
-          "title": "SaaS-Plattform",
-          "description": "End-to-End KI-gestützte SaaS-Lösung"
-        },
-        "automation": {
-          "title": "Geschäftsautomatisierung",
-          "description": "Intelligente Workflow-Automatisierungssysteme"
-        },
-        "chatbot": {
-          "title": "KI-Chatbot",
-          "description": "Maßgeschneiderte konversationelle KI für Ihr Unternehmen"
-        }
-      }
-    },
-    "why": {
-      "title": "Warum Vision.ai?",
-      "benefits": {
-        "experience": {
-          "title": "Tägliche praktische Erfahrung",
-          "description": "Wir beraten nicht nur—wir entwickeln und iterieren täglich mit Ihnen."
-        },
-        "turnkey": {
-          "title": "Komplettberatung + Praktisches Coaching",
-          "description": "Komplettlösungen mit Anleitung in jedem Schritt."
-        },
-        "speed": {
-          "title": "2-Wochen MVP-Umsetzung",
-          "description": "Vom Konzept zum funktionierenden Prototyp in nur zwei Wochen."
-        }
-      }
-    },
-    "cta": {
-      "title": "Bereit, die Zukunft zu gestalten?",
-      "primaryCta": "Kostenloses 30-Min-Gespräch buchen",
-      "secondaryCta": "Kostenlose Testversion starten"
-    }
-  },
-  "MasterData": {
-    "page": {
-      "title": "Stammdaten",
-      "resources": "Ressourcen",
-      "subtitle": "Definieren Sie Ressourcen, deren Attribute und verfügbare Berechtigungen.",
-      "addResource": "Ressource hinzufügen",
-      "resourceNameLabel": "Ressourcenname",
-      "resourceNamePlaceholder": "z.B. dokumente",
-      "removeResource": "Ressource entfernen",
-      "submit": "Änderungen speichern",
-      "noResources": "Noch keine Ressourcen konfiguriert.",
-      "resourceEmptyDescription": "Ressourcen definieren die Datentypen in Ihrem System. Fügen Sie zunächst Ihre erste Ressource hinzu.",
-      "configureAttributesText": "Attribute und Berechtigungen konfigurieren",
-      "unsaved-changes": "Nicht gespeicherte Änderungen",
-      "environmentAttributes": "Umgebungsattribute",
-      "environmentDescriptionText": "Globale Attribute, die für alle Ressourcen verfügbar sind",
-      "addEnvironmentAttribute": "Umgebungsattribut hinzufügen",
-      "removeEnvironmentAttribute": "Umgebungsattribut entfernen",
-      "noEnvironmentAttributesTitle": "Keine Umgebungsattribute",
-      "environmentEmptyDescription": "Umgebungsattribute sind globale Einstellungen, die für Ihr gesamtes System gelten.",
-      "savingText": "Speichern...",
-      "updateSuccess": "Stammdaten erfolgreich aktualisiert",
-      "resourceItemAriaLabel": "Ressource {index}",
-      "environmentAttributeItemAriaLabel": "Umgebungsattribut {index}"
-    },
-    "attributes": {
-      "heading": "Attribute",
-      "addAttribute": "Attribut hinzufügen",
-      "keyLabel": "Attribut-Schlüssel",
-      "keyPlaceholder": "Schlüssel (z.B. ownerId)",
-      "typeLabel": "Typ",
-      "removeAttribute": "Attribut entfernen"
-    },
-    "permissions": {
-      "heading": "Berechtigungen",
-      "addPermission": "Berechtigung hinzufügen",
-      "removePermission": "Entfernen"
-    },
-    "common": {
-      "emptyHint": "Noch keine Einträge hinzugefügt."
-    }
-  },
   "PoliciesPage": {
-    "title": "Richtlinien",
-    "subtitle": "Verwalten Sie Ihre Richtlinien und deren Berechtigungen",
-    "permissionEditor": {
-      "title": "Berechtigung bearbeiten",
-      "description": "Konfigurieren Sie die Berechtigungseinstellungen für diese Aktion. Änderungen werden auf die Richtlinie angewendet.",
-      "breadcrumb": "Ressource · Aktion",
-      "closeButton": "Editor schließen",
-      "editButton": "Berechtigung für {action} bearbeiten",
-      "saveButton": "Änderungen speichern",
-      "cancelButton": "Abbrechen"
+    "actions": {
+      "copyError": "Die Richtlinien-ID konnte nicht kopiert werden",
+      "copyId": "Richtlinien-ID kopieren",
+      "copySuccess": "Richtlinien-ID wurde in die Zwischenablage kopiert",
+      "delete": {
+        "aria": "Richtlinie löschen",
+        "cancel": "Richtlinie behalten",
+        "confirm": "Richtlinie löschen",
+        "description": "Das Löschen einer Richtlinie kann nicht rückgängig gemacht werden. Stellen Sie sicher, dass sie nicht mehr benötigt wird.",
+        "pending": "Das Löschen von Richtlinien wird in Kürze verfügbar sein.",
+        "title": "Richtlinie löschen?"
+      },
+      "toggleDetails": "Richtliniendetails ein- oder ausklappen"
     },
-    "summary": {
-      "title": "Überblick",
-      "caption": "{actions, plural, =0 {Noch keine Aktionen konfiguriert.} =1 {{actions} Aktion wird verfolgt.} other {{actions} Aktionen werden verfolgt.}}",
-      "metrics": {
-        "policies": {
-          "label": "Richtlinien",
-          "description": "{count, plural, =0 {Noch keine Richtlinien vorhanden.} =1 {Eine Richtlinie aktiv.} other {{count} Richtlinien aktiv.}}"
-        }
-      }
+    "empty": {
+      "action": "Erste Richtlinie erstellen",
+      "description": "Mit Richtlinien legen Sie fest, welche Aktionen auf Ihren Ressourcen erlaubt sind. Starten Sie mit Ihrer ersten Richtlinie.",
+      "title": "Erstellen Sie Ihre erste Richtlinie"
     },
     "errors": {
       "genericTitle": "Daten konnten nicht vollständig geladen werden",
@@ -240,47 +223,64 @@
       "policies": "Die Richtlinien konnten gerade nicht geladen werden."
     },
     "loading": {
+      "hint": "Bitte warten Sie einen Moment, wir laden die aktuellen Informationen.",
       "masterData": "Stammdaten werden geladen…",
-      "policies": "Richtlinien werden geladen…",
-      "hint": "Bitte warten Sie einen Moment, wir laden die aktuellen Informationen."
+      "policies": "Richtlinien werden geladen…"
     },
-    "empty": {
-      "title": "Erstellen Sie Ihre erste Richtlinie",
-      "description": "Mit Richtlinien legen Sie fest, welche Aktionen auf Ihren Ressourcen erlaubt sind. Starten Sie mit Ihrer ersten Richtlinie.",
-      "action": "Erste Richtlinie erstellen"
+    "permissionEditor": {
+      "breadcrumb": "Ressource · Aktion",
+      "cancelButton": "Abbrechen",
+      "closeButton": "Editor schließen",
+      "description": "Konfigurieren Sie die Berechtigungseinstellungen für diese Aktion. Änderungen werden auf die Richtlinie angewendet.",
+      "editButton": "Berechtigung für {action} bearbeiten",
+      "saveButton": "Änderungen speichern",
+      "title": "Berechtigung bearbeiten"
     },
     "policy": {
-      "missingDescription": "Keine Beschreibung hinterlegt.",
-      "version": "Version {version}",
-      "updated": "Zuletzt aktualisiert {updatedAt}",
       "meta": {
-        "resources": "{count, plural, =0 {Keine Ressourcen} =1 {# Ressource} other {# Ressourcen}}",
-        "actions": "{count, plural, =0 {Keine Aktionen konfiguriert} =1 {# Aktion konfiguriert} other {# Aktionen konfiguriert}}"
-      }
+        "actions": "{count, plural, =0 {Keine Aktionen konfiguriert} =1 {# Aktion konfiguriert} other {# Aktionen konfiguriert}}",
+        "resources": "{count, plural, =0 {Keine Ressourcen} =1 {# Ressource} other {# Ressourcen}}"
+      },
+      "missingDescription": "Keine Beschreibung hinterlegt.",
+      "updated": "Zuletzt aktualisiert {updatedAt}",
+      "version": "Version {version}"
+    },
+    "subtitle": "Verwalten Sie Ihre Richtlinien und deren Berechtigungen",
+    "summary": {
+      "caption": "{actions, plural, =0 {Noch keine Aktionen konfiguriert.} =1 {{actions} Aktion wird verfolgt.} other {{actions} Aktionen werden verfolgt.}}",
+      "metrics": {
+        "policies": {
+          "description": "{count, plural, =0 {Noch keine Richtlinien vorhanden.} =1 {Eine Richtlinie aktiv.} other {{count} Richtlinien aktiv.}}",
+          "label": "Richtlinien"
+        }
+      },
+      "title": "Überblick"
     },
     "table": {
+      "actionsCount": "{count, plural, =0 {Keine Aktionen} =1 {# Aktion} other {# Aktionen}}",
       "headers": {
         "action": "Aktion",
-        "decision": "Entscheidung",
+        "actions": "Aktionen",
         "condition": "Bedingung",
-        "actions": "Aktionen"
+        "decision": "Entscheidung"
       },
-      "noResources": "In dieser Richtlinie sind noch keine Ressourcen definiert.",
-      "actionsCount": "{count, plural, =0 {Keine Aktionen} =1 {# Aktion} other {# Aktionen}}"
+      "noResources": "In dieser Richtlinie sind noch keine Ressourcen definiert."
     },
-    "actions": {
-      "toggleDetails": "Richtliniendetails ein- oder ausklappen",
-      "copyId": "Richtlinien-ID kopieren",
-      "copySuccess": "Richtlinien-ID wurde in die Zwischenablage kopiert",
-      "copyError": "Die Richtlinien-ID konnte nicht kopiert werden",
-      "delete": {
-        "aria": "Richtlinie löschen",
-        "title": "Richtlinie löschen?",
-        "description": "Das Löschen einer Richtlinie kann nicht rückgängig gemacht werden. Stellen Sie sicher, dass sie nicht mehr benötigt wird.",
-        "confirm": "Richtlinie löschen",
-        "cancel": "Richtlinie behalten",
-        "pending": "Das Löschen von Richtlinien wird in Kürze verfügbar sein."
-      }
+    "title": "Richtlinien"
+  },
+  "PrivateLayout": {
+    "adminArea": "Admin-Bereich",
+    "enterprise": "Enterprise",
+    "privateArea": "Privater Bereich",
+    "routes": {
+      "dashboard": "Dashboard",
+      "masterData": "Stammdaten",
+      "policies": "Richtlinien",
+      "userManagement": "Benutzerverwaltung"
+    },
+    "userFallback": {
+      "email": "E-Mail",
+      "name": "Name"
     }
   }
 }
