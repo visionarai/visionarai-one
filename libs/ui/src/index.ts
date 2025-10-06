@@ -1,3 +1,4 @@
+export * from "./components/functional/ActionButton";
 export * from "./components/functional/ActionConfirmationButton";
 export * from "./components/functional/DataDebugger";
 export * from "./components/functional/error-alert";

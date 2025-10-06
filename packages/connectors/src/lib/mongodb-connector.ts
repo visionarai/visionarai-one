@@ -30,6 +30,15 @@ export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection>
 	return {
 		connect: async (): Promise<ConnectorInfo> => {
 			logger.info("Connecting to MongoDB .......");
+
+			if (connection) {
+				logger.info("✅ Already connected to MongoDB");
+				return {
+					healthCheck: () => getMongoHealth(connection),
+					name: name ?? "mongodb",
+				};
+			}
+
 			connection = createConnection(uri, options);
 
 			connection.on("connected", () => {
