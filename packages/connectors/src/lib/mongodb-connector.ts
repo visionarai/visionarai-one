@@ -25,21 +25,41 @@ const getMongoHealth = (connection: Connection): HealthCheck => {
  * Creates a MongoDB connector using mongoose
  */
 export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection> = (logger, { uri, name, options }) => {
-	let connection: Connection;
+	// Use a global cache so repeated imports / executions reuse the same mongoose connection
+	// across the Node.js process. This mirrors the common pattern used in serverless
+	// or hot-reload environments where modules may be re-evaluated.
+	type MongoCache = Map<string, Connection>;
+	type GlobalWithMongoCache = typeof globalThis & { __visionarai_mongoose_connections__?: MongoCache };
+	const g = globalThis as GlobalWithMongoCache;
+	if (!g.__visionarai_mongoose_connections__) {
+		g.__visionarai_mongoose_connections__ = new Map<string, Connection>();
+	}
+	const connections: MongoCache = g.__visionarai_mongoose_connections__ as MongoCache;
+	let connection: Connection | undefined = connections.get(uri);
 
 	return {
 		connect: async (): Promise<ConnectorInfo> => {
 			logger.info("Connecting to MongoDB .......");
 
-			if (connection) {
-				logger.info("✅ Already connected to MongoDB");
+			// Reuse existing connection if present and connected
+			if (connection && connection.readyState === 1) {
+				logger.info("✅ Already connected to MongoDB (reused cached connection)");
+				const conn = connection as Connection;
 				return {
-					healthCheck: () => getMongoHealth(connection),
+					healthCheck: () => getMongoHealth(conn),
 					name: name ?? "mongodb",
 				};
 			}
 
+			// If a connection exists but is not connected, remove it so we create a fresh one
+			if (connection && connection.readyState !== 1) {
+				connections.delete(uri);
+				connection = undefined;
+			}
+
 			connection = createConnection(uri, options);
+			// cache it immediately so parallel callers can reuse the same pending connection
+			connections.set(uri, connection);
 
 			connection.on("connected", () => {
 				logger.info("✅ Connected to MongoDB");
@@ -58,8 +78,10 @@ export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection>
 				throw err;
 			}
 
+			const conn = connection as Connection;
+
 			return {
-				healthCheck: () => getMongoHealth(connection),
+				healthCheck: () => getMongoHealth(conn),
 				name: name ?? "mongodb",
 			};
 		},
@@ -68,9 +90,11 @@ export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection>
 				return;
 			}
 			await connection.close(true);
+			// remove from cache when disconnected
+			connections.delete(uri);
 			logger.info(`Disconnected from MongoDB at ${uri}`);
 		},
 
-		getConnection: () => connection,
+		getConnection: () => connection as Connection,
 	};
 };
