@@ -199,7 +199,7 @@ export function DataTable({ data, totalCountInDb }: DataTableProps) {
 					data.map(({ user, sessions }) => (
 						<TableRow key={user.id}>
 							<TableCell>
-								<Avatar className="size-10">
+								<Avatar className="relative size-10">
 									<AvatarImage alt={user.name || t("unknownUser")} src={user.image || ""} />
 									<AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : "U"}</AvatarFallback>
 								</Avatar>
