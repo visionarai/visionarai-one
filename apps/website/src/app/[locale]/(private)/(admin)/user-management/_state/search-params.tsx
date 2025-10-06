@@ -1,0 +1,25 @@
+import { createSearchParamsCache, parseAsJson, parseAsStringEnum } from "nuqs/server";
+import { z } from "zod";
+
+const querySchema = z.object({
+	filterField: z.string().optional(),
+	filterOperator: z.enum(["eq", "ne", "lt", "lte", "gt", "gte", "contains"]).optional(),
+	filterValue: z.union([z.string(), z.number(), z.boolean()]).optional(),
+	limit: z.number().optional(),
+	offset: z.number().optional(),
+	searchField: z.enum(["email", "name"]).optional(),
+	searchOperator: z.enum(["contains", "starts_with", "ends_with"]).optional(),
+	searchValue: z.string().optional(),
+	sortBy: z.string().optional(),
+	sortDirection: z.enum(["asc", "desc"]).optional(),
+});
+
+export type QueryType = z.infer<typeof querySchema>;
+
+export const querySearchParams = {
+	query: parseAsJson(querySchema).withOptions({ clearOnDefault: true, shallow: false }).withDefault({ limit: 10, offset: 0 }),
+	selectSearchField: parseAsStringEnum(["email", "name"] as const)
+		.withDefault("email")
+		.withOptions({ clearOnDefault: true, shallow: true }),
+};
+export const searchParamsCache = createSearchParamsCache(querySearchParams);

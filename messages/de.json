@@ -282,5 +282,29 @@
       "email": "E-Mail",
       "name": "Name"
     }
+  },
+  "UserManagement": {
+    "dataTable": {
+      "actions": "Aktionen",
+      "avatar": "Avatar",
+      "email": "E-Mail",
+      "empty": {
+        "description": "Versuchen Sie, Ihre Such- oder Filterkriterien anzupassen, um zu finden, was Sie suchen.",
+        "title": "Keine Benutzer gefunden"
+      },
+      "name": "Name",
+      "pagination": {
+        "next": "Weiter",
+        "page": "Seite {page}",
+        "previous": "Zurück",
+        "showing": "{from}-{to} von {total} angezeigt"
+      },
+      "sessions": "Sitzungen",
+      "unknownUser": "Unbekannter Benutzer"
+    },
+    "page": {
+      "description": "Verwalten Sie Benutzer und deren Sitzungen.",
+      "title": "Benutzerverwaltung"
+    }
   }
 }

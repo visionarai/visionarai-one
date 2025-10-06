@@ -60,7 +60,7 @@ This section focuses on analyzing and improving existing components to provide a
 
 - The project uses `Next.js 15` with `TypeScript` and `Tailwind CSS v4.*`.
 - The UI components are built using `shadcn/ui` library.
-- Use context7 MCP server to gather latest docs about `Shadcn UI` and `Tailwind CSS` and `Next.js`.
+- Use shadcn MCP server to gather latest info about `Shadcn UI` and context7 MCP server for `Tailwind CSS` and `Next.js`.
 - **shadcn/ui:** All front-end applications use the shadcn/ui library for UI components.
   - The [**ui**](../../libs/ui) library is a shared library that contains the shadcn/ui components used across all front-end applications.
   - Use `yarn dlx shadcn@latest add <component-name>` to add new components to the `ui` library.

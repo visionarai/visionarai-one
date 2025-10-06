@@ -12,4 +12,5 @@ export * from "./components/ui";
 export * from "./components/visionarai-logo";
 export * from "./hooks/use-async-function";
 export * from "./hooks/use-better-auth-functions";
+export * from "./hooks/use-debounce-function";
 export * from "./hooks/use-mobile";

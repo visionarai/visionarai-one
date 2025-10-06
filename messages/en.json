@@ -282,5 +282,29 @@
       "email": "Email",
       "name": "Name"
     }
+  },
+  "UserManagement": {
+    "dataTable": {
+      "actions": "Actions",
+      "avatar": "Avatar",
+      "email": "Email",
+      "empty": {
+        "description": "Try adjusting your search or filter criteria to find what you're looking for.",
+        "title": "No users found"
+      },
+      "name": "Name",
+      "pagination": {
+        "next": "Next",
+        "page": "Page {page}",
+        "previous": "Previous",
+        "showing": "Showing {from}-{to} of {total}"
+      },
+      "sessions": "Sessions",
+      "unknownUser": "Unknown User"
+    },
+    "page": {
+      "description": "Manage users and their sessions.",
+      "title": "User Management"
+    }
   }
 }
