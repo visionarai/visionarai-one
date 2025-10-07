@@ -2,6 +2,7 @@ import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
+	Badge,
 	Button,
 	Pagination,
 	PaginationContent,
@@ -18,7 +19,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@visionarai-one/ui";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, UserX } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createSerializer } from "nuqs/server";
 import { Link } from "@/i18n/navigation";
@@ -204,11 +205,28 @@ export function DataTable({ data, totalCountInDb }: DataTableProps) {
 									<AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : "U"}</AvatarFallback>
 								</Avatar>
 							</TableCell>
-							<TableCell className="font-medium">{user.name || t("unknownUser")}</TableCell>
+							<TableCell className="font-medium">
+								{user.name || t("unknownUser")}
+								<div className="mt-1 flex items-center space-x-1">
+									{user.banned && (
+										<Badge variant="destructive">
+											<UserX />
+											Banned
+										</Badge>
+									)}
+									{!user.emailVerified && (
+										<Badge variant="outline">
+											{" "}
+											<UserX />
+											Unverified
+										</Badge>
+									)}
+								</div>
+							</TableCell>
 							<TableCell>{user.email}</TableCell>
 							<TableCell>{sessions.length}</TableCell>
 							<TableCell className="text-right">
-								<UserActions userId={user.id} />
+								<UserActions user={user} />
 							</TableCell>
 						</TableRow>
 					))

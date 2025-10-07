@@ -5,7 +5,7 @@ import createMiddleware from "next-intl/middleware";
 import { auth, type Session } from "@/lib/auth";
 import { routing } from "./i18n/routing";
 
-const ADMIN_PATHNAMES = ["/policies", "/master", "/users", "/settings"];
+const ADMIN_PATHNAMES = ["/policies", "/master", "/user-management"];
 const AUTHENTICATED_PATHNAMES = ["/dashboard"];
 const PUBLIC_PATHNAMES = ["/login", "/register"];
 

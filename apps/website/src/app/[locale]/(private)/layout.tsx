@@ -15,6 +15,7 @@ import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/lib/auth";
+import { ImpersonationIndicator } from "@/widgets/auth/impersonation-indicator";
 import { MainAreaTitle } from "./_navigation/main-area-title";
 import { NavUser } from "./_navigation/nav-user";
 import { AppSidebarNavigation } from "./_navigation/side-bar-navigation";
@@ -88,12 +89,12 @@ export default async function LocaleLayout({ children }: { children: React.React
 				</SidebarContent>
 
 				<SidebarFooter>
+					<ImpersonationIndicator />
 					<NavUser session={session} />
 				</SidebarFooter>
 			</Sidebar>
 			<SidebarInset>
 				<MainAreaTitle allRoutes={allRoutes} />
-
 				<section className="px-8">{children}</section>
 			</SidebarInset>
 		</SidebarProvider>
