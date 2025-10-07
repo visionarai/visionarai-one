@@ -25,9 +25,7 @@ import { LanguageSwitcher } from "@/widgets/language-switcher";
 export function NavUser({ session }: { session: Session | null }) {
 	const { isMobile } = useSidebar();
 	const router = useRouter();
-	const user = session?.user || { email: "<Email>", name: "John Doe" };
-	const avatar =
-		"https://media.licdn.com/dms/image/v2/D4D03AQG_k9G0Ia1xhA/profile-displayphoto-scale_400_400/B4DZkFJLWxHYAo-/0/1756727941441?e=2147483647&v=beta&t=TUqS2oh0Kq4CysIBa2NbKSPdenKJzEB69juOCBtKOfM";
+	const user = session?.user || { email: "<Email>", image: null, name: "John Doe" };
 
 	const [signOut] = useBetterAuthFunction(authClient.signOut, {
 		loadingMessage: "Signing out...",
@@ -43,7 +41,7 @@ export function NavUser({ session }: { session: Session | null }) {
 					<DropdownMenuTrigger asChild>
 						<SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" size="lg">
 							<Avatar className="h-8 w-8 rounded-lg">
-								<AvatarImage alt={user.name} src={avatar} />
+								<AvatarImage alt={user.name} src={user.image || undefined} />
 								<AvatarFallback className="rounded-lg">CN</AvatarFallback>
 							</Avatar>
 							<div className="grid flex-1 text-left text-sm leading-tight">
@@ -62,7 +60,7 @@ export function NavUser({ session }: { session: Session | null }) {
 						<DropdownMenuLabel className="p-0 font-normal">
 							<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 								<Avatar className="h-8 w-8 rounded-lg">
-									<AvatarImage alt={user.name} src={avatar} />
+									<AvatarImage alt={user.name} src={user.image || undefined} />
 									<AvatarFallback className="rounded-lg">CN</AvatarFallback>
 								</Avatar>
 								<div className="grid flex-1 text-left text-sm leading-tight">
