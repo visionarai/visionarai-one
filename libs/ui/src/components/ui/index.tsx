@@ -11,6 +11,7 @@ export * from "./collapsible";
 export * from "./command";
 export * from "./dialog";
 export * from "./dropdown-menu";
+export * from "./field";
 export * from "./form";
 export * from "./input";
 export * from "./input-group";

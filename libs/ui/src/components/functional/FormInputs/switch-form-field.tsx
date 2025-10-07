@@ -1,6 +1,18 @@
 "use client";
 
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Switch } from "@visionarai-one/ui";
+import {
+	Field,
+	FieldContent,
+	FieldDescription,
+	FieldLabel,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	Switch,
+} from "@visionarai-one/ui";
 import type { ComponentProps } from "react";
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
@@ -16,16 +28,18 @@ export const SwitchFormField = <T extends FieldValues>({ name, label, formContro
 		control={formControl}
 		name={name}
 		render={({ field, fieldState }) => (
-			<FormItem>
-				<div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-					<div className="flex flex-col space-y-0.5">
-						<FormLabel>{label}</FormLabel>
-						{description && !fieldState.error && <FormDescription>{description}</FormDescription>}
-					</div>
+			<FormItem className="rounded-lg border p-4">
+				<Field orientation="horizontal">
+					<FieldContent>
+						<FieldLabel htmlFor={`select-${name}`}>
+							<FormLabel>{label}</FormLabel>
+						</FieldLabel>
+						<FieldDescription>{description && !fieldState.error && <FormDescription>{description}</FormDescription>}</FieldDescription>
+					</FieldContent>
 					<FormControl>
 						<Switch checked={field.value} onCheckedChange={field.onChange} {...props} />
 					</FormControl>
-				</div>
+				</Field>
 				<FormMessage />
 			</FormItem>
 		)}
