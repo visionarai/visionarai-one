@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@visionarai-one/ui";
+import { Button, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@visionarai-one/ui";
 import { cn } from "@visionarai-one/utils";
 import { Link, usePathname } from "@/i18n/navigation";
 
@@ -38,17 +38,19 @@ function SideBarLink({ navItem, isActive }: { navItem: NavItem; isActive: boolea
 	return (
 		<SidebarMenuItem>
 			<SidebarMenuButton asChild>
-				<Link
-					aria-current={isActive ? "page" : undefined}
+				<Button
+					asChild
 					className={cn(
-						"flex w-full items-center rounded-md px-2 py-1 font-medium text-sm transition-all",
-						isActive ? "bg-primary text-primary-foreground" : "text-foreground"
+						"flex w-full items-center justify-start rounded-md px-2 py-1 font-medium text-sm transition-all",
+						isActive ? "bg-primary text-primary-foreground hover:bg-primary/90" : "hover:bg-accent hover:text-accent-foreground"
 					)}
-					href={navItem.path}
+					variant="ghost"
 				>
-					{isActive ? navItem.iconSelected : navItem.icon}
-					<span>{navItem.title}</span>
-				</Link>
+					<Link aria-current={isActive ? "page" : undefined} href={navItem.path}>
+						{isActive ? navItem.iconSelected : navItem.icon}
+						<span>{navItem.title}</span>
+					</Link>
+				</Button>
 			</SidebarMenuButton>
 		</SidebarMenuItem>
 	);

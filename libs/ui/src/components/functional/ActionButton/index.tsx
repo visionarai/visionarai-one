@@ -28,6 +28,8 @@ type ActionButtonProps = ComponentProps<typeof Button> & {
 	confirmButtonVariant?: ComponentProps<typeof Button>["variant"];
 	confirmButtonIcon?: ReactNode;
 	cancelButtonIcon?: ReactNode;
+	labelAsText?: boolean;
+	showTooltip?: boolean;
 };
 
 export function ActionButton({
@@ -40,11 +42,16 @@ export function ActionButton({
 	confirmButtonVariant = "destructive",
 	confirmButtonIcon = <Trash2 />,
 	cancelButtonIcon = <XIcon />,
-	...props
+	labelAsText = false,
+	showTooltip = true,
+	onClick,
+	children,
+
+	...rest
 }: ActionButtonProps) {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [isLoading, startTransition] = useTransition();
-	const { onClick, children, ...rest } = props;
+	const label = rest["aria-label"];
 
 	const handleOnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		e.preventDefault();
@@ -56,18 +63,30 @@ export function ActionButton({
 
 	return (
 		<>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<Button {...rest} onClick={requiresConfirmation ? () => setIsDialogOpen(true) : handleOnClick}>
-						<LoadingSwap className={cn("flex items-center justify-center gap-2")} isLoading={isLoading}>
-							{buttonIcon}
-							{children}
-						</LoadingSwap>
-						<span className="sr-only">{props["aria-label"]}</span>
-					</Button>
-				</TooltipTrigger>
-				<TooltipContent side="bottom">{props["aria-label"]}</TooltipContent>
-			</Tooltip>
+			{showTooltip ? (
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<Button {...rest} onClick={requiresConfirmation ? () => setIsDialogOpen(true) : handleOnClick}>
+							<LoadingSwap className={cn("flex items-center justify-center gap-2")} isLoading={isLoading}>
+								{buttonIcon}
+								{labelAsText && label}
+								{children}
+							</LoadingSwap>
+							<span className="sr-only">{label}</span>
+						</Button>
+					</TooltipTrigger>
+					<TooltipContent side="bottom">{label}</TooltipContent>
+				</Tooltip>
+			) : (
+				<Button {...rest} onClick={requiresConfirmation ? () => setIsDialogOpen(true) : handleOnClick}>
+					<LoadingSwap className={cn("flex items-center justify-center gap-2")} isLoading={isLoading}>
+						{buttonIcon}
+						{labelAsText && label}
+						{children}
+					</LoadingSwap>
+					<span className="sr-only">{label}</span>
+				</Button>
+			)}
 			{requiresConfirmation && (
 				<Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
 					<DialogContent>

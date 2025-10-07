@@ -13,6 +13,7 @@ export function ImpersonationIndicator() {
 		onSuccess: () => {
 			refetch();
 			router.push("/user-management");
+			router.refresh();
 		},
 		successMessage: "Stopped impersonating user",
 	});

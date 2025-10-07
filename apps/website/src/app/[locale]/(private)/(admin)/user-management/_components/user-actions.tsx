@@ -1,6 +1,17 @@
 "use client";
-import { ActionButton, useBetterAuthFunction } from "@visionarai-one/ui";
-import { UserCog, UserX } from "lucide-react";
+import {
+	ActionButton,
+	Badge,
+	Button,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+	useBetterAuthFunction,
+} from "@visionarai-one/ui";
+import { MoreHorizontal, UserCog, UserX } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { authClient, type User } from "@/lib/auth-client";
 
@@ -20,6 +31,7 @@ export function UserActions({ user }: UserActionsProps) {
 		onSuccess: () => {
 			refetch();
 			router.push("/dashboard");
+			router.refresh();
 		},
 		successMessage: "Successfully impersonated user",
 	});
@@ -40,17 +52,53 @@ export function UserActions({ user }: UserActionsProps) {
 		successMessage: "User has been unbanned",
 	});
 
+	const [updateUser] = useBetterAuthFunction(authClient.admin.updateUser, {
+		loadingMessage: "Updating user...",
+		onSuccess: () => {
+			router.refresh();
+		},
+		successMessage: "User has been updated",
+	});
+
+	if (selfId === userId) return <Badge>It's you!</Badge>;
+
 	return (
-		<div>
+		<div className="justify-end-safe flex items-center gap-2">
 			<ActionButton aria-label="Impersonate User" buttonIcon={<UserCog />} onClick={() => impersonateUser({ userId })} size="icon" variant="ghost" />
-			<ActionButton
-				aria-label={user.banned ? "Unban User" : "Ban User"}
-				buttonIcon={<UserX />}
-				disabled={userId === selfId}
-				onClick={() => (user.banned ? unbanUser({ userId }) : banUser({ userId }))}
-				size="icon"
-				variant="ghostDestructive"
-			/>
+
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button size="icon" variant="ghost">
+						<MoreHorizontal />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent>
+					<DropdownMenuLabel>Admin Actions</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem asChild>
+						<ActionButton
+							aria-label={user.emailVerified ? "Unverify Email" : "Verify Email"}
+							buttonIcon={<UserCog />}
+							className="w-full justify-start"
+							labelAsText
+							onClick={() => updateUser({ data: { emailVerified: !user.emailVerified }, userId })}
+							showTooltip={false}
+							variant="ghost"
+						/>
+					</DropdownMenuItem>
+					<DropdownMenuItem asChild>
+						<ActionButton
+							aria-label={user.banned ? "Unban User" : "Ban User"}
+							buttonIcon={<UserX />}
+							className="w-full justify-start"
+							labelAsText
+							onClick={() => (user.banned ? unbanUser({ userId }) : banUser({ userId }))}
+							showTooltip={false}
+							variant="ghost"
+						/>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
 		</div>
 	);
 }
