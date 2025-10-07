@@ -16,7 +16,7 @@ import {
 import { cn } from "@visionarai-one/utils";
 import { CalendarIcon } from "lucide-react";
 import { useFormatter } from "next-intl";
-import type { DayPicker, SelectRangeEventHandler } from "react-day-picker";
+import type { DayPicker } from "react-day-picker";
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
 export type DateRange = {
@@ -75,7 +75,7 @@ export const DateRangeFormField = <T extends FieldValues>({
 									disabled={disableDate}
 									mode="range"
 									numberOfMonths={2}
-									onSelect={field.onChange as SelectRangeEventHandler}
+									onSelect={field.onChange}
 									selected={value}
 									{...props}
 								/>
