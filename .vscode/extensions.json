@@ -2,7 +2,6 @@
   "recommendations": [
     "biomejs.biome",
     "nrwl.angular-console",
-    "ambar.bundle-size",
     "vitest.explorer"
   ]
 }

@@ -20,12 +20,16 @@ const dbProviderMiddleware = os
 		policyRepository?: PolicyRepository;
 	}>()
 	.middleware(async ({ context, next }) => {
-		const databaseConnector = createMongoDBConnector(appLogger, {
-			uri: runtimeConfig.MONGODB_URI,
-		});
-		await databaseConnector.connect();
+		let mongooseConnection = context.mongooseConnection;
 
-		const mongooseConnection = context.mongooseConnection || databaseConnector.getConnection();
+		if (!mongooseConnection) {
+			const databaseConnector = createMongoDBConnector(appLogger, {
+				uri: runtimeConfig.MONGODB_URI,
+			});
+			await databaseConnector.connect();
+
+			mongooseConnection = context.mongooseConnection || databaseConnector.getConnection();
+		}
 		const policyRepository = context.policyRepository || (await createPolicyRepository(mongooseConnection));
 
 		return next({
@@ -60,6 +64,18 @@ const dbProcedures = os.use(dbProviderMiddleware).use(
 					status: 500,
 				});
 			}
+		} else if (error instanceof z.ZodError) {
+			// If you only use Zod you can safely cast to ZodIssue[]
+			const errorData = {
+				cause: error,
+				code: "ZOD_ERROR",
+				data: z.flattenError(error),
+				message: z.prettifyError(error),
+			};
+
+			throw new ORPCError("INPUT_VALIDATION_FAILED", { ...errorData, status: 422 });
+		} else if (error instanceof Error) {
+			appLogger.error({ error }, "Unexpected error in DB router");
 		}
 	})
 );
@@ -91,7 +107,6 @@ const masterData: MasterDataType = {
 
 const getMasterData = dbProcedures.output(MasterDataZodSchema).handler(({ context }) => {
 	const { policyRepository } = context;
-
 	const data = policyRepository.masterDataRetrieve();
 	if (!data) {
 		return masterData;

@@ -1,13 +1,18 @@
+import { createMongoDBConnector } from "@visionarai-one/connectors";
 import { betterAuth, type Logger } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
-import { MongoClient } from "mongodb";
+import type { MongoClient } from "mongodb";
 import { appLogger } from "./logger";
 import { runtimeConfig } from "./runtime-conf";
 
-const client = new MongoClient(runtimeConfig.MONGODB_URI);
-const db = client.db();
+const databaseConnector = createMongoDBConnector(appLogger, {
+	uri: runtimeConfig.MONGODB_URI,
+});
+await databaseConnector.connect();
+const client: MongoClient = databaseConnector.getClient();
+const db = client.db(); // Use the default database from the connection string
 export const auth = betterAuth({
 	database: mongodbAdapter(db, {
 		client,

@@ -35,10 +35,11 @@ export type ConnectorInfo = {
 /**
  * Interface for a connector with connect/disconnect lifecycle.
  */
-export type Connector<Connection = unknown> = {
+export type Connector<Connection = unknown, Client = unknown> = {
 	connect: () => Promise<ConnectorInfo> | ConnectorInfo;
 	disconnect: () => Promise<void> | void;
 	getConnection: () => Connection;
+	getClient: () => Client;
 };
 
 /**
@@ -48,7 +49,7 @@ export type Connector<Connection = unknown> = {
  * @param logger - Logger instance for logging.
  * @returns The created connector instance.
  */
-export type ConnectorFactory<ConnectorConfig = Record<string, unknown>, Connection = unknown> = (
+export type ConnectorFactory<ConnectorConfig = Record<string, unknown>, Connection = unknown, Client = unknown> = (
 	logger: Logger,
 	config: ConnectorConfig
-) => Connector<Connection>;
+) => Connector<Connection, Client>;

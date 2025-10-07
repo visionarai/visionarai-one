@@ -1,7 +1,8 @@
 /** biome-ignore-all lint/style/noMagicNumbers: Need to avoid magic numbers */
+
+import type { MongoClient } from "mongodb";
 import { type Connection, type ConnectOptions, createConnection } from "mongoose";
 import { type ConnectorFactory, type ConnectorInfo, type HealthCheck, STATUSES, type Status } from "../connector-factory";
-
 /**
  * MongoDB connector configuration
  */
@@ -24,10 +25,7 @@ const getMongoHealth = (connection: Connection): HealthCheck => {
 /**
  * Creates a MongoDB connector using mongoose
  */
-export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection> = (logger, { uri, name, options }) => {
-	// Use a global cache so repeated imports / executions reuse the same mongoose connection
-	// across the Node.js process. This mirrors the common pattern used in serverless
-	// or hot-reload environments where modules may be re-evaluated.
+export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection, MongoClient> = (logger, { uri, name, options }) => {
 	type MongoCache = Map<string, Connection>;
 	type GlobalWithMongoCache = typeof globalThis & { __visionarai_mongoose_connections__?: MongoCache };
 	const g = globalThis as GlobalWithMongoCache;
@@ -45,6 +43,7 @@ export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection>
 			if (connection && connection.readyState === 1) {
 				logger.info("✅ Already connected to MongoDB (reused cached connection)");
 				const conn = connection as Connection;
+
 				return {
 					healthCheck: () => getMongoHealth(conn),
 					name: name ?? "mongodb",
@@ -65,7 +64,7 @@ export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection>
 				logger.info("✅ Connected to MongoDB");
 			});
 			connection.on("error", (error) => {
-				logger.error(error.message, "🚨 MongoDB connection error");
+				logger.error(error.message, "🚨 MongoDB connection error onError");
 			});
 			connection.on("disconnected", () => {
 				logger.warn("⚠️ Disconnected from MongoDB");
@@ -93,6 +92,13 @@ export const createMongoDBConnector: ConnectorFactory<MongoDBConfig, Connection>
 			// remove from cache when disconnected
 			connections.delete(uri);
 			logger.info(`Disconnected from MongoDB at ${uri}`);
+		},
+		getClient: (): MongoClient => {
+			if (!connection) {
+				throw new Error("MongoDB connection is not established. Call connect() first.");
+			}
+			const conn = connection as Connection;
+			return conn.getClient();
 		},
 
 		getConnection: () => connection as Connection,

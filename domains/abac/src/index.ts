@@ -1,4 +1,4 @@
-import { type Connection, models } from "mongoose";
+import type { Connection } from "mongoose";
 import { type MasterDataDocument, type MasterDataModelType, MasterDataSchema, type MasterDataType, resourceDataFromMasterData } from "./master_data";
 
 import {
@@ -15,9 +15,12 @@ export * from "./master_data";
 export * from "./policy";
 
 export const createPolicyRepository = async (mongooseConnection: Connection) => {
+	// Prefer connection-scoped models to avoid OverwriteModelError from global model recompilation
 	const MasterDataModel: MasterDataModelType =
-		(models.MasterData as MasterDataModelType) || mongooseConnection.model<MasterDataDocument, MasterDataType>("MasterData", MasterDataSchema);
-	const PolicyModel: PolicyModelType = (models.Policy as PolicyModelType) || mongooseConnection.model<PolicyDocument, PolicyModelType>("Policy", PolicySchema);
+		(mongooseConnection.models.MasterData as MasterDataModelType) ||
+		mongooseConnection.model<MasterDataDocument, MasterDataType>("MasterData", MasterDataSchema);
+	const PolicyModel: PolicyModelType =
+		(mongooseConnection.models.Policy as PolicyModelType) || mongooseConnection.model<PolicyDocument, PolicyModelType>("Policy", PolicySchema);
 
 	let recentMasterData: MasterDataType | null;
 
