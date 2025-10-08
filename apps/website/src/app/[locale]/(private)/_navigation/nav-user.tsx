@@ -78,7 +78,7 @@ export function NavUser({ session }: { session: Session | null }) {
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
-							<DropdownMenuItem>
+							<DropdownMenuItem onClick={() => router.push("/account")}>
 								<BadgeCheck />
 								Account
 							</DropdownMenuItem>

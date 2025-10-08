@@ -34,23 +34,16 @@ export const Spinner: FC<SpinnerProps> = ({ size = 80, className, "aria-label": 
 	};
 
 	return (
-
-				<div
-					aria-label={ariaLabel}
-					className={cn("flex animate-spin items-center justify-center rounded-full border-transparent border-t-primary", className)}
-					role="status"
-					style={outerStyle}
-				>
-					{/* inner spinner — purely decorative */}
-					<div
-						aria-hidden
-						className={cn("flex animate-spin items-center justify-center rounded-full border-transparent border-t-secondary")}
-						style={innerStyle}
-					/>
-					{/* Visually hidden text for extra screen reader compatibility */}
-					<span className="sr-only">{ariaLabel}</span>
-				</div>
-		
-		
+		<div
+			aria-label={ariaLabel}
+			className={cn("flex animate-spin items-center justify-center rounded-full border-transparent border-t-primary", className)}
+			role="status"
+			style={outerStyle}
+		>
+			{/* inner spinner — purely decorative */}
+			<div aria-hidden className={cn("flex animate-spin items-center justify-center rounded-full border-transparent border-t-secondary")} style={innerStyle} />
+			{/* Visually hidden text for extra screen reader compatibility */}
+			<span className="sr-only">{ariaLabel}</span>
+		</div>
 	);
 };
