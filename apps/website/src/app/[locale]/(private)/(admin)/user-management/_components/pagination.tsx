@@ -1,11 +1,8 @@
-"use client";
-
 import { Button } from "@visionarai-one/ui";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useQueryStates } from "nuqs";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { querySearchParams, serializeUrl } from "../_state/search-params";
+import { searchParamsCache, serializeUrl } from "../_state/search-params";
 
 export type PaginationData = {
 	currentPage: number;
@@ -19,9 +16,9 @@ export type PaginationData = {
 	totalPages: number;
 };
 
-export function Pagination(paginationData: PaginationData) {
-	const [{ query }] = useQueryStates(querySearchParams);
-	const tData = useTranslations("UserManagement.dataTable");
+export async function Pagination(paginationData: PaginationData) {
+	const { query } = searchParamsCache.all();
+	const tData = await getTranslations("UserManagement.dataTable");
 	return (
 		<div className="flex items-center gap-2">
 			<Button asChild className={paginationData.hasPreviousPage ? "" : "pointer-events-none opacity-50"} variant="ghost">

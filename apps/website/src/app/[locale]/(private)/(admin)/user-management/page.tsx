@@ -4,7 +4,6 @@ import {
 	AvatarImage,
 	Badge,
 	Button,
-	Spinner,
 	Table,
 	TableBody,
 	TableCell,
@@ -13,15 +12,14 @@ import {
 	TableHeader,
 	TableRow,
 } from "@visionarai-one/ui";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import type { SearchParams } from "nuqs/server";
-import { Suspense } from "react";
 import { Link } from "@/i18n/navigation";
 import { auth } from "@/lib/auth";
 import { PageHeader } from "@/widgets/page-header";
-import { Pagination, type PaginationData } from "./_components/pagination";
+import type { PaginationData } from "./_components/pagination";
 import { RegisterNewUser } from "./_components/register-new-user";
 import { Toolbar } from "./_components/toolbar";
 import { UserActions } from "./_components/user-actions";
@@ -128,9 +126,38 @@ export default async function UserManagementPage({ searchParams }: UserManagemen
 										<span>&nbsp;</span>
 									)}
 								</div>
-								<Suspense fallback={<Spinner size={32} />}>
-									<Pagination {...paginationData} />
-								</Suspense>
+								<div className="flex items-center gap-2">
+									<Button asChild className={paginationData.hasPreviousPage ? "" : "pointer-events-none opacity-50"} variant="ghost">
+										<Link href={serializeUrl(query, { offset: paginationData.previousOffset })}>
+											<ChevronLeft />
+											{tData("pagination.previous")}
+										</Link>
+									</Button>
+
+									{paginationData.pageNumbers.map((pageNumber) => {
+										if (pageNumber === "ellipsis") {
+											return (
+												<span className="px-2" key={"ellipsis"}>
+													&hellip;
+												</span>
+											);
+										}
+
+										const isActive = pageNumber === paginationData.currentPage;
+										return (
+											<Button asChild className={isActive ? "pointer-events-none" : ""} key={pageNumber} variant={isActive ? "default" : "ghost"}>
+												<Link href={serializeUrl(query, { offset: (pageNumber - 1) * (query.limit ?? 10) })}>{pageNumber}</Link>
+											</Button>
+										);
+									})}
+
+									<Button asChild className={paginationData.hasNextPage ? "" : "pointer-events-none opacity-50"} variant="ghost">
+										<Link href={serializeUrl(query, { offset: paginationData.nextOffset })}>
+											{tData("pagination.next")}
+											<ChevronRight />
+										</Link>
+									</Button>
+								</div>
 							</div>
 						</TableCell>
 					</TableRow>
