@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { ImpersonationIndicator } from "@/widgets/auth/impersonation-indicator";
 import { PageHeader } from "@/widgets/page-header";
+import ProfileTab from "./tabs/profile";
 
 export default async function AccountPage() {
 	const session = await auth.api.getSession({ headers: await headers() });
@@ -41,7 +42,7 @@ export default async function AccountPage() {
 					</CardHeader>
 					<CardContent className="mx-6 bg-accent p-6">
 						<TabsContent value="profile">
-							<p>Profile content goes here.</p>
+							<ProfileTab user={session.user} />
 						</TabsContent>
 						<TabsContent value="security">
 							<p>Security content goes here.</p>
