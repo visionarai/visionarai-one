@@ -11,6 +11,7 @@ type CommonFieldMetadata = {
 		dependsOn: string;
 		value: unknown;
 	};
+	disabled?: boolean;
 };
 
 export type Prettify<T> = {

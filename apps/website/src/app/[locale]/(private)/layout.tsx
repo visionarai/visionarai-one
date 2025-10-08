@@ -45,7 +45,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 			icon: <Database />,
 			iconSelected: <Database strokeWidth={3} />,
 			path: "/user-management",
-			title: tLayout("routes.userManagement"),
+			title: tLayout("routes.user-management"),
 		},
 	];
 

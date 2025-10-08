@@ -34,12 +34,10 @@ export const Spinner: FC<SpinnerProps> = ({ size = 80, className, "aria-label": 
 	};
 
 	return (
-		<div className={cn("flex flex-col items-center gap-4 p-6", className)}>
-			<div className="flex w-full flex-col items-center justify-center gap-4">
-				{/* outer spinner — role=status for screen readers, aria-label override allowed */}
+
 				<div
 					aria-label={ariaLabel}
-					className={cn("flex animate-spin items-center justify-center rounded-full border-transparent border-t-primary")}
+					className={cn("flex animate-spin items-center justify-center rounded-full border-transparent border-t-primary", className)}
 					role="status"
 					style={outerStyle}
 				>
@@ -52,7 +50,7 @@ export const Spinner: FC<SpinnerProps> = ({ size = 80, className, "aria-label": 
 					{/* Visually hidden text for extra screen reader compatibility */}
 					<span className="sr-only">{ariaLabel}</span>
 				</div>
-			</div>
-		</div>
+		
+		
 	);
 };

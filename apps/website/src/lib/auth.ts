@@ -7,16 +7,36 @@ import type { MongoClient } from "mongodb";
 import { appLogger } from "./logger";
 import { runtimeConfig } from "./runtime-conf";
 
-const databaseConnector = createMongoDBConnector(appLogger, {
-	uri: runtimeConfig.MONGODB_URI,
-});
-await databaseConnector.connect();
-const client: MongoClient = databaseConnector.getClient();
-const db = client.db(); // Use the default database from the connection string
+type GlobalWithMongoDbCache = typeof globalThis & { __visionarai_mongodb_client__?: MongoClient };
+const g = globalThis as GlobalWithMongoDbCache;
+
+if (!g.__visionarai_mongodb_client__) {
+	g.__visionarai_mongodb_client__ = undefined;
+}
+
+let client: MongoClient;
+
+if (g.__visionarai_mongodb_client__) {
+	client = g.__visionarai_mongodb_client__;
+} else {
+	const databaseConnector = createMongoDBConnector(appLogger, {
+		uri: runtimeConfig.MONGODB_URI,
+	});
+	await databaseConnector.connect();
+	client = databaseConnector.getClient();
+}
+
+const db = client.db();
 export const auth = betterAuth({
+	account: {
+		accountLinking: {
+			trustedProviders: ["google", "github", "demo-app", "sso"],
+		},
+	},
 	database: mongodbAdapter(db, {
 		client,
 	}),
+
 	emailAndPassword: {
 		enabled: true,
 	},
@@ -25,8 +45,6 @@ export const auth = betterAuth({
 	session: {
 		cookieCache: {
 			enabled: true,
-			// Include user.role in the cookie cache for middleware access
-			include: ["user.id", "user.email", "user.name", "user.role"],
 			maxAge: 60, // 1 minute
 		},
 	},
@@ -34,6 +52,9 @@ export const auth = betterAuth({
 		github: {
 			clientId: runtimeConfig.GITHUB_CLIENT_ID,
 			clientSecret: runtimeConfig.GITHUB_CLIENT_SECRET,
+			mapProfileToUser: (profile) => ({
+				image: profile.avatar_url,
+			}),
 		},
 	},
 });

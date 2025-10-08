@@ -1,4 +1,4 @@
-import { createSearchParamsCache, parseAsJson, parseAsStringEnum } from "nuqs/server";
+import { createSearchParamsCache, createSerializer, parseAsBoolean, parseAsJson, parseAsString, parseAsStringEnum } from "nuqs/server";
 import { z } from "zod";
 
 const querySchema = z.object({
@@ -17,9 +17,21 @@ const querySchema = z.object({
 export type QueryType = z.infer<typeof querySchema>;
 
 export const querySearchParams = {
+	openUserProfile: parseAsBoolean.withDefault(false).withOptions({ clearOnDefault: true, shallow: true }),
 	query: parseAsJson(querySchema).withOptions({ clearOnDefault: true, shallow: false }).withDefault({ limit: 10, offset: 0 }),
+	selectedUserId: parseAsString.withOptions({ clearOnDefault: true, shallow: false }),
 	selectSearchField: parseAsStringEnum(["email", "name"] as const)
 		.withDefault("email")
 		.withOptions({ clearOnDefault: true, shallow: true }),
 };
 export const searchParamsCache = createSearchParamsCache(querySearchParams);
+
+export const serialize = createSerializer(querySearchParams);
+
+export const serializeUrl = (query: QueryType, upsert: QueryType) =>
+	`/user-management${serialize({
+		query: {
+			...query,
+			...upsert,
+		},
+	})}`;

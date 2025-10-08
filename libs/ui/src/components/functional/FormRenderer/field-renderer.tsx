@@ -41,8 +41,8 @@ const renderPasswordFormField = <FieldValuesType extends FieldValues>(fieldMetad
 };
 
 const renderSwitchFormField = <FieldValuesType extends FieldValues>(fieldMetadata: FieldMetadata, formControl: Control<FieldValuesType>) => {
-	const { name, label, description } = fieldMetadata;
-	return <SwitchFormField description={description} formControl={formControl} label={label} name={name as FieldPath<FieldValuesType>} />;
+	const { name, label, description, disabled } = fieldMetadata;
+	return <SwitchFormField description={description} disabled={disabled} formControl={formControl} label={label} name={name as FieldPath<FieldValuesType>} />;
 };
 
 const renderDateTimeFormField = <FieldValuesType extends FieldValues>(fieldMetadata: FieldMetadata, formControl: Control<FieldValuesType>) => {
@@ -77,10 +77,11 @@ const renderDateRangeFormField = <FieldValuesType extends FieldValues>(fieldMeta
 };
 
 const renderChoiceFormField = <FieldValuesType extends FieldValues>(fieldMetadata: FieldMetadata, formControl: Control<FieldValuesType>) => {
-	const { name, label, placeholder, description } = fieldMetadata;
+	const { name, label, placeholder, description, disabled } = fieldMetadata;
 	return (
 		<ChoiceFormField
 			description={description}
+			disabled={disabled}
 			formControl={formControl}
 			label={label}
 			multiple={"multiple" in fieldMetadata ? fieldMetadata.multiple : false}

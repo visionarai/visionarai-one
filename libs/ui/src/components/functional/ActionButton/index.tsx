@@ -13,8 +13,6 @@ import {
 	TooltipTrigger,
 } from "@visionarai-one/ui";
 
-import { cn } from "@visionarai-one/utils";
-
 import { Trash2, XIcon } from "lucide-react";
 import { type ComponentProps, type ReactNode, useState, useTransition } from "react";
 
@@ -67,11 +65,9 @@ export function ActionButton({
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<Button {...rest} onClick={requiresConfirmation ? () => setIsDialogOpen(true) : handleOnClick}>
-							<LoadingSwap className={cn("flex items-center justify-center gap-2")} isLoading={isLoading}>
-								{buttonIcon}
-								{labelAsText && label}
-								{children}
-							</LoadingSwap>
+							<LoadingSwap isLoading={isLoading}>{buttonIcon}</LoadingSwap>
+							{labelAsText && label}
+							{children}
 							<span className="sr-only">{label}</span>
 						</Button>
 					</TooltipTrigger>
@@ -79,11 +75,9 @@ export function ActionButton({
 				</Tooltip>
 			) : (
 				<Button {...rest} onClick={requiresConfirmation ? () => setIsDialogOpen(true) : handleOnClick}>
-					<LoadingSwap className={cn("flex items-center justify-center gap-2")} isLoading={isLoading}>
-						{buttonIcon}
-						{labelAsText && label}
-						{children}
-					</LoadingSwap>
+					<LoadingSwap isLoading={isLoading}>{buttonIcon}</LoadingSwap>
+					{labelAsText && label}
+					{children}
 					<span className="sr-only">{label}</span>
 				</Button>
 			)}
@@ -100,11 +94,9 @@ export function ActionButton({
 								{cancelButtonText}
 								<span className="sr-only">{cancelButtonText}</span>
 							</Button>
-							<Button onClick={handleOnClick} {...rest} size="default" variant={isLoading ? "outline" : confirmButtonVariant}>
-								<LoadingSwap className={cn("flex items-center justify-center gap-2")} isLoading={isLoading}>
-									{confirmButtonIcon}
-									{confirmButtonText}
-								</LoadingSwap>
+							<Button onClick={handleOnClick} size="default" variant={isLoading ? "outline" : confirmButtonVariant}>
+								<LoadingSwap isLoading={isLoading}>{confirmButtonIcon}</LoadingSwap>
+								{confirmButtonText}
 								<span className="sr-only">{confirmButtonText}</span>
 							</Button>
 						</DialogFooter>

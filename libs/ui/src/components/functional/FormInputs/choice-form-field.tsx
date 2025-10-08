@@ -60,6 +60,7 @@ export type ChoiceFormFieldProps<T extends FieldValues> = {
 	multiple?: boolean;
 	emptyText?: string; // Optional prop for empty state text
 	assumeMoreOptions?: boolean; // If true, assumes there are more options not listed (for performance with large datasets)
+	disabled?: boolean;
 };
 
 /**
@@ -94,6 +95,7 @@ export function ChoiceFormField<T extends FieldValues>({
 	multiple = false,
 	emptyText,
 	assumeMoreOptions = false,
+	disabled = false,
 }: ChoiceFormFieldProps<T>) {
 	const numberOfOptions = assumeMoreOptions ? 11 : options.length;
 	const inputType = useMemo(() => getInputType(numberOfOptions, multiple), [multiple, numberOfOptions]);
@@ -105,11 +107,13 @@ export function ChoiceFormField<T extends FieldValues>({
 			render={({ field, fieldState }) => (
 				<FormItem>
 					<FormLabel>{label}</FormLabel>
-					{inputType === "MultiSelect" && <ChoiceMultiSelect emptyText={emptyText} field={field} options={options} placeholder={placeholder} />}
-					{inputType === "Combobox" && <ChoiceCombobox emptyText={emptyText} field={field} options={options} placeholder={placeholder} />}
-					{inputType === "Select" && <ChoiceSelect field={field} options={options} placeholder={placeholder} />}
-					{inputType === "RadioGroup" && <ChoiceRadioGroup field={field} options={options} />}
-					{inputType === "CheckboxGroup" && <ChoiceCheckboxGroup field={field} options={options} />}
+					{inputType === "MultiSelect" && (
+						<ChoiceMultiSelect disabled={disabled} emptyText={emptyText} field={field} options={options} placeholder={placeholder} />
+					)}
+					{inputType === "Combobox" && <ChoiceCombobox disabled={disabled} emptyText={emptyText} field={field} options={options} placeholder={placeholder} />}
+					{inputType === "Select" && <ChoiceSelect disabled={disabled} field={field} options={options} placeholder={placeholder} />}
+					{inputType === "RadioGroup" && <ChoiceRadioGroup disabled={disabled} field={field} options={options} />}
+					{inputType === "CheckboxGroup" && <ChoiceCheckboxGroup disabled={disabled} field={field} options={options} />}
 					{description && !fieldState.error && <FormDescription>{description}</FormDescription>}
 					<FormMessage />
 				</FormItem>
@@ -125,6 +129,7 @@ type ChoiceInputComponentProps<T extends FieldValues> = {
 	field: ControllerRenderProps<T, Path<T>>;
 	placeholder?: string;
 	options: SelectOption[];
+	disabled?: boolean;
 };
 
 /**
@@ -152,10 +157,10 @@ function ChoiceSelect<T extends FieldValues>({ field, placeholder, options }: Ch
 /**
  * Memoized radio group input for choices.
  */
-function ChoiceRadioGroup<T extends FieldValues>({ field, options }: ChoiceInputComponentProps<T>) {
+function ChoiceRadioGroup<T extends FieldValues>({ field, options, disabled }: ChoiceInputComponentProps<T>) {
 	return (
 		<FormControl>
-			<RadioGroup className="flex flex-col" defaultValue={field.value} onValueChange={field.onChange}>
+			<RadioGroup className="flex flex-col" defaultValue={field.value} disabled={disabled} onValueChange={field.onChange}>
 				{options.map((option) => (
 					<FormItem className="flex items-center gap-3" key={option.value}>
 						<FormControl>
@@ -172,7 +177,7 @@ function ChoiceRadioGroup<T extends FieldValues>({ field, options }: ChoiceInput
 /**
  * Checkbox group input for multiple choices.
  */
-function ChoiceCheckboxGroup<T extends FieldValues>({ field, options }: Omit<ChoiceInputComponentProps<T>, "placeholder">) {
+function ChoiceCheckboxGroup<T extends FieldValues>({ field, options, disabled }: Omit<ChoiceInputComponentProps<T>, "placeholder">) {
 	return (
 		<div className="flex flex-col gap-2">
 			{options.map((option) => (
@@ -180,7 +185,7 @@ function ChoiceCheckboxGroup<T extends FieldValues>({ field, options }: Omit<Cho
 					<FormControl>
 						<Checkbox
 							checked={Array.isArray(field.value) ? field.value.includes(option.value) : false}
-							disabled={option.disabled}
+							disabled={disabled || option.disabled}
 							onCheckedChange={(checked) => {
 								if (!Array.isArray(field.value)) {
 									return;

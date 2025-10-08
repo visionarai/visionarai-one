@@ -11,16 +11,21 @@ import {
 	DropdownMenuTrigger,
 	useBetterAuthFunction,
 } from "@visionarai-one/ui";
-import { MoreHorizontal, UserCog, UserX } from "lucide-react";
+import type { UserWithRole } from "better-auth/plugins/admin";
+import { MoreHorizontal, User2Icon, UserCog, UserX } from "lucide-react";
+import { useQueryStates } from "nuqs";
 import { useRouter } from "@/i18n/navigation";
-import { authClient, type User } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
+import { querySearchParams } from "../_state/search-params";
+import { UserProfile } from "./user-profile";
 
-// Placeholder for user actions - to be implemented later
 type UserActionsProps = {
-	user: User;
+	user: UserWithRole;
 };
 
 export function UserActions({ user }: UserActionsProps) {
+	const [{ selectedUserId, openUserProfile }, setParams] = useQueryStates(querySearchParams);
+	const showDialog = openUserProfile && selectedUserId === user.id;
 	const userId = user.id;
 	const { refetch, data } = authClient.useSession();
 	const selfId = data?.user?.id;
@@ -52,12 +57,20 @@ export function UserActions({ user }: UserActionsProps) {
 		successMessage: "User has been unbanned",
 	});
 
-	const [updateUser] = useBetterAuthFunction(authClient.admin.updateUser, {
+	const [updateUser, { isLoading: isUpdatingUser }] = useBetterAuthFunction(authClient.admin.updateUser, {
 		loadingMessage: "Updating user...",
+		onSuccess: () => {
+			setParams({ openUserProfile: false, selectedUserId: null });
+		},
+		successMessage: "User has been updated",
+	});
+
+	const [removeUser] = useBetterAuthFunction(authClient.admin.removeUser, {
+		loadingMessage: "Deleting user...",
 		onSuccess: () => {
 			router.refresh();
 		},
-		successMessage: "User has been updated",
+		successMessage: "User has been deleted",
 	});
 
 	if (selfId === userId) return <Badge>It's you!</Badge>;
@@ -97,8 +110,41 @@ export function UserActions({ user }: UserActionsProps) {
 							variant="ghost"
 						/>
 					</DropdownMenuItem>
+					<DropdownMenuItem asChild>
+						<ActionButton
+							aria-label="Remove User"
+							buttonIcon={<UserX className="text-destructive" />}
+							cancelButtonText="No, cancel"
+							confirmButtonText="Yes, delete"
+							confirmDialogDescription="This will permanently delete the user and all their data."
+							confirmDialogTitle="Are you sure?"
+							labelAsText
+							onClick={() => removeUser({ userId })}
+							requiresConfirmation
+							showTooltip={false}
+							variant="ghostDestructive"
+						/>
+					</DropdownMenuItem>
+					<DropdownMenuItem
+						aria-label="View Profile"
+						onClick={() => {
+							setParams({ openUserProfile: true, selectedUserId: user.id });
+						}}
+					>
+						<User2Icon />
+						View Profile
+					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
+			{showDialog && (
+				<UserProfile
+					isLoading={isUpdatingUser}
+					onSaveAction={(updatedUserData) => {
+						updateUser({ data: updatedUserData, userId: user.id });
+					}}
+					user={user}
+				/>
+			)}
 		</div>
 	);
 }

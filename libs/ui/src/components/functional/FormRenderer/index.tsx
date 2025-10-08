@@ -7,18 +7,15 @@ import type { Control, DefaultValues, FieldValues, Resolver, SubmitHandler } fro
 import { useForm } from "react-hook-form";
 import type { z } from "zod/v4";
 import { FieldRenderer } from "./field-renderer";
-import { extractFieldConfigsFromSchema, type FieldMetadata } from "./types";
+import { extractFieldConfigsFromSchema } from "./types";
 
 export * from "./types";
 
-type SchemaLike = z.ZodObject<any, any>;
-
-type FormRendererProps<TFieldValues extends FieldValues = FieldValues> = {
-	formSchema?: SchemaLike; // optional: used to auto-extract fields and attach zodResolver
-	fields?: FieldMetadata[]; // when provided, overrides extraction from schema
-	resolver?: Resolver<TFieldValues>;
-	onSubmit: (data: TFieldValues) => void;
-	defaultValues?: DefaultValues<TFieldValues>;
+// Make the component generic over a Zod schema type S and infer the form values from it.
+type FormRendererProps<S extends z.ZodType<FieldValues, any, any>> = {
+	formSchema: S; // required: used to auto-extract fields and attach zodResolver
+	onSubmit: (data: z.infer<S>) => void;
+	defaultValues?: DefaultValues<z.infer<S>>;
 	passwordRequirements?: PasswordRequirementProps[];
 	submitButtonText?: string;
 	submitButtonIcon?: React.ReactNode;
@@ -28,10 +25,8 @@ type FormRendererProps<TFieldValues extends FieldValues = FieldValues> = {
 	isLoading?: boolean; // when true, disables the submit button
 };
 
-export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
+export function FormRenderer<S extends z.ZodType<FieldValues, any, any>>({
 	formSchema,
-	fields,
-	resolver,
 	passwordRequirements,
 	onSubmit,
 	defaultValues,
@@ -41,19 +36,20 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 	resetButtonIcon,
 	debugMode = false,
 	isLoading = false,
-}: FormRendererProps<TFieldValues>) {
-	const resolverToUse = (resolver ?? (formSchema ? (zodResolver(formSchema) as Resolver<TFieldValues>) : undefined)) as Resolver<TFieldValues> | undefined;
-	const form = useForm<TFieldValues>({
+}: FormRendererProps<S>) {
+	type FormValues = z.infer<S>;
+
+	const form = useForm<FormValues>({
 		defaultValues,
 		mode: "onBlur",
 		resetOptions: {
 			keepDefaultValues: true,
 			keepDirtyValues: false,
 		},
-		resolver: resolverToUse,
+		resolver: zodResolver(formSchema) as unknown as Resolver<FormValues>,
 	});
 
-	const extractedFields = (formSchema ? extractFieldConfigsFromSchema(formSchema) : (fields ?? [])).filter((field) => field.name);
+	const extractedFields = extractFieldConfigsFromSchema(formSchema).filter((field) => field.name);
 
 	return (
 		<Form {...(form as any)}>
@@ -79,11 +75,11 @@ export function FormRenderer<TFieldValues extends FieldValues = FieldValues>({
 					</div>
 				</div>
 			) : (
-				<form className="space-y-8" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<TFieldValues>)}>
+				<form className="space-y-8" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<FormValues>)}>
 					{extractedFields.map((fieldMetadata) => (
 						<FieldRenderer
 							fieldMetadata={fieldMetadata.type === "password" ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}
-							formControl={form.control as unknown as Control<TFieldValues>}
+							formControl={form.control as unknown as Control<FormValues>}
 							key={fieldMetadata.name}
 						/>
 					))}

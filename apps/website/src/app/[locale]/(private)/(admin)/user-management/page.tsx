@@ -1,9 +1,31 @@
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+	Badge,
+	Button,
+	Spinner,
+	Table,
+	TableBody,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@visionarai-one/ui";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import type { SearchParams } from "nuqs/server";
-import { auth, type User, type UserSession } from "@/lib/auth";
-import { DataTable } from "./_components/data-table";
-import { searchParamsCache } from "./_state/search-params";
+import { Suspense } from "react";
+import { Link } from "@/i18n/navigation";
+import { auth } from "@/lib/auth";
+import { PageHeader } from "@/widgets/page-header";
+import { Pagination, type PaginationData } from "./_components/pagination";
+import { RegisterNewUser } from "./_components/register-new-user";
+import { Toolbar } from "./_components/toolbar";
+import { UserActions } from "./_components/user-actions";
+import { searchParamsCache, serializeUrl } from "./_state/search-params";
 
 type UserManagementPageProps = {
 	searchParams: Promise<SearchParams>;
@@ -13,6 +35,7 @@ export default async function UserManagementPage({ searchParams }: UserManagemen
 	const { query } = await searchParamsCache.parse(searchParams);
 
 	const t = await getTranslations("UserManagement.page");
+	const tData = await getTranslations("UserManagement.dataTable");
 
 	const adminUsersList = await auth.api.listUsers({
 		headers: await headers(),
@@ -23,32 +46,139 @@ export default async function UserManagementPage({ searchParams }: UserManagemen
 		throw new Error("Failed to fetch users");
 	}
 
-	const allUsersWithSessions: { user: User; sessions: UserSession[] }[] = await Promise.all(
-		(adminUsersList.users ?? []).map(async (user) => {
-			const sessions = await fetchSessionForUser(user.id.toString());
-			return {
-				sessions: sessions ?? [],
-				user: user as User,
-			};
-		})
-	);
+	const total = adminUsersList.users.length;
+	const paginationData: PaginationData = calculatePagination(query.offset ?? 0, query.limit ?? 10, total);
 
-	const total = allUsersWithSessions.length;
 	return (
 		<section className="space-y-8">
-			<div>
-				<h1 className="font-bold text-2xl">{t("title")}</h1>
-				<p className="text-muted-foreground">{t("description")}</p>
-			</div>
-			<DataTable data={allUsersWithSessions} totalCountInDb={total} />
+			<PageHeader subtitle={t("description")} title={t("title")}>
+				<RegisterNewUser />
+			</PageHeader>
+
+			<Table className="rounded border">
+				<TableHeader className="bg-muted p-32">
+					<Toolbar />
+					<TableRow className="text-md">
+						<TableHead className="w-[100px]">{tData("avatar")}</TableHead>
+						<TableHead>
+							<Button asChild size="icon-lg" variant="ghost">
+								<Link href={serializeUrl(query, { sortBy: "name", sortDirection: query.sortDirection === "asc" ? "desc" : "asc" })}>
+									{tData("name")} {query.sortBy === "name" && (query.sortDirection === "asc" ? <ChevronUp /> : <ChevronDown />)}
+								</Link>
+							</Button>
+						</TableHead>
+						<TableHead>
+							<Button asChild size="icon-lg" variant="ghost">
+								<Link href={serializeUrl(query, { sortBy: "email", sortDirection: query.sortDirection === "asc" ? "desc" : "asc" })}>
+									{tData("email")} {query.sortBy === "email" && (query.sortDirection === "asc" ? <ChevronUp /> : <ChevronDown />)}
+								</Link>
+							</Button>
+						</TableHead>
+
+						<TableHead className="text-right">{tData("actions")}</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody className="h-full">
+					{adminUsersList.users.length === 0 ? (
+						<TableRow>
+							<TableCell className="h-24 text-center" colSpan={5}>
+								<div className="flex flex-col items-center justify-center gap-2 py-8">
+									<p className="font-semibold text-lg">{tData("empty.title")}</p>
+									<p className="text-muted-foreground text-sm">{tData("empty.description")}</p>
+								</div>
+							</TableCell>
+						</TableRow>
+					) : (
+						adminUsersList.users.map((user) => (
+							<TableRow key={user.id}>
+								<TableCell>
+									<Avatar className="relative size-10">
+										<AvatarImage alt={user.name || tData("unknownUser")} src={user.image || ""} />
+										<AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : "U"}</AvatarFallback>
+									</Avatar>
+								</TableCell>
+								<TableCell className="font-medium">
+									{user.name || tData("unknownUser")}
+									<div className="mt-1 flex items-center gap-2">
+										{user.role === "admin" && <Badge variant="secondary">Admin</Badge>}
+										{user.banned && <Badge variant="destructive">Banned</Badge>}
+										{!user.emailVerified && <Badge variant="destructiveOutline">Unverified</Badge>}
+									</div>
+								</TableCell>
+								<TableCell>{user.email}</TableCell>
+								<TableCell className="text-right">
+									<UserActions user={user} />
+								</TableCell>
+							</TableRow>
+						))
+					)}
+				</TableBody>
+				<TableFooter>
+					<TableRow>
+						<TableCell colSpan={5}>
+							<div className="flex items-center justify-between">
+								<div className="text-muted-foreground text-sm">
+									{total ? (
+										tData("pagination.showing", {
+											from: paginationData.from,
+											to: paginationData.to,
+											total,
+										})
+									) : (
+										<span>&nbsp;</span>
+									)}
+								</div>
+								<Suspense fallback={<Spinner size={32} />}>
+									<Pagination {...paginationData} />
+								</Suspense>
+							</div>
+						</TableCell>
+					</TableRow>
+				</TableFooter>
+			</Table>
 		</section>
 	);
 }
 
-async function fetchSessionForUser(userId: string) {
-	const data = await auth.api.listUserSessions({
-		body: { userId },
-		headers: await headers(),
-	});
-	return data.sessions ?? [];
-}
+const calculatePagination = (offset: number, limit: number, total: number): PaginationData => {
+	const currentPage = Math.floor(offset / limit) + 1;
+	const totalPages = Math.ceil(total / limit);
+	const from = offset + 1;
+	const to = Math.min(offset + limit, total);
+	const hasPreviousPage = currentPage > 1;
+	const hasNextPage = currentPage < totalPages;
+	const previousOffset = hasPreviousPage ? offset - limit : 0;
+	const nextOffset = hasNextPage ? offset + limit : offset;
+
+	// Generate page numbers with ellipsis
+	const pageNumbers: (number | "ellipsis")[] = [];
+	if (totalPages <= 7) {
+		for (let i = 1; i <= totalPages; i++) {
+			pageNumbers.push(i);
+		}
+	} else {
+		pageNumbers.push(1);
+		if (currentPage > 4) {
+			pageNumbers.push("ellipsis");
+		}
+		for (let i = Math.max(2, currentPage - 2); i <= Math.min(totalPages - 1, currentPage + 2); i++) {
+			pageNumbers.push(i);
+		}
+		if (currentPage < totalPages - 3) {
+			pageNumbers.push("ellipsis");
+		}
+		pageNumbers.push(totalPages);
+	}
+
+	return {
+		currentPage,
+		from,
+		hasNextPage,
+		hasPreviousPage,
+		nextOffset,
+		pageNumbers,
+		previousOffset,
+		to,
+		totalPages,
+	};
+};

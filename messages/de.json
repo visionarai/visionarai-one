@@ -276,7 +276,7 @@
       "dashboard": "Dashboard",
       "masterData": "Stammdaten",
       "policies": "Richtlinien",
-      "userManagement": "Benutzerverwaltung"
+      "user-management": "Benutzerverwaltung"
     },
     "userFallback": {
       "email": "E-Mail",
