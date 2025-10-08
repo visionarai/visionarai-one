@@ -4,6 +4,7 @@ import {
 	Field,
 	FieldContent,
 	FieldDescription,
+	FieldError,
 	FieldLabel,
 	FormControl,
 	FormDescription,
@@ -40,7 +41,9 @@ export const SwitchFormField = <T extends FieldValues>({ name, label, formContro
 						<Switch checked={field.value} onCheckedChange={field.onChange} {...props} />
 					</FormControl>
 				</Field>
-				<FormMessage />
+				<FieldError>
+					<FormMessage />
+				</FieldError>
 			</FormItem>
 		)}
 	/>
