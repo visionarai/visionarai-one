@@ -28,7 +28,7 @@ type AsyncFunctionOptions<Return> = {
 };
 
 /**
- * Wrap an async function with local loading/error state and toast.promise lifecycle notifications.
+ * Wrap an async function with local loading/error state and simple toast lifecycle notifications.
  * Returns a stable wrapper you can call with the original arguments.
  */
 export function useAsyncFunction<Args extends unknown[], Return>(asyncFunction: (...args: Args) => Promise<Return>, options?: AsyncFunctionOptions<Return>) {
@@ -51,48 +51,40 @@ export function useAsyncFunction<Args extends unknown[], Return>(asyncFunction: 
 		return msg ?? err.message ?? "Error";
 	};
 
-	const invoke = async (promise: Promise<Return>) => {
-		try {
-			const result = await promise;
-			options?.onSuccess?.(result);
-			return result;
-		} catch (err) {
-			if (!(err instanceof Error)) {
-				const e = new Error("An unknown error occurred");
-				setError(e);
-				options?.onError?.(e);
-				throw e; // rethrow so toast.promise can handle if active
-			}
-			const e = err as Error;
-			setError(e);
-			options?.onError?.(e);
-			throw e; // rethrow so toast.promise can handle if active
-		}
+	// Helpers to keep execute() simple and low-complexity
+	const shouldToast = !options?.disableToast;
+	const showLoading = (): string | number | undefined => (shouldToast ? toast.loading(options?.loadingMessage ?? "Loading...") : undefined);
+	const showSuccess = (data: Return) => {
+		if (shouldToast) toast.success(formatSuccess(data));
 	};
+	const showError = (err: Error) => {
+		if (shouldToast) toast.error(formatError(err));
+	};
+	const dismiss = (id?: string | number) => {
+		if (id !== undefined) toast.dismiss(id);
+	};
+	const normalizeError = (err: unknown): Error => (err instanceof Error ? err : new Error("An unknown error occurred"));
 
 	const execute = async (...args: Args): Promise<Return> => {
 		setLoading(true);
 		setError(null);
-		const basePromise = invoke(asyncFunction(...args));
 
-		if (options?.disableToast) {
-			try {
-				return await basePromise;
-			} finally {
-				setLoading(false);
-			}
-		}
-
-		toast.promise(basePromise, {
-			error: (err) => formatError(err as Error),
-			loading: options?.loadingMessage ?? "Loading...",
-			success: (data) => formatSuccess(data as Return),
-		});
+		const toastId = showLoading();
 
 		try {
-			return await basePromise;
+			const result = await asyncFunction(...args);
+			options?.onSuccess?.(result);
+			showSuccess(result);
+			return result;
+		} catch (err) {
+			const e = normalizeError(err);
+			setError(e);
+			options?.onError?.(e);
+			showError(e);
+			throw e;
 		} finally {
 			setLoading(false);
+			dismiss(toastId);
 		}
 	};
 

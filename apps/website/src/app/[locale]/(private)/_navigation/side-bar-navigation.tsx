@@ -2,7 +2,7 @@
 
 import { Button, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@visionarai-one/ui";
 import { cn } from "@visionarai-one/utils";
-import { Link, usePathname } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 
 type NavItem = {
 	icon: React.ReactNode;
@@ -35,21 +35,23 @@ export function AppSidebarNavigation({ navItems, groupTitle }: AppSidebarProps) 
 }
 
 function SideBarLink({ navItem, isActive }: { navItem: NavItem; isActive: boolean }) {
+	const router = useRouter();
 	return (
 		<SidebarMenuItem>
 			<SidebarMenuButton asChild>
 				<Button
-					asChild
 					className={cn(
 						"flex w-full items-center justify-start rounded-md px-2 py-1 font-medium text-sm transition-all",
 						isActive ? "bg-primary text-primary-foreground hover:bg-primary/90" : "hover:bg-accent hover:text-accent-foreground"
 					)}
+					onClick={(e) => {
+						e.preventDefault();
+						router.push(navItem.path);
+					}}
 					variant="ghost"
 				>
-					<Link aria-current={isActive ? "page" : undefined} href={navItem.path}>
-						{isActive ? navItem.iconSelected : navItem.icon}
-						<span>{navItem.title}</span>
-					</Link>
+					{isActive ? navItem.iconSelected : navItem.icon}
+					<span>{navItem.title}</span>
 				</Button>
 			</SidebarMenuButton>
 		</SidebarMenuItem>
