@@ -28,6 +28,10 @@ if (g.__visionarai_mongodb_client__) {
 
 const db = client.db();
 export const auth = betterAuth({
+	accountLinking: {
+		enabled: true,
+		trustedProviders: ["google", "github"],
+	},
 	database: mongodbAdapter(db, {
 		client,
 	}),

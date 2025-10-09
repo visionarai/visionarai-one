@@ -1,15 +1,14 @@
 "use client";
 
-import { Button, FormRenderer, Separator, Spinner, stringifyFieldMetadata, useBetterAuthFunction } from "@visionarai-one/ui";
+import { Button, FormRenderer, LoadingSwap, Separator, stringifyFieldMetadata, useBetterAuthFunction } from "@visionarai-one/ui";
 import { passwordZod } from "@visionarai-one/utils";
 import { LogIn } from "lucide-react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { z } from "zod/v4";
 import { Link, useRouter } from "@/i18n/navigation";
 import { authClient } from "@/lib/auth-client";
-import GithubIcon from "../_icons/github-octocat.svg";
-import Gmail from "../_icons/google-gmail.svg";
+import { SUPPORTED_OAUTH_PROVIDER_DETAILS, SUPPORTED_OAUTH_PROVIDERS } from "@/lib/o-auth-providers";
+
 export default function LoginPage() {
 	const router = useRouter();
 	const t = useTranslations("Auth.login");
@@ -44,7 +43,7 @@ export default function LoginPage() {
 		},
 		successMessage: t("successMessage"),
 	});
-	const [socialLogin, { isLoading: isLoadingGithub }] = useBetterAuthFunction(authClient.signIn.social, {
+	const [socialLogin, { isLoading: isLoadingSocial }] = useBetterAuthFunction(authClient.signIn.social, {
 		loadingMessage: t("loadingMessage"),
 		onSuccess: () => {
 			router.push("/dashboard");
@@ -72,14 +71,19 @@ export default function LoginPage() {
 					submitButtonText={t("submit")}
 				/>
 				<Separator className="my-8" />
-				<Button className="w-full" disabled={isLoading} onClick={() => socialLogin({ provider: "github" })} size="lg" variant="outline">
-					{isLoadingGithub ? <Spinner size={24} /> : <Image alt={"github-logo"} height={24} src={GithubIcon} width={24} />}
-					{t("signInWithGitHub")}
-				</Button>
-				<Button className="w-full" disabled={isLoading} onClick={() => socialLogin({ provider: "gmail" })} size="lg" variant="outline">
-					{isLoadingGithub ? <Spinner size={24} /> : <Image alt={"gmail-logo"} height={24} src={Gmail} width={24} />}
-					{t("signInWithGmail")}
-				</Button>
+
+				{SUPPORTED_OAUTH_PROVIDERS.map((provider) => {
+					const { Icon, signInKey } = SUPPORTED_OAUTH_PROVIDER_DETAILS[provider];
+
+					return (
+						<Button className="w-full" disabled={isLoadingSocial} key={provider} onClick={() => socialLogin({ provider })} size="lg" variant="outline">
+							<LoadingSwap isLoading={isLoadingSocial}>
+								<Icon height={24} width={24} />
+							</LoadingSwap>
+							{t(signInKey)}
+						</Button>
+					);
+				})}
 
 				<Button asChild className="w-full" disabled={isLoading} size="lg" variant="link">
 					<Link href="/forgot-password">{t("forgotPassword")}</Link>

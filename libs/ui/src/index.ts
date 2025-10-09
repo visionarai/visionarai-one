@@ -15,3 +15,4 @@ export * from "./hooks/use-async-function";
 export * from "./hooks/use-better-auth-functions";
 export * from "./hooks/use-debounce-function";
 export * from "./hooks/use-mobile";
+export * from "./icons/social";

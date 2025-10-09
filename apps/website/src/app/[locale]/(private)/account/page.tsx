@@ -1,48 +1,44 @@
-import { Avatar, AvatarFallback, AvatarImage, Badge, Card, CardContent, CardHeader, Tabs, TabsContent, TabsList, TabsTrigger } from "@visionarai-one/ui";
-import { User } from "lucide-react";
+import { Card, CardContent, CardHeader, Tabs, TabsContent, TabsList } from "@visionarai-one/ui";
 import { headers } from "next/headers";
+import type { SearchParams } from "nuqs/server";
 import { auth } from "@/lib/auth";
-import { ImpersonationIndicator } from "@/widgets/auth/impersonation-indicator";
-import { PageHeader } from "@/widgets/page-header";
+import { ALL_TABS, searchParamsCache } from "./_state/search-params";
+import AccountsTab from "./tabs/accounts";
 import ProfileTab from "./tabs/profile";
+import { TabLink } from "./tabs/tab-link";
 
-export default async function AccountPage() {
+type AccountPageProps = {
+	searchParams: Promise<SearchParams>; // Next.js 15+: async searchParams prop
+};
+export default async function AccountPage({ searchParams }: AccountPageProps) {
+	const { selectedTab } = await searchParamsCache.parse(searchParams, { strict: true });
 	const session = await auth.api.getSession({ headers: await headers() });
+
+	const accounts = (
+		await auth.api.listUserAccounts({
+			headers: await headers(),
+		})
+	).filter((a) => a.providerId !== "credential");
+
 	if (!session) throw new Error("No session found");
+
 	return (
 		<div>
-			<PageHeader subtitle="Manage your account settings and set e-mail preferences." title="Account">
-				<ImpersonationIndicator />
-				<div className="flex items-center space-x-4">
-					<Avatar className="size-16 rounded-lg">
-						<AvatarImage alt={session.user.name || "User Avatar"} src={session.user.image || undefined} />
-						<AvatarFallback>
-							<User size={40} />
-						</AvatarFallback>
-					</Avatar>
-
-					<div className="flex-1">
-						<div className="flex items-start justify-between gap-1">
-							<h1 className="font-bold text-3xl">{session.user.name || "User Profile"}</h1>
-							<Badge>{session.user.role}</Badge>
-						</div>
-						<p className="text-muted-foreground">{session.user.email}</p>
-					</div>
-				</div>
-			</PageHeader>
-			<Tabs defaultValue="profile">
+			<Tabs value={selectedTab}>
 				<Card className="mt-8">
 					<CardHeader>
 						<TabsList className="w-full">
-							<TabsTrigger value="profile">Profile</TabsTrigger>
-							<TabsTrigger value="security">Security</TabsTrigger>
-							<TabsTrigger value="sessions">Sessions</TabsTrigger>
-							<TabsTrigger value="danger-zone">Danger Zone</TabsTrigger>
+							{ALL_TABS.map((tab) => (
+								<TabLink className="flex-1 justify-center" key={tab} value={tab} />
+							))}
 						</TabsList>
 					</CardHeader>
 					<CardContent className="mx-6 bg-accent p-6">
 						<TabsContent value="profile">
 							<ProfileTab user={session.user} />
+						</TabsContent>
+						<TabsContent value="accounts">
+							<AccountsTab accounts={accounts} />
 						</TabsContent>
 						<TabsContent value="security">
 							<p>Security content goes here.</p>
