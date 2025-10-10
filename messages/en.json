@@ -1,4 +1,90 @@
 {
+  "Account": {
+    "subtitle": "Manage your account settings and set e-mail preferences.",
+    "tabs": {
+      "accounts": {
+        "aria": {
+          "link_account": "Link {provider} account",
+          "unlink_account": "Unlink {provider} account"
+        },
+        "created": "Created",
+        "description": "Manage linked external accounts and connect new providers.",
+        "label": "Accounts",
+        "link_account": "Link account",
+        "link_other_accounts": "Link Other Accounts",
+        "linked_accounts_heading": "Linked Accounts",
+        "linked_accounts_subtitle": "Manage external identities connected to your account",
+        "no_accounts_message": {
+          "line1": "You haven't connected any external accounts yet.",
+          "line2": "Connect providers like GitHub or Google to sign in faster."
+        },
+        "no_linked_accounts": "No linked accounts",
+        "no_scopes": "No scopes",
+        "not_linked": "Not linked",
+        "updated": "Updated"
+      },
+      "danger-zone": {
+        "description": "Destructive account actions such as deleting your account.",
+        "label": "Danger Zone"
+      },
+      "profile": {
+        "avatarFallback": "User Avatar",
+        "description": "View and edit your profile information, name and email.",
+        "emailDescription": "We will never share your email.",
+        "emailLabel": "Email",
+        "errors": {
+          "changeEmail": "Failed to change email",
+          "updateProfile": "Failed to update profile"
+        },
+        "fullNameLabel": "Full name",
+        "label": "Profile",
+        "messages": {
+          "processing": "Processing...",
+          "profileUpdated": "Profile updated successfully",
+          "verifyEmail": "Verify your new email address to complete the change."
+        },
+        "nameDescription": "Your full name as shown on your profile.",
+        "submitButton": "Save Changes"
+      },
+      "security": {
+        "changePasswordHeading": "Change Password",
+        "comingSoon": "Security settings coming soon...",
+        "confirmPasswordLabel": "Confirm password",
+        "confirmPasswordPlaceholder": "Re-enter new password",
+        "currentPasswordLabel": "Current password",
+        "currentPasswordPlaceholder": "Enter current password",
+        "description": "Manage your password and security-related settings.",
+        "label": "Security",
+        "newPasswordLabel": "New password",
+        "newPasswordPlaceholder": "Enter new password",
+        "passwordMismatchError": "Passwords do not match",
+        "revokeOtherSessionsDescription": "Sign out of other active sessions when changing your password",
+        "revokeOtherSessionsLabel": "Revoke other sessions"
+      },
+      "sessions": {
+        "created": "Created",
+        "current_session": "Current Session",
+        "current_session_aria": "current session",
+        "description": "View and revoke active sessions across your devices.",
+        "expires": "Expires",
+        "label": "Sessions",
+        "no_other_sessions": "No other active sessions",
+        "revoke_aria": "Revoke session {id}",
+        "errors": {
+          "revokeSession": "Failed to revoke session"
+        },
+        "messages": {
+          "processing": "Processing...",
+          "sessionRevoked": "Session revoked"
+        },
+        "unknown_device": "Unknown device",
+        "unknown_device_type": "Unknown device type",
+        "unknown_ip": "Unknown IP address"
+      }
+    },
+    "title": "Account",
+    "userProfileFallback": "User Profile"
+  },
   "Auth": {
     "login": {
       "emailDescription": "We will never share your email with anyone else.",

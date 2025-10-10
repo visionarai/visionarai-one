@@ -1,4 +1,90 @@
 {
+  "Account": {
+    "subtitle": "Verwalten Sie Ihre Kontoeinstellungen und E-Mail‑Präferenzen.",
+    "tabs": {
+      "accounts": {
+        "aria": {
+          "link_account": "{provider}-Konto verbinden",
+          "unlink_account": "{provider}-Konto trennen"
+        },
+        "created": "Erstellt",
+        "description": "Verwalten Sie verknüpfte externe Konten und verbinden Sie neue Anbieter.",
+        "label": "Konten",
+        "link_account": "Konto verbinden",
+        "link_other_accounts": "Andere Konten verbinden",
+        "linked_accounts_heading": "Verknüpfte Konten",
+        "linked_accounts_subtitle": "Verwalten Sie externe Identitäten, die mit Ihrem Konto verbunden sind",
+        "no_accounts_message": {
+          "line1": "Sie haben noch keine externen Konten verbunden.",
+          "line2": "Verbinden Sie Anbieter wie GitHub oder Google, um sich schneller anzumelden."
+        },
+        "no_linked_accounts": "Keine verknüpften Konten",
+        "no_scopes": "Keine Berechtigungen",
+        "not_linked": "Nicht verbunden",
+        "updated": "Aktualisiert"
+      },
+      "danger-zone": {
+        "description": "Destruktive Kontohandlungen wie das Löschen Ihres Kontos.",
+        "label": "Gefahrenzone"
+      },
+      "profile": {
+        "avatarFallback": "Benutzerbild",
+        "description": "Profil anzeigen und bearbeiten: Name und E-Mail.",
+        "emailDescription": "Wir geben Ihre E-Mail-Adresse nicht weiter.",
+        "emailLabel": "E-Mail",
+        "errors": {
+          "changeEmail": "E-Mail‑Änderung fehlgeschlagen",
+          "updateProfile": "Profilaktualisierung fehlgeschlagen"
+        },
+        "fullNameLabel": "Vollständiger Name",
+        "label": "Profil",
+        "messages": {
+          "processing": "Verarbeitung...",
+          "profileUpdated": "Profil erfolgreich aktualisiert",
+          "verifyEmail": "Bestätigen Sie Ihre neue E-Mail-Adresse, um die Änderung abzuschließen."
+        },
+        "nameDescription": "Ihr vollständiger Name wie er im Profil angezeigt wird.",
+        "submitButton": "Änderungen speichern"
+      },
+      "security": {
+        "changePasswordHeading": "Passwort ändern",
+        "comingSoon": "Sicherheitseinstellungen erscheinen in Kürze...",
+        "confirmPasswordLabel": "Passwort bestätigen",
+        "confirmPasswordPlaceholder": "Neues Passwort erneut eingeben",
+        "currentPasswordLabel": "Aktuelles Passwort",
+        "currentPasswordPlaceholder": "Geben Sie das aktuelle Passwort ein",
+        "description": "Verwalten Sie Ihr Passwort und sicherheitsrelevante Einstellungen.",
+        "label": "Sicherheit",
+        "newPasswordLabel": "Neues Passwort",
+        "newPasswordPlaceholder": "Geben Sie ein neues Passwort ein",
+        "passwordMismatchError": "Passwörter stimmen nicht überein",
+        "revokeOtherSessionsDescription": "Abmelden anderer aktiver Sitzungen bei Passwortänderung",
+        "revokeOtherSessionsLabel": "Andere Sitzungen abmelden"
+      },
+      "sessions": {
+        "created": "Erstellt",
+        "current_session": "Aktuelle Sitzung",
+        "current_session_aria": "aktuelle Sitzung",
+        "description": "Aktive Sitzungen auf Ihren Geräten anzeigen und widerrufen.",
+        "expires": "Läuft ab",
+        "label": "Sitzungen",
+        "no_other_sessions": "Keine anderen aktiven Sitzungen",
+        "revoke_aria": "Sitzung {id} widerrufen",
+        "errors": {
+          "revokeSession": "Sitzung konnte nicht widerrufen werden"
+        },
+        "messages": {
+          "processing": "Verarbeitung...",
+          "sessionRevoked": "Sitzung widerrufen"
+        },
+        "unknown_device": "Unbekanntes Gerät",
+        "unknown_device_type": "Unbekannter Gerätetyp",
+        "unknown_ip": "Unbekannte IP‑Adresse"
+      }
+    },
+    "title": "Account",
+    "userProfileFallback": "Benutzerprofil"
+  },
   "Auth": {
     "login": {
       "emailDescription": "Wir werden Ihre E-Mail-Adresse niemals mit Dritten teilen.",

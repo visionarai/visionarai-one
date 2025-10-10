@@ -4,11 +4,12 @@ import type { FieldMetadata } from "./types";
 
 // --- Render helpers for each field type ---
 const renderInputFormField = <FieldValuesType extends FieldValues>(type: string, fieldMetadata: FieldMetadata, formControl: Control<FieldValuesType>) => {
-	const { name, label, placeholder, description } = fieldMetadata;
+	const { name, label, placeholder, description, disabled } = fieldMetadata;
 	return (
 		<InputFormField
 			autoComplete={"type" in fieldMetadata && "autoComplete" in fieldMetadata ? fieldMetadata.autoComplete : undefined}
 			description={description}
+			disabled={disabled}
 			formControl={formControl}
 			inputMode={"type" in fieldMetadata && "inputMode" in fieldMetadata ? fieldMetadata.inputMode : undefined}
 			label={label}

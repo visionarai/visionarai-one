@@ -1,7 +1,7 @@
 import { GitHubIcon, GmailIcon } from "@visionarai-one/ui";
 import type { ComponentProps, ElementType } from "react";
 
-export const SUPPORTED_OAUTH_PROVIDERS = ["github", "gmail"] as const;
+export const SUPPORTED_OAUTH_PROVIDERS = ["github", "google"] as const;
 export type SupportedOAuthProvider = (typeof SUPPORTED_OAUTH_PROVIDERS)[number];
 
 export type OAuthProviderDetails = {
@@ -12,5 +12,7 @@ export type OAuthProviderDetails = {
 
 export const SUPPORTED_OAUTH_PROVIDER_DETAILS: Record<SupportedOAuthProvider, OAuthProviderDetails> = {
 	github: { Icon: GitHubIcon, name: "GitHub", signInKey: "signInWithGitHub" },
-	gmail: { Icon: GmailIcon, name: "Google", signInKey: "signInWithGmail" },
+	google: { Icon: GmailIcon, name: "Google", signInKey: "signInWithGmail" },
 };
+
+export const getDetailsForProvider = (provider: SupportedOAuthProvider) => SUPPORTED_OAUTH_PROVIDER_DETAILS[provider];

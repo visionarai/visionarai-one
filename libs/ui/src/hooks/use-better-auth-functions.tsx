@@ -13,6 +13,7 @@ type AsyncFunctionOptions<Return> = {
 	onError?: (error: Error) => void;
 	loadingMessage?: ToastDisplayable;
 	successMessage?: string;
+	errorMessage?: string;
 };
 export function useBetterAuthFunction<Args extends unknown[], Return extends { error: null | { message?: string } }>(
 	asyncFunction: (...args: Args) => Promise<Return>,
@@ -30,7 +31,7 @@ export function useBetterAuthFunction<Args extends unknown[], Return extends { e
 			const result = await asyncFunction(...args);
 			if (result.error) {
 				toast.error(result.error.message || "Error");
-				options.onError?.(new Error(result.error.message));
+				options.onError?.(new Error(options.errorMessage || result.error.message));
 				return result;
 			}
 
@@ -41,7 +42,7 @@ export function useBetterAuthFunction<Args extends unknown[], Return extends { e
 			return result;
 		} catch (err) {
 			if (!(err instanceof Error)) {
-				const e = new Error("An unknown error occurred");
+				const e = new Error(options.errorMessage || "An unknown error occurred");
 				setError(e);
 				options.onError?.(e);
 				toast.error(e.message);
@@ -49,7 +50,7 @@ export function useBetterAuthFunction<Args extends unknown[], Return extends { e
 			const e = err as Error;
 			setError(e);
 			options.onError?.(e);
-			toast.error(e.message || "Error");
+			toast.error(options.errorMessage || e.message || "Error");
 			return null;
 		} finally {
 			setLoading(false);
