@@ -1,7 +1,8 @@
 "use client";
 
-import { FormRenderer, stringifyFieldMetadata } from "@visionarai-one/ui";
-import { Save } from "lucide-react";
+import { Avatar } from "@radix-ui/react-avatar";
+import { AvatarFallback, AvatarImage, FormRenderer, stringifyFieldMetadata } from "@visionarai-one/ui";
+import { Save, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -38,7 +39,12 @@ const profileUpdateSchema = z.object({
 
 type ProfileUpdateForm = z.infer<typeof profileUpdateSchema>;
 
-export default function ProfileTab({ user }: { user: ProfileUpdateForm }) {
+type ProfileTabProps = {
+	user: ProfileUpdateForm;
+	imageUrl?: string | null;
+};
+
+export default function ProfileTab({ user, imageUrl }: ProfileTabProps) {
 	const router = useRouter();
 	async function handleProfileUpdate(data: ProfileUpdateForm) {
 		const promises = [
@@ -73,14 +79,21 @@ export default function ProfileTab({ user }: { user: ProfileUpdateForm }) {
 		router.refresh();
 	}
 	return (
-		<div>
+		<div className="flex flex-row items-center gap-6">
 			<FormRenderer
+				className="flex-1"
 				defaultValues={user}
 				formSchema={profileUpdateSchema}
 				onSubmit={handleProfileUpdate}
 				submitButtonIcon={<Save />}
 				submitButtonText="Save Changes"
 			/>
+			<Avatar className="flex-1 rounded-lg bg-muted">
+				<AvatarImage alt={user.name || "User Avatar"} src={imageUrl || undefined} />
+				<AvatarFallback>
+					<User size={128} />
+				</AvatarFallback>
+			</Avatar>
 		</div>
 	);
 }

@@ -3,6 +3,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Form, type PasswordRequirementProps, Skeleton } from "@visionarai-one/ui";
+import { cn } from "@visionarai-one/utils";
+import type { ComponentPropsWithoutRef } from "react";
 import type { Control, DefaultValues, FieldValues, Resolver, SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import type { z } from "zod/v4";
@@ -23,6 +25,7 @@ type FormRendererProps<S extends z.ZodType<FieldValues, any, any>> = {
 	resetButtonIcon?: React.ReactNode;
 	debugMode?: boolean; // when true, shows form state below the form for debugging
 	isLoading?: boolean; // when true, disables the submit button
+	className?: ComponentPropsWithoutRef<"form">["className"];
 };
 
 export function FormRenderer<S extends z.ZodType<FieldValues, any, any>>({
@@ -36,6 +39,7 @@ export function FormRenderer<S extends z.ZodType<FieldValues, any, any>>({
 	resetButtonIcon,
 	debugMode = false,
 	isLoading = false,
+	className,
 }: FormRendererProps<S>) {
 	type FormValues = z.infer<S>;
 
@@ -62,7 +66,7 @@ export function FormRenderer<S extends z.ZodType<FieldValues, any, any>>({
 				</div>
 			)}
 			{isLoading ? (
-				<div className="space-y-8">
+				<div className={cn("space-y-6", className)}>
 					{extractedFields.map((fieldMetadata) => (
 						<div className="space-y-2" key={fieldMetadata.name}>
 							<Skeleton className="h-4 w-1/3" />
@@ -75,7 +79,7 @@ export function FormRenderer<S extends z.ZodType<FieldValues, any, any>>({
 					</div>
 				</div>
 			) : (
-				<form className="space-y-8" onSubmit={form.handleSubmit(onSubmit as SubmitHandler<FormValues>)}>
+				<form className={cn("space-y-6", className)} onSubmit={form.handleSubmit(onSubmit as SubmitHandler<FormValues>)}>
 					{extractedFields.map((fieldMetadata) => (
 						<FieldRenderer
 							fieldMetadata={fieldMetadata.type === "password" ? { ...fieldMetadata, passwordRequirements } : fieldMetadata}

@@ -16,31 +16,31 @@ export type TabDetails = {
 const TABS: Record<AccountTab, TabDetails> = {
 	accounts: {
 		description: "Manage your connected accounts and social logins.",
-		icon: <UserCheck />,
+		icon: <UserCheck size={16} />,
 		title: "Accounts",
 		value: "accounts",
 	},
 	"danger-zone": {
 		description: "Delete your account or perform other irreversible actions.",
-		icon: <Skull />,
+		icon: <Skull size={16} />,
 		title: "Danger Zone",
 		value: "danger-zone",
 	},
 	profile: {
 		description: "Update your personal information and contact details.",
-		icon: <Contact />,
+		icon: <Contact size={16} />,
 		title: "Profile",
 		value: "profile",
 	},
 	security: {
 		description: "Change your password and enable two-factor authentication.",
-		icon: <ShieldUser />,
+		icon: <ShieldUser size={16} />,
 		title: "Security",
 		value: "security",
 	},
 	sessions: {
 		description: "View and manage your active sessions and devices.",
-		icon: <UserLock />,
+		icon: <UserLock size={16} />,
 		title: "Sessions",
 		value: "sessions",
 	},
