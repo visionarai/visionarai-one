@@ -7,6 +7,7 @@ export * from "./components/functional/FormRenderer";
 export * from "./components/functional/footer-component";
 export * from "./components/functional/form-error";
 export * from "./components/functional/nav-bar";
+export * from "./components/functional/suspense-swap";
 export * from "./components/functional/ThemeSwitcher";
 export * from "./components/the-eye-of-vision";
 export * from "./components/ui";
