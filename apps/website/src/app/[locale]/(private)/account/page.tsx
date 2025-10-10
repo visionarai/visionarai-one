@@ -1,5 +1,4 @@
-import { TabsTrigger } from "@radix-ui/react-tabs";
-import { Avatar, AvatarFallback, AvatarImage, Badge, SuspenseSwap, Tabs, TabsContent, TabsList } from "@visionarai-one/ui";
+import { Avatar, AvatarFallback, AvatarImage, Badge, SuspenseSwap, Tabs, TabsContent, TabsList, TabsTrigger } from "@visionarai-one/ui";
 import { Contact, ShieldUser, Skull, User, UserCheck, UserLock } from "lucide-react";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
@@ -91,11 +90,11 @@ export default async function AccountPage() {
 				</div>
 			</PageHeader>
 			<Tabs className="mt-8 w-full" defaultValue="profile">
-				<TabsList className="w-full border-b bg-background px-2">
+				<TabsList className="w-full border-b px-2">
 					{ALL_TABS.map((tab) => {
 						const tabDetails = getTabDetails(tab);
 						return (
-							<TabsTrigger className="flex w-full items-center justify-center gap-2 transition-colors data-[state=active]:bg-accent" key={tab} value={tab}>
+							<TabsTrigger key={tab} value={tab}>
 								{tabDetails.icon} {tabsT(`${tabDetails.value}.label`)}
 							</TabsTrigger>
 						);
