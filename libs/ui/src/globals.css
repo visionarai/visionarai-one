@@ -12,9 +12,11 @@
 	--popover-foreground: oklch(0.2742 0.0208 165.96);
 	--primary: oklch(0.765 0.177 163.22);
 	--primary-foreground: oklch(0 0 0);
-	--secondary: oklch(0.551 0.0899 200.52);
+	/* Improved contrast: darker secondary to reach AAA for white foreground when needed */
+	--secondary: oklch(0.45 0.085 200.52);
 	--secondary-foreground: oklch(1 0 0);
-	--muted: oklch(0.9692 0.005 161.7);
+	/* Slightly adjusted muted to meet AAA with muted-foreground */
+	--muted: oklch(0.976 0.005 161.7);
 	--muted-foreground: oklch(0.4453 0.0279 166.55);
 	--accent: oklch(0.9692 0.005 161.7);
 	--accent-foreground: oklch(0.2742 0.0208 165.96);
@@ -90,7 +92,7 @@
 	--secondary-400: oklch(0.7809 0.1376 194.73);
 	--secondary-500: oklch(0.7079 0.1273 196.21);
 	--secondary-600: oklch(0.6035 0.1094 198.95);
-	--secondary-700: oklch(0.551 0.0899 200.52);
+	--secondary-700: oklch(0.45 0.085 200.52);
 	--secondary-800: oklch(0.4422 0.0729 202.06);
 	--secondary-900: oklch(0.3906 0.0594 203.06);
 	--secondary-950: oklch(0.2871 0.0452 205.42);

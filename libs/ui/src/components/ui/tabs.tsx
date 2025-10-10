@@ -5,13 +5,13 @@ import { cn } from "@visionarai-one/utils";
 import type * as React from "react";
 
 function Tabs({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Root>) {
-	return <TabsPrimitive.Root className={cn("flex flex-col gap-2 ", className)} data-slot="tabs" {...props} />;
+	return <TabsPrimitive.Root className={cn("flex flex-col gap-2", className)} data-slot="tabs" {...props} />;
 }
 
 function TabsList({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.List>) {
 	return (
 		<TabsPrimitive.List
-			className={cn("inline-flex h-9 w-fit items-center justify-center rounded-lg bg-muted p-[3px] text-muted-foreground ", className)}
+			className={cn("inline-flex h-9 w-fit items-center justify-center rounded-lg bg-muted p-[3px] text-muted-foreground", className)}
 			data-slot="tabs-list"
 			{...props}
 		/>
@@ -22,8 +22,8 @@ function TabsTrigger({ className, ...props }: React.ComponentProps<typeof TabsPr
 	return (
 		<TabsPrimitive.Trigger
 			className={cn(
-				"flex w-full items-center justify-center gap-2 h-[calc(100%-1px)] flex-1 flex-row rounded-md border border-transparent px-2 py-1 font-medium text-foreground text-sm transition-[color,box-shadow] focus-visible:border-ring focus-visible:outline-1 focus-visible:outline-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-primary-300 data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
-								className
+				"flex h-[calc(100%-1px)] w-full flex-1 flex-row items-center justify-center gap-2 rounded-md border border-transparent px-2 py-1 font-medium text-foreground text-sm transition-[color,box-shadow] focus-visible:border-ring focus-visible:outline-1 focus-visible:outline-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-primary-300 data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+				className
 			)}
 			data-slot="tabs-trigger"
 			{...props}
