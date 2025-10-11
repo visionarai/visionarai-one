@@ -67,7 +67,7 @@ export default async function LocaleLayout({ children }: { children: React.React
 	);
 	return (
 		<SidebarProvider defaultOpen={sidebarStateIsOpen}>
-			<Sidebar collapsible="icon">
+			<Sidebar collapsible="icon" variant="inset">
 				<SidebarHeader>
 					<SidebarMenu>
 						<SidebarMenuItem>
