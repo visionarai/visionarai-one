@@ -1,10 +1,11 @@
 "use client";
 
-import { Button, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from "@visionarai-one/ui";
+import { FormControl, FormField, FormItem, FormLabel, InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@visionarai-one/ui";
 import { cn } from "@visionarai-one/utils";
 import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
+import { useFormState, useWatch } from "react-hook-form";
 export type PasswordFormFieldProps<T extends FieldValues> = React.ComponentProps<"input"> & {
 	name: FieldPath<T>;
 	label: string;
@@ -30,18 +31,43 @@ export function PasswordFormField<T extends FieldValues>({
 }: PasswordFormFieldProps<T>) {
 	const [type, setType] = useState<"password" | "text">("password");
 
+	const watchedValue = useWatch({ control: formControl, name });
+	const { touchedFields } = useFormState({ control: formControl });
+	const metRequirements = useMemo(() => passwordRequirements?.map((req) => req.test(String(watchedValue ?? ""))) || [], [passwordRequirements, watchedValue]);
+
+	const hasTyped = Boolean(watchedValue && String(watchedValue).length > 0);
+	const nameKey = String(name);
+	const touchedMap = touchedFields as unknown as Record<string, unknown> | undefined;
+	const isTouched = Boolean(touchedMap?.[nameKey]);
+	const showRequirements = hasTyped || isTouched;
+
 	return (
 		<FormField
 			control={formControl}
 			name={name}
 			render={({ field }) => {
-				const metRequirements = passwordRequirements?.map((req) => req.test(field.value)) || [];
 				return (
 					<FormItem>
 						<FormLabel>{label}</FormLabel>
 						<FormControl>
-							<div className="relative">
-								<Input
+							<InputGroup>
+								<InputGroupAddon align="top-right">
+									<InputGroupButton
+										aria-label={type === "password" ? "Show password" : "Hide password"}
+										aria-pressed={type === "text"}
+										onClick={(e) => {
+											e.preventDefault();
+											setType(type === "password" ? "text" : "password");
+										}}
+										size="icon-sm"
+										tabIndex={-1}
+										type="button"
+										variant="link"
+									>
+										{type === "password" ? <EyeOffIcon /> : <EyeIcon />}
+									</InputGroupButton>
+								</InputGroupAddon>
+								<InputGroupInput
 									autoCapitalize="none"
 									autoComplete="current-password"
 									autoCorrect="off"
@@ -51,29 +77,19 @@ export function PasswordFormField<T extends FieldValues>({
 									{...field}
 									{...props}
 								/>
-								<Button
-									aria-label={type === "password" ? "Show password" : "Hide password"}
-									className="-translate-y-1/2 absolute top-1/2 right-2 px-0"
-									onClick={(e) => {
-										e.preventDefault();
-										setType(type === "password" ? "text" : "password");
-									}}
-									size="icon"
-									variant="link"
-								>
-									{type === "password" ? <EyeOffIcon /> : <EyeIcon />}
-								</Button>
-							</div>
-						</FormControl>
 
-						{passwordRequirements?.map((req, idx) => (
-							<FormDescription className="text-sm" key={req.key}>
-								<span className={cn("mr-2 inline-block", metRequirements[idx] ? "text-green-600" : "text-destructive")}>
-									{metRequirements[idx] ? <CheckIcon className="inline" /> : <XIcon className="inline" />} {req.message}
-								</span>
-							</FormDescription>
-						))}
-						<FormMessage />
+								{/* Announce requirement status changes to assistive tech. Only show after user interacts. */}
+								{showRequirements && (
+									<InputGroupAddon align="block-end" aria-atomic="true" aria-live="polite" className="flex flex-col items-start gap-1 pt-4">
+										{passwordRequirements?.map((req, idx) => (
+											<span className={cn("mr-2 inline-block", metRequirements[idx] ? "text-green-600" : "text-destructive")} key={req.key}>
+												{metRequirements[idx] ? <CheckIcon className="inline" /> : <XIcon className="inline" />} {req.message}
+											</span>
+										))}
+									</InputGroupAddon>
+								)}
+							</InputGroup>
+						</FormControl>
 					</FormItem>
 				);
 			}}
