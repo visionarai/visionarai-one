@@ -92,26 +92,22 @@ function SessionCard({ session, isCurrentSession = false }: { session: Session; 
 		<Item variant="outline">
 			<ItemMedia variant="icon">{getDeviceIcon()}</ItemMedia>
 			<ItemContent>
-				<ItemTitle>
-					<div>
-						<p className="space-x-4 text-muted-foreground text-sm">
-							<Badge variant="outline">{userAgentInfo?.device?.model ?? userAgentInfo?.device?.type ?? t("unknown_device_type")}</Badge>
-							<span>{session.ipAddress || t("unknown_ip")}</span>
-						</p>
-						<Badge variant="outline">{getBrowserInformation()}</Badge>
-					</div>
+				<ItemTitle className="flex flex-col items-start">
+					<p className="space-x-4 text-muted-foreground text-sm">
+						<Badge variant="outline">{userAgentInfo?.device?.model ?? userAgentInfo?.device?.type ?? t("unknown_device_type")}</Badge>
+						<span>{session.ipAddress || t("unknown_ip")}</span>
+					</p>
+					<Badge variant="outline">{getBrowserInformation()}</Badge>
 				</ItemTitle>
-				<ItemDescription>
-					<div className="flex items-start gap-4 sm:items-center">
-						<div className="min-w-0">
-							<p className="text-muted-foreground text-sm">{t("created")}</p>
-							<p className="text-sm">{format.dateTime(session.createdAt, "short")}</p>
-						</div>
+				<ItemDescription className="flex items-start gap-4 sm:items-center sm:gap-12">
+					<div className="min-w-0">
+						<p className="text-muted-foreground text-sm">{t("created")}</p>
+						<p className="text-sm">{format.dateTime(session.createdAt, "short")}</p>
+					</div>
 
-						<div className="min-w-0">
-							<p className="text-muted-foreground text-sm">{t("expires")}</p>
-							<p className="text-sm">{format.dateTime(session.expiresAt, "short")}</p>
-						</div>
+					<div className="min-w-0">
+						<p className="text-muted-foreground text-sm">{t("expires")}</p>
+						<p className="text-sm">{format.dateTime(session.expiresAt, "short")}</p>
 					</div>
 				</ItemDescription>
 			</ItemContent>

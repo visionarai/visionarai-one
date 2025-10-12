@@ -52,30 +52,30 @@ export default async function AccountsTab({ accounts }: AccountsTabProps) {
 								<span className="sr-only font-semibold text-lg">Provider:</span>
 								{name}
 							</ItemTitle>
-							<ItemDescription>
-								<div className="flex flex-col gap-4">
-									<div aria-hidden className="flex flex-wrap gap-2">
-										{account.scopes && account.scopes.length > 0 ? (
-											account.scopes.map((s) => (
-												<Badge className="text-xs" key={s} variant="secondary">
-													{s}
-												</Badge>
-											))
-										) : (
-											<span className="text-muted-foreground text-sm">{t("no_scopes")}</span>
-										)}
-									</div>
+							<ItemDescription className="flex flex-col gap-4">
+								<div aria-hidden className="flex flex-wrap gap-2">
+									{account.scopes && account.scopes.length > 0 ? (
+										account.scopes.map((s) => (
+											<Badge className="text-xs" key={s} variant="secondary">
+												{s}
+											</Badge>
+										))
+									) : (
+										<span className="text-muted-foreground text-sm">{t("no_scopes")}</span>
+									)}
+								</div>
 
-									<dl className="flex gap-8 text-sm">
-										<div>
-											<dt className="text-muted-foreground">{t("created")}</dt>
-											<dd className="font-medium">{format.dateTime(account.createdAt, "short")}</dd>
-										</div>
-										<div>
-											<dt className="text-muted-foreground">{t("updated")}</dt>
-											<dd className="font-medium">{format.dateTime(account.updatedAt, "short")}</dd>
-										</div>
-									</dl>
+								<div className="flex gap-8 text-sm">
+									<div>
+										<span className="text-muted-foreground">{t("created")}</span>
+										<br />
+										<span className="font-medium">{format.dateTime(account.createdAt, "short")}</span>
+									</div>
+									<div>
+										<span className="text-muted-foreground">{t("updated")}</span>
+										<br />
+										<span className="font-medium">{format.dateTime(account.updatedAt, "short")}</span>
+									</div>
 								</div>
 							</ItemDescription>
 						</ItemContent>
