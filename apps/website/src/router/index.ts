@@ -169,7 +169,10 @@ const masterDataResourcesAndEnvironmentAttributes = dbProcedures.handler(({ cont
 
 const createPlaceholderPolicy = dbProcedures.input(CreateNewPolicyInputSchema).handler(async ({ context, input }) => {
 	const { policyRepository } = context;
-	return await policyRepository.policyRegisterNew(input);
+	return await policyRepository.policyRegisterNew({
+		...input,
+		createdBy: context.userId,
+	});
 });
 
 const getAllPolicies = dbProcedures.handler(async ({ context }) => {
