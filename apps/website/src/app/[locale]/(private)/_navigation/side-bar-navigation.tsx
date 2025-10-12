@@ -38,7 +38,7 @@ function SideBarLink({ navItem, isActive }: { navItem: NavItem; isActive: boolea
 	const router = useRouter();
 	return (
 		<SidebarMenuItem>
-			<SidebarMenuButton asChild>
+			<SidebarMenuButton asChild size="md">
 				<Button
 					className={cn(
 						"flex w-full items-center justify-start rounded-md px-2 py-1 font-medium text-sm transition-all",
