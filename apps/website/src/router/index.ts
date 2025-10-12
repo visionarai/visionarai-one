@@ -10,9 +10,33 @@ import {
 } from "@visionarai-one/abac";
 import { createMongoDBConnector } from "@visionarai-one/connectors";
 import type { Connection } from "mongoose";
+import { headers } from "next/headers";
 import z from "zod";
+import { auth } from "@/lib/auth";
 import { appLogger } from "@/lib/logger";
 import { runtimeConfig } from "@/lib/runtime-conf";
+
+const authMiddleware = os
+	.$context<{
+		userId?: string;
+	}>()
+	.middleware(async ({ context, next }) => {
+		let userId = context.userId;
+
+		if (!userId) {
+			const session = await auth.api.getSession({ headers: await headers() });
+			if (!session?.user) {
+				throw new ORPCError("UNAUTHORIZED", { message: "User is not authenticated", status: 401 });
+			}
+			userId = session.user.id;
+		}
+
+		return next({
+			context: {
+				userId,
+			},
+		});
+	});
 
 const dbProviderMiddleware = os
 	.$context<{
@@ -40,45 +64,49 @@ const dbProviderMiddleware = os
 		});
 	});
 
-const dbProcedures = os.use(dbProviderMiddleware).use(
-	onError((error) => {
-		if (error instanceof ORPCError && error.cause instanceof ValidationError) {
-			// If you only use Zod you can safely cast to ZodIssue[]
-			const zodError = new z.ZodError(error.cause.issues as z.core.$ZodIssue[]);
+const dbProcedures = os
 
-			const errorData = {
-				cause: error.cause,
-				code: error.code,
-				data: z.flattenError(zodError),
-				message: z.prettifyError(zodError),
-			};
+	.use(
+		onError((error) => {
+			if (error instanceof ORPCError && error.cause instanceof ValidationError) {
+				// If you only use Zod you can safely cast to ZodIssue[]
+				const zodError = new z.ZodError(error.cause.issues as z.core.$ZodIssue[]);
 
-			if (error.code === "BAD_REQUEST") {
+				const errorData = {
+					cause: error.cause,
+					code: error.code,
+					data: z.flattenError(zodError),
+					message: z.prettifyError(zodError),
+				};
+
+				if (error.code === "BAD_REQUEST") {
+					throw new ORPCError("INPUT_VALIDATION_FAILED", { ...errorData, status: 422 });
+				}
+				if (error.code === "INTERNAL_SERVER_ERROR") {
+					const message = z.prettifyError(zodError).replace("input", "output");
+					throw new ORPCError("OUTPUT_VALIDATION_FAILED", {
+						...errorData,
+						message,
+						status: 500,
+					});
+				}
+			} else if (error instanceof z.ZodError) {
+				// If you only use Zod you can safely cast to ZodIssue[]
+				const errorData = {
+					cause: error,
+					code: "ZOD_ERROR",
+					data: z.flattenError(error),
+					message: z.prettifyError(error),
+				};
+
 				throw new ORPCError("INPUT_VALIDATION_FAILED", { ...errorData, status: 422 });
+			} else if (error instanceof Error) {
+				appLogger.error({ error }, "Unexpected error in DB router");
 			}
-			if (error.code === "INTERNAL_SERVER_ERROR") {
-				const message = z.prettifyError(zodError).replace("input", "output");
-				throw new ORPCError("OUTPUT_VALIDATION_FAILED", {
-					...errorData,
-					message,
-					status: 500,
-				});
-			}
-		} else if (error instanceof z.ZodError) {
-			// If you only use Zod you can safely cast to ZodIssue[]
-			const errorData = {
-				cause: error,
-				code: "ZOD_ERROR",
-				data: z.flattenError(error),
-				message: z.prettifyError(error),
-			};
-
-			throw new ORPCError("INPUT_VALIDATION_FAILED", { ...errorData, status: 422 });
-		} else if (error instanceof Error) {
-			appLogger.error({ error }, "Unexpected error in DB router");
-		}
-	})
-);
+		})
+	)
+	.use(authMiddleware)
+	.use(dbProviderMiddleware);
 
 const masterData: MasterDataType = {
 	_id: "64b8f3f4f1d2c4a5b6c7d8e9",
@@ -119,7 +147,10 @@ const updateMasterData = dbProcedures
 	.output(MasterDataZodSchema)
 	.handler(async ({ context, input }) => {
 		const { policyRepository } = context;
-		await policyRepository.masterDataModify(input);
+		await policyRepository.masterDataModify({
+			...input,
+			updatedBy: context.userId,
+		});
 		const updatedData = policyRepository.masterDataRetrieve();
 		if (!updatedData) {
 			throw new Error("Failed to update master data");

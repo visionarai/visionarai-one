@@ -55,6 +55,7 @@ export const createPolicyRepository = async (mongooseConnection: Connection) => 
 					environmentAttributes: newMasterData.environmentAttributes,
 					resources: newMasterData.resources,
 					updatedAt: new Date(),
+					updatedBy: newMasterData.updatedBy,
 				},
 				{ upsert: true }
 			);
