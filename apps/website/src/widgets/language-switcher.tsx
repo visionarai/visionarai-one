@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@visionarai-one/ui";
+import { cn } from "@visionarai-one/utils";
 import { Languages } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
@@ -67,10 +68,13 @@ export function LanguageSwitcher({ type = "icon" }: LanguageSwitcherProps) {
 	return (
 		<Button
 			aria-label={nextLang.ariaLabel}
-			className="transition-all"
+			className={cn("transition-all", {
+				"flex w-full justify-start gap-2 border-0 bg-transparent shadow-none": type === "extended",
+				"w-10 px-0": type === "icon",
+			})}
 			disabled={isPending}
 			onClick={handleLanguageToggle}
-			size={type === "icon" ? "icon" : "lg"}
+			size={type === "icon" ? "icon" : "sm"}
 			variant="outline"
 		>
 			{type === "extended" && <Languages className="h-[1.2rem] w-[1.2rem]" />}

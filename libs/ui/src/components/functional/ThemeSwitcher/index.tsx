@@ -1,4 +1,5 @@
 "use client";
+import { cn } from "@visionarai-one/utils";
 import { type LucideIcon, MonitorCog, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "../../ui";
@@ -56,9 +57,18 @@ export function ThemeSwitcher({ type = "icon", lightLabel = "Light", darkLabel =
 	};
 
 	return (
-		<Button aria-label={config.ariaLabel} className="transition-all" onClick={handleThemeToggle} size={type === "icon" ? "icon" : "lg"} variant="outline">
+		<Button
+			aria-label={config.ariaLabel}
+			className={cn("transition-all", {
+				"flex w-full justify-start gap-2 border-0 bg-transparent shadow-none": type === "extended",
+				"w-10 px-0": type === "icon",
+			})}
+			onClick={handleThemeToggle}
+			size={type === "icon" ? "icon" : "sm"}
+			variant="outline"
+		>
 			<Icon className="h-[1.2rem] w-[1.2rem]" />
-			{type === "extended" && <span className="ml-2">{config.label}</span>}
+			{type === "extended" && <span>{config.label}</span>}
 		</Button>
 	);
 }
