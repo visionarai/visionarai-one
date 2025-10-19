@@ -43,7 +43,7 @@ export function SingleConditionNode({ name, onRemove, onCopy, className, ...prop
 				formContext.setValue(`${name}.field.type` as FieldPath<PermissionType>, nextType as ScalarValueType);
 			}
 		}
-	}, [fieldScope, fieldName, formContext.setValue, name]);
+	}, [fieldScope, fieldName, name, formContext]);
 
 	// infer cardinality from type+operation
 	useEffect(() => {
@@ -53,7 +53,7 @@ export function SingleConditionNode({ name, onRemove, onCopy, className, ...prop
 			nextCardinality = ops.find((op) => op.name === operation)?.cardinality ?? "one";
 		}
 		formContext.setValue(`${name}.value.cardinality` as FieldPath<PermissionType>, nextCardinality);
-	}, [fieldType, operation, formContext.setValue, name]);
+	}, [fieldType, operation, formContext, name]);
 
 	const valueNameOptions = useMemo(() => {
 		if (!isFieldScope(valueScope)) {
