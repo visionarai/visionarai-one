@@ -42,7 +42,9 @@ function SideBarLink({ navItem, isActive }: { navItem: NavItem; isActive: boolea
 				<Button
 					className={cn(
 						"flex w-full items-center justify-start rounded-md px-2 py-1 font-medium text-sm transition-all",
-						isActive ? "bg-primary text-primary-foreground hover:bg-primary/90" : "hover:bg-accent hover:text-accent-foreground"
+						isActive
+							? "bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground/80"
+							: "hover:bg-accent hover:text-accent-foreground"
 					)}
 					onClick={(e) => {
 						e.preventDefault();
